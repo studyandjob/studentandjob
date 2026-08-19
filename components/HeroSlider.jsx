@@ -3,6 +3,14 @@
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import SearchBar from './SearchBar';
+
+const QUICK_LINKS = [
+  { label: 'Latest Jobs', href: '/jobs' },
+  { label: 'Results', href: '/results' },
+  { label: 'Scholarships', href: '/scholarships' },
+  { label: 'Notes & Papers', href: '/students-zone' },
+];
 
 export default function HeroSlider({ slides = [], mainHeading, subHeading }) {
   const [active, setActive] = useState(0);
@@ -16,7 +24,17 @@ export default function HeroSlider({ slides = [], mainHeading, subHeading }) {
   }, [slides.length]);
 
   return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-brand-700 to-brand-500 text-white">
+    <section className="relative overflow-hidden bg-gradient-to-br from-brand-700 via-brand-600 to-brand-500 text-white">
+      {/* Decorative background pattern */}
+      <div
+        className="pointer-events-none absolute inset-0 opacity-[0.07]"
+        style={{
+          backgroundImage:
+            'radial-gradient(circle at 2px 2px, white 1px, transparent 0)',
+          backgroundSize: '28px 28px',
+        }}
+      />
+
       {/* Slides as background layer, if any exist */}
       {slides.length > 0 && (
         <div className="absolute inset-0">
@@ -24,21 +42,25 @@ export default function HeroSlider({ slides = [], mainHeading, subHeading }) {
             <div
               key={slide.id}
               className={`absolute inset-0 transition-opacity duration-700 ${
-                i === active ? 'opacity-40' : 'opacity-0'
+                i === active ? 'opacity-30' : 'opacity-0'
               }`}
             >
               <Image src={slide.image_url} alt={slide.title} fill className="object-cover" priority={i === 0} />
             </div>
           ))}
-          <div className="absolute inset-0 bg-brand-700/60" />
+          <div className="absolute inset-0 bg-gradient-to-b from-brand-700/70 via-brand-700/50 to-brand-600/80" />
         </div>
       )}
 
-      <div className="relative mx-auto max-w-7xl px-4 py-14 text-center md:px-6 md:py-24">
-        <h1 className="text-2xl font-extrabold leading-tight md:text-5xl">
+      <div className="relative mx-auto max-w-5xl px-4 pb-20 pt-14 text-center md:px-6 md:pb-28 md:pt-20">
+        <span className="inline-flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-brand-50 backdrop-blur-sm md:text-xs">
+          ✅ Trusted by thousands of job seekers &amp; students
+        </span>
+
+        <h1 className="mt-5 text-3xl font-extrabold leading-tight tracking-tight md:text-5xl lg:text-6xl">
           {mainHeading || 'Find Your Next Government Job'}
         </h1>
-        <p className="mx-auto mt-4 max-w-2xl text-sm text-brand-50 md:text-lg">
+        <p className="mx-auto mt-4 max-w-2xl text-sm text-brand-50/90 md:text-lg">
           {subHeading || 'Latest jobs, results, notes & scholarships in one place'}
         </p>
 
@@ -71,7 +93,28 @@ export default function HeroSlider({ slides = [], mainHeading, subHeading }) {
             </div>
           </>
         )}
+
+        {/* Search sits fully inside the hero now, no clipping at the section edge */}
+        <div className="relative z-10 mx-auto mt-9 max-w-2xl">
+          <SearchBar />
+        </div>
+
+        {/* Quick category links */}
+        <div className="relative z-10 mx-auto mt-5 flex flex-wrap items-center justify-center gap-x-5 gap-y-2">
+          {QUICK_LINKS.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className="text-xs font-medium text-brand-50/80 underline-offset-4 transition hover:text-white hover:underline md:text-sm"
+            >
+              {link.label}
+            </Link>
+          ))}
+        </div>
       </div>
+
+      {/* Soft curve transition into the next section */}
+      <div className="absolute inset-x-0 bottom-0 h-10 bg-gray-50" style={{ clipPath: 'ellipse(70% 100% at 50% 100%)' }} />
     </section>
   );
 }

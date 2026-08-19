@@ -2,7 +2,7 @@ import { supabase } from '@/lib/supabaseClient';
 import Header from '@/components/Header';
 import NewsTicker from '@/components/NewsTicker';
 import HeroSlider from '@/components/HeroSlider';
-import SearchBar from '@/components/SearchBar';
+import TrustStrip from '@/components/TrustStrip';
 import JobsList from '@/components/JobsList';
 import StudentsZone from '@/components/StudentsZone';
 import Footer from '@/components/Footer';
@@ -35,16 +35,23 @@ export default async function HomePage() {
       <NewsTicker text={settings.scrolling_news} />
       <Header siteName={settings.site_name} logoUrl={settings.logo_url} />
 
-      <main className="flex-1">
+      <main className="flex-1 bg-gray-50">
         <HeroSlider slides={slides} mainHeading={settings.main_heading} subHeading={settings.sub_heading} />
 
-        <div className="mx-auto max-w-7xl px-4 md:px-6">
-          <SearchBar />
-        </div>
+        <TrustStrip />
 
-        <div className="mx-auto grid max-w-7xl grid-cols-1 gap-6 px-4 py-10 md:grid-cols-2 md:px-6 md:py-14">
-          <JobsList jobs={jobs} />
-          <StudentsZone notes={notes} />
+        <div className="mx-auto max-w-7xl px-4 py-10 md:px-6 md:py-14">
+          <div className="mb-6 flex items-end justify-between md:mb-8">
+            <div>
+              <h2 className="text-xl font-extrabold text-gray-900 md:text-2xl">Explore the Portal</h2>
+              <p className="mt-1 text-sm text-gray-500">Fresh job postings and study material, updated regularly.</p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-8">
+            <JobsList jobs={jobs} />
+            <StudentsZone notes={notes} />
+          </div>
         </div>
       </main>
 
