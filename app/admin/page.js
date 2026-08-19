@@ -10,6 +10,7 @@ import StatCard from '@/components/admin/StatCard';
 import SettingsForm from '@/components/admin/SettingsForm';
 import ListManager from '@/components/admin/ListManager';
 import MessagesManager from '@/components/admin/MessagesManager';
+import ContactsManager from '@/components/admin/ContactsManager';
 import PagesManager from '@/components/admin/PagesManager';
 import {
   ImageIcon,
@@ -19,6 +20,7 @@ import {
   ClipboardCheckIcon,
   AwardIcon,
   MailIcon,
+  IdCardIcon,
   FileTextIcon,
 } from '@/components/admin/icons';
 
@@ -33,6 +35,7 @@ const TAB_TITLES = {
   results: 'Results',
   scholarships: 'Scholarships',
   messages: 'Contact Messages',
+  contacts: 'Contact Us',
   pages: 'Pages (About / Legal)',
 };
 
@@ -45,6 +48,7 @@ export default function AdminDashboard() {
   const [results, setResults] = useState([]);
   const [scholarships, setScholarships] = useState([]);
   const [messages, setMessages] = useState([]);
+  const [contacts, setContacts] = useState([]);
   const [pages, setPages] = useState([]);
   const [loadingData, setLoadingData] = useState(true);
   const [activeTab, setActiveTab] = useState('dashboard');
@@ -60,7 +64,7 @@ export default function AdminDashboard() {
     if (!session) return;
     (async () => {
       setLoadingData(true);
-      const [{ data: s }, { data: sl }, { data: j }, { data: n }, { data: r }, { data: sc }, { data: m }, { data: p }] =
+      const [{ data: s }, { data: sl }, { data: j }, { data: n }, { data: r }, { data: sc }, { data: m }, { data: c }, { data: p }] =
         await Promise.all([
           supabase.from('site_settings').select('*').limit(1).maybeSingle(),
           supabase.from('hero_slides').select('*').order('display_order', { ascending: true }),
@@ -69,6 +73,7 @@ export default function AdminDashboard() {
           supabase.from('results_table').select('*').order('created_at', { ascending: false }),
           supabase.from('scholarships_table').select('*').order('created_at', { ascending: false }),
           supabase.from('contact_messages').select('*').order('created_at', { ascending: false }),
+          supabase.from('site_contacts').select('*').order('display_order', { ascending: true }),
           supabase.from('site_pages').select('*').order('slug', { ascending: true }),
         ]);
       setSettings(s);
@@ -78,6 +83,7 @@ export default function AdminDashboard() {
       setResults(r || []);
       setScholarships(sc || []);
       setMessages(m || []);
+      setContacts(c || []);
       setPages(p || []);
       setLoadingData(false);
     })();
@@ -98,6 +104,8 @@ export default function AdminDashboard() {
     return <AdminLogin onLoggedIn={setSession} />;
   }
 
+  const unreadMessages = messages.filter((m) => !m.is_read).length;
+
   return (
     <div className="flex min-h-screen bg-[#F0F4F3]">
       <Sidebar
@@ -107,6 +115,7 @@ export default function AdminDashboard() {
         onClose={() => setSidebarOpen(false)}
         siteName={settings?.site_name}
         onLogout={handleLogout}
+        unreadMessages={unreadMessages}
       />
 
       <main className="flex min-h-screen w-full flex-1 flex-col md:ml-[240px] md:w-[calc(100%-240px)]">
@@ -126,7 +135,14 @@ export default function AdminDashboard() {
                     <StatCard icon={BookIcon} value={notes.length} label="Student Notes" color="coral" onClick={() => setActiveTab('notes')} />
                     <StatCard icon={ClipboardCheckIcon} value={results.length} label="Results" color="green" onClick={() => setActiveTab('results')} />
                     <StatCard icon={AwardIcon} value={scholarships.length} label="Scholarships" color="purple" onClick={() => setActiveTab('scholarships')} />
-                    <StatCard icon={MailIcon} value={messages.length} label="Contact Messages" color="blue" onClick={() => setActiveTab('messages')} />
+                    <StatCard
+                      icon={MailIcon}
+                      value={unreadMessages > 0 ? `${messages.length} (${unreadMessages} new)` : messages.length}
+                      label="Contact Messages"
+                      color="blue"
+                      onClick={() => setActiveTab('messages')}
+                    />
+                    <StatCard icon={IdCardIcon} value={contacts.length} label="Contact Us Entries" color="coral" onClick={() => setActiveTab('contacts')} />
                     <StatCard icon={FileTextIcon} value={pages.length} label="Static Pages" color="teal" onClick={() => setActiveTab('pages')} />
                     <StatCard icon={SettingsIcon} value={settings ? 'Set' : '—'} label="Site Settings" color="gold" onClick={() => setActiveTab('settings')} />
                   </div>
@@ -251,6 +267,8 @@ export default function AdminDashboard() {
               )}
 
               {activeTab === 'messages' && <MessagesManager initialRows={messages} />}
+
+              {activeTab === 'contacts' && <ContactsManager initialRows={contacts} />}
 
               {activeTab === 'pages' && <PagesManager initialRows={pages} />}
             </>

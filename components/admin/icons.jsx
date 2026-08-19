@@ -1,6 +1,6 @@
-function Icon({ path, className = 'h-5 w-5', strokeWidth = 2 }) {
+function Icon({ path, className = 'h-5 w-5', strokeWidth = 2, ...rest }) {
   return (
-    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={strokeWidth}>
+    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={strokeWidth} {...rest}>
       {path}
     </svg>
   );
@@ -171,6 +171,58 @@ export const MailIcon = (props) => (
         strokeLinejoin="round"
         d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
       />
+    }
+  />
+);
+
+export const IdCardIcon = (props) => (
+  <Icon
+    {...props}
+    path={
+      <>
+        <rect x="3" y="5" width="18" height="14" rx="2" />
+        <circle cx="8.5" cy="11.5" r="1.75" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M5.5 16c.6-1.4 1.8-2.1 3-2.1s2.4.7 3 2.1M14 10h4M14 13.5h4" />
+      </>
+    }
+  />
+);
+
+export const PhoneIcon = (props) => (
+  <Icon
+    {...props}
+    path={
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M3 5a2 2 0 012-2h2.28a1 1 0 011 .76l.72 3.13a1 1 0 01-.29.95l-1.4 1.4a12.06 12.06 0 006 6l1.4-1.4a1 1 0 01.95-.29l3.13.72a1 1 0 01.76 1V19a2 2 0 01-2 2h-1C9.72 21 3 14.28 3 6V5z"
+      />
+    }
+  />
+);
+
+export const PencilIcon = (props) => (
+  <Icon
+    {...props}
+    path={
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M11 4H6a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2v-5m-1.5-9.5a2.121 2.121 0 013 3L12 16l-4 1 1-4 9.5-9.5z"
+      />
+    }
+  />
+);
+
+export const UserCircleIcon = (props) => (
+  <Icon
+    {...props}
+    path={
+      <>
+        <circle cx="12" cy="12" r="9" />
+        <circle cx="12" cy="10" r="3" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M6.2 18.2a6 6 0 0111.6 0" />
+      </>
     }
   />
 );

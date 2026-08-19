@@ -10,6 +10,7 @@ import {
   ClipboardCheckIcon,
   AwardIcon,
   MailIcon,
+  IdCardIcon,
   FileTextIcon,
   CloseIcon,
 } from './icons';
@@ -24,11 +25,13 @@ const NAV_ITEMS = [
   { id: 'notes', label: 'Students Zone', icon: BookIcon },
   { id: 'results', label: 'Results', icon: ClipboardCheckIcon },
   { id: 'scholarships', label: 'Scholarships', icon: AwardIcon },
-  { id: 'messages', label: 'Contact Messages', icon: MailIcon },
+  { id: 'messages', label: 'Contact Messages', icon: MailIcon, badgeKey: 'unreadMessages' },
+  { id: 'contacts', label: 'Contact Us', icon: IdCardIcon },
   { id: 'pages', label: 'Pages (About / Legal)', icon: FileTextIcon },
 ];
 
-export default function Sidebar({ activeTab, onTabChange, open, onClose, siteName, onLogout }) {
+export default function Sidebar({ activeTab, onTabChange, open, onClose, siteName, onLogout, unreadMessages = 0 }) {
+  const badgeValues = { unreadMessages };
   function handleSelect(id) {
     onTabChange(id);
     onClose();
@@ -69,6 +72,7 @@ export default function Sidebar({ activeTab, onTabChange, open, onClose, siteNam
           {NAV_ITEMS.map((item) => {
             const Icon = item.icon;
             const isActive = activeTab === item.id;
+            const badgeValue = item.badgeKey ? badgeValues[item.badgeKey] : 0;
             return (
               <button
                 key={item.id}
@@ -78,7 +82,12 @@ export default function Sidebar({ activeTab, onTabChange, open, onClose, siteNam
                 }`}
               >
                 <Icon className="h-[18px] w-[18px] flex-shrink-0" />
-                <span>{item.label}</span>
+                <span className="flex-1">{item.label}</span>
+                {badgeValue > 0 && (
+                  <span className="flex h-5 min-w-[20px] flex-shrink-0 items-center justify-center rounded-full bg-acoral px-1.5 text-[0.68rem] font-bold text-white">
+                    {badgeValue}
+                  </span>
+                )}
               </button>
             );
           })}

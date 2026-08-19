@@ -3,7 +3,8 @@ import NewsTicker from '@/components/NewsTicker';
 import Footer from '@/components/Footer';
 import PageBanner from '@/components/PageBanner';
 import ContactForm from '@/components/ContactForm';
-import { getSiteSettings } from '@/lib/data';
+import ContactCards from '@/components/ContactCards';
+import { getSiteSettings, getContacts } from '@/lib/data';
 
 export const dynamic = 'force-dynamic';
 
@@ -13,7 +14,7 @@ export async function generateMetadata() {
 }
 
 export default async function ContactPage() {
-  const settings = await getSiteSettings();
+  const [settings, contacts] = await Promise.all([getSiteSettings(), getContacts()]);
 
   return (
     <>
@@ -31,8 +32,10 @@ export default async function ContactPage() {
           }
         />
 
-        <div className="mx-auto max-w-3xl px-4 py-10 md:px-6 md:py-14">
-          <div className="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-black/5 md:p-8">
+        <div className="mx-auto max-w-5xl px-4 py-10 md:px-6 md:py-14">
+          <ContactCards contacts={contacts} />
+
+          <div className="mx-auto max-w-3xl rounded-2xl bg-white p-5 shadow-sm ring-1 ring-black/5 md:p-8">
             <ContactForm />
           </div>
         </div>

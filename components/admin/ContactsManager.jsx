@@ -1,0 +1,269 @@
+'use client';
+
+import { useState } from 'react';
+import Image from 'next/image';
+import { supabase } from '@/lib/supabaseClient';
+import AdminCard from './AdminCard';
+import { IdCardIcon, PlusIcon, TrashIcon, EyeIcon, PencilIcon, PhoneIcon, MailIcon, UserCircleIcon, SaveIcon } from './icons';
+
+const inputClass =
+  'w-full rounded-[10px] border border-aline bg-[#FCFAF6] px-3.5 py-3 text-[0.93rem] text-aink outline-none transition focus:border-atl2 focus:ring-[3px] focus:ring-atl2/10';
+const labelClass = 'mb-1.5 block text-[0.85rem] font-semibold text-aink';
+
+const FIELDS = [
+  { name: 'name', label: 'Name', required: true, placeholder: 'e.g. Ali Raza' },
+  { name: 'designation', label: 'Designation', placeholder: 'e.g. Admissions Officer' },
+  { name: 'image_url', label: 'Image URL', placeholder: 'https://...' },
+  { name: 'contact_no', label: 'Contact No', placeholder: '03xx-xxxxxxx' },
+  { name: 'email', label: 'Email', placeholder: 'name@example.com' },
+];
+
+const emptyForm = Object.fromEntries(FIELDS.map((f) => [f.name, '']));
+
+function Avatar({ name, imageUrl, size = 56 }) {
+  if (imageUrl) {
+    return (
+      <Image
+        src={imageUrl}
+        alt={name || 'Contact'}
+        width={size}
+        height={size}
+        className="flex-shrink-0 rounded-full object-cover ring-2 ring-aline"
+        style={{ width: size, height: size }}
+      />
+    );
+  }
+  return (
+    <div
+      className="flex flex-shrink-0 items-center justify-center rounded-full bg-atl2/10 text-atl2 ring-2 ring-aline"
+      style={{ width: size, height: size }}
+    >
+      <UserCircleIcon style={{ width: size * 0.62, height: size * 0.62 }} />
+    </div>
+  );
+}
+
+function ContactEditForm({ contact, onCancel, onSaved, onError }) {
+  const [form, setForm] = useState({
+    name: contact.name || '',
+    designation: contact.designation || '',
+    image_url: contact.image_url || '',
+    contact_no: contact.contact_no || '',
+    email: contact.email || '',
+  });
+  const [saving, setSaving] = useState(false);
+
+  function update(name, value) {
+    setForm((f) => ({ ...f, [name]: value }));
+  }
+
+  async function handleSave(e) {
+    e.preventDefault();
+    setSaving(true);
+    const { data, error } = await supabase
+      .from('site_contacts')
+      .update(form)
+      .eq('id', contact.id)
+      .select()
+      .maybeSingle();
+    setSaving(false);
+    if (error) {
+      onError(error.message);
+      return;
+    }
+    onSaved(data || { ...contact, ...form });
+  }
+
+  return (
+    <form onSubmit={handleSave} className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+      {FIELDS.map((f) => (
+        <label key={f.name} className="block">
+          <span className={labelClass}>{f.label}</span>
+          <input
+            required={f.required}
+            value={form[f.name]}
+            onChange={(e) => update(f.name, e.target.value)}
+            placeholder={f.placeholder}
+            className={inputClass}
+          />
+        </label>
+      ))}
+      <div className="flex items-center gap-3 sm:col-span-2">
+        <button
+          type="submit"
+          disabled={saving}
+          className="inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold text-white shadow-[0_6px_18px_-6px_rgba(242,120,92,0.5)] transition hover:-translate-y-0.5 disabled:opacity-60"
+          style={{ background: 'linear-gradient(135deg, #E8A33D, #F2785C)' }}
+        >
+          <SaveIcon className="h-4 w-4" />
+          {saving ? 'Saving...' : 'Save Changes'}
+        </button>
+        <button
+          type="button"
+          onClick={onCancel}
+          className="rounded-full border border-aline px-5 py-2.5 text-sm font-semibold text-amuted transition hover:bg-[#F5F9F8]"
+        >
+          Cancel
+        </button>
+      </div>
+    </form>
+  );
+}
+
+// Admin manager for the contacts directory shown as cards on the public
+// Contact Us page. Supports Add, View, Edit and Delete.
+export default function ContactsManager({ initialRows = [] }) {
+  const [rows, setRows] = useState(initialRows);
+  const [form, setForm] = useState(emptyForm);
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState('');
+  const [viewId, setViewId] = useState(null);
+  const [editId, setEditId] = useState(null);
+
+  function update(name, value) {
+    setForm((f) => ({ ...f, [name]: value }));
+  }
+
+  async function handleAdd(e) {
+    e.preventDefault();
+    setSaving(true);
+    setError('');
+
+    const { data, error } = await supabase.from('site_contacts').insert(form).select();
+
+    setSaving(false);
+    if (error) {
+      setError(error.message);
+      return;
+    }
+    setRows((prev) => [...(data || []), ...prev]);
+    setForm(emptyForm);
+  }
+
+  async function handleDelete(id) {
+    if (!confirm('Delete this contact? This cannot be undone.')) return;
+    const { error } = await supabase.from('site_contacts').delete().eq('id', id);
+    if (error) {
+      setError(error.message);
+      return;
+    }
+    setRows((prev) => prev.filter((r) => r.id !== id));
+    if (viewId === id) setViewId(null);
+    if (editId === id) setEditId(null);
+  }
+
+  return (
+    <AdminCard
+      title="Contact Us — Contacts"
+      description="Contact persons shown as cards on the public Contact Us page (name, designation, photo, phone, email)."
+      icon={IdCardIcon}
+    >
+      {error && <p className="mb-4 rounded-lg border border-rose-200 bg-rose-50 px-3 py-2 text-sm text-rose-600">{error}</p>}
+
+      {/* Add form */}
+      <form onSubmit={handleAdd} className="mb-6 grid grid-cols-1 gap-3.5 rounded-xl bg-[#F5F9F8] p-4 sm:grid-cols-2">
+        {FIELDS.map((f) => (
+          <label key={f.name} className="block">
+            <span className={labelClass}>{f.label}</span>
+            <input
+              type={f.name === 'email' ? 'email' : 'text'}
+              required={f.required}
+              value={form[f.name]}
+              onChange={(e) => update(f.name, e.target.value)}
+              placeholder={f.placeholder}
+              className={inputClass}
+            />
+          </label>
+        ))}
+        <div className="sm:col-span-2">
+          <button
+            type="submit"
+            disabled={saving}
+            className="inline-flex items-center gap-2 rounded-full px-6 py-2.5 text-sm font-semibold text-white shadow-[0_6px_18px_-6px_rgba(242,120,92,0.5)] transition hover:-translate-y-0.5 disabled:opacity-60"
+            style={{ background: 'linear-gradient(135deg, #E8A33D, #F2785C)' }}
+          >
+            <PlusIcon className="h-4 w-4" />
+            {saving ? 'Adding...' : 'Add Contact'}
+          </button>
+        </div>
+      </form>
+
+      {/* Card grid */}
+      {rows.length === 0 ? (
+        <p className="py-6 text-center text-sm text-amuted">No contacts added yet.</p>
+      ) : (
+        <ul className="grid grid-cols-1 gap-3.5 sm:grid-cols-2 lg:grid-cols-3">
+          {rows.map((row) => {
+            const isEditing = editId === row.id;
+            const isViewing = viewId === row.id;
+            return (
+              <li
+                key={row.id}
+                className="rounded-xl border border-aline bg-white p-4 transition hover:border-emerald-200 hover:shadow-sm"
+              >
+                {isEditing ? (
+                  <ContactEditForm
+                    contact={row}
+                    onCancel={() => setEditId(null)}
+                    onError={setError}
+                    onSaved={(updated) => {
+                      setRows((prev) => prev.map((r) => (r.id === row.id ? updated : r)));
+                      setEditId(null);
+                    }}
+                  />
+                ) : (
+                  <>
+                    <div className="flex items-center gap-3">
+                      <Avatar name={row.name} imageUrl={row.image_url} />
+                      <div className="min-w-0 flex-1">
+                        <p className="truncate font-semibold text-aink">{row.name}</p>
+                        <p className="truncate text-xs text-amuted">{row.designation || '—'}</p>
+                      </div>
+                    </div>
+
+                    {isViewing && (
+                      <div className="mt-3 flex flex-col gap-1.5 rounded-lg bg-[#F5F9F8] p-3 text-sm text-aink">
+                        <p className="flex items-center gap-2">
+                          <PhoneIcon className="h-4 w-4 flex-shrink-0 text-atl2" />
+                          <span>{row.contact_no || 'Not provided'}</span>
+                        </p>
+                        <p className="flex items-center gap-2">
+                          <MailIcon className="h-4 w-4 flex-shrink-0 text-atl2" />
+                          <span className="truncate">{row.email || 'Not provided'}</span>
+                        </p>
+                      </div>
+                    )}
+
+                    <div className="mt-3.5 flex flex-wrap items-center gap-2">
+                      <button
+                        onClick={() => setViewId(isViewing ? null : row.id)}
+                        className="flex items-center gap-1.5 rounded-full border border-atl2/30 bg-atl2/10 px-3.5 py-1.5 text-xs font-semibold text-atl2 transition hover:bg-atl2 hover:text-white"
+                      >
+                        <EyeIcon className="h-3.5 w-3.5" />
+                        View
+                      </button>
+                      <button
+                        onClick={() => setEditId(row.id)}
+                        className="flex items-center gap-1.5 rounded-full border border-agold/40 bg-agold/10 px-3.5 py-1.5 text-xs font-semibold text-[#9c6a1f] transition hover:bg-agold hover:text-white"
+                      >
+                        <PencilIcon className="h-3.5 w-3.5" />
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => handleDelete(row.id)}
+                        className="flex items-center gap-1.5 rounded-full border border-rose-200 bg-rose-50 px-3.5 py-1.5 text-xs font-semibold text-rose-600 transition hover:bg-rose-600 hover:text-white"
+                      >
+                        <TrashIcon className="h-3.5 w-3.5" />
+                        Delete
+                      </button>
+                    </div>
+                  </>
+                )}
+              </li>
+            );
+          })}
+        </ul>
+      )}
+    </AdminCard>
+  );
+}

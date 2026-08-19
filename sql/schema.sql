@@ -71,8 +71,13 @@ create table if not exists contact_messages (
   phone text,
   subject text,
   message text not null,
+  is_read boolean not null default false,
   created_at timestamptz default now()
 );
+
+-- Safe for existing databases too: adds the read/unread flag if the table
+-- was created before this column existed.
+alter table contact_messages add column if not exists is_read boolean not null default false;
 
 -- 8. SITE PAGES (editable static content — About Us, Privacy Policy, etc.)
 create table if not exists site_pages (
@@ -81,6 +86,20 @@ create table if not exists site_pages (
   title text not null,
   content text default '',
   updated_at timestamptz default now()
+);
+
+-- 9. SITE CONTACTS (contact persons shown as cards on the public Contact Us
+-- page — name, designation, photo, phone, email. Managed from the admin
+-- dashboard's "Contact Us" menu.)
+create table if not exists site_contacts (
+  id uuid primary key default gen_random_uuid(),
+  name text not null,
+  designation text,
+  image_url text,
+  contact_no text,
+  email text,
+  display_order int not null default 0,
+  created_at timestamptz default now()
 );
 
 -- ============================================================
@@ -98,6 +117,7 @@ alter table results_table     enable row level security;
 alter table scholarships_table enable row level security;
 alter table contact_messages  enable row level security;
 alter table site_pages        enable row level security;
+alter table site_contacts     enable row level security;
 
 -- Public read access
 create policy "Public can read site_settings"    on site_settings     for select using (true);
@@ -107,6 +127,7 @@ create policy "Public can read students_data"    on students_data     for select
 create policy "Public can read results_table"    on results_table     for select using (true);
 create policy "Public can read scholarships_table" on scholarships_table for select using (true);
 create policy "Public can read site_pages"       on site_pages        for select using (true);
+create policy "Public can read site_contacts"    on site_contacts     for select using (true);
 
 -- Public can submit a contact message, but cannot read/update/delete any
 create policy "Public can insert contact_messages" on contact_messages for insert with check (true);
@@ -127,6 +148,8 @@ create policy "Auth can modify scholarships_table" on scholarships_table for all
 create policy "Auth can manage contact_messages" on contact_messages for all
   using (auth.role() = 'authenticated') with check (auth.role() = 'authenticated');
 create policy "Auth can modify site_pages" on site_pages for all
+  using (auth.role() = 'authenticated') with check (auth.role() = 'authenticated');
+create policy "Auth can modify site_contacts" on site_contacts for all
   using (auth.role() = 'authenticated') with check (auth.role() = 'authenticated');
 
 -- Seed one settings row so the site has something to render on first load
