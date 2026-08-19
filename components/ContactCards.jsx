@@ -13,10 +13,7 @@ function Avatar({ name, imageUrl }) {
         alt={name || 'Contact'}
         width={80}
         height={80}
-        onError={() => {
-          console.warn('Contact photo failed to load:', imageUrl);
-          setFailed(true);
-        }}
+        onError={() => setFailed(true)}
         className="h-20 w-20 flex-shrink-0 rounded-full object-cover ring-4 ring-brand-50"
       />
     );

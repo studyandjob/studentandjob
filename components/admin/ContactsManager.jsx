@@ -36,22 +36,13 @@ const TEXT_FIELDS = [
 const emptyForm = { ...Object.fromEntries(TEXT_FIELDS.map((f) => [f.name, ''])), image_url: '' };
 
 function Avatar({ name, imageUrl, size = 56 }) {
-  const [failed, setFailed] = useState(false);
-
-  if (imageUrl && !failed) {
+  if (imageUrl) {
     return (
       <Image
         src={imageUrl}
         alt={name || 'Contact'}
         width={size}
         height={size}
-        onError={() => {
-          // Surface the failing URL in the console so it's easy to see
-          // *why* it failed (404 = wrong path, 400 = bucket not public,
-          // 403 = missing storage read policy) via the Network tab.
-          console.warn('Contact photo failed to load:', imageUrl);
-          setFailed(true);
-        }}
         className="flex-shrink-0 rounded-full object-cover ring-2 ring-aline"
         style={{ width: size, height: size }}
       />
@@ -65,25 +56,6 @@ function Avatar({ name, imageUrl, size = 56 }) {
       <UserCircleIcon style={{ width: size * 0.62, height: size * 0.62 }} />
     </div>
   );
-}
-
-// Reads the first few bytes of a file and checks the real file signature
-// (magic bytes) — NOT the filename extension. This matters because some
-// phones (iPhones especially) save photos internally as HEIC but still
-// give the file a ".jpg"/".jpeg" name, or a WhatsApp/gallery export can be
-// mislabeled. The browser can't display those, so without this check the
-// upload silently "succeeds" and the photo only breaks later on the live
-// site (shows the letter placeholder instead of the image).
-async function detectImageFormat(file) {
-  const bytes = new Uint8Array(await file.slice(0, 12).arrayBuffer());
-  const match = (offset, sig) => sig.every((b, i) => bytes[offset + i] === b);
-
-  if (match(0, [0xff, 0xd8, 0xff])) return 'jpeg';
-  if (match(0, [0x89, 0x50, 0x4e, 0x47])) return 'png';
-  if (match(0, [0x47, 0x49, 0x46, 0x38])) return 'gif';
-  if (match(0, [0x52, 0x49, 0x46, 0x46]) && match(8, [0x57, 0x45, 0x42, 0x50])) return 'webp';
-  if (match(4, [0x66, 0x74, 0x79, 0x70])) return 'heic'; // ISO base media (HEIC/HEIF) container
-  return 'unknown';
 }
 
 // Uploads a photo to Supabase Storage and returns its public URL.
@@ -100,10 +72,7 @@ async function uploadContactImage(file) {
 
 // File-upload control — picks an image from disk, uploads it to Supabase
 // Storage, and stores the resulting public URL (no manual URL typing).
-// onUploadingChange lets the parent form disable Save/Add while a photo
-// upload is still in flight, so a contact can never be submitted with a
-// blank image_url just because the upload hadn't finished yet.
-function ImageUploadField({ imageUrl, name, onUploaded, onError, onUploadingChange }) {
+function ImageUploadField({ imageUrl, name, onUploaded, onError }) {
   const [uploading, setUploading] = useState(false);
   const inputRef = useRef(null);
 
@@ -111,25 +80,13 @@ function ImageUploadField({ imageUrl, name, onUploaded, onError, onUploadingChan
     const file = e.target.files?.[0];
     if (!file) return;
     setUploading(true);
-    onUploadingChange?.(true);
     try {
-      const format = await detectImageFormat(file);
-      if (format === 'heic') {
-        throw new Error(
-          'Ye photo iPhone ke HEIC format mein hai (extension .jpg/.jpeg ho sakta hai, lekin andar HEIC hai) — website par nahi dikhegi. ' +
-            'iPhone Settings > Camera > Formats > "Most Compatible" karke dobara photo lein, ya isko pehle JPG/PNG mein convert/export karke upload karein.'
-        );
-      }
-      if (format === 'unknown') {
-        throw new Error('Ye file ek supported image nahi hai. Sirf JPG, PNG, GIF ya WEBP image select karein.');
-      }
       const url = await uploadContactImage(file);
       onUploaded(url);
     } catch (err) {
       onError(err.message || 'Image upload failed.');
     } finally {
       setUploading(false);
-      onUploadingChange?.(false);
       if (inputRef.current) inputRef.current.value = '';
     }
   }
@@ -172,7 +129,6 @@ function ContactEditForm({ contact, onCancel, onSaved, onError }) {
     email: contact.email || '',
   });
   const [saving, setSaving] = useState(false);
-  const [photoUploading, setPhotoUploading] = useState(false);
 
   function update(name, value) {
     setForm((f) => ({ ...f, [name]: value }));
@@ -180,10 +136,6 @@ function ContactEditForm({ contact, onCancel, onSaved, onError }) {
 
   async function handleSave(e) {
     e.preventDefault();
-    if (photoUploading) {
-      onError('Photo is still uploading — please wait for it to finish.');
-      return;
-    }
     setSaving(true);
     const { data, error } = await supabase
       .from('site_contacts')
@@ -206,7 +158,6 @@ function ContactEditForm({ contact, onCancel, onSaved, onError }) {
         name={form.name}
         onUploaded={(url) => update('image_url', url)}
         onError={onError}
-        onUploadingChange={setPhotoUploading}
       />
       {TEXT_FIELDS.map((f) => (
         <label key={f.name} className="block">
@@ -224,12 +175,12 @@ function ContactEditForm({ contact, onCancel, onSaved, onError }) {
       <div className="flex items-center gap-3 sm:col-span-2">
         <button
           type="submit"
-          disabled={saving || photoUploading}
+          disabled={saving}
           className="inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold text-white shadow-[0_6px_18px_-6px_rgba(242,120,92,0.5)] transition hover:-translate-y-0.5 disabled:opacity-60"
           style={{ background: 'linear-gradient(135deg, #E8A33D, #F2785C)' }}
         >
           <SaveIcon className="h-4 w-4" />
-          {saving ? 'Saving...' : photoUploading ? 'Uploading photo...' : 'Save Changes'}
+          {saving ? 'Saving...' : 'Save Changes'}
         </button>
         <button
           type="button"
@@ -250,7 +201,6 @@ export default function ContactsManager({ initialRows = [] }) {
   const [rows, setRows] = useState(initialRows);
   const [form, setForm] = useState(emptyForm);
   const [saving, setSaving] = useState(false);
-  const [photoUploading, setPhotoUploading] = useState(false);
   const [error, setError] = useState('');
   const [viewId, setViewId] = useState(null);
   const [editId, setEditId] = useState(null);
@@ -261,10 +211,6 @@ export default function ContactsManager({ initialRows = [] }) {
 
   async function handleAdd(e) {
     e.preventDefault();
-    if (photoUploading) {
-      setError('Photo is still uploading — please wait for it to finish before adding.');
-      return;
-    }
     setSaving(true);
     setError('');
 
@@ -306,7 +252,6 @@ export default function ContactsManager({ initialRows = [] }) {
           name={form.name}
           onUploaded={(url) => update('image_url', url)}
           onError={setError}
-          onUploadingChange={setPhotoUploading}
         />
         {TEXT_FIELDS.map((f) => (
           <label key={f.name} className="block">
@@ -324,12 +269,12 @@ export default function ContactsManager({ initialRows = [] }) {
         <div className="sm:col-span-2">
           <button
             type="submit"
-            disabled={saving || photoUploading}
+            disabled={saving}
             className="inline-flex items-center gap-2 rounded-full px-6 py-2.5 text-sm font-semibold text-white shadow-[0_6px_18px_-6px_rgba(242,120,92,0.5)] transition hover:-translate-y-0.5 disabled:opacity-60"
             style={{ background: 'linear-gradient(135deg, #E8A33D, #F2785C)' }}
           >
             <PlusIcon className="h-4 w-4" />
-            {saving ? 'Adding...' : photoUploading ? 'Uploading photo...' : 'Add Contact'}
+            {saving ? 'Adding...' : 'Add Contact'}
           </button>
         </div>
       </form>
