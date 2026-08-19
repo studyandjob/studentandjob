@@ -67,6 +67,25 @@ function Avatar({ name, imageUrl, size = 56 }) {
   );
 }
 
+// Reads the first few bytes of a file and checks the real file signature
+// (magic bytes) — NOT the filename extension. This matters because some
+// phones (iPhones especially) save photos internally as HEIC but still
+// give the file a ".jpg"/".jpeg" name, or a WhatsApp/gallery export can be
+// mislabeled. The browser can't display those, so without this check the
+// upload silently "succeeds" and the photo only breaks later on the live
+// site (shows the letter placeholder instead of the image).
+async function detectImageFormat(file) {
+  const bytes = new Uint8Array(await file.slice(0, 12).arrayBuffer());
+  const match = (offset, sig) => sig.every((b, i) => bytes[offset + i] === b);
+
+  if (match(0, [0xff, 0xd8, 0xff])) return 'jpeg';
+  if (match(0, [0x89, 0x50, 0x4e, 0x47])) return 'png';
+  if (match(0, [0x47, 0x49, 0x46, 0x38])) return 'gif';
+  if (match(0, [0x52, 0x49, 0x46, 0x46]) && match(8, [0x57, 0x45, 0x42, 0x50])) return 'webp';
+  if (match(4, [0x66, 0x74, 0x79, 0x70])) return 'heic'; // ISO base media (HEIC/HEIF) container
+  return 'unknown';
+}
+
 // Uploads a photo to Supabase Storage and returns its public URL.
 async function uploadContactImage(file) {
   const ext = file.name.split('.').pop();
@@ -94,6 +113,16 @@ function ImageUploadField({ imageUrl, name, onUploaded, onError, onUploadingChan
     setUploading(true);
     onUploadingChange?.(true);
     try {
+      const format = await detectImageFormat(file);
+      if (format === 'heic') {
+        throw new Error(
+          'Ye photo iPhone ke HEIC format mein hai (extension .jpg/.jpeg ho sakta hai, lekin andar HEIC hai) — website par nahi dikhegi. ' +
+            'iPhone Settings > Camera > Formats > "Most Compatible" karke dobara photo lein, ya isko pehle JPG/PNG mein convert/export karke upload karein.'
+        );
+      }
+      if (format === 'unknown') {
+        throw new Error('Ye file ek supported image nahi hai. Sirf JPG, PNG, GIF ya WEBP image select karein.');
+      }
       const url = await uploadContactImage(file);
       onUploaded(url);
     } catch (err) {
