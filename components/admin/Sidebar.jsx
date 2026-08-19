@@ -1,13 +1,31 @@
 'use client';
 
-import { HomeIcon, SettingsIcon, LogOutIcon, ImageIcon, BriefcaseIcon, BookIcon, CloseIcon } from './icons';
+import {
+  HomeIcon,
+  SettingsIcon,
+  LogOutIcon,
+  ImageIcon,
+  BriefcaseIcon,
+  BookIcon,
+  ClipboardCheckIcon,
+  AwardIcon,
+  MailIcon,
+  FileTextIcon,
+  CloseIcon,
+} from './icons';
 
+// One nav item per public-facing page — kept in the same order as the
+// site's main menu so the admin dashboard mirrors the live website.
 const NAV_ITEMS = [
   { id: 'dashboard', label: 'Dashboard', icon: HomeIcon },
   { id: 'settings', label: 'Site Settings', icon: SettingsIcon },
   { id: 'slides', label: 'Hero Slides', icon: ImageIcon },
   { id: 'jobs', label: 'Jobs', icon: BriefcaseIcon },
   { id: 'notes', label: 'Students Zone', icon: BookIcon },
+  { id: 'results', label: 'Results', icon: ClipboardCheckIcon },
+  { id: 'scholarships', label: 'Scholarships', icon: AwardIcon },
+  { id: 'messages', label: 'Contact Messages', icon: MailIcon },
+  { id: 'pages', label: 'Pages (About / Legal)', icon: FileTextIcon },
 ];
 
 export default function Sidebar({ activeTab, onTabChange, open, onClose, siteName, onLogout }) {

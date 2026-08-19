@@ -9,14 +9,31 @@ import WelcomeCard from '@/components/admin/WelcomeCard';
 import StatCard from '@/components/admin/StatCard';
 import SettingsForm from '@/components/admin/SettingsForm';
 import ListManager from '@/components/admin/ListManager';
-import { ImageIcon, BriefcaseIcon, BookIcon, SettingsIcon } from '@/components/admin/icons';
+import MessagesManager from '@/components/admin/MessagesManager';
+import PagesManager from '@/components/admin/PagesManager';
+import {
+  ImageIcon,
+  BriefcaseIcon,
+  BookIcon,
+  SettingsIcon,
+  ClipboardCheckIcon,
+  AwardIcon,
+  MailIcon,
+  FileTextIcon,
+} from '@/components/admin/icons';
 
+// Titles shown in the Topbar — one per menu item in the Sidebar, mirroring
+// every page that exists on the public website.
 const TAB_TITLES = {
   dashboard: 'Dashboard',
   settings: 'Site Settings',
   slides: 'Hero Slides',
   jobs: 'Jobs',
   notes: 'Students Zone',
+  results: 'Results',
+  scholarships: 'Scholarships',
+  messages: 'Contact Messages',
+  pages: 'Pages (About / Legal)',
 };
 
 export default function AdminDashboard() {
@@ -25,6 +42,10 @@ export default function AdminDashboard() {
   const [slides, setSlides] = useState([]);
   const [jobs, setJobs] = useState([]);
   const [notes, setNotes] = useState([]);
+  const [results, setResults] = useState([]);
+  const [scholarships, setScholarships] = useState([]);
+  const [messages, setMessages] = useState([]);
+  const [pages, setPages] = useState([]);
   const [loadingData, setLoadingData] = useState(true);
   const [activeTab, setActiveTab] = useState('dashboard');
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -39,16 +60,25 @@ export default function AdminDashboard() {
     if (!session) return;
     (async () => {
       setLoadingData(true);
-      const [{ data: s }, { data: sl }, { data: j }, { data: n }] = await Promise.all([
-        supabase.from('site_settings').select('*').limit(1).maybeSingle(),
-        supabase.from('hero_slides').select('*').order('display_order', { ascending: true }),
-        supabase.from('jobs_table').select('*').order('created_at', { ascending: false }),
-        supabase.from('students_data').select('*').order('created_at', { ascending: false }),
-      ]);
+      const [{ data: s }, { data: sl }, { data: j }, { data: n }, { data: r }, { data: sc }, { data: m }, { data: p }] =
+        await Promise.all([
+          supabase.from('site_settings').select('*').limit(1).maybeSingle(),
+          supabase.from('hero_slides').select('*').order('display_order', { ascending: true }),
+          supabase.from('jobs_table').select('*').order('created_at', { ascending: false }),
+          supabase.from('students_data').select('*').order('created_at', { ascending: false }),
+          supabase.from('results_table').select('*').order('created_at', { ascending: false }),
+          supabase.from('scholarships_table').select('*').order('created_at', { ascending: false }),
+          supabase.from('contact_messages').select('*').order('created_at', { ascending: false }),
+          supabase.from('site_pages').select('*').order('slug', { ascending: true }),
+        ]);
       setSettings(s);
       setSlides(sl || []);
       setJobs(j || []);
       setNotes(n || []);
+      setResults(r || []);
+      setScholarships(sc || []);
+      setMessages(m || []);
+      setPages(p || []);
       setLoadingData(false);
     })();
   }, [session]);
@@ -94,7 +124,11 @@ export default function AdminDashboard() {
                     <StatCard icon={ImageIcon} value={slides.length} label="Hero Slides" color="gold" onClick={() => setActiveTab('slides')} />
                     <StatCard icon={BriefcaseIcon} value={jobs.length} label="Jobs Posted" color="teal" onClick={() => setActiveTab('jobs')} />
                     <StatCard icon={BookIcon} value={notes.length} label="Student Notes" color="coral" onClick={() => setActiveTab('notes')} />
-                    <StatCard icon={SettingsIcon} value={settings ? 'Set' : '—'} label="Site Settings" color="blue" onClick={() => setActiveTab('settings')} />
+                    <StatCard icon={ClipboardCheckIcon} value={results.length} label="Results" color="green" onClick={() => setActiveTab('results')} />
+                    <StatCard icon={AwardIcon} value={scholarships.length} label="Scholarships" color="purple" onClick={() => setActiveTab('scholarships')} />
+                    <StatCard icon={MailIcon} value={messages.length} label="Contact Messages" color="blue" onClick={() => setActiveTab('messages')} />
+                    <StatCard icon={FileTextIcon} value={pages.length} label="Static Pages" color="teal" onClick={() => setActiveTab('pages')} />
+                    <StatCard icon={SettingsIcon} value={settings ? 'Set' : '—'} label="Site Settings" color="gold" onClick={() => setActiveTab('settings')} />
                   </div>
                 </div>
               )}
@@ -167,6 +201,58 @@ export default function AdminDashboard() {
                   )}
                 />
               )}
+
+              {activeTab === 'results' && (
+                <ListManager
+                  title="Results"
+                  description="Exam / test results shown on the public Results page."
+                  icon={ClipboardCheckIcon}
+                  table="results_table"
+                  initialRows={results}
+                  fields={[
+                    { name: 'title', label: 'Result Title', required: true, placeholder: 'e.g. FA/FSc Annual Result 2026' },
+                    { name: 'board_or_department', label: 'Board / Department' },
+                    { name: 'result_date', label: 'Announced Date', type: 'date' },
+                    { name: 'result_link', label: 'Result Link', placeholder: 'https://...' },
+                  ]}
+                  renderRow={(row) => (
+                    <div>
+                      <p className="font-semibold text-aink">{row.title}</p>
+                      <p className="text-xs text-amuted">
+                        {row.board_or_department} {row.result_date && `· Announced: ${row.result_date}`}
+                      </p>
+                    </div>
+                  )}
+                />
+              )}
+
+              {activeTab === 'scholarships' && (
+                <ListManager
+                  title="Scholarships"
+                  description="Scholarship opportunities shown on the public Scholarships page."
+                  icon={AwardIcon}
+                  table="scholarships_table"
+                  initialRows={scholarships}
+                  fields={[
+                    { name: 'title', label: 'Scholarship Title', required: true },
+                    { name: 'provider', label: 'Provider / Organization' },
+                    { name: 'deadline', label: 'Application Deadline', type: 'date' },
+                    { name: 'apply_link', label: 'Apply Link', placeholder: 'https://...' },
+                  ]}
+                  renderRow={(row) => (
+                    <div>
+                      <p className="font-semibold text-aink">{row.title}</p>
+                      <p className="text-xs text-amuted">
+                        {row.provider} {row.deadline && `· Deadline: ${row.deadline}`}
+                      </p>
+                    </div>
+                  )}
+                />
+              )}
+
+              {activeTab === 'messages' && <MessagesManager initialRows={messages} />}
+
+              {activeTab === 'pages' && <PagesManager initialRows={pages} />}
             </>
           )}
         </div>

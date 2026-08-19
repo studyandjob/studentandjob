@@ -136,3 +136,53 @@ export const SaveIcon = (props) => (
 export const ArrowLeftIcon = (props) => (
   <Icon {...props} path={<path strokeLinecap="round" strokeLinejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />} />
 );
+
+export const ClipboardCheckIcon = (props) => (
+  <Icon
+    {...props}
+    path={
+      <>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M9 5a2 2 0 012-2h2a2 2 0 012 2v0a2 2 0 01-2 2h-2a2 2 0 01-2-2v0z" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M9 14l2 2 4-4" />
+      </>
+    }
+  />
+);
+
+export const AwardIcon = (props) => (
+  <Icon
+    {...props}
+    path={
+      <>
+        <circle cx="12" cy="8" r="5" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M8.5 12.5L7 21l5-3 5 3-1.5-8.5" />
+      </>
+    }
+  />
+);
+
+export const MailIcon = (props) => (
+  <Icon
+    {...props}
+    path={
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+      />
+    }
+  />
+);
+
+export const FileTextIcon = (props) => (
+  <Icon
+    {...props}
+    path={
+      <>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M14 3v4a1 1 0 001 1h4M6 3h8l6 6v10a2 2 0 01-2 2H6a2 2 0 01-2-2V5a2 2 0 012-2z" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M8 13h8M8 17h5" />
+      </>
+    }
+  />
+);
