@@ -1,18 +1,18 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 
 function Avatar({ name, imageUrl }) {
   const [failed, setFailed] = useState(false);
 
   if (imageUrl && !failed) {
     return (
-      // Plain <img> (not next/image) so a broken/unauthorized Storage URL
-      // just falls back to the initial instead of breaking the page.
-      // eslint-disable-next-line @next/next/no-img-element
-      <img
+      <Image
         src={imageUrl}
         alt={name || 'Contact'}
+        width={80}
+        height={80}
         onError={() => setFailed(true)}
         className="h-20 w-20 flex-shrink-0 rounded-full object-cover ring-4 ring-brand-50"
       />
