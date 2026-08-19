@@ -36,13 +36,22 @@ const TEXT_FIELDS = [
 const emptyForm = { ...Object.fromEntries(TEXT_FIELDS.map((f) => [f.name, ''])), image_url: '' };
 
 function Avatar({ name, imageUrl, size = 56 }) {
-  if (imageUrl) {
+  const [failed, setFailed] = useState(false);
+
+  if (imageUrl && !failed) {
     return (
       <Image
         src={imageUrl}
         alt={name || 'Contact'}
         width={size}
         height={size}
+        onError={() => {
+          // Surface the failing URL in the console so it's easy to see
+          // *why* it failed (404 = wrong path, 400 = bucket not public,
+          // 403 = missing storage read policy) via the Network tab.
+          console.warn('Contact photo failed to load:', imageUrl);
+          setFailed(true);
+        }}
         className="flex-shrink-0 rounded-full object-cover ring-2 ring-aline"
         style={{ width: size, height: size }}
       />
