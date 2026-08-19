@@ -1,9 +1,12 @@
-export default function AdminCard({ title, description, children }) {
+export default function AdminCard({ title, description, icon: IconCmp, children }) {
   return (
-    <section className="rounded-xl bg-white p-5 shadow-sm ring-1 ring-black/5 md:p-6">
-      <h2 className="text-lg font-bold text-gray-900">{title}</h2>
-      {description && <p className="mt-1 text-sm text-gray-500">{description}</p>}
-      <div className="mt-4">{children}</div>
+    <section className="rounded-[14px] border border-aline bg-white p-5 sm:p-6">
+      <div className="mb-5 flex items-center gap-2.5">
+        {IconCmp && <IconCmp className="h-5 w-5 text-atl" />}
+        <h2 className="font-serif text-[1.1rem] font-bold text-atl">{title}</h2>
+      </div>
+      {description && <p className="-mt-3 mb-5 text-sm text-amuted">{description}</p>}
+      {children}
     </section>
   );
 }

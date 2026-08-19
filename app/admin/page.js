@@ -3,8 +3,21 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabaseClient';
 import AdminLogin from '@/components/admin/AdminLogin';
+import Sidebar from '@/components/admin/Sidebar';
+import Topbar from '@/components/admin/Topbar';
+import WelcomeCard from '@/components/admin/WelcomeCard';
+import StatCard from '@/components/admin/StatCard';
 import SettingsForm from '@/components/admin/SettingsForm';
 import ListManager from '@/components/admin/ListManager';
+import { ImageIcon, BriefcaseIcon, BookIcon, SettingsIcon } from '@/components/admin/icons';
+
+const TAB_TITLES = {
+  dashboard: 'Dashboard',
+  settings: 'Site Settings',
+  slides: 'Hero Slides',
+  jobs: 'Jobs',
+  notes: 'Students Zone',
+};
 
 export default function AdminDashboard() {
   const [session, setSession] = useState(undefined); // undefined = checking, null = logged out
@@ -13,15 +26,15 @@ export default function AdminDashboard() {
   const [jobs, setJobs] = useState([]);
   const [notes, setNotes] = useState([]);
   const [loadingData, setLoadingData] = useState(true);
+  const [activeTab, setActiveTab] = useState('dashboard');
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  // Check for an existing session on mount, and listen for changes
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => setSession(data.session));
     const { data: listener } = supabase.auth.onAuthStateChange((_event, sess) => setSession(sess));
     return () => listener.subscription.unsubscribe();
   }, []);
 
-  // Once logged in, load all editable content
   useEffect(() => {
     if (!session) return;
     (async () => {
@@ -46,7 +59,9 @@ export default function AdminDashboard() {
   }
 
   if (session === undefined) {
-    return <div className="flex min-h-screen items-center justify-center text-gray-500">Loading...</div>;
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-[#F0F4F3] text-amuted">Loading...</div>
+    );
   }
 
   if (!session) {
@@ -54,85 +69,108 @@ export default function AdminDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 pb-16">
-      <div className="sticky top-0 z-10 flex items-center justify-between bg-white px-4 py-4 shadow-sm md:px-8">
-        <h1 className="text-lg font-bold text-gray-900 md:text-xl">Admin Dashboard</h1>
-        <button
-          onClick={handleLogout}
-          className="rounded-md border border-gray-300 px-4 py-1.5 text-sm font-medium text-gray-600 hover:bg-gray-50"
-        >
-          Log Out
-        </button>
-      </div>
+    <div className="flex min-h-screen bg-[#F0F4F3]">
+      <Sidebar
+        activeTab={activeTab}
+        onTabChange={setActiveTab}
+        open={sidebarOpen}
+        onClose={() => setSidebarOpen(false)}
+        siteName={settings?.site_name}
+        onLogout={handleLogout}
+      />
 
-      <div className="mx-auto mt-6 flex max-w-4xl flex-col gap-6 px-4 md:px-8">
-        {loadingData ? (
-          <p className="text-center text-sm text-gray-500">Loading content...</p>
-        ) : (
-          <>
-            <SettingsForm settings={settings} />
+      <main className="flex min-h-screen w-full flex-1 flex-col md:ml-[240px] md:w-[calc(100%-240px)]">
+        <Topbar title={TAB_TITLES[activeTab]} onMenuClick={() => setSidebarOpen(true)} />
 
-            <ListManager
-              title="Hero Slides"
-              description="Slides shown on the home page banner, in display order."
-              table="hero_slides"
-              initialRows={slides}
-              orderBy="display_order"
-              fields={[
-                { name: 'title', label: 'Title', required: true },
-                { name: 'image_url', label: 'Image URL', required: true, placeholder: 'https://...' },
-                { name: 'link_url', label: 'Link URL (optional)', placeholder: 'https://...' },
-                { name: 'display_order', label: 'Display Order', type: 'number', placeholder: '1' },
-              ]}
-              renderRow={(row) => (
-                <div>
-                  <p className="font-semibold text-gray-800">{row.title}</p>
-                  <p className="text-xs text-gray-500">Order: {row.display_order}</p>
+        <div className="w-full flex-1 p-4 sm:p-6">
+          {loadingData ? (
+            <p className="py-10 text-center text-sm text-amuted">Loading content...</p>
+          ) : (
+            <>
+              {activeTab === 'dashboard' && (
+                <div className="flex flex-col gap-5">
+                  <WelcomeCard siteName={settings?.site_name} subHeading={settings?.sub_heading} />
+                  <div className="grid grid-cols-2 gap-3.5 sm:grid-cols-4">
+                    <StatCard icon={ImageIcon} value={slides.length} label="Hero Slides" color="gold" onClick={() => setActiveTab('slides')} />
+                    <StatCard icon={BriefcaseIcon} value={jobs.length} label="Jobs Posted" color="teal" onClick={() => setActiveTab('jobs')} />
+                    <StatCard icon={BookIcon} value={notes.length} label="Student Notes" color="coral" onClick={() => setActiveTab('notes')} />
+                    <StatCard icon={SettingsIcon} value={settings ? 'Set' : '—'} label="Site Settings" color="blue" onClick={() => setActiveTab('settings')} />
+                  </div>
                 </div>
               )}
-            />
 
-            <ListManager
-              title="Jobs"
-              description="Government / private job postings shown on the home page and Jobs listing."
-              table="jobs_table"
-              initialRows={jobs}
-              fields={[
-                { name: 'title', label: 'Job Title', required: true },
-                { name: 'department', label: 'Department' },
-                { name: 'last_date', label: 'Last Date to Apply', type: 'date' },
-                { name: 'apply_link', label: 'Apply Link', placeholder: 'https://...' },
-              ]}
-              renderRow={(row) => (
-                <div>
-                  <p className="font-semibold text-gray-800">{row.title}</p>
-                  <p className="text-xs text-gray-500">
-                    {row.department} {row.last_date && `· Last date: ${row.last_date}`}
-                  </p>
-                </div>
-              )}
-            />
+              {activeTab === 'settings' && <SettingsForm settings={settings} />}
 
-            <ListManager
-              title="Students Zone (Notes / Guess Papers)"
-              description="PDFs and notes shown in the Students Zone section."
-              table="students_data"
-              initialRows={notes}
-              fields={[
-                { name: 'title', label: 'Title', required: true },
-                { name: 'category', label: 'Category', placeholder: 'e.g. Guess Paper, Notes' },
-                { name: 'file_url', label: 'File URL (PDF link)', required: true, placeholder: 'https://...' },
-              ]}
-              renderRow={(row) => (
-                <div>
-                  <p className="font-semibold text-gray-800">{row.title}</p>
-                  <p className="text-xs text-gray-500">{row.category}</p>
-                </div>
+              {activeTab === 'slides' && (
+                <ListManager
+                  title="Hero Slides"
+                  description="Slides shown on the home page banner, in display order."
+                  icon={ImageIcon}
+                  table="hero_slides"
+                  initialRows={slides}
+                  fields={[
+                    { name: 'title', label: 'Title', required: true },
+                    { name: 'image_url', label: 'Image URL', required: true, placeholder: 'https://...' },
+                    { name: 'link_url', label: 'Link URL (optional)', placeholder: 'https://...' },
+                    { name: 'display_order', label: 'Display Order', type: 'number', placeholder: '1' },
+                  ]}
+                  renderRow={(row) => (
+                    <div>
+                      <p className="font-semibold text-aink">{row.title}</p>
+                      <p className="text-xs text-amuted">Order: {row.display_order}</p>
+                    </div>
+                  )}
+                />
               )}
-            />
-          </>
-        )}
-      </div>
+
+              {activeTab === 'jobs' && (
+                <ListManager
+                  title="Jobs"
+                  description="Government / private job postings shown on the home page and Jobs listing."
+                  icon={BriefcaseIcon}
+                  table="jobs_table"
+                  initialRows={jobs}
+                  fields={[
+                    { name: 'title', label: 'Job Title', required: true },
+                    { name: 'department', label: 'Department' },
+                    { name: 'last_date', label: 'Last Date to Apply', type: 'date' },
+                    { name: 'apply_link', label: 'Apply Link', placeholder: 'https://...' },
+                  ]}
+                  renderRow={(row) => (
+                    <div>
+                      <p className="font-semibold text-aink">{row.title}</p>
+                      <p className="text-xs text-amuted">
+                        {row.department} {row.last_date && `· Last date: ${row.last_date}`}
+                      </p>
+                    </div>
+                  )}
+                />
+              )}
+
+              {activeTab === 'notes' && (
+                <ListManager
+                  title="Students Zone (Notes / Guess Papers)"
+                  description="PDFs and notes shown in the Students Zone section."
+                  icon={BookIcon}
+                  table="students_data"
+                  initialRows={notes}
+                  fields={[
+                    { name: 'title', label: 'Title', required: true },
+                    { name: 'category', label: 'Category', placeholder: 'e.g. Guess Paper, Notes' },
+                    { name: 'file_url', label: 'File URL (PDF link)', required: true, placeholder: 'https://...' },
+                  ]}
+                  renderRow={(row) => (
+                    <div>
+                      <p className="font-semibold text-aink">{row.title}</p>
+                      <p className="text-xs text-amuted">{row.category}</p>
+                    </div>
+                  )}
+                />
+              )}
+            </>
+          )}
+        </div>
+      </main>
     </div>
   );
 }

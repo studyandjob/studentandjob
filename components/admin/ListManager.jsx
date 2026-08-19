@@ -3,27 +3,25 @@
 import { useState } from 'react';
 import { supabase } from '@/lib/supabaseClient';
 import AdminCard from './AdminCard';
+import { PlusIcon, TrashIcon } from './icons';
+
+const inputClass =
+  'w-full rounded-[10px] border border-aline bg-[#FCFAF6] px-3.5 py-3 text-[0.93rem] text-aink outline-none transition focus:border-atl2 focus:ring-[3px] focus:ring-atl2/10';
+const labelClass = 'mb-1.5 block text-[0.85rem] font-semibold text-aink';
 
 /**
- * Generic "add a row / list rows / delete a row" manager.
+ * Generic "add a row / list rows / delete a row" manager, styled to match
+ * the card-list pattern from the reference admin dashboard.
  *
- * @param {string} title - Card heading, e.g. "Hero Slides"
+ * @param {string} title - Card heading
  * @param {string} description - Card subheading
+ * @param {object} icon - Icon component for the card header
  * @param {string} table - Supabase table name
  * @param {Array} initialRows - Rows fetched server-side
  * @param {Array} fields - [{ name, label, type: 'text'|'date'|'number'|'textarea', placeholder? }]
  * @param {Function} renderRow - (row) => JSX for how to display a row's summary
- * @param {string} orderBy - column to order rows by when re-fetching (default 'created_at')
  */
-export default function ListManager({
-  title,
-  description,
-  table,
-  initialRows = [],
-  fields,
-  renderRow,
-  orderBy = 'created_at',
-}) {
+export default function ListManager({ title, description, icon, table, initialRows = [], fields, renderRow }) {
   const [rows, setRows] = useState(initialRows);
   const emptyForm = Object.fromEntries(fields.map((f) => [f.name, '']));
   const [form, setForm] = useState(emptyForm);
@@ -39,7 +37,6 @@ export default function ListManager({
     setSaving(true);
     setError('');
 
-    // Convert numeric fields before sending
     const payload = {};
     fields.forEach((f) => {
       const raw = form[f.name];
@@ -68,14 +65,14 @@ export default function ListManager({
   }
 
   return (
-    <AdminCard title={title} description={description}>
-      {error && <p className="mb-3 rounded-md bg-red-50 px-3 py-2 text-sm text-red-600">{error}</p>}
+    <AdminCard title={title} description={description} icon={icon}>
+      {error && <p className="mb-4 rounded-lg border border-rose-200 bg-rose-50 px-3 py-2 text-sm text-rose-600">{error}</p>}
 
       {/* Add form */}
-      <form onSubmit={handleAdd} className="mb-6 grid grid-cols-1 gap-3 md:grid-cols-2">
+      <form onSubmit={handleAdd} className="mb-6 grid grid-cols-1 gap-3.5 rounded-xl bg-[#F5F9F8] p-4 sm:grid-cols-2">
         {fields.map((f) => (
-          <label key={f.name} className={f.type === 'textarea' ? 'block md:col-span-2' : 'block'}>
-            <span className="mb-1 block text-xs font-semibold text-gray-600">{f.label}</span>
+          <label key={f.name} className={f.type === 'textarea' ? 'block sm:col-span-2' : 'block'}>
+            <span className={labelClass}>{f.label}</span>
             {f.type === 'textarea' ? (
               <textarea
                 required={f.required}
@@ -83,7 +80,7 @@ export default function ListManager({
                 onChange={(e) => update(f.name, e.target.value)}
                 placeholder={f.placeholder}
                 rows={2}
-                className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500"
+                className={inputClass}
               />
             ) : (
               <input
@@ -92,35 +89,41 @@ export default function ListManager({
                 value={form[f.name]}
                 onChange={(e) => update(f.name, e.target.value)}
                 placeholder={f.placeholder}
-                className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500"
+                className={inputClass}
               />
             )}
           </label>
         ))}
 
-        <div className="md:col-span-2">
+        <div className="sm:col-span-2">
           <button
             type="submit"
             disabled={saving}
-            className="rounded-md bg-brand-600 px-5 py-2 text-sm font-semibold text-white transition hover:bg-brand-700 disabled:opacity-60"
+            className="inline-flex items-center gap-2 rounded-full px-6 py-2.5 text-sm font-semibold text-white shadow-[0_6px_18px_-6px_rgba(242,120,92,0.5)] transition hover:-translate-y-0.5 disabled:opacity-60"
+            style={{ background: 'linear-gradient(135deg, #E8A33D, #F2785C)' }}
           >
-            {saving ? 'Adding...' : '+ Add'}
+            <PlusIcon className="h-4 w-4" />
+            {saving ? 'Adding...' : 'Add'}
           </button>
         </div>
       </form>
 
-      {/* Rows list */}
+      {/* Rows list — card style, stacks cleanly on mobile */}
       {rows.length === 0 ? (
-        <p className="py-4 text-center text-sm text-gray-500">No entries yet.</p>
+        <p className="py-6 text-center text-sm text-amuted">No entries yet.</p>
       ) : (
-        <ul className="divide-y divide-gray-100">
+        <ul className="flex flex-col gap-2.5">
           {rows.map((row) => (
-            <li key={row.id} className="flex items-center justify-between gap-3 py-3">
-              <div className="min-w-0 text-sm text-gray-700">{renderRow(row)}</div>
+            <li
+              key={row.id}
+              className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-aline bg-white px-4 py-3 transition hover:border-emerald-200 hover:shadow-sm"
+            >
+              <div className="min-w-0 flex-1 text-sm text-aink">{renderRow(row)}</div>
               <button
                 onClick={() => handleDelete(row.id)}
-                className="flex-shrink-0 rounded-md bg-red-50 px-3 py-1.5 text-xs font-semibold text-red-600 transition hover:bg-red-100"
+                className="flex flex-shrink-0 items-center gap-1.5 rounded-full border border-rose-200 bg-rose-50 px-3.5 py-1.5 text-xs font-semibold text-rose-600 transition hover:bg-rose-600 hover:text-white"
               >
+                <TrashIcon className="h-3.5 w-3.5" />
                 Delete
               </button>
             </li>

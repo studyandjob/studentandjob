@@ -3,6 +3,11 @@
 import { useState } from 'react';
 import { supabase } from '@/lib/supabaseClient';
 import AdminCard from './AdminCard';
+import { SettingsIcon, SaveIcon } from './icons';
+
+const inputClass =
+  'w-full rounded-[10px] border border-aline bg-[#FCFAF6] px-3.5 py-3 text-[0.93rem] text-aink outline-none transition focus:border-atl2 focus:ring-[3px] focus:ring-atl2/10';
+const labelClass = 'mb-1.5 block text-[0.85rem] font-semibold text-aink';
 
 export default function SettingsForm({ settings }) {
   const [form, setForm] = useState({
@@ -36,65 +41,67 @@ export default function SettingsForm({ settings }) {
   }
 
   return (
-    <AdminCard title="Website Settings" description="Controls the header, hero banner, and news ticker on the home page.">
-      <form onSubmit={handleSave} className="grid grid-cols-1 gap-4 md:grid-cols-2">
+    <AdminCard
+      title="Website Settings"
+      description="Controls the header, hero banner, and news ticker on the home page."
+      icon={SettingsIcon}
+    >
+      <form onSubmit={handleSave} className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <label className="block">
-          <span className="mb-1 block text-xs font-semibold text-gray-600">Website Name</span>
-          <input
-            value={form.site_name}
-            onChange={(e) => update('site_name', e.target.value)}
-            className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500"
-          />
+          <span className={labelClass}>Website Name</span>
+          <input value={form.site_name} onChange={(e) => update('site_name', e.target.value)} className={inputClass} />
         </label>
 
         <label className="block">
-          <span className="mb-1 block text-xs font-semibold text-gray-600">Logo URL</span>
+          <span className={labelClass}>Logo URL</span>
           <input
             value={form.logo_url}
             onChange={(e) => update('logo_url', e.target.value)}
             placeholder="https://..."
-            className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500"
+            className={inputClass}
           />
         </label>
 
-        <label className="block md:col-span-2">
-          <span className="mb-1 block text-xs font-semibold text-gray-600">Main Heading</span>
+        <label className="block sm:col-span-2">
+          <span className={labelClass}>Main Heading</span>
           <input
             value={form.main_heading}
             onChange={(e) => update('main_heading', e.target.value)}
-            className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500"
+            className={inputClass}
           />
         </label>
 
-        <label className="block md:col-span-2">
-          <span className="mb-1 block text-xs font-semibold text-gray-600">Sub-Heading</span>
+        <label className="block sm:col-span-2">
+          <span className={labelClass}>Sub-Heading</span>
           <input
             value={form.sub_heading}
             onChange={(e) => update('sub_heading', e.target.value)}
-            className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500"
+            className={inputClass}
           />
         </label>
 
-        <label className="block md:col-span-2">
-          <span className="mb-1 block text-xs font-semibold text-gray-600">Scrolling News</span>
+        <label className="block sm:col-span-2">
+          <span className={labelClass}>Scrolling News</span>
           <textarea
             value={form.scrolling_news}
             onChange={(e) => update('scrolling_news', e.target.value)}
             rows={2}
-            className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500"
+            className={inputClass}
           />
         </label>
 
-        <div className="flex items-center gap-3 md:col-span-2">
+        <div className="flex flex-wrap items-center gap-3 sm:col-span-2">
           <button
             type="submit"
             disabled={saving}
-            className="rounded-md bg-brand-600 px-5 py-2 text-sm font-semibold text-white transition hover:bg-brand-700 disabled:opacity-60"
+            className="inline-flex items-center gap-2 rounded-full px-6 py-2.5 text-sm font-semibold text-white shadow-[0_6px_18px_-6px_rgba(242,120,92,0.5)] transition hover:-translate-y-0.5 disabled:opacity-60"
+            style={{ background: 'linear-gradient(135deg, #E8A33D, #F2785C)' }}
           >
+            <SaveIcon className="h-4 w-4" />
             {saving ? 'Saving...' : 'Save Settings'}
           </button>
           {message && (
-            <span className={`text-sm ${message.startsWith('Error') ? 'text-red-600' : 'text-green-600'}`}>
+            <span className={`text-sm ${message.startsWith('Error') ? 'text-rose-600' : 'text-emerald-600'}`}>
               {message}
             </span>
           )}
