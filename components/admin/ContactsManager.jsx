@@ -81,7 +81,10 @@ async function uploadContactImage(file) {
 
 // File-upload control — picks an image from disk, uploads it to Supabase
 // Storage, and stores the resulting public URL (no manual URL typing).
-function ImageUploadField({ imageUrl, name, onUploaded, onError }) {
+// onUploadingChange lets the parent form disable Save/Add while a photo
+// upload is still in flight, so a contact can never be submitted with a
+// blank image_url just because the upload hadn't finished yet.
+function ImageUploadField({ imageUrl, name, onUploaded, onError, onUploadingChange }) {
   const [uploading, setUploading] = useState(false);
   const inputRef = useRef(null);
 
@@ -89,6 +92,7 @@ function ImageUploadField({ imageUrl, name, onUploaded, onError }) {
     const file = e.target.files?.[0];
     if (!file) return;
     setUploading(true);
+    onUploadingChange?.(true);
     try {
       const url = await uploadContactImage(file);
       onUploaded(url);
@@ -96,6 +100,7 @@ function ImageUploadField({ imageUrl, name, onUploaded, onError }) {
       onError(err.message || 'Image upload failed.');
     } finally {
       setUploading(false);
+      onUploadingChange?.(false);
       if (inputRef.current) inputRef.current.value = '';
     }
   }
@@ -138,6 +143,7 @@ function ContactEditForm({ contact, onCancel, onSaved, onError }) {
     email: contact.email || '',
   });
   const [saving, setSaving] = useState(false);
+  const [photoUploading, setPhotoUploading] = useState(false);
 
   function update(name, value) {
     setForm((f) => ({ ...f, [name]: value }));
@@ -145,6 +151,10 @@ function ContactEditForm({ contact, onCancel, onSaved, onError }) {
 
   async function handleSave(e) {
     e.preventDefault();
+    if (photoUploading) {
+      onError('Photo is still uploading — please wait for it to finish.');
+      return;
+    }
     setSaving(true);
     const { data, error } = await supabase
       .from('site_contacts')
@@ -167,6 +177,7 @@ function ContactEditForm({ contact, onCancel, onSaved, onError }) {
         name={form.name}
         onUploaded={(url) => update('image_url', url)}
         onError={onError}
+        onUploadingChange={setPhotoUploading}
       />
       {TEXT_FIELDS.map((f) => (
         <label key={f.name} className="block">
@@ -184,12 +195,12 @@ function ContactEditForm({ contact, onCancel, onSaved, onError }) {
       <div className="flex items-center gap-3 sm:col-span-2">
         <button
           type="submit"
-          disabled={saving}
+          disabled={saving || photoUploading}
           className="inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold text-white shadow-[0_6px_18px_-6px_rgba(242,120,92,0.5)] transition hover:-translate-y-0.5 disabled:opacity-60"
           style={{ background: 'linear-gradient(135deg, #E8A33D, #F2785C)' }}
         >
           <SaveIcon className="h-4 w-4" />
-          {saving ? 'Saving...' : 'Save Changes'}
+          {saving ? 'Saving...' : photoUploading ? 'Uploading photo...' : 'Save Changes'}
         </button>
         <button
           type="button"
@@ -210,6 +221,7 @@ export default function ContactsManager({ initialRows = [] }) {
   const [rows, setRows] = useState(initialRows);
   const [form, setForm] = useState(emptyForm);
   const [saving, setSaving] = useState(false);
+  const [photoUploading, setPhotoUploading] = useState(false);
   const [error, setError] = useState('');
   const [viewId, setViewId] = useState(null);
   const [editId, setEditId] = useState(null);
@@ -220,6 +232,10 @@ export default function ContactsManager({ initialRows = [] }) {
 
   async function handleAdd(e) {
     e.preventDefault();
+    if (photoUploading) {
+      setError('Photo is still uploading — please wait for it to finish before adding.');
+      return;
+    }
     setSaving(true);
     setError('');
 
@@ -261,6 +277,7 @@ export default function ContactsManager({ initialRows = [] }) {
           name={form.name}
           onUploaded={(url) => update('image_url', url)}
           onError={setError}
+          onUploadingChange={setPhotoUploading}
         />
         {TEXT_FIELDS.map((f) => (
           <label key={f.name} className="block">
@@ -278,12 +295,12 @@ export default function ContactsManager({ initialRows = [] }) {
         <div className="sm:col-span-2">
           <button
             type="submit"
-            disabled={saving}
+            disabled={saving || photoUploading}
             className="inline-flex items-center gap-2 rounded-full px-6 py-2.5 text-sm font-semibold text-white shadow-[0_6px_18px_-6px_rgba(242,120,92,0.5)] transition hover:-translate-y-0.5 disabled:opacity-60"
             style={{ background: 'linear-gradient(135deg, #E8A33D, #F2785C)' }}
           >
             <PlusIcon className="h-4 w-4" />
-            {saving ? 'Adding...' : 'Add Contact'}
+            {saving ? 'Adding...' : photoUploading ? 'Uploading photo...' : 'Add Contact'}
           </button>
         </div>
       </form>
