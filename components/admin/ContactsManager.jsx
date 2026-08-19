@@ -1,24 +1,39 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import Image from 'next/image';
 import { supabase } from '@/lib/supabaseClient';
 import AdminCard from './AdminCard';
-import { IdCardIcon, PlusIcon, TrashIcon, EyeIcon, PencilIcon, PhoneIcon, MailIcon, UserCircleIcon, SaveIcon } from './icons';
+import {
+  IdCardIcon,
+  PlusIcon,
+  TrashIcon,
+  EyeIcon,
+  PencilIcon,
+  PhoneIcon,
+  MailIcon,
+  UserCircleIcon,
+  SaveIcon,
+  ImageIcon,
+} from './icons';
 
 const inputClass =
   'w-full rounded-[10px] border border-aline bg-[#FCFAF6] px-3.5 py-3 text-[0.93rem] text-aink outline-none transition focus:border-atl2 focus:ring-[3px] focus:ring-atl2/10';
 const labelClass = 'mb-1.5 block text-[0.85rem] font-semibold text-aink';
 
-const FIELDS = [
+// Storage bucket that holds contact photos — create it once in Supabase
+// (Storage > New bucket > name it "contact-images" and make it Public), or
+// run the bucket-creation SQL provided alongside this project.
+const BUCKET = 'contact-images';
+
+const TEXT_FIELDS = [
   { name: 'name', label: 'Name', required: true, placeholder: 'e.g. Ali Raza' },
   { name: 'designation', label: 'Designation', placeholder: 'e.g. Admissions Officer' },
-  { name: 'image_url', label: 'Image URL', placeholder: 'https://...' },
   { name: 'contact_no', label: 'Contact No', placeholder: '03xx-xxxxxxx' },
   { name: 'email', label: 'Email', placeholder: 'name@example.com' },
 ];
 
-const emptyForm = Object.fromEntries(FIELDS.map((f) => [f.name, '']));
+const emptyForm = { ...Object.fromEntries(TEXT_FIELDS.map((f) => [f.name, ''])), image_url: '' };
 
 function Avatar({ name, imageUrl, size = 56 }) {
   if (imageUrl) {
@@ -39,6 +54,68 @@ function Avatar({ name, imageUrl, size = 56 }) {
       style={{ width: size, height: size }}
     >
       <UserCircleIcon style={{ width: size * 0.62, height: size * 0.62 }} />
+    </div>
+  );
+}
+
+// Uploads a photo to Supabase Storage and returns its public URL.
+async function uploadContactImage(file) {
+  const ext = file.name.split('.').pop();
+  const fileName = `${crypto.randomUUID()}.${ext}`;
+  const { error: uploadError } = await supabase.storage
+    .from(BUCKET)
+    .upload(fileName, file, { cacheControl: '3600', upsert: false });
+  if (uploadError) throw uploadError;
+  const { data } = supabase.storage.from(BUCKET).getPublicUrl(fileName);
+  return data.publicUrl;
+}
+
+// File-upload control — picks an image from disk, uploads it to Supabase
+// Storage, and stores the resulting public URL (no manual URL typing).
+function ImageUploadField({ imageUrl, name, onUploaded, onError }) {
+  const [uploading, setUploading] = useState(false);
+  const inputRef = useRef(null);
+
+  async function handleFileChange(e) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploading(true);
+    try {
+      const url = await uploadContactImage(file);
+      onUploaded(url);
+    } catch (err) {
+      onError(err.message || 'Image upload failed.');
+    } finally {
+      setUploading(false);
+      if (inputRef.current) inputRef.current.value = '';
+    }
+  }
+
+  return (
+    <div className="sm:col-span-2">
+      <span className={labelClass}>Photo</span>
+      <div className="flex items-center gap-4">
+        <Avatar name={name} imageUrl={imageUrl} size={64} />
+        <div>
+          <input
+            ref={inputRef}
+            type="file"
+            accept="image/*"
+            onChange={handleFileChange}
+            className="hidden"
+          />
+          <button
+            type="button"
+            disabled={uploading}
+            onClick={() => inputRef.current?.click()}
+            className="flex items-center gap-2 rounded-full border border-atl2/30 bg-atl2/10 px-4 py-2 text-xs font-semibold text-atl2 transition hover:bg-atl2 hover:text-white disabled:opacity-60"
+          >
+            <ImageIcon className="h-3.5 w-3.5" />
+            {uploading ? 'Uploading...' : imageUrl ? 'Change Photo' : 'Upload Photo'}
+          </button>
+          <p className="mt-1.5 text-[0.72rem] text-amuted">JPG or PNG, uploaded directly — saved automatically.</p>
+        </div>
+      </div>
     </div>
   );
 }
@@ -76,10 +153,17 @@ function ContactEditForm({ contact, onCancel, onSaved, onError }) {
 
   return (
     <form onSubmit={handleSave} className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-      {FIELDS.map((f) => (
+      <ImageUploadField
+        imageUrl={form.image_url}
+        name={form.name}
+        onUploaded={(url) => update('image_url', url)}
+        onError={onError}
+      />
+      {TEXT_FIELDS.map((f) => (
         <label key={f.name} className="block">
           <span className={labelClass}>{f.label}</span>
           <input
+            type={f.name === 'email' ? 'email' : 'text'}
             required={f.required}
             value={form[f.name]}
             onChange={(e) => update(f.name, e.target.value)}
@@ -111,7 +195,8 @@ function ContactEditForm({ contact, onCancel, onSaved, onError }) {
 }
 
 // Admin manager for the contacts directory shown as cards on the public
-// Contact Us page. Supports Add, View, Edit and Delete.
+// Contact Us page. Supports Add, View, Edit and Delete. Photos are uploaded
+// directly to Supabase Storage (no manual image URL entry).
 export default function ContactsManager({ initialRows = [] }) {
   const [rows, setRows] = useState(initialRows);
   const [form, setForm] = useState(emptyForm);
@@ -162,7 +247,13 @@ export default function ContactsManager({ initialRows = [] }) {
 
       {/* Add form */}
       <form onSubmit={handleAdd} className="mb-6 grid grid-cols-1 gap-3.5 rounded-xl bg-[#F5F9F8] p-4 sm:grid-cols-2">
-        {FIELDS.map((f) => (
+        <ImageUploadField
+          imageUrl={form.image_url}
+          name={form.name}
+          onUploaded={(url) => update('image_url', url)}
+          onError={setError}
+        />
+        {TEXT_FIELDS.map((f) => (
           <label key={f.name} className="block">
             <span className={labelClass}>{f.label}</span>
             <input
