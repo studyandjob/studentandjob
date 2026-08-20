@@ -42,8 +42,13 @@ export default function NavigationProgress({ children }) {
       // Only react to genuine, unmodified, same-tab left-clicks on an
       // internal link — never hijack ctrl/cmd-click, new-tab, download,
       // external, or hash/mailto/tel links.
+      //
+      // NOTE: this listener must run in the CAPTURE phase (see addEventListener
+      // below). Next.js's <Link> calls event.preventDefault() in its own
+      // onClick — which fires on the target element during the bubble phase —
+      // so a normal (bubble-phase) document listener would always see
+      // event.defaultPrevented === true and could never detect the click.
       if (
-        event.defaultPrevented ||
         event.button !== 0 ||
         event.metaKey ||
         event.ctrlKey ||
@@ -79,9 +84,10 @@ export default function NavigationProgress({ children }) {
       safetyTimeoutRef.current = setTimeout(() => setIsNavigating(false), 6000);
     }
 
-    document.addEventListener('click', handleClick);
+    // `true` = capture phase, so this runs before <Link>'s own click handler.
+    document.addEventListener('click', handleClick, true);
     return () => {
-      document.removeEventListener('click', handleClick);
+      document.removeEventListener('click', handleClick, true);
       if (safetyTimeoutRef.current) clearTimeout(safetyTimeoutRef.current);
     };
   }, []);
