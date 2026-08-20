@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { supabase } from '@/lib/supabaseClient';
 import { EyeIcon, ArrowLeftIcon } from './icons';
 
-export default function AdminLogin({ onLoggedIn, siteName }) {
+export default function AdminLogin({ onLoggedIn, siteName, logoUrl }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPass, setShowPass] = useState(false);
@@ -33,9 +33,19 @@ export default function AdminLogin({ onLoggedIn, siteName }) {
       <div className="w-full max-w-[420px] rounded-[22px] bg-white p-8 shadow-2xl sm:p-10">
         {/* Logo / brand */}
         <div className="mb-7 text-center">
-          <div className="mx-auto mb-3 flex h-[70px] w-[70px] items-center justify-center rounded-full border-[3px] border-agold bg-atl text-2xl font-bold text-white">
-            {(siteName || 'A').charAt(0)}
-          </div>
+          {logoUrl ? (
+            // Plain <img> on purpose (not next/image) — same reasoning as
+            // everywhere else this project shows an uploaded image.
+            <img
+              src={logoUrl}
+              alt={siteName || 'Logo'}
+              className="mx-auto mb-3 h-[70px] w-[70px] rounded-full border-[3px] border-agold object-cover"
+            />
+          ) : (
+            <div className="mx-auto mb-3 flex h-[70px] w-[70px] items-center justify-center rounded-full border-[3px] border-agold bg-atl text-2xl font-bold text-white">
+              {(siteName || 'A').charAt(0)}
+            </div>
+          )}
           <h1 className="font-serif text-xl font-bold text-atl">
             {siteName || 'Admin'} <em className="font-serif italic text-acoral">Portal</em>
           </h1>

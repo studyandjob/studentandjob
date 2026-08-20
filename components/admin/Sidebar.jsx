@@ -30,7 +30,7 @@ const NAV_ITEMS = [
   { id: 'pages', label: 'Pages (About / Legal)', icon: FileTextIcon },
 ];
 
-export default function Sidebar({ activeTab, onTabChange, open, onClose, siteName, onLogout, unreadMessages = 0 }) {
+export default function Sidebar({ activeTab, onTabChange, open, onClose, siteName, logoUrl, onLogout, unreadMessages = 0 }) {
   const badgeValues = { unreadMessages };
   function handleSelect(id) {
     onTabChange(id);
@@ -55,9 +55,19 @@ export default function Sidebar({ activeTab, onTabChange, open, onClose, siteNam
       >
         <div className="flex flex-shrink-0 items-center justify-between gap-2.5 border-b border-white/10 px-[18px] py-5">
           <div className="flex items-center gap-2.5">
-            <div className="flex h-[38px] w-[38px] flex-shrink-0 items-center justify-center rounded-full border-2 border-agold bg-white/10 text-sm font-bold text-white">
-              {(siteName || 'A').charAt(0)}
-            </div>
+            {logoUrl ? (
+              // Plain <img> on purpose (not next/image) — same reasoning as
+              // everywhere else this project shows an uploaded image.
+              <img
+                src={logoUrl}
+                alt={siteName || 'Logo'}
+                className="h-[38px] w-[38px] flex-shrink-0 rounded-full border-2 border-agold object-cover"
+              />
+            ) : (
+              <div className="flex h-[38px] w-[38px] flex-shrink-0 items-center justify-center rounded-full border-2 border-agold bg-white/10 text-sm font-bold text-white">
+                {(siteName || 'A').charAt(0)}
+              </div>
+            )}
             <div className="flex min-w-0 flex-col">
               <span className="truncate font-serif text-sm font-bold text-white">{siteName || 'Admin'}</span>
               <small className="text-[0.7rem] text-white/60">Dashboard</small>

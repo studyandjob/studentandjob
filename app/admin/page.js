@@ -60,6 +60,24 @@ export default function AdminDashboard() {
     return () => listener.subscription.unsubscribe();
   }, []);
 
+  // Fetch just enough site settings (name + logo) to brand the Login screen
+  // itself, independent of the session check above — site_settings is
+  // publicly readable, so this works before the admin is even logged in.
+  // Skipped once logged in, since the full settings fetch below already
+  // covers it (and stays fresher via the same query).
+  useEffect(() => {
+    if (session) return;
+    supabase
+      .from('site_settings')
+      .select('site_name, logo_url')
+      .order('updated_at', { ascending: false, nullsFirst: false })
+      .limit(1)
+      .maybeSingle()
+      .then(({ data }) => {
+        if (data) setSettings((prev) => prev || data);
+      });
+  }, [session]);
+
   useEffect(() => {
     if (!session) return;
     (async () => {
@@ -101,7 +119,7 @@ export default function AdminDashboard() {
   }
 
   if (!session) {
-    return <AdminLogin onLoggedIn={setSession} />;
+    return <AdminLogin onLoggedIn={setSession} siteName={settings?.site_name} logoUrl={settings?.logo_url} />;
   }
 
   const unreadMessages = messages.filter((m) => !m.is_read).length;
@@ -114,6 +132,7 @@ export default function AdminDashboard() {
         open={sidebarOpen}
         onClose={() => setSidebarOpen(false)}
         siteName={settings?.site_name}
+        logoUrl={settings?.logo_url}
         onLogout={handleLogout}
         unreadMessages={unreadMessages}
       />
