@@ -1,19 +1,23 @@
 'use client';
 
 import { useState } from 'react';
-import Image from 'next/image';
 
+// Plain <img> tag on purpose (not next/image) — a public Supabase Storage
+// URL is already a final, ready-to-use image URL, so there's nothing for
+// Next's image optimizer to add. Using it directly avoids optimizer/config
+// issues that can make images fail only in production.
 function Avatar({ name, imageUrl }) {
   const [failed, setFailed] = useState(false);
 
   if (imageUrl && !failed) {
     return (
-      <Image
+      <img
         src={imageUrl}
         alt={name || 'Contact'}
-        width={80}
-        height={80}
-        onError={() => setFailed(true)}
+        onError={() => {
+          console.warn('Contact photo failed to load:', imageUrl);
+          setFailed(true);
+        }}
         className="h-20 w-20 flex-shrink-0 rounded-full object-cover ring-4 ring-brand-50"
       />
     );
