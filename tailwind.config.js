@@ -41,6 +41,14 @@ module.exports = {
           '0%, 100%': { opacity: '1' },
           '50%': { opacity: '0.4' },
         },
+        'fade-in-up': {
+          '0%': { opacity: '0', transform: 'translateY(8px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+        'loading-bar': {
+          '0%': { transform: 'translateX(-100%)' },
+          '100%': { transform: 'translateX(350%)' },
+        },
       },
       animation: {
         marquee: 'marquee 25s linear infinite',
@@ -49,6 +57,11 @@ module.exports = {
         // two rings around the logo visibly counter-rotate.
         'spin-reverse-slow': 'spin-reverse 3s linear infinite',
         'pulse-soft': 'pulse-soft 1.6s ease-in-out infinite',
+        // Site name under the loading logo: animates in, then keeps a
+        // gentle breathing pulse for as long as the overlay is visible.
+        'fade-in-up': 'fade-in-up 0.5s ease-out forwards',
+        // The moving colored segment inside the loading bar track.
+        'loading-bar': 'loading-bar 1.3s ease-in-out infinite',
       },
     },
   },
