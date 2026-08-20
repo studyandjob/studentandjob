@@ -160,7 +160,7 @@ export default function AdminDashboard() {
                   initialRows={slides}
                   fields={[
                     { name: 'title', label: 'Title', required: true },
-                    { name: 'image_url', label: 'Image URL', required: true, placeholder: 'https://...' },
+                    { name: 'image_url', label: 'Slide Image', type: 'image', imageFolder: 'hero', required: true },
                     { name: 'link_url', label: 'Link URL (optional)', placeholder: 'https://...' },
                     { name: 'display_order', label: 'Display Order', type: 'number', placeholder: '1' },
                   ]}

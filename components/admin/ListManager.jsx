@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { supabase } from '@/lib/supabaseClient';
 import AdminCard from './AdminCard';
+import ImageUploadField from './ImageUploadField';
 import { PlusIcon, TrashIcon } from './icons';
 
 const inputClass =
@@ -18,7 +19,10 @@ const labelClass = 'mb-1.5 block text-[0.85rem] font-semibold text-aink';
  * @param {object} icon - Icon component for the card header
  * @param {string} table - Supabase table name
  * @param {Array} initialRows - Rows fetched server-side
- * @param {Array} fields - [{ name, label, type: 'text'|'date'|'number'|'textarea', placeholder? }]
+ * @param {Array} fields - [{ name, label, type: 'text'|'date'|'number'|'textarea'|'image', placeholder?, imageFolder? }]
+ *   type: 'image' renders an upload-a-file control (via ImageUploadField)
+ *   instead of a URL text box; imageFolder sets the storage subfolder
+ *   (defaults to the field name).
  * @param {Function} renderRow - (row) => JSX for how to display a row's summary
  */
 export default function ListManager({ title, description, icon, table, initialRows = [], fields, renderRow }) {
@@ -26,14 +30,30 @@ export default function ListManager({ title, description, icon, table, initialRo
   const emptyForm = Object.fromEntries(fields.map((f) => [f.name, '']));
   const [form, setForm] = useState(emptyForm);
   const [saving, setSaving] = useState(false);
+  const [uploadingFields, setUploadingFields] = useState({});
   const [error, setError] = useState('');
+
+  const anyUploading = Object.values(uploadingFields).some(Boolean);
 
   function update(name, value) {
     setForm((f) => ({ ...f, [name]: value }));
   }
 
+  function setFieldUploading(name, value) {
+    setUploadingFields((u) => ({ ...u, [name]: value }));
+  }
+
   async function handleAdd(e) {
     e.preventDefault();
+    if (anyUploading) {
+      setError('An image is still uploading — please wait for it to finish before adding.');
+      return;
+    }
+    const missingImage = fields.find((f) => f.type === 'image' && f.required && !form[f.name]);
+    if (missingImage) {
+      setError(`Please upload ${missingImage.label} before adding.`);
+      return;
+    }
     setSaving(true);
     setError('');
 
@@ -80,40 +100,52 @@ export default function ListManager({ title, description, icon, table, initialRo
 
       {/* Add form */}
       <form onSubmit={handleAdd} className="mb-6 grid grid-cols-1 gap-3.5 rounded-xl bg-[#F5F9F8] p-4 sm:grid-cols-2">
-        {fields.map((f) => (
-          <label key={f.name} className={f.type === 'textarea' ? 'block sm:col-span-2' : 'block'}>
-            <span className={labelClass}>{f.label}</span>
-            {f.type === 'textarea' ? (
-              <textarea
-                required={f.required}
-                value={form[f.name]}
-                onChange={(e) => update(f.name, e.target.value)}
-                placeholder={f.placeholder}
-                rows={2}
-                className={inputClass}
-              />
-            ) : (
-              <input
-                type={f.type || 'text'}
-                required={f.required}
-                value={form[f.name]}
-                onChange={(e) => update(f.name, e.target.value)}
-                placeholder={f.placeholder}
-                className={inputClass}
-              />
-            )}
-          </label>
-        ))}
+        {fields.map((f) =>
+          f.type === 'image' ? (
+            <ImageUploadField
+              key={f.name}
+              folder={f.imageFolder || f.name}
+              label={f.label}
+              imageUrl={form[f.name]}
+              onUploaded={(url) => update(f.name, url)}
+              onError={setError}
+              onUploadingChange={(v) => setFieldUploading(f.name, v)}
+            />
+          ) : (
+            <label key={f.name} className={f.type === 'textarea' ? 'block sm:col-span-2' : 'block'}>
+              <span className={labelClass}>{f.label}</span>
+              {f.type === 'textarea' ? (
+                <textarea
+                  required={f.required}
+                  value={form[f.name]}
+                  onChange={(e) => update(f.name, e.target.value)}
+                  placeholder={f.placeholder}
+                  rows={2}
+                  className={inputClass}
+                />
+              ) : (
+                <input
+                  type={f.type || 'text'}
+                  required={f.required}
+                  value={form[f.name]}
+                  onChange={(e) => update(f.name, e.target.value)}
+                  placeholder={f.placeholder}
+                  className={inputClass}
+                />
+              )}
+            </label>
+          )
+        )}
 
         <div className="sm:col-span-2">
           <button
             type="submit"
-            disabled={saving}
+            disabled={saving || anyUploading}
             className="inline-flex items-center gap-2 rounded-full px-6 py-2.5 text-sm font-semibold text-white shadow-[0_6px_18px_-6px_rgba(242,120,92,0.5)] transition hover:-translate-y-0.5 disabled:opacity-60"
             style={{ background: 'linear-gradient(135deg, #E8A33D, #F2785C)' }}
           >
             <PlusIcon className="h-4 w-4" />
-            {saving ? 'Adding...' : 'Add'}
+            {saving ? 'Adding...' : anyUploading ? 'Uploading image...' : 'Add'}
           </button>
         </div>
       </form>

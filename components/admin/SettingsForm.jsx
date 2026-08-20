@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { supabase } from '@/lib/supabaseClient';
 import AdminCard from './AdminCard';
+import ImageUploadField from './ImageUploadField';
 import { SettingsIcon, SaveIcon } from './icons';
 
 const inputClass =
@@ -19,6 +20,7 @@ export default function SettingsForm({ settings }) {
     scrolling_news: settings?.scrolling_news || '',
   });
   const [saving, setSaving] = useState(false);
+  const [logoUploading, setLogoUploading] = useState(false);
   const [message, setMessage] = useState('');
 
   function update(field, value) {
@@ -27,6 +29,10 @@ export default function SettingsForm({ settings }) {
 
   async function handleSave(e) {
     e.preventDefault();
+    if (logoUploading) {
+      setMessage('Error: Logo is still uploading — please wait for it to finish, then Save.');
+      return;
+    }
     setSaving(true);
     setMessage('');
 
@@ -84,15 +90,16 @@ export default function SettingsForm({ settings }) {
           <input value={form.site_name} onChange={(e) => update('site_name', e.target.value)} className={inputClass} />
         </label>
 
-        <label className="block">
-          <span className={labelClass}>Logo URL</span>
-          <input
-            value={form.logo_url}
-            onChange={(e) => update('logo_url', e.target.value)}
-            placeholder="https://..."
-            className={inputClass}
-          />
-        </label>
+        <ImageUploadField
+          folder="logo"
+          label="Logo"
+          shape="circle"
+          previewSize={72}
+          imageUrl={form.logo_url}
+          onUploaded={(url) => update('logo_url', url)}
+          onError={(msg) => setMessage(`Error: ${msg}`)}
+          onUploadingChange={setLogoUploading}
+        />
 
         <label className="block sm:col-span-2">
           <span className={labelClass}>Main Heading</span>
@@ -125,12 +132,12 @@ export default function SettingsForm({ settings }) {
         <div className="flex flex-wrap items-center gap-3 sm:col-span-2">
           <button
             type="submit"
-            disabled={saving}
+            disabled={saving || logoUploading}
             className="inline-flex items-center gap-2 rounded-full px-6 py-2.5 text-sm font-semibold text-white shadow-[0_6px_18px_-6px_rgba(242,120,92,0.5)] transition hover:-translate-y-0.5 disabled:opacity-60"
             style={{ background: 'linear-gradient(135deg, #E8A33D, #F2785C)' }}
           >
             <SaveIcon className="h-4 w-4" />
-            {saving ? 'Saving...' : 'Save Settings'}
+            {saving ? 'Saving...' : logoUploading ? 'Uploading logo...' : 'Save Settings'}
           </button>
           {message && (
             <span className={`text-sm ${message.startsWith('Error') ? 'text-rose-600' : 'text-emerald-600'}`}>
