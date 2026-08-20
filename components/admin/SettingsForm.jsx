@@ -32,12 +32,31 @@ export default function SettingsForm({ settings }) {
 
     const payload = { ...form, updated_at: new Date().toISOString() };
 
+    // Re-check for an existing row right before saving, instead of trusting
+    // whatever id this form happened to load with. This is what actually
+    // prevents the "settings reset after refresh" bug: if a stray extra row
+    // ever ends up in this single-row config table, saves would keep
+    // inserting yet another row instead of updating the one real row, and a
+    // later page load could pick a different (older) row than the one just
+    // saved. Always resolving the current row's id here keeps every save
+    // hitting the same, single row.
+    let targetId = form.id;
+    if (!targetId) {
+      const { data: existing } = await supabase
+        .from('site_settings')
+        .select('id')
+        .order('updated_at', { ascending: false, nullsFirst: false })
+        .limit(1)
+        .maybeSingle();
+      targetId = existing?.id;
+    }
+
     // .select() confirms the row was actually written. Without it, an update
     // blocked by RLS (e.g. an expired admin session) still reports success
     // with 0 rows touched, showing "Saved successfully" even though nothing
     // changed in the database.
-    const { data, error } = form.id
-      ? await supabase.from('site_settings').update(payload).eq('id', form.id).select()
+    const { data, error } = targetId
+      ? await supabase.from('site_settings').update(payload).eq('id', targetId).select()
       : await supabase.from('site_settings').insert(payload).select();
 
     setSaving(false);

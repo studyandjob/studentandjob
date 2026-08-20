@@ -66,7 +66,7 @@ export default function AdminDashboard() {
       setLoadingData(true);
       const [{ data: s }, { data: sl }, { data: j }, { data: n }, { data: r }, { data: sc }, { data: m }, { data: c }, { data: p }] =
         await Promise.all([
-          supabase.from('site_settings').select('*').limit(1).maybeSingle(),
+          supabase.from('site_settings').select('*').order('updated_at', { ascending: false, nullsFirst: false }).limit(1).maybeSingle(),
           supabase.from('hero_slides').select('*').order('display_order', { ascending: true }),
           supabase.from('jobs_table').select('*').order('created_at', { ascending: false }),
           supabase.from('students_data').select('*').order('created_at', { ascending: false }),
