@@ -252,9 +252,20 @@ export default function ContactsManager({ initialRows = [] }) {
 
   async function handleDelete(id) {
     if (!confirm('Delete this contact? This cannot be undone.')) return;
-    const { error } = await supabase.from('site_contacts').delete().eq('id', id);
+    // .select() makes Supabase return the row(s) it actually deleted. Without
+    // it, a delete blocked by RLS (e.g. an expired admin session) still comes
+    // back with no error — 0 rows touched looks identical to a real delete —
+    // so the row stays in the database and keeps showing on the public site
+    // even though the admin UI already removed it locally.
+    const { data, error } = await supabase.from('site_contacts').delete().eq('id', id).select();
     if (error) {
       setError(error.message);
+      return;
+    }
+    if (!data || data.length === 0) {
+      setError(
+        'Delete did not go through — the contact is still in the database. Your admin session may have expired; please log out and log back in, then try again.'
+      );
       return;
     }
     setRows((prev) => prev.filter((r) => r.id !== id));
