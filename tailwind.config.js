@@ -33,9 +33,22 @@ module.exports = {
           '0%': { transform: 'translateX(100%)' },
           '100%': { transform: 'translateX(-100%)' },
         },
+        'spin-reverse': {
+          from: { transform: 'rotate(360deg)' },
+          to: { transform: 'rotate(0deg)' },
+        },
+        'pulse-soft': {
+          '0%, 100%': { opacity: '1' },
+          '50%': { opacity: '0.4' },
+        },
       },
       animation: {
         marquee: 'marquee 25s linear infinite',
+        // Slow outer ring for the page-loading overlay — spins the
+        // opposite direction of Tailwind's built-in animate-spin so the
+        // two rings around the logo visibly counter-rotate.
+        'spin-reverse-slow': 'spin-reverse 3s linear infinite',
+        'pulse-soft': 'pulse-soft 1.6s ease-in-out infinite',
       },
     },
   },

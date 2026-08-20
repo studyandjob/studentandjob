@@ -2,19 +2,28 @@
 
 import { createContext, useContext, useEffect, useRef, useState } from 'react';
 import { usePathname } from 'next/navigation';
+import PageLoadingOverlay from './PageLoadingOverlay';
 
 // Tracks whether a same-tab internal link navigation is currently in
-// flight, so any component anywhere on the page (e.g. the header logo) can
-// show a loading indicator while Next.js fetches the next route.
+// flight, so a full-page loading overlay (see PageLoadingOverlay) can be
+// shown centered on screen while Next.js fetches the next route.
 //
 // Why this exists: on Next.js App Router, clicking a <Link> to a page that
 // fetches data on the server (every page here does — force-dynamic +
 // Supabase) keeps the CURRENT page on screen with no visual feedback until
 // the new page is ready. That's the "click a link, old page just sits there
 // for a moment, then the new page appears" behaviour. This provider starts
-// the spinner the instant a link is clicked and clears it the instant the
+// the overlay the instant a link is clicked and clears it the instant the
 // URL actually changes (i.e. the new page has taken over).
-const NavigationProgressContext = createContext(false);
+//
+// `setLogo` lets the currently-mounted Header register the site's current
+// logo/name so the overlay (which lives here in the root layout, outside
+// any single page) knows what to display in its center without doing its
+// own separate data fetch.
+const NavigationProgressContext = createContext({
+  isNavigating: false,
+  setLogo: () => {},
+});
 
 export function useNavigationProgress() {
   return useContext(NavigationProgressContext);
@@ -22,6 +31,7 @@ export function useNavigationProgress() {
 
 export default function NavigationProgress({ children }) {
   const [isNavigating, setIsNavigating] = useState(false);
+  const [logo, setLogo] = useState({ siteName: '', logoUrl: '' });
   const pathname = usePathname();
   const isFirstRender = useRef(true);
   const safetyTimeoutRef = useRef(null);
@@ -79,7 +89,7 @@ export default function NavigationProgress({ children }) {
       setIsNavigating(true);
 
       // Safety net: if something prevents the pathname from ever changing
-      // (broken link, route error, etc.), never leave the spinner stuck on.
+      // (broken link, route error, etc.), never leave the overlay stuck on.
       if (safetyTimeoutRef.current) clearTimeout(safetyTimeoutRef.current);
       safetyTimeoutRef.current = setTimeout(() => setIsNavigating(false), 6000);
     }
@@ -93,7 +103,8 @@ export default function NavigationProgress({ children }) {
   }, []);
 
   return (
-    <NavigationProgressContext.Provider value={isNavigating}>
+    <NavigationProgressContext.Provider value={{ isNavigating, setLogo }}>
+      {isNavigating && <PageLoadingOverlay siteName={logo.siteName} logoUrl={logo.logoUrl} />}
       {children}
     </NavigationProgressContext.Provider>
   );

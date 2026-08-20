@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useNavigationProgress } from './NavigationProgress';
 
@@ -15,43 +15,36 @@ const NAV_LINKS = [
 
 export default function Header({ siteName, logoUrl }) {
   const [open, setOpen] = useState(false);
-  const isNavigating = useNavigationProgress();
+  const { setLogo } = useNavigationProgress();
+
+  // Register this page's logo/site name with the global page-loading
+  // overlay (see NavigationProgress + PageLoadingOverlay) so that whenever
+  // the user clicks a link, the full-page loading overlay knows what logo
+  // to show centered on screen — without a separate data fetch.
+  useEffect(() => {
+    setLogo({ siteName, logoUrl });
+  }, [siteName, logoUrl, setLogo]);
 
   return (
     <header className="sticky top-0 z-50 bg-white shadow-sm">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 md:px-6">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2">
-          {/* relative wrapper so the loading ring can sit around the logo
-              without shifting layout */}
-          <span className="relative inline-flex h-10 w-10 shrink-0 items-center justify-center">
-            {logoUrl ? (
-              // Plain <img> on purpose (not next/image) — same reasoning as the
-              // Contact Us photos: an admin-entered logo URL is already a
-              // final image URL, and next/image's optimizer has a track record
-              // of failing silently in production for external URLs like this.
-              <img
-                src={logoUrl}
-                alt={siteName || 'Logo'}
-                className="h-10 w-10 rounded-md object-cover"
-              />
-            ) : (
-              <div className="flex h-10 w-10 items-center justify-center rounded-md bg-brand-600 font-bold text-white">
-                {(siteName || 'P').charAt(0)}
-              </div>
-            )}
-
-            {/* Circular loading spinner: a ring drawn around the logo and
-                spun continuously via CSS while a page navigation is in
-                flight (see NavigationProgress). Disappears the instant the
-                new page has loaded. */}
-            {isNavigating && (
-              <span
-                aria-hidden="true"
-                className="pointer-events-none absolute -inset-1 animate-spin rounded-full border-2 border-brand-600 border-t-transparent"
-              />
-            )}
-          </span>
+          {logoUrl ? (
+            // Plain <img> on purpose (not next/image) — same reasoning as the
+            // Contact Us photos: an admin-entered logo URL is already a
+            // final image URL, and next/image's optimizer has a track record
+            // of failing silently in production for external URLs like this.
+            <img
+              src={logoUrl}
+              alt={siteName || 'Logo'}
+              className="h-10 w-10 rounded-md object-cover"
+            />
+          ) : (
+            <div className="flex h-10 w-10 items-center justify-center rounded-md bg-brand-600 font-bold text-white">
+              {(siteName || 'P').charAt(0)}
+            </div>
+          )}
           <span className="text-lg font-bold text-gray-900 md:text-xl">
             {siteName || 'Education & Job Portal'}
           </span>
