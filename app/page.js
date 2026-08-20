@@ -12,8 +12,19 @@ import Footer from '@/components/Footer';
 export const dynamic = 'force-dynamic';
 
 async function getHomePageData() {
+  // site_settings is ordered by updated_at (most recent first), matching
+  // lib/data.js's getSiteSettings(). Without this order, if the table ever
+  // has more than one row (e.g. the seed row plus the row the admin actually
+  // edits), .limit(1) can arbitrarily return the old/seed row here — showing
+  // a stale logo/site name on the home page even though Admin Dashboard →
+  // Site Settings was saved correctly.
   const [{ data: settings }, { data: slides }, { data: jobs }, { data: notes }] = await Promise.all([
-    supabase.from('site_settings').select('*').limit(1).maybeSingle(),
+    supabase
+      .from('site_settings')
+      .select('*')
+      .order('updated_at', { ascending: false, nullsFirst: false })
+      .limit(1)
+      .maybeSingle(),
     supabase.from('hero_slides').select('*').order('display_order', { ascending: true }),
     supabase.from('jobs_table').select('*').order('created_at', { ascending: false }).limit(8),
     supabase.from('students_data').select('*').order('created_at', { ascending: false }).limit(6),
