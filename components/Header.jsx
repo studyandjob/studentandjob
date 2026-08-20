@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 
 const NAV_LINKS = [
   { href: '/', label: 'Home' },
@@ -22,11 +21,13 @@ export default function Header({ siteName, logoUrl }) {
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2">
           {logoUrl ? (
-            <Image
+            // Plain <img> on purpose (not next/image) — same reasoning as the
+            // Contact Us photos: an admin-entered logo URL is already a
+            // final image URL, and next/image's optimizer has a track record
+            // of failing silently in production for external URLs like this.
+            <img
               src={logoUrl}
               alt={siteName || 'Logo'}
-              width={40}
-              height={40}
               className="h-10 w-10 rounded-md object-cover"
             />
           ) : (

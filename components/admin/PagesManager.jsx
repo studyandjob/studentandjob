@@ -26,13 +26,24 @@ function PageEditor({ page }) {
     setSaving(true);
     setMessage('');
 
-    const { error } = await supabase
+    // .select() confirms the row was actually written — see notes elsewhere
+    // in this project on why this check matters (silent RLS-blocked saves).
+    const { data, error } = await supabase
       .from('site_pages')
       .update({ title: form.title, content: form.content, updated_at: new Date().toISOString() })
-      .eq('id', page.id);
+      .eq('id', page.id)
+      .select();
 
     setSaving(false);
-    setMessage(error ? `Error: ${error.message}` : 'Saved successfully.');
+    if (error) {
+      setMessage(`Error: ${error.message}`);
+      return;
+    }
+    if (!data || data.length === 0) {
+      setMessage('Error: Save did not go through — your admin session may have expired. Please log out and back in, then try again.');
+      return;
+    }
+    setMessage('Saved successfully.');
   }
 
   return (

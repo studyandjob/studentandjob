@@ -56,9 +56,19 @@ export default function ListManager({ title, description, icon, table, initialRo
 
   async function handleDelete(id) {
     if (!confirm('Delete this item? This cannot be undone.')) return;
-    const { error } = await supabase.from(table).delete().eq('id', id);
+    // .select() confirms which row(s) were actually deleted. Without it, a
+    // delete blocked by RLS (e.g. an expired admin session) still reports
+    // success with 0 rows touched — the item would vanish from this list
+    // but stay in the database and keep showing on the live website.
+    const { data, error } = await supabase.from(table).delete().eq('id', id).select();
     if (error) {
       setError(error.message);
+      return;
+    }
+    if (!data || data.length === 0) {
+      setError(
+        'Delete did not go through — the item is still in the database. Your admin session may have expired; please log out and log back in, then try again.'
+      );
       return;
     }
     setRows((prev) => prev.filter((r) => r.id !== id));

@@ -49,9 +49,13 @@ export default function MessagesManager({ initialRows = [] }) {
 
   async function handleDelete(id) {
     if (!confirm('Delete this message? This cannot be undone.')) return;
-    const { error } = await supabase.from('contact_messages').delete().eq('id', id);
+    const { data, error } = await supabase.from('contact_messages').delete().eq('id', id).select();
     if (error) {
       setError(error.message);
+      return;
+    }
+    if (!data || data.length === 0) {
+      setError('Delete did not go through — your admin session may have expired. Please log out and back in, then try again.');
       return;
     }
     setRows((prev) => prev.filter((r) => r.id !== id));

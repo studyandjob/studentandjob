@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
 import SearchBar from './SearchBar';
 
@@ -45,7 +44,12 @@ export default function HeroSlider({ slides = [], mainHeading, subHeading }) {
                 i === active ? 'opacity-30' : 'opacity-0'
               }`}
             >
-              <Image src={slide.image_url} alt={slide.title} fill className="object-cover" priority={i === 0} />
+              {/* Plain <img> on purpose (not next/image) — same reasoning as
+                  Contact Us photos and the header logo: an admin-entered
+                  slide image URL is already final, and next/image's
+                  optimizer has a track record of failing silently in
+                  production for external URLs like this. */}
+              <img src={slide.image_url} alt={slide.title} className="h-full w-full object-cover" />
             </div>
           ))}
           <div className="absolute inset-0 bg-gradient-to-b from-brand-700/70 via-brand-700/50 to-brand-600/80" />

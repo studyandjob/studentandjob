@@ -32,12 +32,25 @@ export default function SettingsForm({ settings }) {
 
     const payload = { ...form, updated_at: new Date().toISOString() };
 
-    const { error } = form.id
-      ? await supabase.from('site_settings').update(payload).eq('id', form.id)
-      : await supabase.from('site_settings').insert(payload);
+    // .select() confirms the row was actually written. Without it, an update
+    // blocked by RLS (e.g. an expired admin session) still reports success
+    // with 0 rows touched, showing "Saved successfully" even though nothing
+    // changed in the database.
+    const { data, error } = form.id
+      ? await supabase.from('site_settings').update(payload).eq('id', form.id).select()
+      : await supabase.from('site_settings').insert(payload).select();
 
     setSaving(false);
-    setMessage(error ? `Error: ${error.message}` : 'Saved successfully.');
+    if (error) {
+      setMessage(`Error: ${error.message}`);
+      return;
+    }
+    if (!data || data.length === 0) {
+      setMessage('Error: Save did not go through — your admin session may have expired. Please log out and back in, then try again.');
+      return;
+    }
+    if (!form.id && data[0]?.id) update('id', data[0].id);
+    setMessage('Saved successfully.');
   }
 
   return (
