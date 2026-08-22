@@ -22,6 +22,7 @@ const NAV_ITEMS = [
   { id: 'settings', label: 'Site Settings', icon: SettingsIcon },
   { id: 'slides', label: 'Hero Slides', icon: ImageIcon },
   { id: 'jobs', label: 'Jobs', icon: BriefcaseIcon },
+  { id: 'members', label: 'Portal Requests', icon: IdCardIcon, badgeKey: 'pendingMembers' },
   { id: 'notes', label: 'Students Zone', icon: BookIcon },
   { id: 'results', label: 'Results', icon: ClipboardCheckIcon },
   { id: 'scholarships', label: 'Scholarships', icon: AwardIcon },
@@ -30,8 +31,8 @@ const NAV_ITEMS = [
   { id: 'pages', label: 'Pages (About / Legal)', icon: FileTextIcon },
 ];
 
-export default function Sidebar({ activeTab, onTabChange, open, onClose, siteName, logoUrl, onLogout, unreadMessages = 0 }) {
-  const badgeValues = { unreadMessages };
+export default function Sidebar({ activeTab, onTabChange, open, onClose, siteName, logoUrl, onLogout, unreadMessages = 0, pendingMembers = 0 }) {
+  const badgeValues = { unreadMessages, pendingMembers };
   function handleSelect(id) {
     onTabChange(id);
     onClose();

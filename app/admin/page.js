@@ -12,6 +12,8 @@ import ListManager from '@/components/admin/ListManager';
 import MessagesManager from '@/components/admin/MessagesManager';
 import ContactsManager from '@/components/admin/ContactsManager';
 import PagesManager from '@/components/admin/PagesManager';
+import JobsManager from '@/components/admin/JobsManager';
+import MembersManager from '@/components/admin/MembersManager';
 import {
   ImageIcon,
   BriefcaseIcon,
@@ -31,6 +33,7 @@ const TAB_TITLES = {
   settings: 'Site Settings',
   slides: 'Hero Slides',
   jobs: 'Jobs',
+  members: 'Admin Portal Requests',
   notes: 'Students Zone',
   results: 'Results',
   scholarships: 'Scholarships',
@@ -50,6 +53,7 @@ export default function AdminDashboard() {
   const [messages, setMessages] = useState([]);
   const [contacts, setContacts] = useState([]);
   const [pages, setPages] = useState([]);
+  const [memberRequests, setMemberRequests] = useState([]);
   const [loadingData, setLoadingData] = useState(true);
   const [activeTab, setActiveTab] = useState('dashboard');
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -82,7 +86,7 @@ export default function AdminDashboard() {
     if (!session) return;
     (async () => {
       setLoadingData(true);
-      const [{ data: s }, { data: sl }, { data: j }, { data: n }, { data: r }, { data: sc }, { data: m }, { data: c }, { data: p }] =
+      const [{ data: s }, { data: sl }, { data: j }, { data: n }, { data: r }, { data: sc }, { data: m }, { data: c }, { data: p }, { data: mr }] =
         await Promise.all([
           supabase.from('site_settings').select('*').order('updated_at', { ascending: false, nullsFirst: false }).limit(1).maybeSingle(),
           supabase.from('hero_slides').select('*').order('display_order', { ascending: true }),
@@ -93,6 +97,7 @@ export default function AdminDashboard() {
           supabase.from('contact_messages').select('*').order('created_at', { ascending: false }),
           supabase.from('site_contacts').select('*').order('display_order', { ascending: true }),
           supabase.from('site_pages').select('*').order('slug', { ascending: true }),
+          supabase.from('member_requests').select('*, candidate_profiles(full_name, phone, whatsapp, email, city, photo_url)').order('created_at', { ascending: false }),
         ]);
       setSettings(s);
       setSlides(sl || []);
@@ -103,6 +108,7 @@ export default function AdminDashboard() {
       setMessages(m || []);
       setContacts(c || []);
       setPages(p || []);
+      setMemberRequests(mr || []);
       setLoadingData(false);
     })();
   }, [session]);
@@ -123,6 +129,7 @@ export default function AdminDashboard() {
   }
 
   const unreadMessages = messages.filter((m) => !m.is_read).length;
+  const pendingMembers = memberRequests.filter((r) => r.status === 'pending').length;
 
   return (
     <div className="flex min-h-screen bg-[#F0F4F3]">
@@ -135,6 +142,7 @@ export default function AdminDashboard() {
         logoUrl={settings?.logo_url}
         onLogout={handleLogout}
         unreadMessages={unreadMessages}
+        pendingMembers={pendingMembers}
       />
 
       <main className="flex min-h-screen w-full flex-1 flex-col md:ml-[240px] md:w-[calc(100%-240px)]">
@@ -151,6 +159,13 @@ export default function AdminDashboard() {
                   <div className="grid grid-cols-2 gap-3.5 sm:grid-cols-4">
                     <StatCard icon={ImageIcon} value={slides.length} label="Hero Slides" color="gold" onClick={() => setActiveTab('slides')} />
                     <StatCard icon={BriefcaseIcon} value={jobs.length} label="Jobs Posted" color="teal" onClick={() => setActiveTab('jobs')} />
+                    <StatCard
+                      icon={IdCardIcon}
+                      value={pendingMembers > 0 ? `${memberRequests.length} (${pendingMembers} new)` : memberRequests.length}
+                      label="Portal Requests"
+                      color="purple"
+                      onClick={() => setActiveTab('members')}
+                    />
                     <StatCard icon={BookIcon} value={notes.length} label="Student Notes" color="coral" onClick={() => setActiveTab('notes')} />
                     <StatCard icon={ClipboardCheckIcon} value={results.length} label="Results" color="green" onClick={() => setActiveTab('results')} />
                     <StatCard icon={AwardIcon} value={scholarships.length} label="Scholarships" color="purple" onClick={() => setActiveTab('scholarships')} />
@@ -192,29 +207,9 @@ export default function AdminDashboard() {
                 />
               )}
 
-              {activeTab === 'jobs' && (
-                <ListManager
-                  title="Jobs"
-                  description="Government / private job postings shown on the home page and Jobs listing."
-                  icon={BriefcaseIcon}
-                  table="jobs_table"
-                  initialRows={jobs}
-                  fields={[
-                    { name: 'title', label: 'Job Title', required: true },
-                    { name: 'department', label: 'Department' },
-                    { name: 'last_date', label: 'Last Date to Apply', type: 'date' },
-                    { name: 'apply_link', label: 'Apply Link', placeholder: 'https://...' },
-                  ]}
-                  renderRow={(row) => (
-                    <div>
-                      <p className="font-semibold text-aink">{row.title}</p>
-                      <p className="text-xs text-amuted">
-                        {row.department} {row.last_date && `· Last date: ${row.last_date}`}
-                      </p>
-                    </div>
-                  )}
-                />
-              )}
+              {activeTab === 'jobs' && <JobsManager initialJobs={jobs} />}
+
+              {activeTab === 'members' && <MembersManager initialRequests={memberRequests} />}
 
               {activeTab === 'notes' && (
                 <ListManager

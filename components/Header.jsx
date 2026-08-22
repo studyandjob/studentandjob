@@ -11,6 +11,7 @@ const NAV_LINKS = [
   { href: '/results', label: 'Results' },
   { href: '/scholarships', label: 'Scholarships' },
   { href: '/contact', label: 'Contact Us' },
+  { href: '/vip', label: 'VIP Portal' },
 ];
 
 export default function Header({ siteName, logoUrl }) {
