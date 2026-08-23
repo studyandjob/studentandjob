@@ -4,7 +4,8 @@ import { useState } from 'react';
 import { supabase } from '@/lib/supabaseClient';
 import AdminCard from './AdminCard';
 import JobForm from './JobForm';
-import { BriefcaseIcon, PlusIcon, PencilIcon, TrashIcon } from './icons';
+import JobDetailsModal from './JobDetailsModal';
+import { BriefcaseIcon, PlusIcon, PencilIcon, TrashIcon, EyeIcon } from './icons';
 
 function formatDate(dateStr) {
   if (!dateStr) return '—';
@@ -15,6 +16,7 @@ export default function JobsManager({ initialJobs = [] }) {
   const [jobs, setJobs] = useState(initialJobs);
   const [showForm, setShowForm] = useState(false);
   const [editingJob, setEditingJob] = useState(null);
+  const [viewingJob, setViewingJob] = useState(null);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
 
@@ -141,6 +143,12 @@ export default function JobsManager({ initialJobs = [] }) {
                     </div>
                     <div className="flex flex-shrink-0 gap-2">
                       <button
+                        onClick={() => setViewingJob(job)}
+                        className="flex items-center gap-1 rounded-md border border-aline px-3 py-1.5 text-xs font-semibold text-amuted transition hover:text-aink"
+                      >
+                        <EyeIcon className="h-3.5 w-3.5" /> View
+                      </button>
+                      <button
                         onClick={() => toggleStatus(job)}
                         className="rounded-md border border-aline px-3 py-1.5 text-xs font-semibold text-amuted transition hover:text-aink"
                       >
@@ -166,6 +174,17 @@ export default function JobsManager({ initialJobs = [] }) {
           </>
         )}
       </AdminCard>
+
+      {viewingJob && (
+        <JobDetailsModal
+          job={viewingJob}
+          onClose={() => setViewingJob(null)}
+          onEdit={() => {
+            openEditForm(viewingJob);
+            setViewingJob(null);
+          }}
+        />
+      )}
     </div>
   );
 }
