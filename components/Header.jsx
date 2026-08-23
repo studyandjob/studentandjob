@@ -26,75 +26,100 @@ export default function Header({ siteName, logoUrl }) {
     setLogo({ siteName, logoUrl });
   }, [siteName, logoUrl, setLogo]);
 
+  // Lock body scroll while the mobile sidebar is open.
+  useEffect(() => {
+    document.body.style.overflow = open ? 'hidden' : '';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [open]);
+
   return (
-    <header className="sticky top-0 z-50 bg-white shadow-sm">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 md:px-6">
-        {/* Logo */}
-        <Link href="/" className="flex items-center gap-2">
-          {logoUrl ? (
-            // Plain <img> on purpose (not next/image) — same reasoning as the
-            // Contact Us photos: an admin-entered logo URL is already a
-            // final image URL, and next/image's optimizer has a track record
-            // of failing silently in production for external URLs like this.
-            <img
-              src={logoUrl}
-              alt={siteName || 'Logo'}
-              className="h-10 w-10 rounded-md object-cover"
-            />
-          ) : (
-            <div className="flex h-10 w-10 items-center justify-center rounded-md bg-brand-600 font-bold text-white">
-              {(siteName || 'P').charAt(0)}
-            </div>
-          )}
-          <span className="text-lg font-bold text-gray-900 md:text-xl">
-            {siteName || 'Education & Job Portal'}
-          </span>
-        </Link>
-
-        {/* Desktop nav */}
-        <nav className="hidden items-center gap-6 md:flex">
-          {NAV_LINKS.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="text-sm font-medium text-gray-600 transition hover:text-brand-600"
-            >
-              {link.label}
-            </Link>
-          ))}
-        </nav>
-
-        {/* Mobile menu button */}
-        <button
-          onClick={() => setOpen(!open)}
-          className="inline-flex items-center justify-center rounded-md p-2 text-gray-600 hover:bg-gray-100 md:hidden"
-          aria-label="Toggle menu"
-        >
-          <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            {open ? (
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+    <>
+      <header className="sticky top-0 z-50 bg-brand-600 shadow-lg shadow-brand-900/10">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3.5 md:px-6">
+          {/* Logo */}
+          <Link href="/" className="flex items-center gap-2.5">
+            {logoUrl ? (
+              <img
+                src={logoUrl}
+                alt={siteName || 'Logo'}
+                className="h-10 w-10 rounded-lg border border-white/20 bg-white/10 object-cover"
+              />
             ) : (
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-white font-bold text-brand-600">
+                {(siteName || 'P').charAt(0)}
+              </div>
             )}
-          </svg>
-        </button>
-      </div>
+            <span className="text-lg font-bold tracking-tight text-white md:text-xl">
+              {siteName || 'Pak Study And Jobs'}
+            </span>
+          </Link>
 
-      {/* Mobile nav */}
-      {open && (
-        <nav className="flex flex-col gap-1 border-t bg-white px-4 py-3 md:hidden">
-          {NAV_LINKS.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
+          {/* Desktop nav */}
+          <nav className="hidden items-center gap-1 md:flex">
+            {NAV_LINKS.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="rounded-lg px-3.5 py-2 text-sm font-semibold text-white/85 transition hover:bg-white/10 hover:text-white"
+              >
+                {link.label}
+              </Link>
+            ))}
+          </nav>
+
+          {/* Mobile hamburger */}
+          <button
+            onClick={() => setOpen(true)}
+            className="inline-flex items-center justify-center rounded-lg p-2 text-white hover:bg-white/10 md:hidden"
+            aria-label="Open menu"
+          >
+            <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+        </div>
+      </header>
+
+      {/* Mobile sidebar drawer */}
+      <div
+        className={`fixed inset-0 z-[60] transition-opacity duration-300 md:hidden ${
+          open ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'
+        }`}
+      >
+        <div className="absolute inset-0 bg-black/50" onClick={() => setOpen(false)} />
+        <aside
+          className={`absolute right-0 top-0 flex h-full w-[80%] max-w-xs flex-col bg-white shadow-2xl transition-transform duration-300 ${
+            open ? 'translate-x-0' : 'translate-x-full'
+          }`}
+        >
+          <div className="flex items-center justify-between bg-brand-600 px-5 py-4">
+            <span className="text-base font-bold text-white">{siteName || 'Pak Study And Jobs'}</span>
+            <button
               onClick={() => setOpen(false)}
-              className="rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-brand-50 hover:text-brand-600"
+              className="rounded-lg p-1.5 text-white hover:bg-white/10"
+              aria-label="Close menu"
             >
-              {link.label}
-            </Link>
-          ))}
-        </nav>
-      )}
-    </header>
+              <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+          <nav className="flex flex-1 flex-col gap-1 overflow-y-auto px-3 py-4">
+            {NAV_LINKS.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                onClick={() => setOpen(false)}
+                className="rounded-lg px-4 py-3 text-sm font-semibold text-gray-700 transition hover:bg-brand-50 hover:text-brand-700"
+              >
+                {link.label}
+              </Link>
+            ))}
+          </nav>
+        </aside>
+      </div>
+    </>
   );
 }

@@ -8,11 +8,23 @@ module.exports = {
     extend: {
       colors: {
         brand: {
-          50: '#eef6ff',
-          100: '#d9ecff',
-          500: '#1565d8',
-          600: '#0f52b0',
-          700: '#0c4189',
+          50: '#eaf1fb',
+          100: '#cfe0f5',
+          200: '#a3c2ea',
+          300: '#6f9ddc',
+          400: '#3f79cf',
+          500: '#1f5bc4',
+          600: '#0047AB',
+          700: '#003a8c',
+          800: '#002e70',
+          900: '#00234f',
+        },
+        accent: {
+          50: '#eafaf0',
+          100: '#c8f0d6',
+          500: '#28A745',
+          600: '#218838',
+          700: '#1c7430',
         },
         // Admin dashboard palette — kept separate from the public-site
         // "brand" colors so the admin panel has its own visual identity.
@@ -27,6 +39,7 @@ module.exports = {
       },
       fontFamily: {
         serif: ['var(--font-fraunces)', 'Georgia', 'serif'],
+        sans: ['var(--font-public-sans)', 'ui-sans-serif', 'system-ui', '-apple-system', 'sans-serif'],
       },
       keyframes: {
         marquee: {
