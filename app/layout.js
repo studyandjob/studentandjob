@@ -1,6 +1,26 @@
+import { Public_Sans, Noto_Nastaliq_Urdu } from 'next/font/google';
 import './globals.css';
 import { supabase } from '@/lib/supabaseClient';
 import NavigationProgress from '@/components/NavigationProgress';
+
+// English/Latin body font used across the whole public site.
+const publicSans = Public_Sans({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700', '800'],
+  variable: '--font-public-sans',
+});
+
+// Dedicated Urdu font. Loaded once here and added as a fallback in
+// tailwind.config.js's `sans` stack, so ANY Urdu/Arabic-script text
+// anywhere on the site — headings, tags like "وفاقی/پنجاب", job titles,
+// etc. — automatically renders with this font instead of whatever
+// default Urdu font (or none) happens to be installed on the visitor's
+// device/browser.
+const notoNastaliqUrdu = Noto_Nastaliq_Urdu({
+  subsets: ['arabic'],
+  weight: ['400', '600', '700'],
+  variable: '--font-urdu',
+});
 
 export async function generateMetadata() {
   // Same ordering fix as app/page.js and lib/data.js — without it this could
@@ -19,8 +39,8 @@ export async function generateMetadata() {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body className="min-h-screen flex flex-col antialiased">
+    <html lang="en" className={`${publicSans.variable} ${notoNastaliqUrdu.variable}`}>
+      <body className="min-h-screen flex flex-col antialiased font-sans">
         <NavigationProgress>{children}</NavigationProgress>
       </body>
     </html>
