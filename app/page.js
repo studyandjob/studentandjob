@@ -18,28 +18,26 @@ async function getHomePageData() {
   // edits), .limit(1) can arbitrarily return the old/seed row here — showing
   // a stale logo/site name on the home page even though Admin Dashboard →
   // Site Settings was saved correctly.
-  const [{ data: settings }, { data: slides }, { data: jobs }, { data: notes }] = await Promise.all([
+  const [{ data: settings }, { data: jobs }, { data: notes }] = await Promise.all([
     supabase
       .from('site_settings')
       .select('*')
       .order('updated_at', { ascending: false, nullsFirst: false })
       .limit(1)
       .maybeSingle(),
-    supabase.from('hero_slides').select('*').order('display_order', { ascending: true }),
     supabase.from('jobs_table').select('*').order('created_at', { ascending: false }).limit(8),
     supabase.from('students_data').select('*').order('created_at', { ascending: false }).limit(6),
   ]);
 
   return {
     settings: settings || {},
-    slides: slides || [],
     jobs: jobs || [],
     notes: notes || [],
   };
 }
 
 export default async function HomePage() {
-  const { settings, slides, jobs, notes } = await getHomePageData();
+  const { settings, jobs, notes } = await getHomePageData();
 
   return (
     <>
@@ -47,10 +45,10 @@ export default async function HomePage() {
       <Header siteName={settings.site_name} logoUrl={settings.logo_url} />
 
       <main className="flex-1 bg-gray-50">
-        {/* Hero banner shows whatever images the admin uploads under
-            Admin → Hero Slides — any size/shape image is displayed in full
-            (no cropping) and fits cleanly on both mobile and desktop. */}
-        <HeroSlider slides={slides} mainHeading={settings.main_heading} subHeading={settings.sub_heading} />
+        {/* Hero auto-cycles through the latest live jobs — post a job in
+            Admin → Jobs and it appears here automatically, no separate
+            "slides" to manage. */}
+        <HeroSlider jobs={jobs} mainHeading={settings.main_heading} subHeading={settings.sub_heading} />
 
         <TrustStrip />
 
