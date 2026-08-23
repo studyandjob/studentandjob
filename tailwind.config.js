@@ -39,7 +39,24 @@ module.exports = {
       },
       fontFamily: {
         serif: ['var(--font-fraunces)', 'Georgia', 'serif'],
-        sans: ['var(--font-public-sans)', 'ui-sans-serif', 'system-ui', '-apple-system', 'sans-serif'],
+        // Public Sans handles Latin text; Noto Nastaliq Urdu is listed as a
+        // fallback so any Urdu/Arabic-script characters anywhere on the
+        // site render with that font too — the browser automatically picks
+        // whichever font in this list actually has the glyph it needs, so
+        // mixed English+Urdu text (e.g. "Federal (وفاقی)") renders both
+        // scripts correctly without any extra markup.
+        sans: [
+          'var(--font-public-sans)',
+          'var(--font-urdu)',
+          'ui-sans-serif',
+          'system-ui',
+          '-apple-system',
+          'sans-serif',
+        ],
+        // Use font-urdu directly for headings/paragraphs that are entirely
+        // in Urdu (e.g. dir="rtl" blocks) if you want the Nastaliq look to
+        // stand out more prominently than as a plain fallback.
+        urdu: ['var(--font-urdu)', 'ui-sans-serif', 'system-ui', 'sans-serif'],
       },
       keyframes: {
         marquee: {
