@@ -64,7 +64,11 @@ export default function PublicJobsBrowser({ jobs = [], siteName }) {
           <h1 className="text-2xl font-extrabold tracking-tight sm:text-3xl md:text-4xl">
             {siteName || 'Pak Study And Jobs'}
           </h1>
-          <p className="mx-auto mt-2 max-w-xl text-sm text-brand-50/90 sm:text-base" dir="rtl">
+          <p
+            className="mx-auto mt-2 max-w-xl font-urdu text-base leading-loose text-brand-50/90 sm:text-lg"
+            dir="rtl"
+            lang="ur"
+          >
             ہزاروں تازہ ترین گورنمنٹ اور پرائیویٹ جابز تلاش کریں
           </p>
 
