@@ -11,16 +11,39 @@ const QUICK_LINKS = [
   { label: 'Notes & Papers', href: '/students-zone' },
 ];
 
-export default function HeroSlider({ slides = [], mainHeading, subHeading }) {
+// How many of the latest jobs to cycle through in the hero banner, and how
+// long each one stays on screen before auto-advancing.
+const MAX_HERO_JOBS = 6;
+const SLIDE_INTERVAL_MS = 4500;
+
+function formatDate(dateStr) {
+  if (!dateStr) return null;
+  return new Date(dateStr).toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' });
+}
+
+export default function HeroSlider({ jobs = [], mainHeading, subHeading }) {
+  // Only open (non-closed) jobs, newest first, capped so the dots row
+  // doesn't get unwieldy. `jobs` is already ordered by created_at desc
+  // from the homepage query, so this preserves "latest first".
+  const heroJobs = jobs.filter((j) => j.status !== 'closed').slice(0, MAX_HERO_JOBS);
+
   const [active, setActive] = useState(0);
 
   useEffect(() => {
-    if (slides.length < 2) return;
+    if (heroJobs.length < 2) return;
     const timer = setInterval(() => {
-      setActive((prev) => (prev + 1) % slides.length);
-    }, 5000);
+      setActive((prev) => (prev + 1) % heroJobs.length);
+    }, SLIDE_INTERVAL_MS);
     return () => clearInterval(timer);
-  }, [slides.length]);
+  }, [heroJobs.length]);
+
+  // If the job list shrinks (e.g. after a refetch) make sure `active`
+  // never points past the end of the array.
+  useEffect(() => {
+    if (active >= heroJobs.length) setActive(0);
+  }, [heroJobs.length, active]);
+
+  const currentJob = heroJobs[active];
 
   return (
     <section className="relative overflow-hidden bg-gradient-to-br from-brand-700 via-brand-600 to-brand-500 text-white">
@@ -34,28 +57,6 @@ export default function HeroSlider({ slides = [], mainHeading, subHeading }) {
         }}
       />
 
-      {/* Slides as background layer, if any exist */}
-      {slides.length > 0 && (
-        <div className="absolute inset-0">
-          {slides.map((slide, i) => (
-            <div
-              key={slide.id}
-              className={`absolute inset-0 transition-opacity duration-700 ${
-                i === active ? 'opacity-30' : 'opacity-0'
-              }`}
-            >
-              {/* Plain <img> on purpose (not next/image) — same reasoning as
-                  Contact Us photos and the header logo: an admin-entered
-                  slide image URL is already final, and next/image's
-                  optimizer has a track record of failing silently in
-                  production for external URLs like this. */}
-              <img src={slide.image_url} alt={slide.title} className="h-full w-full object-cover" />
-            </div>
-          ))}
-          <div className="absolute inset-0 bg-gradient-to-b from-brand-700/70 via-brand-700/50 to-brand-600/80" />
-        </div>
-      )}
-
       <div className="relative mx-auto max-w-5xl px-4 pb-20 pt-14 text-center md:px-6 md:pb-28 md:pt-20">
         <span className="inline-flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-brand-50 backdrop-blur-sm md:text-xs">
           ✅ Trusted by thousands of job seekers &amp; students
@@ -68,33 +69,41 @@ export default function HeroSlider({ slides = [], mainHeading, subHeading }) {
           {subHeading || 'Latest jobs, results, notes & scholarships in one place'}
         </p>
 
-        {slides.length > 0 && (
+        {/* Auto-rotating job spotlight — pulls straight from live job
+            postings, so it always reflects whatever's currently posted
+            without anyone having to manage a separate "slides" list. */}
+        {currentJob && (
           <>
-            <div className="mx-auto mt-8 max-w-xl rounded-xl bg-white/10 p-4 backdrop-blur-sm">
-              <p className="text-sm font-semibold md:text-base">{slides[active]?.title}</p>
-              {slides[active]?.link_url && (
-                <Link
-                  href={slides[active].link_url}
-                  className="mt-2 inline-block rounded-md bg-white px-4 py-1.5 text-xs font-bold text-brand-700 hover:bg-brand-50 md:text-sm"
-                >
-                  Learn more →
-                </Link>
+            <div className="mx-auto mt-8 max-w-xl rounded-xl bg-white/10 p-4 backdrop-blur-sm transition-all duration-500">
+              <p className="text-sm font-semibold md:text-base">{currentJob.title}</p>
+              {currentJob.last_date && (
+                <p className="mt-1 text-xs text-brand-50/80 md:text-sm">
+                  Last Date {formatDate(currentJob.last_date)}
+                </p>
               )}
+              <Link
+                href="/jobs"
+                className="mt-2 inline-block rounded-md bg-white px-4 py-1.5 text-xs font-bold text-brand-700 hover:bg-brand-50 md:text-sm"
+              >
+                Learn more →
+              </Link>
             </div>
 
             {/* Dots */}
-            <div className="mt-5 flex justify-center gap-2">
-              {slides.map((s, i) => (
-                <button
-                  key={s.id}
-                  onClick={() => setActive(i)}
-                  aria-label={`Go to slide ${i + 1}`}
-                  className={`h-2 w-2 rounded-full transition ${
-                    i === active ? 'w-6 bg-white' : 'bg-white/40'
-                  }`}
-                />
-              ))}
-            </div>
+            {heroJobs.length > 1 && (
+              <div className="mt-5 flex justify-center gap-2">
+                {heroJobs.map((job, i) => (
+                  <button
+                    key={job.id}
+                    onClick={() => setActive(i)}
+                    aria-label={`Go to job ${i + 1}`}
+                    className={`h-2 w-2 rounded-full transition-all ${
+                      i === active ? 'w-6 bg-white' : 'bg-white/40'
+                    }`}
+                  />
+                ))}
+              </div>
+            )}
           </>
         )}
 
