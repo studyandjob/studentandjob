@@ -8,6 +8,7 @@ import Topbar from '@/components/admin/Topbar';
 import WelcomeCard from '@/components/admin/WelcomeCard';
 import StatCard from '@/components/admin/StatCard';
 import SettingsForm from '@/components/admin/SettingsForm';
+import ThemeSettingsManager from '@/components/admin/ThemeSettingsManager';
 import ListManager from '@/components/admin/ListManager';
 import MessagesManager from '@/components/admin/MessagesManager';
 import ContactsManager from '@/components/admin/ContactsManager';
@@ -24,13 +25,16 @@ import {
   MailIcon,
   IdCardIcon,
   FileTextIcon,
+  PaletteIcon,
 } from '@/components/admin/icons';
+import { useTheme } from '@/contexts/ThemeContext';
 
 // Titles shown in the Topbar — one per menu item in the Sidebar, mirroring
 // every page that exists on the public website.
 const TAB_TITLES = {
   dashboard: 'Dashboard',
   settings: 'Site Settings',
+  themes: 'Theme Settings',
   slides: 'Hero Slides',
   jobs: 'Jobs',
   members: 'Admin Portal Requests',
@@ -43,6 +47,7 @@ const TAB_TITLES = {
 };
 
 export default function AdminDashboard() {
+  const { activeTheme } = useTheme();
   const [session, setSession] = useState(undefined); // undefined = checking, null = logged out
   const [settings, setSettings] = useState(null);
   const [slides, setSlides] = useState([]);
@@ -179,11 +184,14 @@ export default function AdminDashboard() {
                     <StatCard icon={IdCardIcon} value={contacts.length} label="Contact Us Entries" color="coral" onClick={() => setActiveTab('contacts')} />
                     <StatCard icon={FileTextIcon} value={pages.length} label="Static Pages" color="teal" onClick={() => setActiveTab('pages')} />
                     <StatCard icon={SettingsIcon} value={settings ? 'Set' : '—'} label="Site Settings" color="gold" onClick={() => setActiveTab('settings')} />
+                    <StatCard icon={PaletteIcon} value={activeTheme.name} label="Active Theme" color="purple" onClick={() => setActiveTab('themes')} />
                   </div>
                 </div>
               )}
 
               {activeTab === 'settings' && <SettingsForm settings={settings} />}
+
+              {activeTab === 'themes' && <ThemeSettingsManager />}
 
               {activeTab === 'slides' && (
                 <ListManager

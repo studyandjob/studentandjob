@@ -12,6 +12,7 @@ import {
   MailIcon,
   IdCardIcon,
   FileTextIcon,
+  PaletteIcon,
   CloseIcon,
 } from './icons';
 
@@ -20,6 +21,7 @@ import {
 const NAV_ITEMS = [
   { id: 'dashboard', label: 'Dashboard', icon: HomeIcon },
   { id: 'settings', label: 'Site Settings', icon: SettingsIcon },
+  { id: 'themes', label: 'Theme Settings', icon: PaletteIcon },
   { id: 'slides', label: 'Hero Slides', icon: ImageIcon },
   { id: 'jobs', label: 'Jobs', icon: BriefcaseIcon },
   { id: 'members', label: 'Portal Requests', icon: IdCardIcon, badgeKey: 'pendingMembers' },

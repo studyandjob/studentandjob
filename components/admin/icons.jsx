@@ -238,3 +238,21 @@ export const FileTextIcon = (props) => (
     }
   />
 );
+
+export const PaletteIcon = (props) => (
+  <Icon
+    {...props}
+    path={
+      <>
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M12 21a9 9 0 110-18 8 8 0 018 8c0 1.5-.5 3-2.5 3H15a2 2 0 00-1.2 3.6c.5.4.7 1 .3 1.6-.4.6-1.2.8-2.1.8z"
+        />
+        <circle cx="7.5" cy="10.5" r="1.1" fill="currentColor" stroke="none" />
+        <circle cx="10.5" cy="7" r="1.1" fill="currentColor" stroke="none" />
+        <circle cx="15.5" cy="7.5" r="1.1" fill="currentColor" stroke="none" />
+      </>
+    }
+  />
+);

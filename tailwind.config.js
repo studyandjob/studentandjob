@@ -7,24 +7,35 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        // NOTE: these resolve to CSS custom properties set at runtime by
+        // <ThemeProvider> (contexts/ThemeContext.js) from the admin's
+        // selected theme (see /admin -> Theme Settings). The literal hex
+        // values here are only the fallback used before JS hydrates, or if
+        // no theme has been applied yet — they match "Classic Royal Blue",
+        // the default theme.
+        // The `rgb(var(--x) / <alpha-value>)` pattern (not plain var(--x))
+        // is what lets Tailwind opacity modifiers keep working, e.g. the
+        // existing `shadow-brand-900/10` in Header.jsx — Tailwind swaps
+        // <alpha-value> for the /NN fraction at build time, so the CSS
+        // variable only ever needs to hold "R G B" (space separated).
         brand: {
-          50: '#eaf1fb',
-          100: '#cfe0f5',
-          200: '#a3c2ea',
-          300: '#6f9ddc',
-          400: '#3f79cf',
-          500: '#1f5bc4',
-          600: '#0047AB',
-          700: '#003a8c',
-          800: '#002e70',
-          900: '#00234f',
+          50: 'rgb(var(--brand-50, 234 241 251) / <alpha-value>)',
+          100: 'rgb(var(--brand-100, 207 224 245) / <alpha-value>)',
+          200: 'rgb(var(--brand-200, 163 194 234) / <alpha-value>)',
+          300: 'rgb(var(--brand-300, 111 157 220) / <alpha-value>)',
+          400: 'rgb(var(--brand-400, 63 121 207) / <alpha-value>)',
+          500: 'rgb(var(--brand-500, 31 91 196) / <alpha-value>)',
+          600: 'rgb(var(--brand-600, 0 71 171) / <alpha-value>)',
+          700: 'rgb(var(--brand-700, 0 58 140) / <alpha-value>)',
+          800: 'rgb(var(--brand-800, 0 46 112) / <alpha-value>)',
+          900: 'rgb(var(--brand-900, 0 35 79) / <alpha-value>)',
         },
         accent: {
-          50: '#eafaf0',
-          100: '#c8f0d6',
-          500: '#28A745',
-          600: '#218838',
-          700: '#1c7430',
+          50: 'rgb(var(--accent-50, 234 250 240) / <alpha-value>)',
+          100: 'rgb(var(--accent-100, 200 240 214) / <alpha-value>)',
+          500: 'rgb(var(--accent-500, 40 167 69) / <alpha-value>)',
+          600: 'rgb(var(--accent-600, 33 136 56) / <alpha-value>)',
+          700: 'rgb(var(--accent-700, 28 116 48) / <alpha-value>)',
         },
         // Admin dashboard palette — kept separate from the public-site
         // "brand" colors so the admin panel has its own visual identity.

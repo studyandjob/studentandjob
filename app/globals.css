@@ -4,10 +4,18 @@
 
 html {
   scroll-behavior: smooth;
+  /* Fallback theme variables — "Classic Royal Blue" (the default theme).
+     <ThemeProvider> (contexts/ThemeContext.js) overwrites these on the fly
+     the moment it mounts and whenever the admin applies a new theme; see
+     lib/themes.js for the full theme list. */
+  --color-bg: #F8F9FA;
+  --color-text: #1F2937;
 }
 
 body {
-  @apply bg-gray-50 text-gray-800;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  transition: background-color 0.25s ease, color 0.25s ease;
 }
 
 /* Simple line-clamp fallback (Tailwind's plugin isn't required) */

@@ -2,6 +2,7 @@ import { Public_Sans, Noto_Nastaliq_Urdu } from 'next/font/google';
 import './globals.css';
 import { supabase } from '@/lib/supabaseClient';
 import NavigationProgress from '@/components/NavigationProgress';
+import { ThemeProvider } from '@/contexts/ThemeContext';
 
 // English/Latin body font used across the whole public site.
 const publicSans = Public_Sans({
@@ -41,7 +42,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${publicSans.variable} ${notoNastaliqUrdu.variable}`}>
       <body className="min-h-screen flex flex-col antialiased font-sans">
-        <NavigationProgress>{children}</NavigationProgress>
+        <ThemeProvider>
+          <NavigationProgress>{children}</NavigationProgress>
+        </ThemeProvider>
       </body>
     </html>
   );
