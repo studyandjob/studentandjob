@@ -2,6 +2,7 @@ import Header from '@/components/Header';
 import NewsTicker from '@/components/NewsTicker';
 import Footer from '@/components/Footer';
 import PageBanner from '@/components/PageBanner';
+import { GraduationCapIcon3D } from '@/components/Icons3D';
 import { getSiteSettings, getScholarships } from '@/lib/data';
 
 export const dynamic = 'force-dynamic';
@@ -28,11 +29,7 @@ export default async function ScholarshipsPage() {
         <PageBanner
           title="Scholarships"
           subtitle="Local and international scholarships for students."
-          icon={
-            <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422A12.083 12.083 0 0118 20.482 12.083 12.083 0 016 14.578L12 14zm0 0l-9-5m9 5v6" />
-            </svg>
-          }
+          icon={<GraduationCapIcon3D className="h-9 w-9" />}
         />
 
         <div className="mx-auto max-w-5xl px-4 py-10 md:px-6 md:py-14">

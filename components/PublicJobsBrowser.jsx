@@ -4,13 +4,7 @@ import { useMemo, useState } from 'react';
 import PublicJobCard from './PublicJobCard';
 import PublicJobDetailsModal from './PublicJobDetailsModal';
 import { SECTORS, JOB_CATEGORIES } from '@/lib/matching';
-
-const SearchIcon = (props) => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} {...props}>
-    <circle cx="11" cy="11" r="7" />
-    <path strokeLinecap="round" d="M21 21l-4.35-4.35" />
-  </svg>
-);
+import { SearchIcon3D as SearchIcon, FilterIcon3D, ChevronDownIcon3D } from './Icons3D';
 
 const FILTER_DEFAULTS = { search: '', sector: 'all', jobType: 'all', category: 'all', city: 'all' };
 
@@ -101,19 +95,10 @@ export default function PublicJobsBrowser({ jobs = [], siteName }) {
             className="mb-3 flex w-full items-center justify-between rounded-lg border border-gray-200 px-4 py-2.5 text-sm font-semibold text-gray-700 md:hidden"
           >
             <span className="flex items-center gap-2">
-              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
-              </svg>
+              <FilterIcon3D className="h-4 w-4" />
               Filters {activeFilterCount > 0 && `(${activeFilterCount})`}
             </span>
-            <svg
-              className={`h-4 w-4 transition-transform ${filtersOpen ? 'rotate-180' : ''}`}
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-            </svg>
+            <ChevronDownIcon3D className={`h-4 w-4 transition-transform ${filtersOpen ? 'rotate-180' : ''}`} />
           </button>
 
           <div className={`${filtersOpen ? 'flex' : 'hidden'} flex-col gap-3 md:flex`}>

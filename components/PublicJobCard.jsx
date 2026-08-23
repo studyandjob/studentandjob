@@ -1,5 +1,14 @@
 'use client';
 
+import {
+  MapPinIcon3D as MapPinIcon,
+  BuildingIcon3D as BuildingIcon,
+  ShieldCheckIcon3D as ShieldCheckIcon,
+  BriefcaseIcon3D as BriefcaseIcon,
+  ArrowRightIcon3D as ArrowRightIcon,
+  CalendarClockIcon3D as CalendarClockIcon,
+} from './Icons3D';
+
 function formatDate(dateStr) {
   if (!dateStr) return null;
   return new Date(dateStr).toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' });
@@ -15,68 +24,17 @@ function daysRemaining(dateStr) {
   return Math.round((due - today) / 86400000);
 }
 
-/* ---------------------------------------------------------------------- */
-/*  Icons — clean vector strokes, no emoji. Each is dropped into a small   */
-/*  gradient-filled "badge" (see IconBadge) so it reads as a soft, glossy  */
-/*  3D chip rather than a flat line icon.                                  */
-/* ---------------------------------------------------------------------- */
-
-const MapPinIcon = (props) => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} {...props}>
-    <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.828 0l-4.243-4.243a8 8 0 1111.314 0z" />
-    <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-  </svg>
-);
-
-const BuildingIcon = (props) => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} {...props}>
-    <path strokeLinecap="round" strokeLinejoin="round" d="M3 21h18M5 21V7l8-4v18M19 21V11l-6-4M9 9h.01M9 12h.01M9 15h.01M9 18h.01" />
-  </svg>
-);
-
-const CalendarClockIcon = (props) => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} {...props}>
-    <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m5 4V3M5 11h6M5 21h6.5M5 21a2 2 0 01-2-2V7a2 2 0 012-2h9a2 2 0 012 2v3" />
-    <path strokeLinecap="round" strokeLinejoin="round" d="M17 21a4 4 0 100-8 4 4 0 000 8z" />
-    <path strokeLinecap="round" strokeLinejoin="round" d="M17 15.8V17l1 1" />
-  </svg>
-);
-
-/** Shield / badge glyph used for Government-sector postings. */
-const ShieldCheckIcon = (props) => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} {...props}>
-    <path strokeLinecap="round" strokeLinejoin="round" d="M12 3l7 3.2v5.1c0 4.6-3 8.7-7 9.7-4-1-7-5.1-7-9.7V6.2L12 3z" />
-    <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.2l2 2 4-4.4" />
-  </svg>
-);
-
-/** Briefcase glyph used for Private-sector / other postings. */
-const BriefcaseIcon = (props) => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} {...props}>
-    <path strokeLinecap="round" strokeLinejoin="round" d="M3 8.5A1.5 1.5 0 014.5 7h15A1.5 1.5 0 0121 8.5V18a2 2 0 01-2 2H5a2 2 0 01-2-2V8.5z" />
-    <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V5.5A1.5 1.5 0 019.5 4h5A1.5 1.5 0 0116 5.5V7M3 13h18" />
-  </svg>
-);
-
-const ArrowRightIcon = (props) => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.4} {...props}>
-    <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14M13 6l6 6-6 6" />
-  </svg>
-);
-
 /**
- * Small glossy "3D-style" icon chip — a gradient-filled rounded square with
- * a soft shadow and an inset highlight, standing in for a flat emoji/icon.
+ * Full-realistic 3D icon chip — the icon graphics from Icons3D.jsx already
+ * carry their own gradient, shadow and glare, so the badge here is just a
+ * transparent sizing wrapper (kept as a component so call sites don't
+ * change) rather than an extra flat-color circle behind them.
  */
-function IconBadge({ icon, gradient, size = 'md' }) {
-  const sizing = size === 'lg' ? 'h-11 w-11 rounded-2xl' : 'h-8 w-8 rounded-xl';
-  const iconSizing = size === 'lg' ? 'h-5 w-5' : 'h-4 w-4';
+function IconBadge({ icon: IconComp, size = 'md' }) {
+  const sizing = size === 'lg' ? 'h-11 w-11' : 'h-8 w-8';
   return (
-    <span
-      className={`relative flex flex-shrink-0 items-center justify-center ${sizing} bg-gradient-to-br ${gradient} text-white shadow-md shadow-black/10 ring-1 ring-white/40`}
-    >
-      <span className="pointer-events-none absolute inset-0 rounded-[inherit] bg-gradient-to-b from-white/25 to-transparent" />
-      {icon({ className: `relative ${iconSizing}` })}
+    <span className={`relative flex flex-shrink-0 items-center justify-center ${sizing}`}>
+      <IconComp className="h-full w-full" />
     </span>
   );
 }

@@ -3,6 +3,14 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import SearchBar from './SearchBar';
+import {
+  MapPinIcon3D as MapPinIcon,
+  BuildingIcon3D as BuildingIcon,
+  CalendarClockIcon3D as CalendarClockIcon,
+  ShieldCheckIcon3D as ShieldCheckIcon,
+  BriefcaseIcon3D as BriefcaseIcon,
+  ArrowRightIcon3D as ArrowRightIcon,
+} from './Icons3D';
 
 const QUICK_LINKS = [
   { label: 'Latest Jobs', href: '/jobs' },
@@ -29,47 +37,6 @@ function daysRemaining(dateStr) {
   due.setHours(0, 0, 0, 0);
   return Math.round((due - today) / 86400000);
 }
-
-const MapPinIcon = (props) => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} {...props}>
-    <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.828 0l-4.243-4.243a8 8 0 1111.314 0z" />
-    <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-  </svg>
-);
-
-const BuildingIcon = (props) => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} {...props}>
-    <path strokeLinecap="round" strokeLinejoin="round" d="M3 21h18M5 21V7l8-4v18M19 21V11l-6-4M9 9h.01M9 12h.01M9 15h.01M9 18h.01" />
-  </svg>
-);
-
-const CalendarClockIcon = (props) => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} {...props}>
-    <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m5 4V3M5 11h6M5 21h6.5M5 21a2 2 0 01-2-2V7a2 2 0 012-2h9a2 2 0 012 2v3" />
-    <path strokeLinecap="round" strokeLinejoin="round" d="M17 21a4 4 0 100-8 4 4 0 000 8z" />
-    <path strokeLinecap="round" strokeLinejoin="round" d="M17 15.8V17l1 1" />
-  </svg>
-);
-
-const ShieldCheckIcon = (props) => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} {...props}>
-    <path strokeLinecap="round" strokeLinejoin="round" d="M12 3l7 3.2v5.1c0 4.6-3 8.7-7 9.7-4-1-7-5.1-7-9.7V6.2L12 3z" />
-    <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.2l2 2 4-4.4" />
-  </svg>
-);
-
-const BriefcaseIcon = (props) => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} {...props}>
-    <path strokeLinecap="round" strokeLinejoin="round" d="M3 8.5A1.5 1.5 0 014.5 7h15A1.5 1.5 0 0121 8.5V18a2 2 0 01-2 2H5a2 2 0 01-2-2V8.5z" />
-    <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V5.5A1.5 1.5 0 019.5 4h5A1.5 1.5 0 0116 5.5V7M3 13h18" />
-  </svg>
-);
-
-const ArrowRightIcon = (props) => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.4} {...props}>
-    <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14M13 6l6 6-6 6" />
-  </svg>
-);
 
 export default function HeroSlider({ jobs = [], mainHeading, subHeading }) {
   // Latest open jobs, newest first (already ordered that way by the

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { PhoneIcon3D, MailIcon3D } from './Icons3D';
 
 // Plain <img> tag on purpose (not next/image) — a public Supabase Storage
 // URL is already a final, ready-to-use image URL, so there's nothing for
@@ -47,27 +48,13 @@ export default function ContactCards({ contacts = [] }) {
           <div className="flex flex-col gap-1.5 text-sm text-gray-600">
             {c.contact_no && (
               <a href={`tel:${c.contact_no}`} className="flex items-center justify-center gap-1.5 hover:text-brand-600">
-                <svg className="h-4 w-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M3 5a2 2 0 012-2h2.28a1 1 0 011 .76l.72 3.13a1 1 0 01-.29.95l-1.4 1.4a12.06 12.06 0 006 6l1.4-1.4a1 1 0 01.95-.29l3.13.72a1 1 0 01.76 1V19a2 2 0 01-2 2h-1C9.72 21 3 14.28 3 6V5z"
-                  />
-                </svg>
+                <PhoneIcon3D className="h-4 w-4 flex-shrink-0" />
                 {c.contact_no}
               </a>
             )}
             {c.email && (
               <a href={`mailto:${c.email}`} className="flex items-center justify-center gap-1.5 break-all hover:text-brand-600">
-                <svg className="h-4 w-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                  />
-                </svg>
+                <MailIcon3D className="h-4 w-4 flex-shrink-0" />
                 {c.email}
               </a>
             )}

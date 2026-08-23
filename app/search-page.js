@@ -4,6 +4,7 @@ import Footer from '@/components/Footer';
 import PageBanner from '@/components/PageBanner';
 import SearchBar from '@/components/SearchBar';
 import SearchJobsGrid from '@/components/SearchJobsGrid';
+import { SearchIcon3D } from '@/components/Icons3D';
 import { getSiteSettings, getJobs, getNotes, getResults, getScholarships } from '@/lib/data';
 
 // Re-fetch fresh data on every search (results/jobs/notes change often) and
@@ -60,16 +61,7 @@ export default async function SearchPage({ searchParams }) {
         <PageBanner
           title="Search"
           subtitle={q ? `Results for "${q}"` : 'Search jobs, notes, results & scholarships'}
-          icon={
-            <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16z"
-              />
-            </svg>
-          }
+          icon={<SearchIcon3D className="h-9 w-9" />}
         />
 
         <div className="mx-auto max-w-6xl px-4 py-8 md:px-6 md:py-10">

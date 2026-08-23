@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { SearchIcon3D } from './Icons3D';
 
 export default function SearchBar() {
   const [query, setQuery] = useState('');
@@ -18,9 +19,7 @@ export default function SearchBar() {
       onSubmit={handleSubmit}
       className="flex w-full items-center gap-2 rounded-xl bg-white p-2 shadow-xl ring-1 ring-black/5"
     >
-      <svg className="ml-2 h-5 w-5 flex-shrink-0 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16z" />
-      </svg>
+      <SearchIcon3D className="ml-1 h-6 w-6 flex-shrink-0" />
       <input
         type="text"
         value={query}

@@ -2,6 +2,7 @@ import Header from '@/components/Header';
 import NewsTicker from '@/components/NewsTicker';
 import Footer from '@/components/Footer';
 import PageBanner from '@/components/PageBanner';
+import { VerifiedBadgeIcon3D } from '@/components/Icons3D';
 import { getSiteSettings, getResults } from '@/lib/data';
 
 export const dynamic = 'force-dynamic';
@@ -28,11 +29,7 @@ export default async function ResultsPage() {
         <PageBanner
           title="Results"
           subtitle="Latest exam and test results — check your result online."
-          icon={
-            <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-          }
+          icon={<VerifiedBadgeIcon3D className="h-9 w-9" />}
         />
 
         <div className="mx-auto max-w-5xl px-4 py-10 md:px-6 md:py-14">

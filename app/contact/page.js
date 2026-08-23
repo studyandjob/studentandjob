@@ -4,6 +4,7 @@ import Footer from '@/components/Footer';
 import PageBanner from '@/components/PageBanner';
 import ContactForm from '@/components/ContactForm';
 import ContactCards from '@/components/ContactCards';
+import { MailIcon3D } from '@/components/Icons3D';
 import { getSiteSettings, getContacts } from '@/lib/data';
 
 export const dynamic = 'force-dynamic';
@@ -25,11 +26,7 @@ export default async function ContactPage() {
         <PageBanner
           title="Contact Us"
           subtitle="Have a question? Send us a message and we'll get back to you."
-          icon={
-            <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-            </svg>
-          }
+          icon={<MailIcon3D className="h-9 w-9" />}
         />
 
         <div className="mx-auto max-w-5xl px-4 py-10 md:px-6 md:py-14">
