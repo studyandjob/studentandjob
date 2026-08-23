@@ -90,10 +90,96 @@ export default function HeroSlider({ jobs = [], mainHeading, subHeading }) {
     if (active >= heroJobs.length) setActive(0);
   }, [heroJobs.length, active]);
 
-  const job = heroJobs[active];
-  const isGovernment = job?.job_type === 'Government';
-  const remaining = job ? daysRemaining(job.last_date) : null;
-  const isUrgent = remaining !== null && remaining >= 0 && remaining <= 3;
+  // Renders one job as a spotlight card. Called once per job in the sliding
+  // track below (not just the active one) so the neighbouring card is
+  // already in the DOM and can slide smoothly into view instead of
+  // popping/fading in.
+  function renderSpotlightCard(job) {
+    const isGovernment = job?.job_type === 'Government';
+    const remaining = job ? daysRemaining(job.last_date) : null;
+    const isUrgent = remaining !== null && remaining >= 0 && remaining <= 3;
+
+    return (
+      <div className="rounded-2xl border border-white/15 bg-white/95 p-4 text-left text-gray-900 shadow-2xl shadow-black/20 backdrop-blur-sm sm:p-5">
+        {/* Header row: type icon + pill tags */}
+        <div className="mb-3 flex items-center gap-2.5">
+          <span
+            className={`flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-gradient-to-br text-white shadow-sm ${
+              isGovernment ? 'from-brand-500 to-brand-700' : 'from-accent-500 to-accent-700'
+            }`}
+          >
+            {isGovernment ? <ShieldCheckIcon className="h-4 w-4" /> : <BriefcaseIcon className="h-4 w-4" />}
+          </span>
+          <div className="flex flex-wrap items-center gap-1.5">
+            <span
+              className={`rounded-full px-2.5 py-0.5 text-[0.65rem] font-bold uppercase tracking-wide ${
+                isGovernment ? 'bg-brand-50 text-brand-700' : 'bg-accent-50 text-accent-700'
+              }`}
+            >
+              {job.job_type}
+            </span>
+            {job.sector && (
+              <span className="rounded-full bg-gray-100 px-2.5 py-0.5 text-[0.65rem] font-semibold text-gray-600">
+                {job.sector}
+              </span>
+            )}
+          </div>
+        </div>
+
+        {/* Title */}
+        <h3 className="mb-2 truncate text-base font-bold leading-snug text-gray-900 sm:text-lg">{job.title}</h3>
+
+        {/* Meta */}
+        {(job.city || job.department) && (
+          <div className="mb-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-gray-500 sm:text-sm">
+            {job.city && (
+              <span className="flex items-center gap-1">
+                <MapPinIcon className="h-3.5 w-3.5 text-brand-500" />
+                {job.city}
+              </span>
+            )}
+            {job.department && (
+              <span className="flex min-w-0 items-center gap-1">
+                <BuildingIcon className="h-3.5 w-3.5 flex-shrink-0 text-brand-500" />
+                <span className="truncate">{job.department}</span>
+              </span>
+            )}
+          </div>
+        )}
+
+        {/* Last date + actions */}
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          {job.last_date && (
+            <div
+              className={`inline-flex items-center gap-1.5 self-start rounded-lg px-2.5 py-1 text-xs font-semibold ${
+                isUrgent ? 'bg-red-50 text-red-700' : 'bg-amber-50 text-amber-700'
+              }`}
+            >
+              <CalendarClockIcon className="h-3.5 w-3.5" />
+              Last Date: {formatDate(job.last_date)}
+            </div>
+          )}
+          <div className="flex gap-2">
+            <Link
+              href="/jobs"
+              className="rounded-lg border-2 border-gray-200 px-3 py-1.5 text-center text-xs font-semibold text-gray-700 transition hover:border-brand-300 hover:bg-brand-50 hover:text-brand-700"
+            >
+              View Details
+            </Link>
+            <a
+              href={job.apply_link || '#'}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group/btn inline-flex items-center gap-1 rounded-lg bg-gradient-to-r from-green-600 to-emerald-600 px-3 py-1.5 text-center text-xs font-semibold text-white shadow-sm transition hover:shadow-md"
+            >
+              Apply Now
+              <ArrowRightIcon className="h-3.5 w-3.5 transition-transform group-hover/btn:translate-x-0.5" />
+            </a>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <section className="relative overflow-hidden bg-gradient-to-br from-brand-800 via-brand-600 to-brand-500 text-white">
@@ -107,101 +193,34 @@ export default function HeroSlider({ jobs = [], mainHeading, subHeading }) {
       />
       <div className="pointer-events-none absolute -top-24 left-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-white/10 blur-3xl" />
 
-      <div className="relative mx-auto max-w-5xl px-4 pb-16 pt-14 text-center md:px-6 md:pb-24 md:pt-20">
+      <div className="relative mx-auto max-w-5xl px-4 pb-10 pt-8 text-center md:px-6 md:pb-14 md:pt-12">
         <span className="inline-flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-brand-50 backdrop-blur-sm md:text-xs">
           ✅ Trusted by thousands of job seekers &amp; students
         </span>
 
-        <h1 className="mt-5 text-3xl font-extrabold leading-tight tracking-tight md:text-5xl lg:text-6xl">
+        <h1 className="mt-3.5 text-2xl font-extrabold leading-tight tracking-tight md:text-4xl lg:text-5xl">
           {mainHeading || 'Find Your Next Government Job'}
         </h1>
-        <p className="mx-auto mt-4 max-w-2xl text-sm text-brand-50/90 md:text-lg">
+        <p className="mx-auto mt-2.5 max-w-2xl text-sm text-brand-50/90 md:text-base">
           {subHeading || 'Latest jobs, results, notes & scholarships in one place'}
         </p>
 
-        {/* Job spotlight card — pulls straight from live postings, so it
-            always reflects what's actually on the site. */}
-        {job && (
-          <div className="mx-auto mt-8 max-w-lg">
-            <div
-              key={job.id}
-              className="animate-[fadeIn_0.5s_ease] rounded-2xl border border-white/15 bg-white/95 p-4 text-left text-gray-900 shadow-2xl shadow-black/20 backdrop-blur-sm sm:p-5"
-            >
-              {/* Header row: type icon + pill tags */}
-              <div className="mb-3 flex items-center gap-2.5">
-                <span
-                  className={`flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-gradient-to-br text-white shadow-sm ${
-                    isGovernment ? 'from-brand-500 to-brand-700' : 'from-accent-500 to-accent-700'
-                  }`}
-                >
-                  {isGovernment ? <ShieldCheckIcon className="h-4 w-4" /> : <BriefcaseIcon className="h-4 w-4" />}
-                </span>
-                <div className="flex flex-wrap items-center gap-1.5">
-                  <span
-                    className={`rounded-full px-2.5 py-0.5 text-[0.65rem] font-bold uppercase tracking-wide ${
-                      isGovernment ? 'bg-brand-50 text-brand-700' : 'bg-accent-50 text-accent-700'
-                    }`}
-                  >
-                    {job.job_type}
-                  </span>
-                  {job.sector && (
-                    <span className="rounded-full bg-gray-100 px-2.5 py-0.5 text-[0.65rem] font-semibold text-gray-600">
-                      {job.sector}
-                    </span>
-                  )}
-                </div>
-              </div>
-
-              {/* Title */}
-              <h3 className="mb-2 truncate text-base font-bold leading-snug text-gray-900 sm:text-lg">{job.title}</h3>
-
-              {/* Meta */}
-              {(job.city || job.department) && (
-                <div className="mb-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-gray-500 sm:text-sm">
-                  {job.city && (
-                    <span className="flex items-center gap-1">
-                      <MapPinIcon className="h-3.5 w-3.5 text-brand-500" />
-                      {job.city}
-                    </span>
-                  )}
-                  {job.department && (
-                    <span className="flex min-w-0 items-center gap-1">
-                      <BuildingIcon className="h-3.5 w-3.5 flex-shrink-0 text-brand-500" />
-                      <span className="truncate">{job.department}</span>
-                    </span>
-                  )}
-                </div>
-              )}
-
-              {/* Last date + actions */}
-              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                {job.last_date && (
-                  <div
-                    className={`inline-flex items-center gap-1.5 self-start rounded-lg px-2.5 py-1 text-xs font-semibold ${
-                      isUrgent ? 'bg-red-50 text-red-700' : 'bg-amber-50 text-amber-700'
-                    }`}
-                  >
-                    <CalendarClockIcon className="h-3.5 w-3.5" />
-                    Last Date: {formatDate(job.last_date)}
+        {/* Job spotlight — every open job is rendered into a horizontal
+            track, and we simply translate the track to the active index.
+            That's what turns slide changes into a smooth left/right glide
+            instead of the old blink/fade swap. */}
+        {heroJobs.length > 0 && (
+          <div className="mx-auto mt-6 max-w-lg">
+            <div className="overflow-hidden rounded-2xl">
+              <div
+                className="flex transition-transform duration-700 ease-in-out"
+                style={{ transform: `translateX(-${active * 100}%)` }}
+              >
+                {heroJobs.map((j) => (
+                  <div key={j.id} className="w-full flex-shrink-0">
+                    {renderSpotlightCard(j)}
                   </div>
-                )}
-                <div className="flex gap-2">
-                  <Link
-                    href="/jobs"
-                    className="rounded-lg border-2 border-gray-200 px-3 py-1.5 text-center text-xs font-semibold text-gray-700 transition hover:border-brand-300 hover:bg-brand-50 hover:text-brand-700"
-                  >
-                    View Details
-                  </Link>
-                  <a
-                    href={job.apply_link || '#'}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group/btn inline-flex items-center gap-1 rounded-lg bg-gradient-to-r from-green-600 to-emerald-600 px-3 py-1.5 text-center text-xs font-semibold text-white shadow-sm transition hover:shadow-md"
-                  >
-                    Apply Now
-                    <ArrowRightIcon className="h-3.5 w-3.5 transition-transform group-hover/btn:translate-x-0.5" />
-                  </a>
-                </div>
+                ))}
               </div>
             </div>
 
@@ -222,12 +241,12 @@ export default function HeroSlider({ jobs = [], mainHeading, subHeading }) {
         )}
 
         {/* Search sits fully inside the hero now, no clipping at the section edge */}
-        <div className="relative z-10 mx-auto mt-9 max-w-2xl">
+        <div className="relative z-10 mx-auto mt-6 max-w-2xl">
           <SearchBar />
         </div>
 
         {/* Quick category links */}
-        <div className="relative z-10 mx-auto mt-5 flex flex-wrap items-center justify-center gap-x-5 gap-y-2">
+        <div className="relative z-10 mx-auto mt-4 flex flex-wrap items-center justify-center gap-x-5 gap-y-2">
           {QUICK_LINKS.map((link) => (
             <Link
               key={link.href}
@@ -242,19 +261,6 @@ export default function HeroSlider({ jobs = [], mainHeading, subHeading }) {
 
       {/* Soft curve transition into the next section */}
       <div className="absolute inset-x-0 bottom-0 h-10 bg-gray-50" style={{ clipPath: 'ellipse(70% 100% at 50% 100%)' }} />
-
-      <style jsx global>{`
-        @keyframes fadeIn {
-          from {
-            opacity: 0;
-            transform: translateY(6px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-      `}</style>
     </section>
   );
 }
