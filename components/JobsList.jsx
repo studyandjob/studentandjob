@@ -1,4 +1,8 @@
+'use client';
+
+import { useState } from 'react';
 import Link from 'next/link';
+import PublicJobDetailsModal from './PublicJobDetailsModal';
 
 function formatDate(dateStr) {
   if (!dateStr) return null;
@@ -10,6 +14,8 @@ function formatDate(dateStr) {
 }
 
 export default function JobsList({ jobs = [] }) {
+  const [selectedJob, setSelectedJob] = useState(null);
+
   return (
     <section className="rounded-2xl bg-white p-4 shadow-sm ring-1 ring-black/5 md:p-6">
       <div className="mb-4 flex items-center justify-between border-b border-gray-100 pb-4">
@@ -43,7 +49,14 @@ export default function JobsList({ jobs = [] }) {
                   )}
                 </p>
               </div>
-              <a
+              <div className="flex flex-shrink-0 items-center gap-2">
+                <button
+                  onClick={() => setSelectedJob(job)}
+                  className="rounded-md border border-gray-200 px-3 py-1.5 text-xs font-semibold text-gray-600 transition hover:border-brand-200 hover:text-brand-700"
+                >
+                  View
+                </button>
+                <a
                 href={job.apply_link || '#'}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -51,10 +64,13 @@ export default function JobsList({ jobs = [] }) {
               >
                 Apply
               </a>
+              </div>
             </li>
           ))}
         </ul>
       )}
+
+      {selectedJob && <PublicJobDetailsModal job={selectedJob} onClose={() => setSelectedJob(null)} />}
     </section>
   );
 }
