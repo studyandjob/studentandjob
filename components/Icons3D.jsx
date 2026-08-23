@@ -525,6 +525,7 @@ export const ArrowRightIcon3D = (props) => (
 /* Aliases reusing existing artwork for closely-related meanings */
 export const ShieldCheckIcon3D = VerifiedBadgeIcon3D;
 export const CalendarClockIcon3D = DailyUpdateIcon3D;
+export const WhatsappIcon3D = ChatBubbleIcon3D;
 
 /* ---------------------------------------------------------------------- */
 /* Graduation cap — glossy, for scholarships/education                     */
@@ -550,6 +551,147 @@ export const GraduationCapIcon3D = (props) => (
       <path d="M54 26v14" stroke="url(#gc-tassel)" strokeWidth="3" strokeLinecap="round" />
       <circle cx="54" cy="42" r="3" fill="url(#gc-tassel)" />
       <ellipse cx="20" cy="23" rx="8" ry="2.4" fill="#FFFFFF" opacity="0.3" />
+    </g>
+  </Base>
+);
+
+/* ---------------------------------------------------------------------- */
+/* Social media badges — glossy circle in the platform's brand color,      */
+/* with a plain generic glyph (not the official brand logo artwork), same */
+/* approach as ChatBubbleIcon3D above. Used on the Social Media links in   */
+/* the footer / header, wherever an admin-supplied link is filled in.      */
+/* ---------------------------------------------------------------------- */
+
+export const FacebookIcon3D = (props) => (
+  <Base {...props}>
+    <defs>
+      <linearGradient id="fb-fill" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stopColor="#4C8CF5" />
+        <stop offset="100%" stopColor="#1857C4" />
+      </linearGradient>
+      <filter id="fb-shadow" x="-40%" y="-40%" width="180%" height="180%">
+        <feDropShadow dx="0" dy="2" stdDeviation="2" floodColor="#0B2A55" floodOpacity="0.3" />
+      </filter>
+    </defs>
+    <g filter="url(#fb-shadow)">
+      <circle cx="32" cy="32" r="23" fill="url(#fb-fill)" />
+      <path
+        d="M35 22h4v-6h-4c-4.4 0-8 3.6-8 8v4h-5v6h5v14h6V34h5l1-6h-6v-4c0-1.1.9-2 2-2z"
+        fill="#FFFFFF"
+      />
+      <ellipse cx="24" cy="18" rx="8" ry="3" fill="#FFFFFF" opacity="0.25" />
+    </g>
+  </Base>
+);
+
+export const InstagramIcon3D = (props) => (
+  <Base {...props}>
+    <defs>
+      <linearGradient id="ig-fill" x1="0" y1="1" x2="1" y2="0">
+        <stop offset="0%" stopColor="#F2785C" />
+        <stop offset="50%" stopColor="#D6367F" />
+        <stop offset="100%" stopColor="#9146C7" />
+      </linearGradient>
+      <filter id="ig-shadow" x="-40%" y="-40%" width="180%" height="180%">
+        <feDropShadow dx="0" dy="2" stdDeviation="2" floodColor="#0B2A55" floodOpacity="0.3" />
+      </filter>
+    </defs>
+    <g filter="url(#ig-shadow)">
+      <circle cx="32" cy="32" r="23" fill="url(#ig-fill)" />
+      <rect x="20" y="20" width="24" height="24" rx="7" fill="none" stroke="#FFFFFF" strokeWidth="3" />
+      <circle cx="32" cy="32" r="6.5" fill="none" stroke="#FFFFFF" strokeWidth="3" />
+      <circle cx="40" cy="24" r="2" fill="#FFFFFF" />
+      <ellipse cx="24" cy="18" rx="8" ry="3" fill="#FFFFFF" opacity="0.2" />
+    </g>
+  </Base>
+);
+
+export const YoutubeIcon3D = (props) => (
+  <Base {...props}>
+    <defs>
+      <linearGradient id="yt-fill" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stopColor="#FF5F4D" />
+        <stop offset="100%" stopColor="#D8271F" />
+      </linearGradient>
+      <filter id="yt-shadow" x="-40%" y="-40%" width="180%" height="180%">
+        <feDropShadow dx="0" dy="2" stdDeviation="2" floodColor="#0B2A55" floodOpacity="0.3" />
+      </filter>
+    </defs>
+    <g filter="url(#yt-shadow)">
+      <rect x="9" y="17" width="46" height="30" rx="10" fill="url(#yt-fill)" />
+      <path d="M27 24.5l14 7.5-14 7.5z" fill="#FFFFFF" />
+      <ellipse cx="22" cy="21" rx="9" ry="2.6" fill="#FFFFFF" opacity="0.22" />
+    </g>
+  </Base>
+);
+
+export const TiktokIcon3D = (props) => (
+  <Base {...props}>
+    <defs>
+      <linearGradient id="tt-fill" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stopColor="#3A3A45" />
+        <stop offset="100%" stopColor="#101014" />
+      </linearGradient>
+      <filter id="tt-shadow" x="-40%" y="-40%" width="180%" height="180%">
+        <feDropShadow dx="0" dy="2" stdDeviation="2" floodColor="#0B2A55" floodOpacity="0.3" />
+      </filter>
+    </defs>
+    <g filter="url(#tt-shadow)">
+      <circle cx="32" cy="32" r="23" fill="url(#tt-fill)" />
+      <path
+        d="M35 17v19a5.5 5.5 0 11-5-5.47V26a10 10 0 1010 10V26.8a11.4 11.4 0 006 1.9v-5a6.4 6.4 0 01-5-5.4V17z"
+        fill="#FFFFFF"
+      />
+      <path
+        d="M35 17v19a5.5 5.5 0 11-5-5.47V26a10 10 0 1010 10V26.8a11.4 11.4 0 006 1.9v-5a6.4 6.4 0 01-5-5.4V17z"
+        fill="#28E7E0"
+        opacity="0.5"
+        transform="translate(-1.2,-1)"
+      />
+      <ellipse cx="24" cy="18" rx="8" ry="3" fill="#FFFFFF" opacity="0.12" />
+    </g>
+  </Base>
+);
+
+export const XIcon3D = (props) => (
+  <Base {...props}>
+    <defs>
+      <linearGradient id="x-fill" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stopColor="#3A3A45" />
+        <stop offset="100%" stopColor="#101014" />
+      </linearGradient>
+      <filter id="x-shadow" x="-40%" y="-40%" width="180%" height="180%">
+        <feDropShadow dx="0" dy="2" stdDeviation="2" floodColor="#0B2A55" floodOpacity="0.3" />
+      </filter>
+    </defs>
+    <g filter="url(#x-shadow)">
+      <circle cx="32" cy="32" r="23" fill="url(#x-fill)" />
+      <path d="M22 21l20 22M42 21L22 43" stroke="#FFFFFF" strokeWidth="4" strokeLinecap="round" />
+      <ellipse cx="24" cy="18" rx="8" ry="3" fill="#FFFFFF" opacity="0.15" />
+    </g>
+  </Base>
+);
+
+export const LinkedinIcon3D = (props) => (
+  <Base {...props}>
+    <defs>
+      <linearGradient id="li-fill" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stopColor="#3F9BE8" />
+        <stop offset="100%" stopColor="#0A5FA8" />
+      </linearGradient>
+      <filter id="li-shadow" x="-40%" y="-40%" width="180%" height="180%">
+        <feDropShadow dx="0" dy="2" stdDeviation="2" floodColor="#0B2A55" floodOpacity="0.3" />
+      </filter>
+    </defs>
+    <g filter="url(#li-shadow)">
+      <rect x="9" y="9" width="46" height="46" rx="12" fill="url(#li-fill)" />
+      <circle cx="21" cy="22" r="3.4" fill="#FFFFFF" />
+      <rect x="18" y="28" width="6" height="18" rx="1.5" fill="#FFFFFF" />
+      <path
+        d="M30 28h6v2.6c1.4-2 3.5-3.1 6.2-3.1 5.2 0 7.8 3.3 7.8 9V46h-6V37.7c0-2.8-1-4.6-3.6-4.6-2 0-3.2 1.3-3.7 2.6-.2.5-.2 1.1-.2 1.8V46h-6.5V28z"
+        fill="#FFFFFF"
+      />
+      <ellipse cx="20" cy="16" rx="8" ry="2.4" fill="#FFFFFF" opacity="0.18" />
     </g>
   </Base>
 );

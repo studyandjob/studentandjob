@@ -36,7 +36,7 @@ export default async function JobsPage() {
         </div>
       </main>
 
-      <Footer siteName={settings.site_name} />
+      <Footer siteName={settings.site_name} settings={settings} />
     </>
   );
 }

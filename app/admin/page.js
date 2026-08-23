@@ -8,6 +8,7 @@ import Topbar from '@/components/admin/Topbar';
 import WelcomeCard from '@/components/admin/WelcomeCard';
 import StatCard from '@/components/admin/StatCard';
 import SettingsForm from '@/components/admin/SettingsForm';
+import SocialMediaForm from '@/components/admin/SocialMediaForm';
 import ThemeSettingsManager from '@/components/admin/ThemeSettingsManager';
 import ListManager from '@/components/admin/ListManager';
 import MessagesManager from '@/components/admin/MessagesManager';
@@ -26,6 +27,7 @@ import {
   IdCardIcon,
   FileTextIcon,
   PaletteIcon,
+  Share2Icon,
 } from '@/components/admin/icons';
 import { useTheme } from '@/contexts/ThemeContext';
 
@@ -34,6 +36,7 @@ import { useTheme } from '@/contexts/ThemeContext';
 const TAB_TITLES = {
   dashboard: 'Dashboard',
   settings: 'Site Settings',
+  social: 'Social Media',
   themes: 'Theme Settings',
   slides: 'Hero Slides',
   jobs: 'Jobs',
@@ -184,12 +187,25 @@ export default function AdminDashboard() {
                     <StatCard icon={IdCardIcon} value={contacts.length} label="Contact Us Entries" color="coral" onClick={() => setActiveTab('contacts')} />
                     <StatCard icon={FileTextIcon} value={pages.length} label="Static Pages" color="teal" onClick={() => setActiveTab('pages')} />
                     <StatCard icon={SettingsIcon} value={settings ? 'Set' : '—'} label="Site Settings" color="gold" onClick={() => setActiveTab('settings')} />
+                    <StatCard
+                      icon={Share2Icon}
+                      value={
+                        ['facebook_url', 'whatsapp_channel_url', 'instagram_url', 'youtube_url', 'tiktok_url', 'twitter_url', 'linkedin_url'].filter(
+                          (f) => settings?.[f]
+                        ).length
+                      }
+                      label="Social Links Set"
+                      color="teal"
+                      onClick={() => setActiveTab('social')}
+                    />
                     <StatCard icon={PaletteIcon} value={activeTheme.name} label="Active Theme" color="purple" onClick={() => setActiveTab('themes')} />
                   </div>
                 </div>
               )}
 
               {activeTab === 'settings' && <SettingsForm settings={settings} />}
+
+              {activeTab === 'social' && <SocialMediaForm settings={settings} />}
 
               {activeTab === 'themes' && <ThemeSettingsManager />}
 

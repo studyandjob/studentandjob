@@ -31,7 +31,7 @@ export default async function StaticPageContent({ slug, fallbackTitle }) {
         </div>
       </main>
 
-      <Footer siteName={settings.site_name} />
+      <Footer siteName={settings.site_name} settings={settings} />
     </>
   );
 }

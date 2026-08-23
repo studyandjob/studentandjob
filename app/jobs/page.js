@@ -23,7 +23,7 @@ export default async function JobsPage() {
         <PublicJobsBrowser jobs={jobs} siteName={settings.site_name} />
       </main>
 
-      <Footer siteName={settings.site_name} />
+      <Footer siteName={settings.site_name} settings={settings} />
     </>
   );
 }

@@ -13,6 +13,7 @@ import {
   IdCardIcon,
   FileTextIcon,
   PaletteIcon,
+  Share2Icon,
   CloseIcon,
 } from './icons';
 
@@ -21,6 +22,7 @@ import {
 const NAV_ITEMS = [
   { id: 'dashboard', label: 'Dashboard', icon: HomeIcon },
   { id: 'settings', label: 'Site Settings', icon: SettingsIcon },
+  { id: 'social', label: 'Social Media', icon: Share2Icon },
   { id: 'themes', label: 'Theme Settings', icon: PaletteIcon },
   { id: 'slides', label: 'Hero Slides', icon: ImageIcon },
   { id: 'jobs', label: 'Jobs', icon: BriefcaseIcon },

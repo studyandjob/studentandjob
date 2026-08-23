@@ -256,3 +256,17 @@ export const PaletteIcon = (props) => (
     }
   />
 );
+
+export const Share2Icon = (props) => (
+  <Icon
+    {...props}
+    path={
+      <>
+        <circle cx="18" cy="5" r="3" />
+        <circle cx="6" cy="12" r="3" />
+        <circle cx="18" cy="19" r="3" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M8.6 10.6l6.8-3.9M8.6 13.4l6.8 3.9" />
+      </>
+    }
+  />
+);
