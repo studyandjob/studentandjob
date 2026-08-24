@@ -16,6 +16,7 @@ import ContactsManager from '@/components/admin/ContactsManager';
 import PagesManager from '@/components/admin/PagesManager';
 import JobsManager from '@/components/admin/JobsManager';
 import MembersManager from '@/components/admin/MembersManager';
+import StudyZoneManager from '@/components/admin/StudyZone/StudyZoneManager';
 import {
   ImageIcon,
   BriefcaseIcon,
@@ -28,6 +29,7 @@ import {
   FileTextIcon,
   PaletteIcon,
   Share2Icon,
+  GraduationCapIcon,
 } from '@/components/admin/icons';
 import { useTheme } from '@/contexts/ThemeContext';
 
@@ -42,6 +44,7 @@ const TAB_TITLES = {
   jobs: 'Jobs',
   members: 'Admin Portal Requests',
   notes: 'Students Zone',
+  studyzone: 'Study Zone — AI Exam Engine',
   results: 'Results',
   scholarships: 'Scholarships',
   messages: 'Contact Messages',
@@ -62,6 +65,9 @@ export default function AdminDashboard() {
   const [contacts, setContacts] = useState([]);
   const [pages, setPages] = useState([]);
   const [memberRequests, setMemberRequests] = useState([]);
+  const [studyClasses, setStudyClasses] = useState([]);
+  const [studySubjects, setStudySubjects] = useState([]);
+  const [studyMaterials, setStudyMaterials] = useState([]);
   const [loadingData, setLoadingData] = useState(true);
   const [activeTab, setActiveTab] = useState('dashboard');
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -94,7 +100,7 @@ export default function AdminDashboard() {
     if (!session) return;
     (async () => {
       setLoadingData(true);
-      const [{ data: s }, { data: sl }, { data: j }, { data: n }, { data: r }, { data: sc }, { data: m }, { data: c }, { data: p }, { data: mr }] =
+      const [{ data: s }, { data: sl }, { data: j }, { data: n }, { data: r }, { data: sc }, { data: m }, { data: c }, { data: p }, { data: mr }, { data: sCls }, { data: sSub }, { data: sMat }] =
         await Promise.all([
           supabase.from('site_settings').select('*').order('updated_at', { ascending: false, nullsFirst: false }).limit(1).maybeSingle(),
           supabase.from('hero_slides').select('*').order('display_order', { ascending: true }),
@@ -106,6 +112,9 @@ export default function AdminDashboard() {
           supabase.from('site_contacts').select('*').order('display_order', { ascending: true }),
           supabase.from('site_pages').select('*').order('slug', { ascending: true }),
           supabase.from('member_requests').select('*, candidate_profiles(full_name, phone, whatsapp, email, city, photo_url)').order('created_at', { ascending: false }),
+          supabase.from('classes').select('*').order('display_order', { ascending: true }),
+          supabase.from('subjects').select('*').order('subject_name', { ascending: true }),
+          supabase.from('study_materials').select('*').order('created_at', { ascending: false }),
         ]);
       setSettings(s);
       setSlides(sl || []);
@@ -117,6 +126,9 @@ export default function AdminDashboard() {
       setContacts(c || []);
       setPages(p || []);
       setMemberRequests(mr || []);
+      setStudyClasses(sCls || []);
+      setStudySubjects(sSub || []);
+      setStudyMaterials(sMat || []);
       setLoadingData(false);
     })();
   }, [session]);
@@ -175,6 +187,13 @@ export default function AdminDashboard() {
                       onClick={() => setActiveTab('members')}
                     />
                     <StatCard icon={BookIcon} value={notes.length} label="Student Notes" color="coral" onClick={() => setActiveTab('notes')} />
+                    <StatCard
+                      icon={GraduationCapIcon}
+                      value={studyClasses.length}
+                      label="Study Zone Classes"
+                      color="green"
+                      onClick={() => setActiveTab('studyzone')}
+                    />
                     <StatCard icon={ClipboardCheckIcon} value={results.length} label="Results" color="green" onClick={() => setActiveTab('results')} />
                     <StatCard icon={AwardIcon} value={scholarships.length} label="Scholarships" color="purple" onClick={() => setActiveTab('scholarships')} />
                     <StatCard
@@ -254,6 +273,10 @@ export default function AdminDashboard() {
                     </div>
                   )}
                 />
+              )}
+
+              {activeTab === 'studyzone' && (
+                <StudyZoneManager initialClasses={studyClasses} initialSubjects={studySubjects} initialMaterials={studyMaterials} />
               )}
 
               {activeTab === 'results' && (

@@ -270,3 +270,39 @@ export const Share2Icon = (props) => (
     }
   />
 );
+
+export const SparklesIcon = (props) => (
+  <Icon
+    {...props}
+    path={
+      <>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M12 3l1.8 4.6L18 9.5l-4.2 1.9L12 16l-1.8-4.6L6 9.5l4.2-1.9L12 3z" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M19 14l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8L19 14z" />
+      </>
+    }
+  />
+);
+
+export const TimerIcon = (props) => (
+  <Icon
+    {...props}
+    path={
+      <>
+        <circle cx="12" cy="13" r="8" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v4l3 2M9 2h6" />
+      </>
+    }
+  />
+);
+
+export const GraduationCapIcon = (props) => (
+  <Icon
+    {...props}
+    path={
+      <>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M2 8l10-5 10 5-10 5-10-5z" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M6 10.5V16c0 1.5 2.7 3 6 3s6-1.5 6-3v-5.5M22 8v6" />
+      </>
+    }
+  />
+);

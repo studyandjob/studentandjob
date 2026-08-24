@@ -15,6 +15,7 @@ import {
   PaletteIcon,
   Share2Icon,
   CloseIcon,
+  GraduationCapIcon,
 } from './icons';
 
 // One nav item per public-facing page — kept in the same order as the
@@ -28,6 +29,7 @@ const NAV_ITEMS = [
   { id: 'jobs', label: 'Jobs', icon: BriefcaseIcon },
   { id: 'members', label: 'Portal Requests', icon: IdCardIcon, badgeKey: 'pendingMembers' },
   { id: 'notes', label: 'Students Zone', icon: BookIcon },
+  { id: 'studyzone', label: 'Study Zone (AI)', icon: GraduationCapIcon },
   { id: 'results', label: 'Results', icon: ClipboardCheckIcon },
   { id: 'scholarships', label: 'Scholarships', icon: AwardIcon },
   { id: 'messages', label: 'Contact Messages', icon: MailIcon, badgeKey: 'unreadMessages' },
