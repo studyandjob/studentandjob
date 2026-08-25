@@ -74,10 +74,13 @@ async function callGroq(prompt) {
         { role: 'user', content: prompt },
       ],
       temperature: 0.6,
-      max_completion_tokens: 16000,
+      max_completion_tokens: 4000,
     }),
   });
 
+  if (res.status === 413) {
+    throw new Error('Too many questions requested for your Groq plan\'s per-minute token limit. Request fewer questions per run (try 15-20 total), use shorter chapter text, or upgrade to Groq\'s Dev Tier for higher limits.');
+  }
   if (!res.ok) {
     const text = await res.text().catch(() => '');
     throw new Error(`Groq request failed (${res.status}): ${text.slice(0, 300)}`);
