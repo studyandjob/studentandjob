@@ -68,12 +68,13 @@ async function callGroq(prompt) {
       Authorization: `Bearer ${apiKey}`,
     },
     body: JSON.stringify({
-      model: process.env.GROQ_MODEL || 'llama-3.3-70b-versatile',
+      model: process.env.GROQ_MODEL || 'openai/gpt-oss-120b',
       messages: [
         { role: 'system', content: 'You generate exam questions and reply with raw JSON only.' },
         { role: 'user', content: prompt },
       ],
       temperature: 0.6,
+      max_completion_tokens: 16000,
     }),
   });
 
@@ -82,7 +83,11 @@ async function callGroq(prompt) {
     throw new Error(`Groq request failed (${res.status}): ${text.slice(0, 300)}`);
   }
   const data = await res.json();
-  return data?.choices?.[0]?.message?.content || '';
+  const choice = data?.choices?.[0];
+  if (choice?.finish_reason === 'length') {
+    throw new Error('The AI response was cut off before finishing (too many questions requested at once). Try requesting fewer questions per run.');
+  }
+  return choice?.message?.content || '';
 }
 
 async function callGemini(prompt) {
