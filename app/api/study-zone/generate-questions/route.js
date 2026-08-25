@@ -57,6 +57,34 @@ async function callOpenAI(prompt) {
   return data?.choices?.[0]?.message?.content || '';
 }
 
+async function callGroq(prompt) {
+  const apiKey = process.env.GROQ_API_KEY;
+  if (!apiKey) throw new Error('GROQ_API_KEY is not configured on the server.');
+
+  const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${apiKey}`,
+    },
+    body: JSON.stringify({
+      model: process.env.GROQ_MODEL || 'llama-3.3-70b-versatile',
+      messages: [
+        { role: 'system', content: 'You generate exam questions and reply with raw JSON only.' },
+        { role: 'user', content: prompt },
+      ],
+      temperature: 0.6,
+    }),
+  });
+
+  if (!res.ok) {
+    const text = await res.text().catch(() => '');
+    throw new Error(`Groq request failed (${res.status}): ${text.slice(0, 300)}`);
+  }
+  const data = await res.json();
+  return data?.choices?.[0]?.message?.content || '';
+}
+
 async function callGemini(prompt) {
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) throw new Error('GEMINI_API_KEY is not configured on the server.');
@@ -123,7 +151,14 @@ export async function POST(request) {
     });
 
     const provider = (process.env.AI_PROVIDER || 'openai').toLowerCase();
-    const rawText = provider === 'gemini' ? await callGemini(prompt) : await callOpenAI(prompt);
+    let rawText;
+    if (provider === 'gemini') {
+      rawText = await callGemini(prompt);
+    } else if (provider === 'groq') {
+      rawText = await callGroq(prompt);
+    } else {
+      rawText = await callOpenAI(prompt);
+    }
 
     const questions = parseStudyZoneResponse(rawText);
     if (questions.length === 0) {
