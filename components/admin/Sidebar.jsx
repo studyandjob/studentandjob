@@ -15,6 +15,7 @@ import {
   Share2Icon,
   CloseIcon,
   GraduationCapIcon,
+  PaletteIcon,
 } from './icons';
 
 // One nav item per public-facing page — kept in the same order as the
@@ -22,6 +23,7 @@ import {
 const NAV_ITEMS = [
   { id: 'dashboard', label: 'Dashboard', icon: HomeIcon },
   { id: 'settings', label: 'Site Settings', icon: SettingsIcon },
+  { id: 'texttheme', label: 'Text Theme', icon: PaletteIcon },
   { id: 'social', label: 'Social Media', icon: Share2Icon },
   { id: 'slides', label: 'Hero Slides', icon: ImageIcon },
   { id: 'jobs', label: 'Jobs', icon: BriefcaseIcon },

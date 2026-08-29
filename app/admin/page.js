@@ -8,6 +8,7 @@ import Topbar from '@/components/admin/Topbar';
 import WelcomeCard from '@/components/admin/WelcomeCard';
 import StatCard from '@/components/admin/StatCard';
 import SettingsForm from '@/components/admin/SettingsForm';
+import TextThemeManager from '@/components/admin/TextThemeManager';
 import SocialMediaForm from '@/components/admin/SocialMediaForm';
 import ListManager from '@/components/admin/ListManager';
 import MessagesManager from '@/components/admin/MessagesManager';
@@ -35,6 +36,7 @@ import {
 const TAB_TITLES = {
   dashboard: 'Dashboard',
   settings: 'Site Settings',
+  texttheme: 'Text Theme',
   social: 'Social Media',
   slides: 'Hero Slides',
   jobs: 'Jobs',
@@ -217,6 +219,8 @@ export default function AdminDashboard() {
               )}
 
               {activeTab === 'settings' && <SettingsForm settings={settings} />}
+
+              {activeTab === 'texttheme' && <TextThemeManager settings={settings} />}
 
               {activeTab === 'social' && <SocialMediaForm settings={settings} />}
 

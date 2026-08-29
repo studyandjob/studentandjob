@@ -37,7 +37,7 @@ export default function Footer({ siteName, settings }) {
       <div className="mx-auto max-w-7xl px-4 py-10 md:px-6">
         <div className="flex flex-col items-center justify-between gap-6 md:flex-row">
           <div className="text-center md:text-left">
-            <p className="font-serif text-base font-bold text-aink">{siteName || 'Pak Study And Jobs'}</p>
+            <p className="font-serif text-base font-bold text-gray-900">{siteName || 'Pak Study And Jobs'}</p>
             <p className="mt-1 text-sm text-gray-500">
               © {new Date().getFullYear()} {siteName || 'Pak Study And Jobs'}. All rights reserved.
             </p>

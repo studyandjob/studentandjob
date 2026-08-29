@@ -53,7 +53,7 @@ export default function Header({ siteName, logoUrl }) {
                 {(siteName || 'P').charAt(0)}
               </div>
             )}
-            <span className="font-serif text-lg font-bold tracking-tight text-accent-700 md:text-xl">
+            <span className="font-serif text-lg font-bold tracking-tight text-gray-900 md:text-xl">
               {siteName || 'Pak Study And Jobs'}
             </span>
           </Link>
