@@ -137,7 +137,7 @@ export default function HeroSlider({ jobs = [], mainHeading, subHeading }) {
               href={job.apply_link || '#'}
               target="_blank"
               rel="noopener noreferrer"
-              className="group/btn inline-flex items-center gap-1 rounded-lg bg-gradient-to-r from-green-600 to-brand-600 px-3 py-1.5 text-center text-xs font-semibold text-white shadow-sm transition hover:shadow-md"
+              className="group/btn inline-flex items-center gap-1 rounded-lg bg-gradient-to-r from-brand-500 to-brand-700 px-3 py-1.5 text-center text-xs font-semibold text-white shadow-sm transition hover:shadow-md"
             >
               Apply Now
               <ArrowRightIcon className="h-3.5 w-3.5 transition-transform group-hover/btn:translate-x-0.5" />

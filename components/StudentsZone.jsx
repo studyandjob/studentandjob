@@ -42,16 +42,16 @@ export default function StudentsZone({ notes = [], whatsappNumber = '92300000000
       </section>
 
       {/* Paid services / WhatsApp banner */}
-      <section className="flex flex-col items-start gap-3 rounded-xl bg-gradient-to-br from-green-600 to-green-500 p-5 text-white shadow-sm md:p-6">
+      <section className="flex flex-col items-start gap-3 rounded-xl bg-gradient-to-br from-brand-600 to-brand-500 p-5 text-white shadow-sm md:p-6">
         <h3 className="text-lg font-bold">Need Help Applying? 📝</h3>
-        <p className="text-sm text-green-50">
+        <p className="text-sm text-brand-50">
           Get one-on-one help with job applications, form filling, and CV writing — book our paid service directly on WhatsApp.
         </p>
         <a
           href={`https://wa.me/${whatsappNumber}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-1 inline-flex items-center gap-2 rounded-lg bg-white px-4 py-2 text-sm font-bold text-green-700 transition hover:bg-green-50"
+          className="mt-1 inline-flex items-center gap-2 rounded-lg bg-white px-4 py-2 text-sm font-bold text-brand-700 transition hover:bg-brand-50"
         >
           <ChatBubbleIcon3D className="h-5 w-5" />
           Book on WhatsApp

@@ -49,7 +49,7 @@ export default function PublicJobCard({ job, onViewDetails }) {
       {/* Accent bar */}
       <div
         className={`h-1 w-full bg-gradient-to-r ${
-          isGovernment ? 'from-brand-600 via-brand-500 to-brand-400' : 'from-accent-600 via-accent-500 to-brand-400'
+          isGovernment ? 'from-brand-600 via-brand-500 to-brand-400' : 'from-accent-600 via-accent-500 to-accent-400'
         }`}
       />
 
