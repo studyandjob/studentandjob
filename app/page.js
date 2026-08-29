@@ -3,9 +3,12 @@ import Header from '@/components/Header';
 import NewsTicker from '@/components/NewsTicker';
 import HeroSlider from '@/components/HeroSlider';
 import TrustStrip from '@/components/TrustStrip';
+import StatsStrip from '@/components/StatsStrip';
+import Testimonials from '@/components/Testimonials';
 import JobsList from '@/components/JobsList';
 import StudentsZone from '@/components/StudentsZone';
 import Footer from '@/components/Footer';
+import { getHomeStats, getTestimonials } from '@/lib/data';
 
 // Re-fetch fresh data on every request so admin edits show up immediately.
 // Swap to `export const revalidate = 60` if you'd rather cache for 60s.
@@ -18,7 +21,7 @@ async function getHomePageData() {
   // edits), .limit(1) can arbitrarily return the old/seed row here — showing
   // a stale logo/site name on the home page even though Admin Dashboard →
   // Site Settings was saved correctly.
-  const [{ data: settings }, { data: jobs }, { data: notes }] = await Promise.all([
+  const [{ data: settings }, { data: jobs }, { data: notes }, stats, testimonials] = await Promise.all([
     supabase
       .from('site_settings')
       .select('*')
@@ -27,17 +30,21 @@ async function getHomePageData() {
       .maybeSingle(),
     supabase.from('jobs_table').select('*').order('created_at', { ascending: false }).limit(8),
     supabase.from('students_data').select('*').order('created_at', { ascending: false }).limit(6),
+    getHomeStats(),
+    getTestimonials(6),
   ]);
 
   return {
     settings: settings || {},
     jobs: jobs || [],
     notes: notes || [],
+    stats,
+    testimonials,
   };
 }
 
 export default async function HomePage() {
-  const { settings, jobs, notes } = await getHomePageData();
+  const { settings, jobs, notes, stats, testimonials } = await getHomePageData();
 
   return (
     <>
@@ -52,6 +59,8 @@ export default async function HomePage() {
 
         <TrustStrip />
 
+        <StatsStrip stats={stats} />
+
         <div className="mx-auto max-w-7xl px-4 py-10 md:px-6 md:py-14">
           <div className="mb-6 flex items-end justify-between md:mb-8">
             <div>
@@ -65,6 +74,8 @@ export default async function HomePage() {
             <StudentsZone notes={notes} />
           </div>
         </div>
+
+        <Testimonials testimonials={testimonials} />
       </main>
 
       <Footer siteName={settings.site_name} settings={settings} />
