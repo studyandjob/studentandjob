@@ -101,26 +101,22 @@ export default function PublicJobCard({ job, onViewDetails }) {
         {job.last_date && (
           <div
             className={`mb-4 flex items-center gap-2 rounded-xl border px-3 py-2 ${
-              isExpired
-                ? 'border-gray-200 bg-gray-50'
-                : isUrgent
-                  ? 'border-red-100 bg-red-50'
-                  : 'border-gray-100 bg-gray-50'
+              isExpired || isUrgent ? 'border-red-100 bg-red-50' : 'border-gray-100 bg-gray-50'
             }`}
           >
             <IconBadge
               icon={CalendarClockIcon}
-              gradient={isExpired ? 'from-gray-400 to-gray-500' : isUrgent ? 'from-red-500 to-red-600' : 'from-brand-400 to-brand-600'}
+              gradient={isExpired || isUrgent ? 'from-red-500 to-red-600' : 'from-brand-400 to-brand-600'}
             />
             <div className="min-w-0 leading-tight">
               <p
                 className={`text-[0.65rem] font-semibold uppercase tracking-wide ${
-                  isExpired ? 'text-gray-400' : isUrgent ? 'text-red-500' : 'text-gray-600'
+                  isExpired || isUrgent ? 'text-red-500' : 'text-gray-600'
                 }`}
               >
                 {isExpired ? 'Closed' : isUrgent ? 'Closing soon' : 'Last date to apply'}
               </p>
-              <p className={`truncate text-sm font-bold ${isExpired ? 'text-gray-500' : isUrgent ? 'text-red-700' : 'text-gray-800'}`}>
+              <p className={`truncate text-sm font-bold ${isExpired || isUrgent ? 'text-red-700' : 'text-gray-800'}`}>
                 {formatDate(job.last_date)}
               </p>
             </div>

@@ -250,7 +250,7 @@ export default function AdminDashboard() {
                 />
               )}
 
-              {activeTab === 'jobs' && <JobsManager initialJobs={jobs} />}
+              {activeTab === 'jobs' && <JobsManager initialJobs={jobs} settings={settings} />}
 
               {activeTab === 'members' && <MembersManager initialRequests={memberRequests} />}
 

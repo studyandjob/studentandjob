@@ -14,6 +14,16 @@ function formatDate(dateStr) {
   });
 }
 
+/** True once the job's last_date has already passed. */
+function isPastLastDate(dateStr) {
+  if (!dateStr) return false;
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const due = new Date(dateStr);
+  due.setHours(0, 0, 0, 0);
+  return due < today;
+}
+
 export default function JobsList({ jobs = [] }) {
   const [selectedJob, setSelectedJob] = useState(null);
 
@@ -42,7 +52,11 @@ export default function JobsList({ jobs = [] }) {
                 <p className="mt-0.5 text-xs text-gray-500">
                   {job.department}
                   {job.last_date && (
-                    <span className="ml-2 rounded bg-red-50 px-1.5 py-0.5 font-medium text-red-600">
+                    <span
+                      className={`ml-2 rounded px-1.5 py-0.5 font-medium ${
+                        isPastLastDate(job.last_date) ? 'bg-red-100 text-red-700' : 'bg-red-50 text-red-600'
+                      }`}
+                    >
                       Last date: {formatDate(job.last_date)}
                     </span>
                   )}

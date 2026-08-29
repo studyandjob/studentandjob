@@ -7,12 +7,21 @@ function formatDate(dateStr) {
   return new Date(dateStr).toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' });
 }
 
-function Row({ label, value }) {
+function isPastLastDate(dateStr) {
+  if (!dateStr) return false;
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const due = new Date(dateStr);
+  due.setHours(0, 0, 0, 0);
+  return due < today;
+}
+
+function Row({ label, value, danger }) {
   if (!value) return null;
   return (
     <div>
       <dt className="text-[0.7rem] font-semibold uppercase tracking-wide text-amuted">{label}</dt>
-      <dd className="mt-0.5 text-sm text-aink">{value}</dd>
+      <dd className={`mt-0.5 text-sm ${danger ? 'font-bold text-red-600' : 'text-aink'}`}>{value}</dd>
     </div>
   );
 }
@@ -85,7 +94,7 @@ export default function JobDetailsModal({ job, onClose, onEdit }) {
             <Row label="Category" value={job.category} />
             <Row label="City" value={job.city} />
             <Row label="Application Mode" value={job.application_mode} />
-            <Row label="Last Date to Apply" value={formatDate(job.last_date)} />
+            <Row label="Last Date to Apply" value={formatDate(job.last_date)} danger={isPastLastDate(job.last_date)} />
             <Row label="Posted On" value={formatDate(job.created_at)} />
           </dl>
 

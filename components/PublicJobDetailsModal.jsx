@@ -7,12 +7,21 @@ function formatDate(dateStr) {
   return new Date(dateStr).toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' });
 }
 
-function Row({ label, value }) {
+function isPastLastDate(dateStr) {
+  if (!dateStr) return false;
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const due = new Date(dateStr);
+  due.setHours(0, 0, 0, 0);
+  return due < today;
+}
+
+function Row({ label, value, danger }) {
   if (!value) return null;
   return (
     <div>
       <dt className="text-[0.7rem] font-semibold uppercase tracking-wide text-gray-400">{label}</dt>
-      <dd className="mt-0.5 text-sm text-gray-800">{value}</dd>
+      <dd className={`mt-0.5 text-sm ${danger ? 'font-bold text-red-600' : 'text-gray-800'}`}>{value}</dd>
     </div>
   );
 }
@@ -74,7 +83,7 @@ export default function PublicJobDetailsModal({ job, onClose }) {
             <Row label="Category" value={job.category} />
             <Row label="City" value={job.city} />
             <Row label="Application Mode" value={job.application_mode} />
-            <Row label="Last Date to Apply" value={formatDate(job.last_date)} />
+            <Row label="Last Date to Apply" value={formatDate(job.last_date)} danger={isPastLastDate(job.last_date)} />
           </dl>
 
           {(job.education_required?.length > 0 || job.skills_required?.length > 0) && (
