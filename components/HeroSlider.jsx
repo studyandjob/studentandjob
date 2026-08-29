@@ -67,7 +67,7 @@ export default function HeroSlider({ jobs = [], mainHeading, subHeading }) {
     const isUrgent = remaining !== null && remaining >= 0 && remaining <= 3;
 
     return (
-      <div className="rounded-2xl border border-white/15 bg-white/95 p-4 text-left text-gray-900 shadow-2xl shadow-black/20 backdrop-blur-sm sm:p-5">
+      <div className="rounded-2xl border border-brand-100 bg-white p-4 text-left text-gray-900 shadow-xl shadow-brand-900/10 ring-1 ring-black/5 sm:p-5">
         {/* Header row: type icon + pill tags */}
         <div className="mb-3 flex items-center gap-2.5">
           <span
@@ -179,7 +179,7 @@ export default function HeroSlider({ jobs = [], mainHeading, subHeading }) {
             instead of the old blink/fade swap. */}
         {heroJobs.length > 0 && (
           <div className="mx-auto mt-6 max-w-lg">
-            <div className="overflow-hidden rounded-2xl">
+            <div className="overflow-hidden rounded-[20px] bg-brand-50/70 p-1.5">
               <div
                 className="flex transition-transform duration-700 ease-in-out"
                 style={{ transform: `translateX(-${active * 100}%)` }}
