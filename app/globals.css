@@ -4,18 +4,13 @@
 
 html {
   scroll-behavior: smooth;
-  /* Fallback theme variables — "BCI Platform (Green & Blue)" (the default
-     theme). <ThemeProvider> (contexts/ThemeContext.js) overwrites these on
-     the fly the moment it mounts and whenever the admin applies a new
-     theme; see lib/themes.js for the full theme list. */
-  --color-bg: #F1F4F8;
-  --color-text: #1F2937;
 }
 
 body {
-  background-color: var(--color-bg);
-  color: var(--color-text);
-  transition: background-color 0.25s ease, color 0.25s ease;
+  /* Fixed site-wide design system — same background/text pairing as the
+     admin dashboard (acream / aink). No longer switchable at runtime. */
+  background-color: #F1F4F8;
+  color: #1F2937;
 }
 
 /* Simple line-clamp fallback (Tailwind's plugin isn't required) */

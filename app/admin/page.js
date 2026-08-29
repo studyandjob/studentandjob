@@ -9,7 +9,6 @@ import WelcomeCard from '@/components/admin/WelcomeCard';
 import StatCard from '@/components/admin/StatCard';
 import SettingsForm from '@/components/admin/SettingsForm';
 import SocialMediaForm from '@/components/admin/SocialMediaForm';
-import ThemeSettingsManager from '@/components/admin/ThemeSettingsManager';
 import ListManager from '@/components/admin/ListManager';
 import MessagesManager from '@/components/admin/MessagesManager';
 import ContactsManager from '@/components/admin/ContactsManager';
@@ -27,11 +26,9 @@ import {
   MailIcon,
   IdCardIcon,
   FileTextIcon,
-  PaletteIcon,
   Share2Icon,
   GraduationCapIcon,
 } from '@/components/admin/icons';
-import { useTheme } from '@/contexts/ThemeContext';
 
 // Titles shown in the Topbar — one per menu item in the Sidebar, mirroring
 // every page that exists on the public website.
@@ -39,7 +36,6 @@ const TAB_TITLES = {
   dashboard: 'Dashboard',
   settings: 'Site Settings',
   social: 'Social Media',
-  themes: 'Theme Settings',
   slides: 'Hero Slides',
   jobs: 'Jobs',
   members: 'Admin Portal Requests',
@@ -53,7 +49,6 @@ const TAB_TITLES = {
 };
 
 export default function AdminDashboard() {
-  const { activeTheme } = useTheme();
   const [session, setSession] = useState(undefined); // undefined = checking, null = logged out
   const [settings, setSettings] = useState(null);
   const [slides, setSlides] = useState([]);
@@ -217,7 +212,6 @@ export default function AdminDashboard() {
                       color="teal"
                       onClick={() => setActiveTab('social')}
                     />
-                    <StatCard icon={PaletteIcon} value={activeTheme.name} label="Active Theme" color="purple" onClick={() => setActiveTab('themes')} />
                   </div>
                 </div>
               )}
@@ -225,8 +219,6 @@ export default function AdminDashboard() {
               {activeTab === 'settings' && <SettingsForm settings={settings} />}
 
               {activeTab === 'social' && <SocialMediaForm settings={settings} />}
-
-              {activeTab === 'themes' && <ThemeSettingsManager />}
 
               {activeTab === 'slides' && (
                 <ListManager
