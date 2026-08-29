@@ -24,8 +24,7 @@ export default function TagSelect({ options = [], value = [], onChange, placehol
     onChange(value.filter((t) => t !== tag));
   }
 
-  function handleCustomSubmit(e) {
-    e.preventDefault();
+  function handleCustomSubmit() {
     addTag(customInput);
     setCustomInput('');
   }
@@ -48,21 +47,30 @@ export default function TagSelect({ options = [], value = [], onChange, placehol
             ))}
         </select>
 
-        <form onSubmit={handleCustomSubmit} className="flex w-full gap-2 sm:w-1/2">
+        <div className="flex w-full gap-2 sm:w-1/2">
           <input
             type="text"
             value={customInput}
             onChange={(e) => setCustomInput(e.target.value)}
+            onKeyDown={(e) => {
+              // Enter should add the tag, not submit the parent job form
+              // that this component is always nested inside of.
+              if (e.key === 'Enter') {
+                e.preventDefault();
+                handleCustomSubmit();
+              }
+            }}
             placeholder={placeholder}
             className="w-full rounded-[10px] border border-aline bg-[#FCFAF6] px-3.5 py-3 text-[0.93rem] text-aink outline-none transition focus:border-atl2 focus:ring-[3px] focus:ring-atl2/10"
           />
           <button
-            type="submit"
+            type="button"
+            onClick={handleCustomSubmit}
             className="flex-shrink-0 rounded-[10px] bg-atl px-4 py-2 text-sm font-semibold text-white transition hover:bg-atl2"
           >
             Add
           </button>
-        </form>
+        </div>
       </div>
 
       {value.length > 0 && (
