@@ -149,26 +149,27 @@ export default function HeroSlider({ jobs = [], mainHeading, subHeading }) {
   }
 
   return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-brand-800 via-brand-600 to-brand-500 text-white">
-      {/* Decorative background pattern + soft glow */}
+    <section className="relative overflow-hidden border-b border-brand-100 bg-white">
+      {/* Very soft decorative dot pattern — subtle on white instead of the
+          old white-dots-on-green look */}
       <div
-        className="pointer-events-none absolute inset-0 opacity-[0.06]"
+        className="pointer-events-none absolute inset-0 opacity-[0.05]"
         style={{
-          backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)',
+          backgroundImage: 'radial-gradient(circle at 2px 2px, #1E8449 1px, transparent 0)',
           backgroundSize: '28px 28px',
         }}
       />
-      <div className="pointer-events-none absolute -top-24 left-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-white/10 blur-3xl" />
+      <div className="pointer-events-none absolute -top-24 left-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-brand-100/60 blur-3xl" />
 
       <div className="relative mx-auto max-w-5xl px-4 pb-10 pt-8 text-center md:px-6 md:pb-14 md:pt-12">
-        <span className="inline-flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-brand-50 backdrop-blur-sm md:text-xs">
+        <span className="inline-flex items-center gap-1.5 rounded-full border border-brand-100 bg-brand-50 px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-brand-700 md:text-xs">
           ✅ Trusted by thousands of job seekers &amp; students
         </span>
 
-        <h1 className="mt-3.5 text-2xl font-extrabold leading-tight tracking-tight md:text-4xl lg:text-5xl">
+        <h1 className="mt-3.5 text-2xl font-extrabold leading-tight tracking-tight text-aink md:text-4xl lg:text-5xl">
           {mainHeading || 'Find Your Next Government Job'}
         </h1>
-        <p className="mx-auto mt-2.5 max-w-2xl text-sm text-brand-50/90 md:text-base">
+        <p className="mx-auto mt-2.5 max-w-2xl text-sm text-gray-600 md:text-base">
           {subHeading || 'Latest jobs, results, notes & scholarships in one place'}
         </p>
 
@@ -199,7 +200,7 @@ export default function HeroSlider({ jobs = [], mainHeading, subHeading }) {
                     key={j.id}
                     onClick={() => setActive(i)}
                     aria-label={`Go to job ${i + 1}`}
-                    className={`h-2 rounded-full transition-all ${i === active ? 'w-6 bg-white' : 'w-2 bg-white/40'}`}
+                    className={`h-2 rounded-full transition-all ${i === active ? 'w-6 bg-brand-600' : 'w-2 bg-brand-200'}`}
                   />
                 ))}
               </div>
@@ -218,16 +219,13 @@ export default function HeroSlider({ jobs = [], mainHeading, subHeading }) {
             <Link
               key={link.href}
               href={link.href}
-              className="text-xs font-medium text-brand-50/80 underline-offset-4 transition hover:text-white hover:underline md:text-sm"
+              className="text-xs font-medium text-gray-600 underline-offset-4 transition hover:text-brand-700 hover:underline md:text-sm"
             >
               {link.label}
             </Link>
           ))}
         </div>
       </div>
-
-      {/* Soft curve transition into the next section */}
-      <div className="absolute inset-x-0 bottom-0 h-10 bg-gray-50" style={{ clipPath: 'ellipse(70% 100% at 50% 100%)' }} />
     </section>
   );
 }
