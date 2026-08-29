@@ -46,10 +46,10 @@ export default function Header({ siteName, logoUrl }) {
               <img
                 src={logoUrl}
                 alt={siteName || 'Logo'}
-                className="h-10 w-10 rounded-lg border border-brand-100 bg-brand-50 object-cover"
+                className="h-10 w-10 rounded-full border-2 border-brand-200 bg-brand-50 object-cover shadow-sm"
               />
             ) : (
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-brand-600 font-bold text-white">
+              <div className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-brand-200 bg-brand-600 font-bold text-white shadow-sm">
                 {(siteName || 'P').charAt(0)}
               </div>
             )}
