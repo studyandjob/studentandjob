@@ -4,11 +4,11 @@
 
 html {
   scroll-behavior: smooth;
-  /* Fallback theme variables — "Classic Royal Blue" (the default theme).
-     <ThemeProvider> (contexts/ThemeContext.js) overwrites these on the fly
-     the moment it mounts and whenever the admin applies a new theme; see
-     lib/themes.js for the full theme list. */
-  --color-bg: #F8F9FA;
+  /* Fallback theme variables — "BCI Platform (Green & Blue)" (the default
+     theme). <ThemeProvider> (contexts/ThemeContext.js) overwrites these on
+     the fly the moment it mounts and whenever the admin applies a new
+     theme; see lib/themes.js for the full theme list. */
+  --color-bg: #F1F4F8;
   --color-text: #1F2937;
 }
 

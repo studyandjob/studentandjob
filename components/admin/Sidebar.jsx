@@ -56,11 +56,11 @@ export default function Sidebar({ activeTab, onTabChange, open, onClose, siteNam
       )}
 
       <aside
-        className={`fixed left-0 top-0 z-50 flex h-screen w-[240px] flex-shrink-0 flex-col overflow-y-auto bg-atl transition-transform duration-300 md:translate-x-0 ${
+        className={`fixed left-0 top-0 z-50 flex h-screen w-[240px] flex-shrink-0 flex-col overflow-y-auto border-r border-aline bg-white transition-transform duration-300 md:translate-x-0 ${
           open ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
-        <div className="flex flex-shrink-0 items-center justify-between gap-2.5 border-b border-white/10 px-[18px] py-5">
+        <div className="flex flex-shrink-0 items-center justify-between gap-2.5 border-b border-aline px-[18px] py-5">
           <div className="flex items-center gap-2.5">
             {logoUrl ? (
               // Plain <img> on purpose (not next/image) — same reasoning as
@@ -68,19 +68,19 @@ export default function Sidebar({ activeTab, onTabChange, open, onClose, siteNam
               <img
                 src={logoUrl}
                 alt={siteName || 'Logo'}
-                className="h-[38px] w-[38px] flex-shrink-0 rounded-full border-2 border-agold object-cover"
+                className="h-[38px] w-[38px] flex-shrink-0 rounded-full border-2 border-atl2 object-cover"
               />
             ) : (
-              <div className="flex h-[38px] w-[38px] flex-shrink-0 items-center justify-center rounded-full border-2 border-agold bg-white/10 text-sm font-bold text-white">
+              <div className="flex h-[38px] w-[38px] flex-shrink-0 items-center justify-center rounded-full bg-atl2 text-sm font-bold text-white">
                 {(siteName || 'A').charAt(0)}
               </div>
             )}
             <div className="flex min-w-0 flex-col">
-              <span className="truncate font-serif text-sm font-bold text-white">{siteName || 'Admin'}</span>
-              <small className="text-[0.7rem] text-white/60">Dashboard</small>
+              <span className="truncate font-serif text-sm font-bold text-atl">{siteName || 'Admin'}</span>
+              <small className="text-[0.7rem] text-amuted">Dashboard</small>
             </div>
           </div>
-          <button onClick={onClose} className="text-white/70 hover:text-white md:hidden" aria-label="Close menu">
+          <button onClick={onClose} className="text-amuted hover:text-aink md:hidden" aria-label="Close menu">
             <CloseIcon className="h-5 w-5" />
           </button>
         </div>
@@ -95,7 +95,7 @@ export default function Sidebar({ activeTab, onTabChange, open, onClose, siteNam
                 key={item.id}
                 onClick={() => handleSelect(item.id)}
                 className={`flex w-full items-center gap-3 rounded-[10px] px-3.5 py-3 text-left text-sm font-medium transition ${
-                  isActive ? 'bg-white/15 text-white' : 'text-white/75 hover:bg-white/15 hover:text-white'
+                  isActive ? 'bg-atl2/10 text-atl2' : 'text-aink/75 hover:bg-acream hover:text-atl'
                 }`}
               >
                 <Icon className="h-[18px] w-[18px] flex-shrink-0" />
@@ -109,11 +109,11 @@ export default function Sidebar({ activeTab, onTabChange, open, onClose, siteNam
             );
           })}
 
-          <div className="my-2 border-t border-white/10" />
+          <div className="my-2 border-t border-aline" />
 
           <button
             onClick={onLogout}
-            className="flex w-full items-center gap-3 rounded-[10px] border border-rose-400/20 bg-rose-500/15 px-3.5 py-3 text-left text-sm font-medium text-rose-100/90 transition hover:bg-rose-600/35 hover:text-white"
+            className="flex w-full items-center gap-3 rounded-[10px] border border-rose-200 bg-rose-50 px-3.5 py-3 text-left text-sm font-medium text-rose-600 transition hover:bg-rose-100"
           >
             <LogOutIcon className="h-[18px] w-[18px] flex-shrink-0" />
             <span>Logout</span>

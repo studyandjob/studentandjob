@@ -38,22 +38,22 @@ export default function Header({ siteName, logoUrl }) {
 
   return (
     <>
-      <header className="sticky top-0 z-50 bg-brand-600 shadow-lg shadow-brand-900/10">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3.5 md:px-6">
+      <header className="sticky top-0 z-50 border-b border-brand-100 bg-white shadow-sm">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 md:px-6">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2.5">
             {logoUrl ? (
               <img
                 src={logoUrl}
                 alt={siteName || 'Logo'}
-                className="h-10 w-10 rounded-lg border border-white/20 bg-white/10 object-cover"
+                className="h-10 w-10 rounded-lg border border-brand-100 bg-brand-50 object-cover"
               />
             ) : (
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-white font-bold text-brand-600">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-brand-600 font-bold text-white">
                 {(siteName || 'P').charAt(0)}
               </div>
             )}
-            <span className="text-lg font-bold tracking-tight text-white md:text-xl">
+            <span className="text-lg font-bold tracking-tight text-accent-700 md:text-xl">
               {siteName || 'Pak Study And Jobs'}
             </span>
           </Link>
@@ -64,7 +64,7 @@ export default function Header({ siteName, logoUrl }) {
               <Link
                 key={link.href}
                 href={link.href}
-                className="rounded-lg px-3.5 py-2 text-sm font-semibold text-white/85 transition hover:bg-white/10 hover:text-white"
+                className="rounded-lg px-3.5 py-2 text-sm font-semibold text-gray-600 transition hover:bg-brand-50 hover:text-brand-700"
               >
                 {link.label}
               </Link>
@@ -74,7 +74,7 @@ export default function Header({ siteName, logoUrl }) {
           {/* Mobile hamburger */}
           <button
             onClick={() => setOpen(true)}
-            className="inline-flex items-center justify-center rounded-lg p-2 text-white hover:bg-white/10 md:hidden"
+            className="inline-flex items-center justify-center rounded-lg p-2 text-brand-700 hover:bg-brand-50 md:hidden"
             aria-label="Open menu"
           >
             <MenuIcon3D className="h-6 w-6" />
