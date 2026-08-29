@@ -1,4 +1,4 @@
-import { Public_Sans, Noto_Nastaliq_Urdu } from 'next/font/google';
+import { Public_Sans, Noto_Nastaliq_Urdu, Fraunces } from 'next/font/google';
 import './globals.css';
 import { supabase } from '@/lib/supabaseClient';
 import NavigationProgress from '@/components/NavigationProgress';
@@ -8,6 +8,17 @@ const publicSans = Public_Sans({
   subsets: ['latin'],
   weight: ['400', '500', '600', '700', '800'],
   variable: '--font-public-sans',
+});
+
+// Display/headline serif — the same face the admin dashboard already uses
+// for its wordmark and page titles (see app/admin/layout.js). Loading it
+// here too means the public site's brand name and big headlines share the
+// same distinctive typographic voice as the admin panel, instead of the
+// whole site reading as one flat sans-serif block.
+const fraunces = Fraunces({
+  subsets: ['latin'],
+  weight: ['600', '700'],
+  variable: '--font-fraunces',
 });
 
 // Dedicated Urdu font. Loaded once here and added as a fallback in
@@ -39,7 +50,7 @@ export async function generateMetadata() {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${publicSans.variable} ${notoNastaliqUrdu.variable}`}>
+    <html lang="en" className={`${publicSans.variable} ${notoNastaliqUrdu.variable} ${fraunces.variable}`}>
       <body className="min-h-screen flex flex-col antialiased font-sans">
         <NavigationProgress>{children}</NavigationProgress>
       </body>

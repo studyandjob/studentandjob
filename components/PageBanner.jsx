@@ -12,7 +12,7 @@ export default function PageBanner({ title, subtitle, icon }) {
           </span>
         )}
         <div>
-          <h1 className="text-2xl font-extrabold tracking-tight text-gray-900 md:text-3xl">{title}</h1>
+          <h1 className="text-2xl font-serif font-bold tracking-tight text-gray-900 md:text-3xl">{title}</h1>
           {subtitle && <p className="mt-1 text-sm text-gray-600 md:text-base">{subtitle}</p>}
         </div>
       </div>

@@ -37,7 +37,7 @@ export default function Footer({ siteName, settings }) {
       <div className="mx-auto max-w-7xl px-4 py-10 md:px-6">
         <div className="flex flex-col items-center justify-between gap-6 md:flex-row">
           <div className="text-center md:text-left">
-            <p className="text-base font-bold text-aink">{siteName || 'Pak Study And Jobs'}</p>
+            <p className="font-serif text-base font-bold text-aink">{siteName || 'Pak Study And Jobs'}</p>
             <p className="mt-1 text-sm text-gray-500">
               © {new Date().getFullYear()} {siteName || 'Pak Study And Jobs'}. All rights reserved.
             </p>
@@ -48,7 +48,7 @@ export default function Footer({ siteName, settings }) {
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-sm font-medium text-gray-600 transition hover:text-brand-700"
+                className="rounded text-sm font-medium text-gray-600 transition hover:text-brand-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
               >
                 {link.label}
               </Link>
@@ -66,7 +66,7 @@ export default function Footer({ siteName, settings }) {
                 rel="noopener noreferrer"
                 aria-label={label}
                 title={label}
-                className="transition hover:-translate-y-0.5"
+                className="rounded-full transition hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
               >
                 <PlatformIcon className="h-9 w-9" />
               </a>

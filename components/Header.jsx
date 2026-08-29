@@ -53,7 +53,7 @@ export default function Header({ siteName, logoUrl }) {
                 {(siteName || 'P').charAt(0)}
               </div>
             )}
-            <span className="text-lg font-bold tracking-tight text-accent-700 md:text-xl">
+            <span className="font-serif text-lg font-bold tracking-tight text-accent-700 md:text-xl">
               {siteName || 'Pak Study And Jobs'}
             </span>
           </Link>
@@ -64,7 +64,7 @@ export default function Header({ siteName, logoUrl }) {
               <Link
                 key={link.href}
                 href={link.href}
-                className="rounded-lg px-3.5 py-2 text-sm font-semibold text-gray-600 transition hover:bg-brand-50 hover:text-brand-700"
+                className="rounded-lg px-3.5 py-2 text-sm font-semibold text-gray-600 transition hover:bg-brand-50 hover:text-brand-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2"
               >
                 {link.label}
               </Link>
@@ -74,7 +74,7 @@ export default function Header({ siteName, logoUrl }) {
           {/* Mobile hamburger */}
           <button
             onClick={() => setOpen(true)}
-            className="inline-flex items-center justify-center rounded-lg p-2 text-brand-700 hover:bg-brand-50 md:hidden"
+            className="inline-flex items-center justify-center rounded-lg p-2 text-brand-700 hover:bg-brand-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2 md:hidden"
             aria-label="Open menu"
           >
             <MenuIcon3D className="h-6 w-6" />
@@ -110,7 +110,7 @@ export default function Header({ siteName, logoUrl }) {
                 key={link.href}
                 href={link.href}
                 onClick={() => setOpen(false)}
-                className="rounded-lg px-4 py-3 text-sm font-semibold text-gray-700 transition hover:bg-brand-50 hover:text-brand-700"
+                className="rounded-lg px-4 py-3 text-sm font-semibold text-gray-700 transition hover:bg-brand-50 hover:text-brand-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
               >
                 {link.label}
               </Link>

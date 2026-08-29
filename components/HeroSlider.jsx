@@ -166,7 +166,7 @@ export default function HeroSlider({ jobs = [], mainHeading, subHeading }) {
           ✅ Trusted by thousands of job seekers &amp; students
         </span>
 
-        <h1 className="mt-3.5 text-2xl font-extrabold leading-tight tracking-tight text-aink md:text-4xl lg:text-5xl">
+        <h1 className="mt-3.5 font-serif text-2xl font-bold leading-tight tracking-tight text-aink md:text-4xl lg:text-5xl">
           {mainHeading || 'Find Your Next Government Job'}
         </h1>
         <p className="mx-auto mt-2.5 max-w-2xl text-sm text-gray-600 md:text-base">
@@ -219,7 +219,7 @@ export default function HeroSlider({ jobs = [], mainHeading, subHeading }) {
             <Link
               key={link.href}
               href={link.href}
-              className="text-xs font-medium text-gray-600 underline-offset-4 transition hover:text-brand-700 hover:underline md:text-sm"
+              className="text-xs font-medium text-gray-600 underline-offset-4 transition hover:text-brand-700 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:rounded md:text-sm"
             >
               {link.label}
             </Link>
