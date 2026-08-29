@@ -45,14 +45,7 @@ export default function PublicJobCard({ job, onViewDetails }) {
   const isExpired = remaining !== null && remaining < 0;
 
   return (
-    <div className="group relative flex flex-col overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
-      {/* Accent bar */}
-      <div
-        className={`h-1 w-full bg-gradient-to-r ${
-          isGovernment ? 'from-brand-600 via-brand-500 to-brand-400' : 'from-accent-600 via-accent-500 to-accent-400'
-        }`}
-      />
-
+    <div className="group relative flex flex-col overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md">
       <div className="flex flex-1 flex-col p-5">
         {/* Header: category icon + tags */}
         <div className="mb-3 flex items-start gap-3">

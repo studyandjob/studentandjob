@@ -20,9 +20,7 @@ export default function ScholarshipCard({ scholarship }) {
   const isUrgent = remaining !== null && remaining >= 0 && remaining <= 5;
 
   return (
-    <div className="group relative flex flex-col overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
-      <div className="h-1 w-full bg-gradient-to-r from-accent-700 via-accent-600 to-accent-500" />
-
+    <div className="group relative flex flex-col overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md">
       <div className="flex flex-1 flex-col p-5">
         <span className="mb-3 flex h-11 w-11 flex-shrink-0 items-center justify-center">
           <GraduationCapIcon3D className="h-full w-full" />

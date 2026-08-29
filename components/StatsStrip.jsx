@@ -14,15 +14,15 @@ export default function StatsStrip({ stats }) {
   ];
 
   return (
-    <div className="bg-gradient-to-br from-brand-700 via-brand-600 to-accent-700">
+    <div className="border-y border-gray-100 bg-white">
       <div className="mx-auto grid max-w-7xl grid-cols-2 gap-6 px-4 py-10 sm:grid-cols-4 md:gap-8 md:px-6 md:py-14">
         {items.map(({ label, value, Icon }) => (
           <div key={label} className="flex flex-col items-center gap-2 text-center">
-            <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-white/15 backdrop-blur-sm">
+            <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand-50 text-brand-600">
               <Icon className="h-6 w-6" />
             </span>
-            <span className="font-serif text-2xl font-bold text-white md:text-3xl">{formatCount(value)}</span>
-            <span className="text-xs font-medium text-white/80 md:text-sm">{label}</span>
+            <span className="font-serif text-2xl font-bold text-brand-700 md:text-3xl">{formatCount(value)}</span>
+            <span className="text-xs font-medium text-gray-500 md:text-sm">{label}</span>
           </div>
         ))}
       </div>

@@ -71,8 +71,8 @@ export default function HeroSlider({ jobs = [], mainHeading, subHeading }) {
         {/* Header row: type icon + pill tags */}
         <div className="mb-3 flex items-center gap-2.5">
           <span
-            className={`flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-gradient-to-br text-white shadow-sm ${
-              isGovernment ? 'from-brand-500 to-brand-700' : 'from-accent-500 to-accent-700'
+            className={`flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl ${
+              isGovernment ? 'bg-brand-50 text-brand-600' : 'bg-accent-50 text-accent-600'
             }`}
           >
             {isGovernment ? <ShieldCheckIcon className="h-4 w-4" /> : <BriefcaseIcon className="h-4 w-4" />}
@@ -159,8 +159,6 @@ export default function HeroSlider({ jobs = [], mainHeading, subHeading }) {
           backgroundSize: '28px 28px',
         }}
       />
-      <div className="pointer-events-none absolute -top-24 left-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-brand-100/60 blur-3xl" />
-
       <div className="relative mx-auto max-w-5xl px-4 pb-10 pt-8 text-center md:px-6 md:pb-14 md:pt-12">
         <span className="inline-flex items-center gap-1.5 rounded-full border border-brand-100 bg-brand-50 px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-brand-700 md:text-xs">
           ✅ Trusted by thousands of job seekers &amp; students

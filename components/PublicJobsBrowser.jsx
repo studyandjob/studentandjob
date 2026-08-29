@@ -46,11 +46,7 @@ export default function PublicJobsBrowser({ jobs = [], siteName }) {
   return (
     <>
       {/* --- Hero / Header --- */}
-      <div className="relative overflow-hidden border-b border-gray-100 bg-gradient-to-br from-brand-50 via-white to-accent-50/60">
-        {/* Thin branded accent line — same treatment as PageBanner, keeps
-            the transition from the white Header smooth instead of an
-            abrupt full-bleed dark color block. */}
-        <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-brand-600 via-accent-500 to-brand-400" />
+      <div className="relative overflow-hidden border-b border-gray-100 bg-white">
         <div className="relative mx-auto max-w-5xl px-4 py-10 text-center md:px-6 md:py-14">
           <h1 className="font-serif text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl md:text-4xl">
             {siteName || 'Pak Study And Jobs'}
