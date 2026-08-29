@@ -34,6 +34,25 @@ module.exports = {
           600: '#284f97',
           700: '#234483',
         },
+        // Neutral "black" text scale used across the PUBLIC site
+        // (text-gray-400..900 — headings, body copy, muted labels).
+        // Shades 400-900 resolve through CSS variables so the admin's
+        // Text Theme panel (components/admin/TextThemeManager.jsx +
+        // lib/textThemes.js) can re-tint all of it at once — e.g. to
+        // Golden, Silver, Sky Blue, etc. — without touching the semantic
+        // brand/accent/red colors above. The fallback hex after each var()
+        // is Tailwind's own default gray, so nothing changes visually
+        // until an admin actually picks and saves a different theme.
+        // gray-50..300 are intentionally left as plain Tailwind defaults
+        // (borders/subtle backgrounds, not really "text").
+        gray: {
+          400: 'var(--text-400, #9CA3AF)',
+          500: 'var(--text-500, #6B7280)',
+          600: 'var(--text-600, #4B5563)',
+          700: 'var(--text-700, #374151)',
+          800: 'var(--text-800, #1F2937)',
+          900: 'var(--text-900, #111827)',
+        },
         // Admin dashboard palette — kept separate from the public-site
         // "brand" colors so the admin panel has its own visual identity.
         // Reworked to match the BCI Platform look: white surfaces, a blue
