@@ -69,7 +69,7 @@ export default function MessagesManager({ initialRows = [] }) {
       }`}
       icon={MailIcon}
     >
-      {error && <p className="mb-4 rounded-lg border border-rose-200 bg-rose-50 px-3 py-2 text-sm text-rose-600">{error}</p>}
+      {error && <p className="mb-4 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-600">{error}</p>}
 
       {rows.length === 0 ? (
         <p className="py-6 text-center text-sm text-amuted">No messages yet.</p>
@@ -84,7 +84,7 @@ export default function MessagesManager({ initialRows = [] }) {
                 className={`rounded-xl border px-4 py-3 transition hover:shadow-sm ${
                   unread
                     ? 'border-atl2/40 bg-[#F5F9F8] hover:border-atl2'
-                    : 'border-aline bg-white hover:border-emerald-200'
+                    : 'border-aline bg-white hover:border-brand-200'
                 }`}
               >
                 <div className="flex flex-wrap items-center justify-between gap-3">
@@ -123,7 +123,7 @@ export default function MessagesManager({ initialRows = [] }) {
                     </button>
                     <button
                       onClick={() => handleDelete(row.id)}
-                      className="flex items-center gap-1.5 rounded-full border border-rose-200 bg-rose-50 px-3.5 py-1.5 text-xs font-semibold text-rose-600 transition hover:bg-rose-600 hover:text-white"
+                      className="flex items-center gap-1.5 rounded-full border border-red-200 bg-red-50 px-3.5 py-1.5 text-xs font-semibold text-red-600 transition hover:bg-red-600 hover:text-white"
                     >
                       <TrashIcon className="h-3.5 w-3.5" />
                       Delete

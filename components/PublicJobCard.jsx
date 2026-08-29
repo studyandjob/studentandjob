@@ -50,7 +50,7 @@ export default function PublicJobCard({ job, onViewDetails }) {
       {/* Accent bar */}
       <div
         className={`h-1 w-full bg-gradient-to-r ${
-          isGovernment ? 'from-brand-600 via-brand-500 to-brand-400' : 'from-accent-600 via-accent-500 to-emerald-400'
+          isGovernment ? 'from-brand-600 via-brand-500 to-brand-400' : 'from-accent-600 via-accent-500 to-brand-400'
         }`}
       />
 
@@ -85,13 +85,13 @@ export default function PublicJobCard({ job, onViewDetails }) {
         <div className="mb-4 flex flex-col gap-2 text-sm text-gray-600">
           {job.city && (
             <div className="flex items-center gap-2">
-              <IconBadge icon={MapPinIcon} gradient="from-sky-400 to-brand-600" />
+              <IconBadge icon={MapPinIcon} gradient="from-accent-400 to-accent-700" />
               <span className="truncate">{job.city}</span>
             </div>
           )}
           {job.department && (
             <div className="flex items-center gap-2">
-              <IconBadge icon={BuildingIcon} gradient="from-slate-400 to-slate-600" />
+              <IconBadge icon={BuildingIcon} gradient="from-gray-400 to-gray-600" />
               <span className="truncate">{job.department}</span>
             </div>
           )}
@@ -105,22 +105,22 @@ export default function PublicJobCard({ job, onViewDetails }) {
                 ? 'border-gray-200 bg-gray-50'
                 : isUrgent
                   ? 'border-red-100 bg-red-50'
-                  : 'border-amber-100 bg-amber-50'
+                  : 'border-gray-100 bg-gray-50'
             }`}
           >
             <IconBadge
               icon={CalendarClockIcon}
-              gradient={isExpired ? 'from-gray-400 to-gray-500' : isUrgent ? 'from-red-500 to-rose-600' : 'from-amber-400 to-orange-500'}
+              gradient={isExpired ? 'from-gray-400 to-gray-500' : isUrgent ? 'from-red-500 to-red-600' : 'from-brand-400 to-brand-600'}
             />
             <div className="min-w-0 leading-tight">
               <p
                 className={`text-[0.65rem] font-semibold uppercase tracking-wide ${
-                  isExpired ? 'text-gray-400' : isUrgent ? 'text-red-500' : 'text-amber-600'
+                  isExpired ? 'text-gray-400' : isUrgent ? 'text-red-500' : 'text-gray-600'
                 }`}
               >
                 {isExpired ? 'Closed' : isUrgent ? 'Closing soon' : 'Last date to apply'}
               </p>
-              <p className={`truncate text-sm font-bold ${isExpired ? 'text-gray-500' : isUrgent ? 'text-red-700' : 'text-amber-800'}`}>
+              <p className={`truncate text-sm font-bold ${isExpired ? 'text-gray-500' : isUrgent ? 'text-red-700' : 'text-gray-800'}`}>
                 {formatDate(job.last_date)}
               </p>
             </div>
@@ -133,7 +133,7 @@ export default function PublicJobCard({ job, onViewDetails }) {
             href={job.apply_link || '#'}
             target="_blank"
             rel="noopener noreferrer"
-            className="group/btn order-1 flex flex-1 items-center justify-center gap-1.5 rounded-xl bg-gradient-to-r from-green-600 to-emerald-600 px-4 py-2.5 text-center text-sm font-semibold text-white shadow-md shadow-emerald-600/20 transition-all duration-200 hover:shadow-lg hover:shadow-emerald-600/30 hover:-translate-y-0.5 sm:order-2"
+            className="group/btn order-1 flex flex-1 items-center justify-center gap-1.5 rounded-xl bg-gradient-to-r from-brand-600 to-brand-700 px-4 py-2.5 text-center text-sm font-semibold text-white shadow-md shadow-brand-600/20 transition-all duration-200 hover:shadow-lg hover:shadow-brand-600/30 hover:-translate-y-0.5 sm:order-2"
           >
             Apply Now
             <ArrowRightIcon className="h-4 w-4 transition-transform duration-200 group-hover/btn:translate-x-1" />

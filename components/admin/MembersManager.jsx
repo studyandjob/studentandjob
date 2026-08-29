@@ -95,7 +95,7 @@ export default function MembersManager({ initialRequests = [] }) {
       icon={IdCardIcon}
     >
       {error && (
-        <p className="mb-4 rounded-lg border border-rose-200 bg-rose-50 px-3 py-2 text-sm text-rose-600">{error}</p>
+        <p className="mb-4 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-600">{error}</p>
       )}
 
       <div className="mb-5 flex gap-2 rounded-[10px] border border-aline bg-[#FCFAF6] p-1">
@@ -185,9 +185,9 @@ export default function MembersManager({ initialRequests = [] }) {
                 <span
                   className={`mb-3 inline-block rounded-full px-2.5 py-1 text-[0.68rem] font-bold uppercase tracking-wide ${
                     req.status === 'active'
-                      ? 'bg-emerald-100 text-emerald-700'
+                      ? 'bg-brand-100 text-brand-700'
                       : req.status === 'expired'
-                      ? 'bg-rose-100 text-rose-600'
+                      ? 'bg-red-100 text-red-600'
                       : req.status === 'rejected'
                       ? 'bg-gray-200 text-gray-600'
                       : 'bg-agold/15 text-agold'
@@ -209,7 +209,7 @@ export default function MembersManager({ initialRequests = [] }) {
                       <button
                         disabled={busyId === req.id}
                         onClick={() => setStatus(req, 'rejected')}
-                        className="rounded-full border border-rose-200 px-3.5 py-1.5 text-xs font-semibold text-rose-600 transition hover:bg-rose-600 hover:text-white"
+                        className="rounded-full border border-red-200 px-3.5 py-1.5 text-xs font-semibold text-red-600 transition hover:bg-red-600 hover:text-white"
                       >
                         Reject
                       </button>

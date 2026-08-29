@@ -196,8 +196,8 @@ function ContactEditForm({ contact, onCancel, onSaved, onError }) {
         <button
           type="submit"
           disabled={saving || photoUploading}
-          className="inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold text-white shadow-[0_6px_18px_-6px_rgba(242,120,92,0.5)] transition hover:-translate-y-0.5 disabled:opacity-60"
-          style={{ background: 'linear-gradient(135deg, #E8A33D, #F2785C)' }}
+          className="inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold text-white shadow-[0_6px_18px_-6px_rgba(30,132,73,0.5)] transition hover:-translate-y-0.5 disabled:opacity-60"
+          style={{ background: 'linear-gradient(135deg, #1E8449, #2E5AAC)' }}
         >
           <SaveIcon className="h-4 w-4" />
           {saving ? 'Saving...' : photoUploading ? 'Uploading photo...' : 'Save Changes'}
@@ -279,7 +279,7 @@ export default function ContactsManager({ initialRows = [] }) {
       description="Contact persons shown as cards on the public Contact Us page (name, designation, photo, phone, email)."
       icon={IdCardIcon}
     >
-      {error && <p className="mb-4 rounded-lg border border-rose-200 bg-rose-50 px-3 py-2 text-sm text-rose-600">{error}</p>}
+      {error && <p className="mb-4 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-600">{error}</p>}
 
       {/* Add form */}
       <form onSubmit={handleAdd} className="mb-6 grid grid-cols-1 gap-3.5 rounded-xl bg-[#F5F9F8] p-4 sm:grid-cols-2">
@@ -307,8 +307,8 @@ export default function ContactsManager({ initialRows = [] }) {
           <button
             type="submit"
             disabled={saving || photoUploading}
-            className="inline-flex items-center gap-2 rounded-full px-6 py-2.5 text-sm font-semibold text-white shadow-[0_6px_18px_-6px_rgba(242,120,92,0.5)] transition hover:-translate-y-0.5 disabled:opacity-60"
-            style={{ background: 'linear-gradient(135deg, #E8A33D, #F2785C)' }}
+            className="inline-flex items-center gap-2 rounded-full px-6 py-2.5 text-sm font-semibold text-white shadow-[0_6px_18px_-6px_rgba(30,132,73,0.5)] transition hover:-translate-y-0.5 disabled:opacity-60"
+            style={{ background: 'linear-gradient(135deg, #1E8449, #2E5AAC)' }}
           >
             <PlusIcon className="h-4 w-4" />
             {saving ? 'Adding...' : photoUploading ? 'Uploading photo...' : 'Add Contact'}
@@ -327,7 +327,7 @@ export default function ContactsManager({ initialRows = [] }) {
             return (
               <li
                 key={row.id}
-                className="rounded-xl border border-aline bg-white p-4 transition hover:border-emerald-200 hover:shadow-sm"
+                className="rounded-xl border border-aline bg-white p-4 transition hover:border-brand-200 hover:shadow-sm"
               >
                 {isEditing ? (
                   <ContactEditForm
@@ -379,7 +379,7 @@ export default function ContactsManager({ initialRows = [] }) {
                       </button>
                       <button
                         onClick={() => handleDelete(row.id)}
-                        className="flex items-center gap-1.5 rounded-full border border-rose-200 bg-rose-50 px-3.5 py-1.5 text-xs font-semibold text-rose-600 transition hover:bg-rose-600 hover:text-white"
+                        className="flex items-center gap-1.5 rounded-full border border-red-200 bg-red-50 px-3.5 py-1.5 text-xs font-semibold text-red-600 transition hover:bg-red-600 hover:text-white"
                       >
                         <TrashIcon className="h-3.5 w-3.5" />
                         Delete

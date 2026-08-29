@@ -61,7 +61,7 @@ export default function JobDetailsModal({ job, onClose, onEdit }) {
                   {job.job_type}
                 </span>
                 {job.status === 'closed' && (
-                  <span className="rounded-full bg-rose-100 px-2 py-0.5 text-[0.68rem] font-bold text-rose-600">
+                  <span className="rounded-full bg-red-100 px-2 py-0.5 text-[0.68rem] font-bold text-red-600">
                     Closed
                   </span>
                 )}
@@ -102,7 +102,7 @@ export default function JobDetailsModal({ job, onClose, onEdit }) {
                 </a>
               )}
               {job.whatsapp_number && (
-                <span className="flex items-center rounded-full border border-emerald-200 bg-emerald-50 px-4 py-2 text-xs font-semibold text-emerald-700">
+                <span className="flex items-center rounded-full border border-brand-200 bg-brand-50 px-4 py-2 text-xs font-semibold text-brand-700">
                   WhatsApp: {job.whatsapp_number}
                 </span>
               )}

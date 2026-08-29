@@ -71,7 +71,7 @@ export default function JobMatches({ jobs = [], profile }) {
       </div>
 
       {!profile && (
-        <p className="mb-4 rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-800">
+        <p className="mb-4 rounded-lg border border-gray-200 bg-gray-50 px-3 py-2 text-sm text-gray-800">
           Complete your Profile to see an AI match score on every job below.
         </p>
       )}

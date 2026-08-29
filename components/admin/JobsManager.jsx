@@ -90,7 +90,7 @@ export default function JobsManager({ initialJobs = [] }) {
         icon={BriefcaseIcon}
       >
         {error && (
-          <p className="mb-4 rounded-lg border border-rose-200 bg-rose-50 px-3 py-2 text-sm text-rose-600">{error}</p>
+          <p className="mb-4 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-600">{error}</p>
         )}
 
         {showForm ? (
@@ -132,7 +132,7 @@ export default function JobsManager({ initialJobs = [] }) {
                           {job.sector}
                         </span>
                         {job.status === 'closed' && (
-                          <span className="rounded-full bg-rose-100 px-2 py-0.5 text-[0.68rem] font-bold text-rose-600">
+                          <span className="rounded-full bg-red-100 px-2 py-0.5 text-[0.68rem] font-bold text-red-600">
                             Closed
                           </span>
                         )}
@@ -162,7 +162,7 @@ export default function JobsManager({ initialJobs = [] }) {
                       </button>
                       <button
                         onClick={() => handleDelete(job.id)}
-                        className="flex items-center gap-1 rounded-md border border-rose-200 bg-rose-50 px-3 py-1.5 text-xs font-semibold text-rose-600 transition hover:bg-rose-600 hover:text-white"
+                        className="flex items-center gap-1 rounded-md border border-red-200 bg-red-50 px-3 py-1.5 text-xs font-semibold text-red-600 transition hover:bg-red-600 hover:text-white"
                       >
                         <TrashIcon className="h-3.5 w-3.5" /> Delete
                       </button>

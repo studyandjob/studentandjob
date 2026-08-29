@@ -63,7 +63,7 @@ export default function StudyMaterialsManager({ classes, subjects, initialRows =
 
   return (
     <div className="flex flex-col gap-4">
-      {error && <p className="rounded-lg border border-rose-200 bg-rose-50 px-3 py-2 text-sm text-rose-600">{error}</p>}
+      {error && <p className="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-600">{error}</p>}
 
       <form onSubmit={handleAdd} className="grid grid-cols-1 gap-3.5 rounded-xl bg-[#F5F9F8] p-4 sm:grid-cols-2">
         <label>
@@ -117,8 +117,8 @@ export default function StudyMaterialsManager({ classes, subjects, initialRows =
           <button
             type="submit"
             disabled={saving}
-            className="inline-flex items-center gap-2 rounded-full px-6 py-2.5 text-sm font-semibold text-white shadow-[0_6px_18px_-6px_rgba(242,120,92,0.5)] transition hover:-translate-y-0.5 disabled:opacity-60"
-            style={{ background: 'linear-gradient(135deg, #E8A33D, #F2785C)' }}
+            className="inline-flex items-center gap-2 rounded-full px-6 py-2.5 text-sm font-semibold text-white shadow-[0_6px_18px_-6px_rgba(30,132,73,0.5)] transition hover:-translate-y-0.5 disabled:opacity-60"
+            style={{ background: 'linear-gradient(135deg, #1E8449, #2E5AAC)' }}
           >
             <PlusIcon className="h-4 w-4" />
             {saving ? 'Adding...' : 'Add'}
@@ -155,7 +155,7 @@ export default function StudyMaterialsManager({ classes, subjects, initialRows =
               </div>
               <button
                 onClick={() => handleDelete(row.id)}
-                className="flex flex-shrink-0 items-center gap-1.5 rounded-full border border-rose-200 bg-rose-50 px-3.5 py-1.5 text-xs font-semibold text-rose-600 transition hover:bg-rose-600 hover:text-white"
+                className="flex flex-shrink-0 items-center gap-1.5 rounded-full border border-red-200 bg-red-50 px-3.5 py-1.5 text-xs font-semibold text-red-600 transition hover:bg-red-600 hover:text-white"
               >
                 <TrashIcon className="h-3.5 w-3.5" />
                 Delete

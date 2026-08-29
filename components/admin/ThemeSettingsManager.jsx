@@ -104,14 +104,14 @@ export default function ThemeSettingsManager() {
           type="button"
           onClick={handleSavePreferences}
           disabled={saving}
-          className="inline-flex items-center gap-2 rounded-full px-6 py-2.5 text-sm font-semibold text-white shadow-[0_6px_18px_-6px_rgba(242,120,92,0.5)] transition hover:-translate-y-0.5 disabled:opacity-60"
-          style={{ background: 'linear-gradient(135deg, #E8A33D, #F2785C)' }}
+          className="inline-flex items-center gap-2 rounded-full px-6 py-2.5 text-sm font-semibold text-white shadow-[0_6px_18px_-6px_rgba(30,132,73,0.5)] transition hover:-translate-y-0.5 disabled:opacity-60"
+          style={{ background: 'linear-gradient(135deg, #1E8449, #2E5AAC)' }}
         >
           <SaveIcon className="h-4 w-4" />
           {saving ? 'Saving...' : '💾 Save Theme Preferences'}
         </button>
         {message && (
-          <span className={`text-sm ${message.startsWith('Error') ? 'text-rose-600' : 'text-atl2'}`}>{message}</span>
+          <span className={`text-sm ${message.startsWith('Error') ? 'text-red-600' : 'text-atl2'}`}>{message}</span>
         )}
       </div>
     </AdminCard>

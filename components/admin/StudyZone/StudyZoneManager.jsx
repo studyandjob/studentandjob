@@ -46,7 +46,7 @@ export default function StudyZoneManager({ initialClasses = [], initialSubjects 
       </div>
 
       {classes.length === 0 && subTab !== 'setup' && (
-        <p className="mb-4 rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-700">
+        <p className="mb-4 rounded-lg border border-gray-200 bg-gray-50 px-3 py-2 text-sm text-gray-700">
           Add at least one class and subject under "Classes & Subjects" before generating or browsing questions.
         </p>
       )}

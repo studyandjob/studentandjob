@@ -13,13 +13,13 @@ export default function JobCard({ job, match, onViewDetails }) {
       <div className="mb-2 flex items-start justify-between gap-2">
         <span
           className={`rounded-full px-2.5 py-1 text-[0.68rem] font-bold uppercase tracking-wide ${
-            job.job_type === 'Government' ? 'bg-brand-50 text-brand-600' : 'bg-amber-50 text-amber-600'
+            job.job_type === 'Government' ? 'bg-brand-50 text-brand-600' : 'bg-gray-50 text-gray-600'
           }`}
         >
           {job.job_type}
         </span>
         {match && (
-          <span className="rounded-full bg-emerald-50 px-2.5 py-1 text-[0.68rem] font-bold text-emerald-700">
+          <span className="rounded-full bg-brand-50 px-2.5 py-1 text-[0.68rem] font-bold text-brand-700">
             {match.score}% Match
           </span>
         )}
@@ -35,7 +35,7 @@ export default function JobCard({ job, match, onViewDetails }) {
         {job.category && <span className="rounded-full bg-gray-100 px-2 py-0.5 text-[0.68rem] text-gray-600">{job.category}</span>}
       </div>
 
-      <p className="mb-4 text-xs font-medium text-rose-600">Last date: {formatDate(job.last_date)}</p>
+      <p className="mb-4 text-xs font-medium text-red-600">Last date: {formatDate(job.last_date)}</p>
 
       <div className="mt-auto flex gap-2">
         <button
@@ -49,7 +49,7 @@ export default function JobCard({ job, match, onViewDetails }) {
             href={`https://wa.me/${job.whatsapp_number.replace(/\D/g, '')}?text=${encodeURIComponent(`I'm interested in the ${job.title} position.`)}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center justify-center rounded-full border border-emerald-200 bg-emerald-50 px-3 py-2 text-emerald-700 transition hover:bg-emerald-600 hover:text-white"
+            className="flex items-center justify-center rounded-full border border-brand-200 bg-brand-50 px-3 py-2 text-brand-700 transition hover:bg-brand-600 hover:text-white"
             aria-label="WhatsApp Inquiry"
             title="WhatsApp Inquiry"
           >

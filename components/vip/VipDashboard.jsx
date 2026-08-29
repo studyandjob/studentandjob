@@ -37,7 +37,7 @@ export default function VipDashboard({ session, initialProfile, jobs, initialReq
           </div>
           <div className="flex items-center gap-3">
             {isMember && (
-              <span className="rounded-full bg-emerald-100 px-3 py-1 text-xs font-bold text-emerald-700">VIP Active</span>
+              <span className="rounded-full bg-brand-100 px-3 py-1 text-xs font-bold text-brand-700">VIP Active</span>
             )}
             <button onClick={handleLogout} className="text-sm font-semibold text-gray-500 hover:text-gray-800">
               Logout

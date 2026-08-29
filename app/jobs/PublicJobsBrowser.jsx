@@ -164,7 +164,7 @@ export default function PublicJobsBrowser({ jobs = [] }) {
                   <p className="text-sm font-semibold text-gray-800 md:text-base">{job.title}</p>
                   <span
                     className={`rounded-full px-2 py-0.5 text-[0.65rem] font-bold uppercase tracking-wide ${
-                      job.job_type === 'Government' ? 'bg-brand-50 text-brand-700' : 'bg-amber-50 text-amber-600'
+                      job.job_type === 'Government' ? 'bg-brand-50 text-brand-700' : 'bg-gray-50 text-gray-600'
                     }`}
                   >
                     {job.job_type}

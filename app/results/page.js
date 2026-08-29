@@ -49,7 +49,7 @@ export default async function ResultsPage() {
                       <p className="mt-1 text-xs text-gray-500 md:text-sm">
                         {r.board_or_department}
                         {r.result_date && (
-                          <span className="ml-2 rounded bg-emerald-50 px-1.5 py-0.5 font-medium text-emerald-700">
+                          <span className="ml-2 rounded bg-brand-50 px-1.5 py-0.5 font-medium text-brand-700">
                             Announced: {formatDate(r.result_date)}
                           </span>
                         )}

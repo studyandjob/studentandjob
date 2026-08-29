@@ -116,7 +116,7 @@ export default function ExamRunner({ sessionId }) {
   if (error) {
     return (
       <div className="rounded-xl bg-white p-6 text-center shadow-sm ring-1 ring-black/5">
-        <p className="mb-3 text-sm text-rose-600">{error}</p>
+        <p className="mb-3 text-sm text-red-600">{error}</p>
         <Link href="/study-zone/test" className="text-sm font-semibold text-brand-600 hover:underline">
           ← Start a new test
         </Link>
@@ -143,14 +143,14 @@ export default function ExamRunner({ sessionId }) {
             </p>
             <p className="text-xs text-gray-500">Marks</p>
           </div>
-          <div className="rounded-xl bg-emerald-50 p-4 text-center">
-            <p className="text-2xl font-extrabold text-emerald-700">
+          <div className="rounded-xl bg-brand-50 p-4 text-center">
+            <p className="text-2xl font-extrabold text-brand-700">
               {result.objective_correct}/{result.objective_total}
             </p>
             <p className="text-xs text-gray-500">Objective Correct</p>
           </div>
-          <div className="rounded-xl bg-amber-50 p-4 text-center">
-            <p className="text-2xl font-extrabold text-amber-700">{result.pending_review}</p>
+          <div className="rounded-xl bg-gray-50 p-4 text-center">
+            <p className="text-2xl font-extrabold text-gray-700">{result.pending_review}</p>
             <p className="text-xs text-gray-500">Awaiting Manual Review</p>
           </div>
         </div>
@@ -164,11 +164,11 @@ export default function ExamRunner({ sessionId }) {
                   Q{i + 1}. {q?.text}
                 </p>
                 {b.status === 'graded' ? (
-                  <p className={b.is_correct ? 'text-emerald-600' : 'text-rose-600'}>
+                  <p className={b.is_correct ? 'text-brand-600' : 'text-red-600'}>
                     Your answer: {b.given_answer || '(blank)'} {b.is_correct ? '✓ Correct' : `✗ Correct answer: ${b.correct_answer}`}
                   </p>
                 ) : (
-                  <p className="text-amber-600">Submitted — awaiting manual review ({b.marks} marks)</p>
+                  <p className="text-gray-600">Submitted — awaiting manual review ({b.marks} marks)</p>
                 )}
               </li>
             );
@@ -201,7 +201,7 @@ export default function ExamRunner({ sessionId }) {
         </div>
         <div
           className={`flex items-center gap-1.5 rounded-full px-4 py-1.5 text-sm font-bold tabular-nums ${
-            secondsLeft !== null && secondsLeft < 60 ? 'bg-rose-100 text-rose-700' : 'bg-brand-50 text-brand-700'
+            secondsLeft !== null && secondsLeft < 60 ? 'bg-red-100 text-red-700' : 'bg-brand-50 text-brand-700'
           }`}
         >
           ⏱ {secondsLeft !== null ? formatTime(secondsLeft) : '--:--'}
@@ -276,7 +276,7 @@ export default function ExamRunner({ sessionId }) {
           <button
             onClick={handleSubmit}
             disabled={submitting}
-            className="rounded-full bg-emerald-600 px-6 py-2.5 text-sm font-bold text-white transition hover:bg-emerald-700 disabled:opacity-60"
+            className="rounded-full bg-brand-600 px-6 py-2.5 text-sm font-bold text-white transition hover:bg-brand-700 disabled:opacity-60"
           >
             {submitting ? 'Submitting...' : 'Submit Test'}
           </button>

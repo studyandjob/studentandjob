@@ -63,7 +63,7 @@ export default function ClassesSubjectsManager({ classes, subjects, onClassesCha
   return (
     <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
       {error && (
-        <p className="rounded-lg border border-rose-200 bg-rose-50 px-3 py-2 text-sm text-rose-600 md:col-span-2">{error}</p>
+        <p className="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-600 md:col-span-2">{error}</p>
       )}
 
       {/* Classes */}
@@ -89,7 +89,7 @@ export default function ClassesSubjectsManager({ classes, subjects, onClassesCha
           {classes.map((c) => (
             <li key={c.id} className="flex items-center justify-between rounded-lg border border-aline px-3 py-2 text-sm">
               <span className="font-medium text-aink">{c.class_name}</span>
-              <button onClick={() => deleteClass(c.id)} className="text-rose-500 hover:text-rose-700">
+              <button onClick={() => deleteClass(c.id)} className="text-red-500 hover:text-red-700">
                 <TrashIcon className="h-4 w-4" />
               </button>
             </li>
@@ -133,7 +133,7 @@ export default function ClassesSubjectsManager({ classes, subjects, onClassesCha
                   ({classes.find((c) => c.id === s.class_id)?.class_name || '—'})
                 </span>
               </span>
-              <button onClick={() => deleteSubject(s.id)} className="text-rose-500 hover:text-rose-700">
+              <button onClick={() => deleteSubject(s.id)} className="text-red-500 hover:text-red-700">
                 <TrashIcon className="h-4 w-4" />
               </button>
             </li>

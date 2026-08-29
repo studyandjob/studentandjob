@@ -76,7 +76,7 @@ export default function QuestionBankBrowser({ classes, subjects }) {
         </select>
       </div>
 
-      {error && <p className="rounded-lg border border-rose-200 bg-rose-50 px-3 py-2 text-sm text-rose-600">{error}</p>}
+      {error && <p className="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-600">{error}</p>}
 
       {classId && subjectId && (
         <>
@@ -106,7 +106,7 @@ export default function QuestionBankBrowser({ classes, subjects }) {
                     </div>
                     <p className="line-clamp-2 text-sm text-aink">{r.question_text}</p>
                   </div>
-                  <button onClick={() => handleDelete(r.id)} className="flex-shrink-0 text-rose-500 hover:text-rose-700">
+                  <button onClick={() => handleDelete(r.id)} className="flex-shrink-0 text-red-500 hover:text-red-700">
                     <TrashIcon className="h-4 w-4" />
                   </button>
                 </li>

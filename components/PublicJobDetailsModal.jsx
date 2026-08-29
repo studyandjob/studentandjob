@@ -50,7 +50,7 @@ export default function PublicJobDetailsModal({ job, onClose }) {
               <h2 className="text-lg font-bold text-gray-900">{job.title}</h2>
               <span
                 className={`rounded-full px-2 py-0.5 text-[0.68rem] font-bold uppercase tracking-wide ${
-                  job.job_type === 'Government' ? 'bg-brand-50 text-brand-700' : 'bg-amber-50 text-amber-600'
+                  job.job_type === 'Government' ? 'bg-brand-50 text-brand-700' : 'bg-gray-50 text-gray-600'
                 }`}
               >
                 {job.job_type}
@@ -85,31 +85,31 @@ export default function PublicJobDetailsModal({ job, onClose }) {
           )}
 
           {showManual && (job.postal_address || job.required_documents || job.fee_details) && (
-            <div className="rounded-xl border border-amber-200 bg-amber-50 p-4">
-              <p className="mb-3 text-sm font-semibold text-amber-800">Manual / By-Post Details</p>
+            <div className="rounded-xl border border-gray-200 bg-gray-50 p-4">
+              <p className="mb-3 text-sm font-semibold text-gray-800">Manual / By-Post Details</p>
               <div className="flex flex-col gap-3 text-sm">
                 {job.postal_address && (
                   <div>
-                    <p className="text-[0.7rem] font-semibold uppercase tracking-wide text-amber-600">
+                    <p className="text-[0.7rem] font-semibold uppercase tracking-wide text-gray-600">
                       Postal Address
                     </p>
-                    <p className="mt-0.5 text-amber-900">{job.postal_address}</p>
+                    <p className="mt-0.5 text-gray-900">{job.postal_address}</p>
                   </div>
                 )}
                 {job.required_documents && (
                   <div>
-                    <p className="text-[0.7rem] font-semibold uppercase tracking-wide text-amber-600">
+                    <p className="text-[0.7rem] font-semibold uppercase tracking-wide text-gray-600">
                       Required Documents
                     </p>
-                    <p className="mt-0.5 whitespace-pre-line text-amber-900">{job.required_documents}</p>
+                    <p className="mt-0.5 whitespace-pre-line text-gray-900">{job.required_documents}</p>
                   </div>
                 )}
                 {job.fee_details && (
                   <div>
-                    <p className="text-[0.7rem] font-semibold uppercase tracking-wide text-amber-600">
+                    <p className="text-[0.7rem] font-semibold uppercase tracking-wide text-gray-600">
                       Fee / Challan Details
                     </p>
-                    <p className="mt-0.5 text-amber-900">{job.fee_details}</p>
+                    <p className="mt-0.5 text-gray-900">{job.fee_details}</p>
                   </div>
                 )}
               </div>
@@ -147,7 +147,7 @@ export default function PublicJobDetailsModal({ job, onClose }) {
               )}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-full border border-emerald-200 bg-emerald-50 px-5 py-2.5 text-sm font-semibold text-emerald-700 transition hover:bg-emerald-600 hover:text-white"
+              className="rounded-full border border-brand-200 bg-brand-50 px-5 py-2.5 text-sm font-semibold text-brand-700 transition hover:bg-brand-600 hover:text-white"
             >
               WhatsApp Inquiry
             </a>

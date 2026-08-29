@@ -46,12 +46,12 @@ export default function ContactForm() {
   return (
     <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-4 sm:grid-cols-2">
       {status === 'success' && (
-        <p className="rounded-lg border border-emerald-200 bg-emerald-50 px-3.5 py-2.5 text-sm text-emerald-700 sm:col-span-2">
+        <p className="rounded-lg border border-brand-200 bg-brand-50 px-3.5 py-2.5 text-sm text-brand-700 sm:col-span-2">
           Thanks — your message has been sent. We'll get back to you soon.
         </p>
       )}
       {status === 'error' && (
-        <p className="rounded-lg border border-rose-200 bg-rose-50 px-3.5 py-2.5 text-sm text-rose-600 sm:col-span-2">
+        <p className="rounded-lg border border-red-200 bg-red-50 px-3.5 py-2.5 text-sm text-red-600 sm:col-span-2">
           {errorMsg || 'Something went wrong. Please try again.'}
         </p>
       )}

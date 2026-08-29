@@ -11,7 +11,7 @@ export default function Topbar({ title, onMenuClick }) {
         <MenuIcon className="h-6 w-6" />
       </button>
       <h2 className="flex-1 font-serif text-lg font-bold text-atl">{title}</h2>
-      <span className="hidden items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-50 px-3.5 py-1.5 text-[0.82rem] font-semibold text-emerald-700 sm:flex">
+      <span className="hidden items-center gap-1.5 rounded-full border border-brand-200 bg-brand-50 px-3.5 py-1.5 text-[0.82rem] font-semibold text-brand-700 sm:flex">
         Admin
       </span>
     </div>

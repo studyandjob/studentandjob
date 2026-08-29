@@ -21,7 +21,7 @@ export default function ExtraServices({ whatsappNumber = '923001234567' }) {
             href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`I'm interested in "${s.title}"`)}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-block rounded-full border border-emerald-200 bg-emerald-50 px-4 py-2 text-xs font-semibold text-emerald-700 hover:bg-emerald-600 hover:text-white"
+            className="inline-block rounded-full border border-brand-200 bg-brand-50 px-4 py-2 text-xs font-semibold text-brand-700 hover:bg-brand-600 hover:text-white"
           >
             Inquire on WhatsApp
           </a>

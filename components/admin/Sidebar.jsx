@@ -113,7 +113,7 @@ export default function Sidebar({ activeTab, onTabChange, open, onClose, siteNam
 
           <button
             onClick={onLogout}
-            className="flex w-full items-center gap-3 rounded-[10px] border border-rose-200 bg-rose-50 px-3.5 py-3 text-left text-sm font-medium text-rose-600 transition hover:bg-rose-100"
+            className="flex w-full items-center gap-3 rounded-[10px] border border-red-200 bg-red-50 px-3.5 py-3 text-left text-sm font-medium text-red-600 transition hover:bg-red-100"
           >
             <LogOutIcon className="h-[18px] w-[18px] flex-shrink-0" />
             <span>Logout</span>

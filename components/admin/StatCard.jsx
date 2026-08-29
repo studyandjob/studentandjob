@@ -2,9 +2,9 @@ const COLOR_MAP = {
   teal: 'text-atl',
   gold: 'text-agold',
   coral: 'text-acoral',
-  blue: 'text-blue-600',
-  green: 'text-emerald-600',
-  purple: 'text-violet-600',
+  blue: 'text-accent-600',
+  green: 'text-brand-600',
+  purple: 'text-accent-600',
 };
 
 export default function StatCard({ icon: IconCmp, value, label, color = 'teal', onClick }) {

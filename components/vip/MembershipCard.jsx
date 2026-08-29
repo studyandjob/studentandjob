@@ -67,18 +67,18 @@ export default function MembershipCard({ userId, profileId, currentRequest, onRe
 
   if (currentRequest && currentRequest.status === 'active') {
     return (
-      <div className="rounded-2xl bg-emerald-50 p-6 text-center ring-1 ring-emerald-100">
-        <p className="text-lg font-bold text-emerald-700">✓ VIP Membership Active</p>
-        <p className="mt-1 text-sm text-emerald-700">Valid until {formatDate(currentRequest.end_date)}</p>
+      <div className="rounded-2xl bg-brand-50 p-6 text-center ring-1 ring-brand-100">
+        <p className="text-lg font-bold text-brand-700">✓ VIP Membership Active</p>
+        <p className="mt-1 text-sm text-brand-700">Valid until {formatDate(currentRequest.end_date)}</p>
       </div>
     );
   }
 
   if (currentRequest && currentRequest.status === 'pending') {
     return (
-      <div className="rounded-2xl bg-amber-50 p-6 text-center ring-1 ring-amber-100">
-        <p className="text-lg font-bold text-amber-700">Request Submitted</p>
-        <p className="mt-1 text-sm text-amber-700">
+      <div className="rounded-2xl bg-gray-50 p-6 text-center ring-1 ring-gray-100">
+        <p className="text-lg font-bold text-gray-700">Request Submitted</p>
+        <p className="mt-1 text-sm text-gray-700">
           Your {currentRequest.plan} membership request is awaiting admin approval.
         </p>
       </div>
@@ -88,13 +88,13 @@ export default function MembershipCard({ userId, profileId, currentRequest, onRe
   return (
     <div className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-black/5">
       {currentRequest?.status === 'expired' && (
-        <p className="mb-4 rounded-lg border border-rose-200 bg-rose-50 px-3 py-2 text-sm text-rose-600">
+        <p className="mb-4 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-600">
           Your previous membership expired on {formatDate(currentRequest.end_date)}. Renew below.
         </p>
       )}
       <h3 className="mb-4 text-base font-bold text-gray-900">Become / Renew VIP Member</h3>
 
-      {error && <p className="mb-4 rounded-lg border border-rose-200 bg-rose-50 px-3 py-2 text-sm text-rose-600">{error}</p>}
+      {error && <p className="mb-4 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-600">{error}</p>}
 
       <form onSubmit={submitRequest} className="flex flex-col gap-4">
         <div className="grid grid-cols-3 gap-2">
@@ -135,7 +135,7 @@ export default function MembershipCard({ userId, profileId, currentRequest, onRe
         <label className="flex flex-col gap-1.5">
           <span className="text-sm font-semibold text-gray-800">Upload Payment Screenshot</span>
           <input type="file" accept="image/*" onChange={handleProofUpload} className="text-sm" />
-          {proofUrl && <span className="text-xs text-emerald-600">Uploaded ✓</span>}
+          {proofUrl && <span className="text-xs text-brand-600">Uploaded ✓</span>}
         </label>
 
         <button

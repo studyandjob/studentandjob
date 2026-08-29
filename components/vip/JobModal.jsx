@@ -25,7 +25,7 @@ export default function JobModal({ job, match, onClose }) {
         </div>
 
         {match && (
-          <div className="mb-4 rounded-lg bg-emerald-50 px-3 py-2 text-sm text-emerald-700">
+          <div className="mb-4 rounded-lg bg-brand-50 px-3 py-2 text-sm text-brand-700">
             <strong>{match.score}% match</strong>
             {match.reasons.length > 0 && <span> — {match.reasons.join('; ')}</span>}
           </div>
@@ -46,7 +46,7 @@ export default function JobModal({ job, match, onClose }) {
           </div>
           <div>
             <dt className="text-xs text-gray-400">Last Date</dt>
-            <dd className="font-medium text-rose-600">{formatDate(job.last_date)}</dd>
+            <dd className="font-medium text-red-600">{formatDate(job.last_date)}</dd>
           </div>
         </dl>
 
@@ -83,7 +83,7 @@ export default function JobModal({ job, match, onClose }) {
         )}
 
         {(job.postal_address || job.required_documents || job.fee_details) && (
-          <div className="mb-4 rounded-lg border border-amber-200 bg-amber-50 p-3 text-xs text-amber-900">
+          <div className="mb-4 rounded-lg border border-gray-200 bg-gray-50 p-3 text-xs text-gray-900">
             {job.postal_address && (
               <p className="mb-1">
                 <strong>Postal Address:</strong> {job.postal_address}
@@ -120,7 +120,7 @@ export default function JobModal({ job, match, onClose }) {
               href={`https://wa.me/${job.whatsapp_number.replace(/\D/g, '')}?text=${encodeURIComponent(`I'm interested in the ${job.title} position.`)}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-full border border-emerald-300 bg-emerald-50 px-5 py-2.5 text-sm font-semibold text-emerald-700 transition hover:bg-emerald-600 hover:text-white"
+              className="rounded-full border border-brand-300 bg-brand-50 px-5 py-2.5 text-sm font-semibold text-brand-700 transition hover:bg-brand-600 hover:text-white"
             >
               WhatsApp Inquiry
             </a>

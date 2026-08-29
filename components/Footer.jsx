@@ -33,12 +33,12 @@ export default function Footer({ siteName, settings }) {
   const socialLinks = SOCIAL_PLATFORMS.filter((p) => settings?.[p.field]);
 
   return (
-    <footer className="mt-auto bg-gray-800">
+    <footer className="mt-auto bg-brand-900">
       <div className="mx-auto max-w-7xl px-4 py-10 md:px-6">
         <div className="flex flex-col items-center justify-between gap-6 md:flex-row">
           <div className="text-center md:text-left">
             <p className="text-base font-bold text-white">{siteName || 'Pak Study And Jobs'}</p>
-            <p className="mt-1 text-sm text-gray-400">
+            <p className="mt-1 text-sm text-brand-200">
               © {new Date().getFullYear()} {siteName || 'Pak Study And Jobs'}. All rights reserved.
             </p>
           </div>
@@ -48,7 +48,7 @@ export default function Footer({ siteName, settings }) {
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-sm font-medium text-gray-300 transition hover:text-white"
+                className="text-sm font-medium text-brand-100 transition hover:text-white"
               >
                 {link.label}
               </Link>

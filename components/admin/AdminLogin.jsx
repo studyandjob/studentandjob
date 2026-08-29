@@ -55,7 +55,7 @@ export default function AdminLogin({ onLoggedIn, siteName, logoUrl }) {
         <h2 className="mb-6 text-center font-serif text-lg font-bold text-aink">Admin Login</h2>
 
         {error && (
-          <p className="mb-4 rounded-lg border border-rose-200 bg-rose-50 px-3 py-2 text-sm text-rose-600">{error}</p>
+          <p className="mb-4 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-600">{error}</p>
         )}
 
         <form onSubmit={handleLogin}>
@@ -98,8 +98,8 @@ export default function AdminLogin({ onLoggedIn, siteName, logoUrl }) {
           <button
             type="submit"
             disabled={loading}
-            className="mt-5 flex w-full items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-white shadow-[0_6px_18px_-6px_rgba(242,120,92,0.5)] transition hover:-translate-y-0.5 hover:shadow-[0_10px_24px_-8px_rgba(242,120,92,0.6)] disabled:opacity-60"
-            style={{ background: 'linear-gradient(135deg, #E8A33D, #F2785C)' }}
+            className="mt-5 flex w-full items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-white shadow-[0_6px_18px_-6px_rgba(30,132,73,0.5)] transition hover:-translate-y-0.5 hover:shadow-[0_10px_24px_-8px_rgba(30,132,73,0.6)] disabled:opacity-60"
+            style={{ background: 'linear-gradient(135deg, #1E8449, #2E5AAC)' }}
           >
             {loading ? 'Signing in...' : 'Login to Dashboard'}
           </button>

@@ -106,9 +106,9 @@ export default function ProfileBuilder({ profile, onSaved }) {
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-6">
-      {error && <p className="rounded-lg border border-rose-200 bg-rose-50 px-3 py-2 text-sm text-rose-600">{error}</p>}
+      {error && <p className="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-600">{error}</p>}
       {success && (
-        <p className="rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-2 text-sm text-emerald-700">{success}</p>
+        <p className="rounded-lg border border-brand-200 bg-brand-50 px-3 py-2 text-sm text-brand-700">{success}</p>
       )}
 
       {/* Personal info */}
@@ -236,7 +236,7 @@ export default function ProfileBuilder({ profile, onSaved }) {
                 <button
                   type="button"
                   onClick={() => update('education', form.education.filter((_, idx) => idx !== i))}
-                  className="text-left text-xs font-semibold text-rose-500 hover:underline sm:col-span-2"
+                  className="text-left text-xs font-semibold text-red-500 hover:underline sm:col-span-2"
                 >
                   Remove
                 </button>
@@ -292,7 +292,7 @@ export default function ProfileBuilder({ profile, onSaved }) {
                 <button
                   type="button"
                   onClick={() => update('experience', form.experience.filter((_, idx) => idx !== i))}
-                  className="text-left text-xs font-semibold text-rose-500 hover:underline sm:col-span-2"
+                  className="text-left text-xs font-semibold text-red-500 hover:underline sm:col-span-2"
                 >
                   Remove
                 </button>

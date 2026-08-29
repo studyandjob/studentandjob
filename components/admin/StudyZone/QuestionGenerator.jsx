@@ -197,14 +197,14 @@ export default function QuestionGenerator({ classes, subjects }) {
           <p className="mt-2 text-xs text-amuted">Total requested: {totalRequested} questions</p>
         </div>
 
-        {error && <p className="mt-3 rounded-lg border border-rose-200 bg-rose-50 px-3 py-2 text-sm text-rose-600">{error}</p>}
-        {notice && <p className="mt-3 rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-2 text-sm text-emerald-700">{notice}</p>}
+        {error && <p className="mt-3 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-600">{error}</p>}
+        {notice && <p className="mt-3 rounded-lg border border-brand-200 bg-brand-50 px-3 py-2 text-sm text-brand-700">{notice}</p>}
 
         <button
           type="submit"
           disabled={generating}
-          className="mt-4 inline-flex items-center gap-2 rounded-full px-6 py-2.5 text-sm font-semibold text-white shadow-[0_6px_18px_-6px_rgba(242,120,92,0.5)] transition hover:-translate-y-0.5 disabled:opacity-60"
-          style={{ background: 'linear-gradient(135deg, #E8A33D, #F2785C)' }}
+          className="mt-4 inline-flex items-center gap-2 rounded-full px-6 py-2.5 text-sm font-semibold text-white shadow-[0_6px_18px_-6px_rgba(30,132,73,0.5)] transition hover:-translate-y-0.5 disabled:opacity-60"
+          style={{ background: 'linear-gradient(135deg, #1E8449, #2E5AAC)' }}
         >
           <SparklesIcon className="h-4 w-4" />
           {generating ? 'Generating with AI...' : 'Generate Questions with AI'}
@@ -218,7 +218,7 @@ export default function QuestionGenerator({ classes, subjects }) {
             <button
               onClick={handleSaveAll}
               disabled={saving}
-              className="inline-flex items-center gap-1.5 rounded-full bg-emerald-600 px-4 py-2 text-xs font-semibold text-white transition hover:bg-emerald-700 disabled:opacity-60"
+              className="inline-flex items-center gap-1.5 rounded-full bg-brand-600 px-4 py-2 text-xs font-semibold text-white transition hover:bg-brand-700 disabled:opacity-60"
             >
               <SaveIcon className="h-3.5 w-3.5" />
               {saving ? 'Saving...' : `Save ${draftQuestions.length} to Question Bank`}
@@ -241,7 +241,7 @@ export default function QuestionGenerator({ classes, subjects }) {
                       onChange={(e) => updateDraft(q._key, 'marks', Number(e.target.value) || 1)}
                       title="Marks"
                     />
-                    <button onClick={() => removeDraft(q._key)} className="text-rose-500 hover:text-rose-700">
+                    <button onClick={() => removeDraft(q._key)} className="text-red-500 hover:text-red-700">
                       <TrashIcon className="h-4 w-4" />
                     </button>
                   </div>

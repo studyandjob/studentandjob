@@ -62,7 +62,7 @@ export default function JobForm({ initialJob, onSubmit, onCancel, saving }) {
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-5">
       {error && (
-        <p className="rounded-lg border border-rose-200 bg-rose-50 px-3 py-2 text-sm text-rose-600">{error}</p>
+        <p className="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-600">{error}</p>
       )}
 
       {/* --- Sector + Job Type --- */}
