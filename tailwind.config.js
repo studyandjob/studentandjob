@@ -18,35 +18,42 @@ module.exports = {
         // existing `shadow-brand-900/10` in Header.jsx — Tailwind swaps
         // <alpha-value> for the /NN fraction at build time, so the CSS
         // variable only ever needs to hold "R G B" (space separated).
+        // Fallback ramps below match the "BCI Platform (Green & Blue)"
+        // theme in lib/themes.js — used only before <ThemeProvider>
+        // hydrates and overwrites these via CSS variables at runtime.
         brand: {
-          50: 'rgb(var(--brand-50, 234 241 251) / <alpha-value>)',
-          100: 'rgb(var(--brand-100, 207 224 245) / <alpha-value>)',
-          200: 'rgb(var(--brand-200, 163 194 234) / <alpha-value>)',
-          300: 'rgb(var(--brand-300, 111 157 220) / <alpha-value>)',
-          400: 'rgb(var(--brand-400, 63 121 207) / <alpha-value>)',
-          500: 'rgb(var(--brand-500, 31 91 196) / <alpha-value>)',
-          600: 'rgb(var(--brand-600, 0 71 171) / <alpha-value>)',
-          700: 'rgb(var(--brand-700, 0 58 140) / <alpha-value>)',
-          800: 'rgb(var(--brand-800, 0 46 112) / <alpha-value>)',
-          900: 'rgb(var(--brand-900, 0 35 79) / <alpha-value>)',
+          50: 'rgb(var(--brand-50, 232 244 237) / <alpha-value>)',
+          100: 'rgb(var(--brand-100, 205 232 216) / <alpha-value>)',
+          200: 'rgb(var(--brand-200, 160 209 180) / <alpha-value>)',
+          300: 'rgb(var(--brand-300, 110 183 141) / <alpha-value>)',
+          400: 'rgb(var(--brand-400, 60 154 100) / <alpha-value>)',
+          500: 'rgb(var(--brand-500, 27 135 71) / <alpha-value>)',
+          600: 'rgb(var(--brand-600, 30 132 73) / <alpha-value>)',
+          700: 'rgb(var(--brand-700, 26 112 62) / <alpha-value>)',
+          800: 'rgb(var(--brand-800, 21 92 51) / <alpha-value>)',
+          900: 'rgb(var(--brand-900, 17 73 41) / <alpha-value>)',
         },
         accent: {
-          50: 'rgb(var(--accent-50, 234 250 240) / <alpha-value>)',
-          100: 'rgb(var(--accent-100, 200 240 214) / <alpha-value>)',
-          500: 'rgb(var(--accent-500, 40 167 69) / <alpha-value>)',
-          600: 'rgb(var(--accent-600, 33 136 56) / <alpha-value>)',
-          700: 'rgb(var(--accent-700, 28 116 48) / <alpha-value>)',
+          50: 'rgb(var(--accent-50, 233 238 249) / <alpha-value>)',
+          100: 'rgb(var(--accent-100, 202 215 240) / <alpha-value>)',
+          500: 'rgb(var(--accent-500, 46 90 172) / <alpha-value>)',
+          600: 'rgb(var(--accent-600, 40 79 151) / <alpha-value>)',
+          700: 'rgb(var(--accent-700, 33 68 131) / <alpha-value>)',
         },
         // Admin dashboard palette — kept separate from the public-site
         // "brand" colors so the admin panel has its own visual identity.
-        atl: '#14534F',
-        atl2: '#1E7A73',
-        agold: '#E8A33D',
-        acoral: '#F2785C',
-        aink: '#1F2E2B',
-        acream: '#FBF6EF',
-        aline: '#E7DFD2',
-        amuted: '#8A9A96',
+        // Reworked to match the BCI Platform look: white surfaces, a blue
+        // "atl" for headings/links (like their "Mass Balance BCP..." page
+        // titles) and a green "atl2" for primary actions/logo accents
+        // (like their green "View Report" button).
+        atl: '#2E5AAC',
+        atl2: '#1E8449',
+        agold: '#1E8449',
+        acoral: '#DC5B4B',
+        aink: '#1F2937',
+        acream: '#F1F4F8',
+        aline: '#E2E8F0',
+        amuted: '#6B7A90',
       },
       fontFamily: {
         serif: ['var(--font-fraunces)', 'Georgia', 'serif'],
