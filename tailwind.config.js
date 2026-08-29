@@ -7,38 +7,32 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // NOTE: these resolve to CSS custom properties set at runtime by
-        // <ThemeProvider> (contexts/ThemeContext.js) from the admin's
-        // selected theme (see /admin -> Theme Settings). The literal hex
-        // values here are only the fallback used before JS hydrates, or if
-        // no theme has been applied yet — they match "Classic Royal Blue",
-        // the default theme.
-        // The `rgb(var(--x) / <alpha-value>)` pattern (not plain var(--x))
-        // is what lets Tailwind opacity modifiers keep working, e.g. the
-        // existing `shadow-brand-900/10` in Header.jsx — Tailwind swaps
-        // <alpha-value> for the /NN fraction at build time, so the CSS
-        // variable only ever needs to hold "R G B" (space separated).
-        // Fallback ramps below match the "BCI Platform (Green & Blue)"
-        // theme in lib/themes.js — used only before <ThemeProvider>
-        // hydrates and overwrites these via CSS variables at runtime.
+        // Single, fixed design system shared by the ENTIRE site (public
+        // pages + admin dashboard) — the old per-visitor "Theme Settings"
+        // switcher has been removed, so these are no longer CSS variables,
+        // just plain hex values. `brand` is a green shade ramp built from
+        // the admin panel's `atl2` (#1E8449) and `accent` is a blue ramp
+        // built from the admin panel's `atl` (#2E5AAC) — the exact same
+        // math the old theme engine used for the default "BCI Platform"
+        // theme, just computed once instead of at runtime.
         brand: {
-          50: 'rgb(var(--brand-50, 232 244 237) / <alpha-value>)',
-          100: 'rgb(var(--brand-100, 205 232 216) / <alpha-value>)',
-          200: 'rgb(var(--brand-200, 160 209 180) / <alpha-value>)',
-          300: 'rgb(var(--brand-300, 110 183 141) / <alpha-value>)',
-          400: 'rgb(var(--brand-400, 60 154 100) / <alpha-value>)',
-          500: 'rgb(var(--brand-500, 27 135 71) / <alpha-value>)',
-          600: 'rgb(var(--brand-600, 30 132 73) / <alpha-value>)',
-          700: 'rgb(var(--brand-700, 26 112 62) / <alpha-value>)',
-          800: 'rgb(var(--brand-800, 21 92 51) / <alpha-value>)',
-          900: 'rgb(var(--brand-900, 17 73 41) / <alpha-value>)',
+          50: '#f4f9f6',
+          100: '#ddede4',
+          200: '#bcdac8',
+          300: '#8ec2a4',
+          400: '#56a376',
+          500: '#34905b',
+          600: '#1E8449',
+          700: '#1a703e',
+          800: '#155c33',
+          900: '#104928',
         },
         accent: {
-          50: 'rgb(var(--accent-50, 233 238 249) / <alpha-value>)',
-          100: 'rgb(var(--accent-100, 202 215 240) / <alpha-value>)',
-          500: 'rgb(var(--accent-500, 46 90 172) / <alpha-value>)',
-          600: 'rgb(var(--accent-600, 40 79 151) / <alpha-value>)',
-          700: 'rgb(var(--accent-700, 33 68 131) / <alpha-value>)',
+          50: '#eef2f8',
+          100: '#d1dbed',
+          500: '#2E5AAC',
+          600: '#284f97',
+          700: '#234483',
         },
         // Admin dashboard palette — kept separate from the public-site
         // "brand" colors so the admin panel has its own visual identity.
