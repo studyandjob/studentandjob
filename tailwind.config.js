@@ -48,12 +48,12 @@ module.exports = {
         // (like their green "View Report" button).
         atl: '#2E5AAC',
         atl2: '#1E8449',
-        agold: '#1E8449',
-        acoral: '#DC5B4B',
+        agold: '#8A5A17',
+        acoral: '#C0392B',
         aink: '#1F2937',
         acream: '#F1F4F8',
         aline: '#E2E8F0',
-        amuted: '#6B7A90',
+        amuted: '#5B6B82',
       },
       fontFamily: {
         serif: ['var(--font-fraunces)', 'Georgia', 'serif'],
