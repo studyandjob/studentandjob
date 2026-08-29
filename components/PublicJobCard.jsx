@@ -42,7 +42,6 @@ function IconBadge({ icon: IconComp, size = 'md' }) {
 export default function PublicJobCard({ job, onViewDetails }) {
   const isGovernment = job.job_type === 'Government';
   const remaining = daysRemaining(job.last_date);
-  const isUrgent = remaining !== null && remaining >= 0 && remaining <= 3;
   const isExpired = remaining !== null && remaining < 0;
 
   return (
@@ -97,28 +96,16 @@ export default function PublicJobCard({ job, onViewDetails }) {
           )}
         </div>
 
-        {/* Last-date urgency banner */}
+        {/* Last-date banner — always red, title switches between the two
+            states the admin wants: "Last date to apply" or "Expired". */}
         {job.last_date && (
-          <div
-            className={`mb-4 flex items-center gap-2 rounded-xl border px-3 py-2 ${
-              isExpired || isUrgent ? 'border-red-100 bg-red-50' : 'border-gray-100 bg-gray-50'
-            }`}
-          >
-            <IconBadge
-              icon={CalendarClockIcon}
-              gradient={isExpired || isUrgent ? 'from-red-500 to-red-600' : 'from-brand-400 to-brand-600'}
-            />
+          <div className="mb-4 flex items-center gap-2 rounded-xl border border-red-100 bg-red-50 px-3 py-2">
+            <IconBadge icon={CalendarClockIcon} gradient="from-red-500 to-red-600" />
             <div className="min-w-0 leading-tight">
-              <p
-                className={`text-[0.65rem] font-semibold uppercase tracking-wide ${
-                  isExpired || isUrgent ? 'text-red-500' : 'text-gray-600'
-                }`}
-              >
-                {isExpired ? 'Closed' : isUrgent ? 'Closing soon' : 'Last date to apply'}
+              <p className="text-[0.65rem] font-semibold uppercase tracking-wide text-red-500">
+                {isExpired ? 'Expired' : 'Last date to apply'}
               </p>
-              <p className={`truncate text-sm font-bold ${isExpired || isUrgent ? 'text-red-700' : 'text-gray-800'}`}>
-                {formatDate(job.last_date)}
-              </p>
+              <p className="truncate text-sm font-bold text-red-700">{formatDate(job.last_date)}</p>
             </div>
           </div>
         )}
