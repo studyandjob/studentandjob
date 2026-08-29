@@ -1,30 +1,21 @@
 export default function PageBanner({ title, subtitle, icon }) {
   return (
-    <div className="relative overflow-hidden bg-gradient-to-br from-brand-700 via-brand-600 to-brand-500 text-white">
-      <div
-        className="pointer-events-none absolute inset-0 opacity-[0.07]"
-        style={{
-          backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)',
-          backgroundSize: '28px 28px',
-        }}
-      />
-      <div className="relative mx-auto max-w-7xl px-4 py-10 md:px-6 md:py-14">
-        <div className="flex items-center gap-3">
-          {icon && (
-            <span className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-white/15 backdrop-blur-sm">
-              {icon}
-            </span>
-          )}
-          <div>
-            <h1 className="text-2xl font-extrabold tracking-tight md:text-3xl">{title}</h1>
-            {subtitle && <p className="mt-1 text-sm text-brand-50/90 md:text-base">{subtitle}</p>}
-          </div>
+    <div className="relative overflow-hidden border-b border-gray-100 bg-gradient-to-br from-brand-50 via-white to-accent-50/60">
+      {/* Thin branded accent line at the very top — ties the banner back to
+          the site's colors without a heavy full-bleed dark block that jumps
+          abruptly after the white header. */}
+      <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-brand-600 via-accent-500 to-brand-400" />
+      <div className="relative mx-auto flex max-w-7xl items-center gap-3.5 px-4 py-8 md:px-6 md:py-11">
+        {icon && (
+          <span className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-brand-600 to-brand-700 text-white shadow-md shadow-brand-600/25">
+            {icon}
+          </span>
+        )}
+        <div>
+          <h1 className="text-2xl font-extrabold tracking-tight text-gray-900 md:text-3xl">{title}</h1>
+          {subtitle && <p className="mt-1 text-sm text-gray-600 md:text-base">{subtitle}</p>}
         </div>
       </div>
-      <div
-        className="absolute inset-x-0 bottom-0 h-8 bg-gray-50"
-        style={{ clipPath: 'ellipse(70% 100% at 50% 100%)' }}
-      />
     </div>
   );
 }

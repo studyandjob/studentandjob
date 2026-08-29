@@ -46,20 +46,17 @@ export default function PublicJobsBrowser({ jobs = [], siteName }) {
   return (
     <>
       {/* --- Hero / Header --- */}
-      <div className="relative overflow-hidden bg-gradient-to-br from-brand-700 via-brand-600 to-brand-500 text-white">
-        <div
-          className="pointer-events-none absolute inset-0 opacity-[0.07]"
-          style={{
-            backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)',
-            backgroundSize: '28px 28px',
-          }}
-        />
-        <div className="relative mx-auto max-w-5xl px-4 py-10 text-center md:px-6 md:py-16">
-          <h1 className="text-2xl font-extrabold tracking-tight sm:text-3xl md:text-4xl">
+      <div className="relative overflow-hidden border-b border-gray-100 bg-gradient-to-br from-brand-50 via-white to-accent-50/60">
+        {/* Thin branded accent line — same treatment as PageBanner, keeps
+            the transition from the white Header smooth instead of an
+            abrupt full-bleed dark color block. */}
+        <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-brand-600 via-accent-500 to-brand-400" />
+        <div className="relative mx-auto max-w-5xl px-4 py-10 text-center md:px-6 md:py-14">
+          <h1 className="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl md:text-4xl">
             {siteName || 'Pak Study And Jobs'}
           </h1>
           <p
-            className="mx-auto mt-2 max-w-xl font-urdu text-base leading-loose text-brand-50/90 sm:text-lg"
+            className="mx-auto mt-2 max-w-xl font-urdu text-base leading-loose text-gray-600 sm:text-lg"
             dir="rtl"
             lang="ur"
           >
@@ -68,7 +65,7 @@ export default function PublicJobsBrowser({ jobs = [], siteName }) {
 
           {/* Search bar */}
           <div className="mx-auto mt-6 max-w-xl">
-            <div className="flex items-center gap-2 rounded-full bg-white px-4 py-2.5 shadow-lg sm:py-3">
+            <div className="flex items-center gap-2 rounded-full border border-gray-200 bg-white px-4 py-2.5 shadow-md sm:py-3">
               <SearchIcon className="h-5 w-5 flex-shrink-0 text-gray-400" />
               <input
                 type="text"
@@ -80,10 +77,6 @@ export default function PublicJobsBrowser({ jobs = [], siteName }) {
             </div>
           </div>
         </div>
-        <div
-          className="absolute inset-x-0 bottom-0 h-8 bg-gray-50"
-          style={{ clipPath: 'ellipse(70% 100% at 50% 100%)' }}
-        />
       </div>
 
       {/* --- Content --- */}
