@@ -17,6 +17,7 @@ export default function SettingsForm({ settings }) {
     logo_url: settings?.logo_url || '',
     main_heading: settings?.main_heading || '',
     sub_heading: settings?.sub_heading || '',
+    hero_slide_speed: settings?.hero_slide_speed || '1x',
     scrolling_news: settings?.scrolling_news || '',
   });
   const [saving, setSaving] = useState(false);
@@ -117,6 +118,20 @@ export default function SettingsForm({ settings }) {
             onChange={(e) => update('sub_heading', e.target.value)}
             className={inputClass}
           />
+        </label>
+
+        <label className="block">
+          <span className={labelClass}>Hero Slide Speed</span>
+          <select
+            value={form.hero_slide_speed}
+            onChange={(e) => update('hero_slide_speed', e.target.value)}
+            className={inputClass}
+          >
+            <option value="1x">1x (Normal)</option>
+            <option value="2x">2x (Fast)</option>
+            <option value="3x">3x (Faster)</option>
+            <option value="4x">4x (Fastest)</option>
+          </select>
         </label>
 
         <label className="block sm:col-span-2">

@@ -20,9 +20,14 @@ const QUICK_LINKS = [
 ];
 
 // How many of the latest jobs to cycle through, and how long each stays
-// on screen before auto-advancing.
+// on screen before auto-advancing (at the default 1x speed).
 const MAX_HERO_JOBS = 6;
-const SLIDE_INTERVAL_MS = 4500;
+const BASE_SLIDE_INTERVAL_MS = 4500;
+
+// Maps the admin-chosen "Hero Slide Speed" setting to a multiplier applied
+// against BASE_SLIDE_INTERVAL_MS — 2x means slides advance twice as fast
+// (half the interval), etc. Falls back to 1x for any unrecognized value.
+const SPEED_MULTIPLIERS = { '1x': 1, '2x': 2, '3x': 3, '4x': 4 };
 
 function formatDate(dateStr) {
   if (!dateStr) return null;
@@ -38,7 +43,7 @@ function daysRemaining(dateStr) {
   return Math.round((due - today) / 86400000);
 }
 
-export default function HeroSlider({ jobs = [], mainHeading, subHeading }) {
+export default function HeroSlider({ jobs = [], mainHeading, subHeading, slideSpeed = '1x' }) {
   // Latest open jobs, newest first (already ordered that way by the
   // homepage query), capped so the dots row stays tidy.
   const heroJobs = jobs.filter((j) => j.status !== 'closed').slice(0, MAX_HERO_JOBS);
@@ -47,11 +52,13 @@ export default function HeroSlider({ jobs = [], mainHeading, subHeading }) {
 
   useEffect(() => {
     if (heroJobs.length < 2) return;
+    const multiplier = SPEED_MULTIPLIERS[slideSpeed] || 1;
+    const intervalMs = BASE_SLIDE_INTERVAL_MS / multiplier;
     const timer = setInterval(() => {
       setActive((prev) => (prev + 1) % heroJobs.length);
-    }, SLIDE_INTERVAL_MS);
+    }, intervalMs);
     return () => clearInterval(timer);
-  }, [heroJobs.length]);
+  }, [heroJobs.length, slideSpeed]);
 
   useEffect(() => {
     if (active >= heroJobs.length) setActive(0);

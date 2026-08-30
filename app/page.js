@@ -55,7 +55,12 @@ export default async function HomePage() {
         {/* Hero auto-cycles through the latest live jobs — post a job in
             Admin → Jobs and it appears here automatically, no separate
             "slides" to manage. */}
-        <HeroSlider jobs={jobs} mainHeading={settings.main_heading} subHeading={settings.sub_heading} />
+        <HeroSlider
+          jobs={jobs}
+          mainHeading={settings.main_heading}
+          subHeading={settings.sub_heading}
+          slideSpeed={settings.hero_slide_speed}
+        />
 
         <TrustStrip />
 
