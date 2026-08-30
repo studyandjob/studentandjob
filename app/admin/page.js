@@ -41,8 +41,7 @@ const TAB_TITLES = {
   slides: 'Hero Slides',
   jobs: 'Jobs',
   members: 'Admin Portal Requests',
-  notes: 'Students Zone',
-  studyzone: 'Study Zone — AI Exam Engine',
+  studyzone: 'Study Zone (Tests, Papers & Notes)',
   results: 'Results',
   scholarships: 'Scholarships',
   messages: 'Contact Messages',
@@ -183,7 +182,7 @@ export default function AdminDashboard() {
                       color="purple"
                       onClick={() => setActiveTab('members')}
                     />
-                    <StatCard icon={BookIcon} value={notes.length} label="Student Notes" color="coral" onClick={() => setActiveTab('notes')} />
+                    <StatCard icon={BookIcon} value={notes.length} label="Study Notes" color="coral" onClick={() => setActiveTab('studyzone')} />
                     <StatCard
                       icon={GraduationCapIcon}
                       value={studyClasses.length}
@@ -250,29 +249,29 @@ export default function AdminDashboard() {
 
               {activeTab === 'members' && <MembersManager initialRequests={memberRequests} />}
 
-              {activeTab === 'notes' && (
-                <ListManager
-                  title="Students Zone (Notes / Guess Papers)"
-                  description="PDFs and notes shown in the Students Zone section."
-                  icon={BookIcon}
-                  table="students_data"
-                  initialRows={notes}
-                  fields={[
-                    { name: 'title', label: 'Title', required: true },
-                    { name: 'category', label: 'Category', placeholder: 'e.g. Guess Paper, Notes' },
-                    { name: 'file_url', label: 'File URL (PDF link)', required: true, placeholder: 'https://...' },
-                  ]}
-                  renderRow={(row) => (
-                    <div>
-                      <p className="font-semibold text-aink">{row.title}</p>
-                      <p className="text-xs text-amuted">{row.category}</p>
-                    </div>
-                  )}
-                />
-              )}
-
               {activeTab === 'studyzone' && (
-                <StudyZoneManager initialClasses={studyClasses} initialSubjects={studySubjects} initialMaterials={studyMaterials} />
+                <div className="flex flex-col gap-6">
+                  <StudyZoneManager initialClasses={studyClasses} initialSubjects={studySubjects} initialMaterials={studyMaterials} />
+
+                  <ListManager
+                    title="Notes"
+                    description="PDFs and notes shown in the Study Zone → Notes section."
+                    icon={BookIcon}
+                    table="students_data"
+                    initialRows={notes}
+                    fields={[
+                      { name: 'title', label: 'Title', required: true },
+                      { name: 'category', label: 'Category', placeholder: 'e.g. Guess Paper, Notes' },
+                      { name: 'file_url', label: 'File URL (PDF link)', required: true, placeholder: 'https://...' },
+                    ]}
+                    renderRow={(row) => (
+                      <div>
+                        <p className="font-semibold text-aink">{row.title}</p>
+                        <p className="text-xs text-amuted">{row.category}</p>
+                      </div>
+                    )}
+                  />
+                </div>
               )}
 
               {activeTab === 'results' && (

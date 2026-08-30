@@ -35,6 +35,13 @@ const CARDS = [
     description: 'Browse past exam papers by class, so you know exactly what to expect.',
     cta: 'View Old Papers',
   },
+  {
+    href: '/study-zone/notes',
+    icon: NotesBookIcon3D,
+    title: 'Notes',
+    description: 'Free notes and study material, ready to view or download as PDF.',
+    cta: 'View Notes',
+  },
 ];
 
 export default async function StudyZonePage() {
@@ -53,7 +60,7 @@ export default async function StudyZonePage() {
         />
 
         <div className="mx-auto max-w-6xl px-4 py-10 md:px-6 md:py-14">
-          <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
+          <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4">
             {CARDS.map((card) => {
               const Icon = card.icon;
               return (
