@@ -16,7 +16,7 @@ const QUICK_LINKS = [
   { label: 'Latest Jobs', href: '/jobs' },
   { label: 'Results', href: '/results' },
   { label: 'Scholarships', href: '/scholarships' },
-  { label: 'Notes & Papers', href: '/students-zone' },
+  { label: 'Notes & Papers', href: '/study-zone/notes' },
 ];
 
 // How many of the latest jobs to cycle through, and how long each stays

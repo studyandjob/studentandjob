@@ -11,9 +11,9 @@ export default function StudentsZone({ notes = [], whatsappNumber = '92300000000
             <span className="flex h-9 w-9 items-center justify-center">
               <NotesBookIcon3D className="h-8 w-8" />
             </span>
-            <h2 className="text-base font-bold text-gray-900 md:text-lg">Students Zone</h2>
+            <h2 className="text-base font-bold text-gray-900 md:text-lg">Study Zone — Notes</h2>
           </div>
-          <Link href="/students-zone" className="text-xs font-semibold text-brand-600 hover:underline md:text-sm">
+          <Link href="/study-zone/notes" className="text-xs font-semibold text-brand-600 hover:underline md:text-sm">
             View all →
           </Link>
         </div>

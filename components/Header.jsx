@@ -8,7 +8,6 @@ import { MenuIcon3D, CloseIcon3D } from './Icons3D';
 const NAV_LINKS = [
   { href: '/', label: 'Home' },
   { href: '/jobs', label: 'Jobs' },
-  { href: '/students-zone', label: 'Students Zone' },
   { href: '/study-zone', label: 'Study Zone' },
   { href: '/results', label: 'Results' },
   { href: '/scholarships', label: 'Scholarships' },
