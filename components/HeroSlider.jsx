@@ -25,9 +25,18 @@ const MAX_HERO_JOBS = 6;
 const BASE_SLIDE_INTERVAL_MS = 4500;
 
 // Maps the admin-chosen "Hero Slide Speed" setting to a multiplier applied
-// against BASE_SLIDE_INTERVAL_MS — 2x means slides advance twice as fast
-// (half the interval), etc. Falls back to 1x for any unrecognized value.
-const SPEED_MULTIPLIERS = { '1x': 1, '2x': 2, '3x': 3, '4x': 4 };
+// against BASE_SLIDE_INTERVAL_MS. Positive values (2x, 3x, 4x) advance
+// faster (shorter interval); negative values (-2x, -3x) advance slower
+// (longer interval) — e.g. -2x takes twice as long per slide as 1x.
+// Falls back to 1x for any unrecognized value.
+const SPEED_INTERVALS = {
+  '-3x': BASE_SLIDE_INTERVAL_MS * 3,
+  '-2x': BASE_SLIDE_INTERVAL_MS * 2,
+  '1x': BASE_SLIDE_INTERVAL_MS,
+  '2x': BASE_SLIDE_INTERVAL_MS / 2,
+  '3x': BASE_SLIDE_INTERVAL_MS / 3,
+  '4x': BASE_SLIDE_INTERVAL_MS / 4,
+};
 
 function formatDate(dateStr) {
   if (!dateStr) return null;
@@ -52,8 +61,7 @@ export default function HeroSlider({ jobs = [], mainHeading, subHeading, slideSp
 
   useEffect(() => {
     if (heroJobs.length < 2) return;
-    const multiplier = SPEED_MULTIPLIERS[slideSpeed] || 1;
-    const intervalMs = BASE_SLIDE_INTERVAL_MS / multiplier;
+    const intervalMs = SPEED_INTERVALS[slideSpeed] || BASE_SLIDE_INTERVAL_MS;
     const timer = setInterval(() => {
       setActive((prev) => (prev + 1) % heroJobs.length);
     }, intervalMs);

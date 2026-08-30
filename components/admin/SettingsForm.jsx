@@ -127,6 +127,8 @@ export default function SettingsForm({ settings }) {
             onChange={(e) => update('hero_slide_speed', e.target.value)}
             className={inputClass}
           >
+            <option value="-3x">-3x (Slowest)</option>
+            <option value="-2x">-2x (Slower)</option>
             <option value="1x">1x (Normal)</option>
             <option value="2x">2x (Fast)</option>
             <option value="3x">3x (Faster)</option>
