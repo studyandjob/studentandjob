@@ -12,6 +12,18 @@ import {
   ArrowRightIcon3D as ArrowRightIcon,
 } from './Icons3D';
 
+// Admin-entered main/sub headings (site_settings.main_heading /
+// sub_heading) can be English, Urdu, or a mix — unlike the jobs page's
+// hardcoded Urdu line, we don't know ahead of time. Detect Arabic/Urdu
+// script and apply the same dir="rtl" lang="ur" font-urdu treatment
+// PublicJobsBrowser already uses for its Urdu subtitle, so Home's hero
+// text renders with the correct font/shaping/alignment instead of
+// falling back to a thin, left-aligned generic font.
+const URDU_SCRIPT_RE = /[\u0600-\u06FF\u0750-\u077F\uFB50-\uFDFF\uFE70-\uFEFF]/;
+function isUrduText(text) {
+  return typeof text === 'string' && URDU_SCRIPT_RE.test(text);
+}
+
 const QUICK_LINKS = [
   { label: 'Latest Jobs', href: '/jobs' },
   { label: 'Results', href: '/results' },
@@ -179,11 +191,23 @@ export default function HeroSlider({ jobs = [], mainHeading, subHeading, slideSp
           ✅ Trusted by thousands of job seekers &amp; students
         </span>
 
-        <h1 className="mt-3.5 font-serif text-2xl font-bold leading-tight tracking-tight text-gray-900 md:text-4xl lg:text-5xl">
-          {mainHeading || 'Find Your Next Government Job'}
+        <h1
+          className="mt-3.5 text-2xl font-bold leading-tight tracking-tight text-gray-900 md:text-4xl lg:text-5xl"
+          dir={isUrduText(mainHeading) ? 'rtl' : undefined}
+          lang={isUrduText(mainHeading) ? 'ur' : undefined}
+        >
+          <span className={isUrduText(mainHeading) ? 'font-urdu' : 'font-serif'}>
+            {mainHeading || 'Find Your Next Government Job'}
+          </span>
         </h1>
-        <p className="mx-auto mt-2.5 max-w-2xl text-sm text-gray-600 md:text-base">
-          {subHeading || 'Latest jobs, results, notes & scholarships in one place'}
+        <p
+          className="mx-auto mt-2.5 max-w-2xl text-sm text-gray-600 md:text-base"
+          dir={isUrduText(subHeading) ? 'rtl' : undefined}
+          lang={isUrduText(subHeading) ? 'ur' : undefined}
+        >
+          <span className={isUrduText(subHeading) ? 'font-urdu leading-loose' : ''}>
+            {subHeading || 'Latest jobs, results, notes & scholarships in one place'}
+          </span>
         </p>
 
         {/* Job spotlight — every open job is rendered into a horizontal
