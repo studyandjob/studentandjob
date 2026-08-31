@@ -7,6 +7,7 @@ import SearchJobsGrid from '@/components/SearchJobsGrid';
 import { SearchIcon3D } from '@/components/Icons3D';
 import { getSiteSettings, getJobs, getNotes, getResults, getScholarships } from '@/lib/data';
 import { isJobOpen } from '@/lib/jobStatus';
+import { matchesQuery } from '@/lib/searchMatch';
 
 // Re-fetch fresh data on every search (results/jobs/notes change often) and
 // so `searchParams.q` is always read for the current request.
@@ -25,13 +26,6 @@ function formatDate(dateStr) {
   return new Date(dateStr).toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' });
 }
 
-// Case-insensitive "does this record contain the search term" check across
-// a handful of fields, joined into one string so a single .includes() covers
-// all of them.
-function matches(fields, q) {
-  return fields.filter(Boolean).join(' ').toLowerCase().includes(q);
-}
-
 export default async function SearchPage({ searchParams }) {
   const q = (searchParams?.q || '').trim();
   const ql = q.toLowerCase();
@@ -45,11 +39,13 @@ export default async function SearchPage({ searchParams }) {
   ]);
 
   const jobs = ql
-    ? allJobs.filter((j) => isJobOpen(j) && matches([j.title, j.department, j.city, j.sector, j.job_type], ql))
+    ? allJobs.filter(
+        (j) => isJobOpen(j) && matchesQuery([j.title, j.department, j.city, j.sector, j.job_type, j.category], ql)
+      )
     : [];
-  const notes = ql ? allNotes.filter((n) => matches([n.title, n.category], ql)) : [];
-  const results = ql ? allResults.filter((r) => matches([r.title, r.board_or_department], ql)) : [];
-  const scholarships = ql ? allScholarships.filter((s) => matches([s.title, s.provider], ql)) : [];
+  const notes = ql ? allNotes.filter((n) => matchesQuery([n.title, n.category], ql)) : [];
+  const results = ql ? allResults.filter((r) => matchesQuery([r.title, r.board_or_department], ql)) : [];
+  const scholarships = ql ? allScholarships.filter((s) => matchesQuery([s.title, s.provider], ql)) : [];
 
   const totalCount = jobs.length + notes.length + results.length + scholarships.length;
 
