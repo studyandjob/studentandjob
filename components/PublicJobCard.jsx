@@ -67,6 +67,11 @@ export default function PublicJobCard({ job, onViewDetails }) {
                 {job.sector}
               </span>
             )}
+            {(job.official_website || job.ad_image_url) && (
+              <span className="flex items-center gap-1 rounded-full bg-emerald-50 px-2.5 py-1 text-[0.68rem] font-semibold text-emerald-700">
+                ✓ Verified Source
+              </span>
+            )}
           </div>
         </div>
 
@@ -88,6 +93,22 @@ export default function PublicJobCard({ job, onViewDetails }) {
             </div>
           )}
         </div>
+
+        {/* Quick-glance chips: Salary / Vacancies, when the admin has filled them in */}
+        {(job.salary || job.vacancies) && (
+          <div className="mb-4 flex flex-wrap gap-2">
+            {job.salary && (
+              <span className="rounded-full bg-gray-50 px-2.5 py-1 text-xs font-semibold text-gray-600">
+                💰 {job.salary}
+              </span>
+            )}
+            {job.vacancies && (
+              <span className="rounded-full bg-gray-50 px-2.5 py-1 text-xs font-semibold text-gray-600">
+                👥 {job.vacancies} {String(job.vacancies).match(/^\d+$/) ? 'Posts' : ''}
+              </span>
+            )}
+          </div>
+        )}
 
         {/* Last-date banner — always red, title switches between the two
             states the admin wants: "Last date to apply" or "Expired". */}

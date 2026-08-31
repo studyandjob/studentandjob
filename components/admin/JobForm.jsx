@@ -18,8 +18,13 @@ const EMPTY_JOB = {
   city: '',
   last_date: '',
   apply_link: '',
+  official_website: '',
   ad_image_url: '',
   application_mode: 'Online',
+  salary: '',
+  vacancies: '',
+  age_limit: '',
+  experience_required: '',
   postal_address: '',
   required_documents: '',
   fee_details: '',
@@ -170,12 +175,67 @@ export default function JobForm({ initialJob, onSubmit, onCancel, saving }) {
         </label>
 
         <label>
-          <span className={labelClass}>Official Apply Link</span>
+          <span className={labelClass}>Salary</span>
+          <input
+            type="text"
+            value={form.salary}
+            onChange={(e) => update('salary', e.target.value)}
+            placeholder="e.g. BPS-11 (Rs. 30,000 - 45,000) or Market Competitive"
+            className={inputClass}
+          />
+        </label>
+
+        <label>
+          <span className={labelClass}>Number of Vacancies</span>
+          <input
+            type="text"
+            value={form.vacancies}
+            onChange={(e) => update('vacancies', e.target.value)}
+            placeholder="e.g. 12 or Multiple"
+            className={inputClass}
+          />
+        </label>
+
+        <label>
+          <span className={labelClass}>Age Limit</span>
+          <input
+            type="text"
+            value={form.age_limit}
+            onChange={(e) => update('age_limit', e.target.value)}
+            placeholder="e.g. 18 - 30 years (relaxation as per policy)"
+            className={inputClass}
+          />
+        </label>
+
+        <label>
+          <span className={labelClass}>Experience Required</span>
+          <input
+            type="text"
+            value={form.experience_required}
+            onChange={(e) => update('experience_required', e.target.value)}
+            placeholder="e.g. 2 years relevant experience / Fresh graduates can apply"
+            className={inputClass}
+          />
+        </label>
+
+        <label>
+          <span className={labelClass}>Apply Now Link</span>
           <input
             type="url"
             value={form.apply_link}
             onChange={(e) => update('apply_link', e.target.value)}
-            placeholder="https://..."
+            placeholder="https://... (the exact page to submit the application)"
+            className={inputClass}
+          />
+        </label>
+
+        <label>
+          <span className={labelClass}>Official Website (Source)</span>
+          <input
+            type="url"
+            value={form.official_website}
+            onChange={(e) => update('official_website', e.target.value)}
+            placeholder="https://... (organization's official website)"
             className={inputClass}
           />
         </label>
@@ -193,7 +253,11 @@ export default function JobForm({ initialJob, onSubmit, onCancel, saving }) {
       </div>
 
       <div>
-        <span className={labelClass}>Ad Image / PDF URL</span>
+        <span className={labelClass}>Official Advertisement (Ad Image / PDF URL)</span>
+        <p className="mb-2 -mt-1 text-xs text-amuted">
+          This is shown to candidates as the job's official source, alongside the Official Website. Always attach the
+          real advertisement so candidates can verify the job themselves.
+        </p>
         <input
           type="url"
           value={form.ad_image_url}

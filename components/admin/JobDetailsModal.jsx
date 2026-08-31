@@ -94,11 +94,22 @@ export default function JobDetailsModal({ job, onClose, onEdit }) {
             <Row label="Category" value={job.category} />
             <Row label="City" value={job.city} />
             <Row label="Application Mode" value={job.application_mode} />
+            <Row label="Salary" value={job.salary} />
+            <Row label="Number of Vacancies" value={job.vacancies} />
+            <Row label="Age Limit" value={job.age_limit} />
+            <Row label="Experience Required" value={job.experience_required} />
             <Row label="Last Date to Apply" value={formatDate(job.last_date)} danger={isPastLastDate(job.last_date)} />
             <Row label="Posted On" value={formatDate(job.created_at)} />
           </dl>
 
-          {(job.apply_link || job.whatsapp_number) && (
+          {!job.official_website && !job.ad_image_url && (
+            <p className="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-xs font-semibold text-red-600">
+              ⚠ No Official Website or Advertisement attached — candidates won't see a verifiable source on this job.
+              Add at least one in Edit Job.
+            </p>
+          )}
+
+          {(job.apply_link || job.official_website || job.whatsapp_number || job.ad_image_url) && (
             <div className="flex flex-wrap gap-3 border-t border-aline pt-4">
               {job.apply_link && (
                 <a
@@ -107,7 +118,17 @@ export default function JobDetailsModal({ job, onClose, onEdit }) {
                   rel="noopener noreferrer"
                   className="rounded-full bg-atl px-4 py-2 text-xs font-semibold text-white transition hover:bg-atl2"
                 >
-                  Open Official Apply Link ↗
+                  Open Apply Now Link ↗
+                </a>
+              )}
+              {job.official_website && (
+                <a
+                  href={job.official_website}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="rounded-full border border-atl/30 px-4 py-2 text-xs font-semibold text-atl transition hover:bg-atl/10"
+                >
+                  Official Website ↗
                 </a>
               )}
               {job.whatsapp_number && (
@@ -122,7 +143,7 @@ export default function JobDetailsModal({ job, onClose, onEdit }) {
                   rel="noopener noreferrer"
                   className="rounded-full border border-aline px-4 py-2 text-xs font-semibold text-amuted transition hover:text-aink"
                 >
-                  View Ad Image / PDF ↗
+                  View Official Advertisement ↗
                 </a>
               )}
             </div>

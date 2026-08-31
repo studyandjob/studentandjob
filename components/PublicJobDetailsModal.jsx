@@ -78,10 +78,46 @@ export default function PublicJobDetailsModal({ job, onClose }) {
 
         {/* Body */}
         <div className="flex flex-col gap-6 px-5 py-5 sm:px-6">
+          {/* Official Source strip — always visible so candidates can verify the job themselves */}
+          <div className="flex flex-wrap items-center gap-2 rounded-xl border border-amber-200 bg-amber-50 px-3.5 py-2.5">
+            <span className="text-[0.7rem] font-bold uppercase tracking-wide text-amber-700">Source:</span>
+            {job.official_website ? (
+              <a
+                href={job.official_website}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm font-semibold text-amber-800 underline decoration-amber-400 underline-offset-2"
+              >
+                Official Website
+              </a>
+            ) : (
+              <span className="text-sm font-semibold text-amber-800">Official Website not linked</span>
+            )}
+            {job.ad_image_url && (
+              <>
+                <span className="text-amber-400">•</span>
+                <a
+                  href={job.ad_image_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm font-semibold text-amber-800 underline decoration-amber-400 underline-offset-2"
+                >
+                  Official Advertisement
+                </a>
+              </>
+            )}
+          </div>
+
           <dl className="grid grid-cols-2 gap-4 sm:grid-cols-3">
+            <Row label="Organization" value={job.department} />
+            <Row label="Job Type" value={job.job_type} />
+            <Row label="Location" value={job.city} />
             <Row label="Sector" value={job.sector} />
             <Row label="Category" value={job.category} />
-            <Row label="City" value={job.city} />
+            <Row label="Salary" value={job.salary} />
+            <Row label="Number of Vacancies" value={job.vacancies} />
+            <Row label="Age Limit" value={job.age_limit} />
+            <Row label="Experience" value={job.experience_required} />
             <Row label="Application Mode" value={job.application_mode} />
             <Row label="Last Date to Apply" value={formatDate(job.last_date)} danger={isPastLastDate(job.last_date)} />
           </dl>
@@ -125,16 +161,6 @@ export default function PublicJobDetailsModal({ job, onClose }) {
             </div>
           )}
 
-          {job.ad_image_url && (
-            <a
-              href={job.ad_image_url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-sm font-semibold text-brand-600 hover:underline"
-            >
-              View Job Advertisement (Image/PDF) →
-            </a>
-          )}
         </div>
 
         {/* Footer */}
@@ -147,6 +173,16 @@ export default function PublicJobDetailsModal({ job, onClose }) {
               className="rounded-full bg-brand-600 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-700"
             >
               Apply Now
+            </a>
+          )}
+          {job.official_website && (
+            <a
+              href={job.official_website}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-full border border-gray-200 px-5 py-2.5 text-sm font-semibold text-gray-700 transition hover:border-brand-300 hover:text-brand-700"
+            >
+              Official Website
             </a>
           )}
           {job.whatsapp_number && (
