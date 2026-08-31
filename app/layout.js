@@ -3,6 +3,7 @@ import './globals.css';
 import { supabase } from '@/lib/supabaseClient';
 import NavigationProgress from '@/components/NavigationProgress';
 import TextThemeStyle from '@/components/TextThemeStyle';
+import { ThemeProvider } from '@/contexts/ThemeContext';
 
 // English/Latin body font used across the whole public site.
 const publicSans = Public_Sans({
@@ -53,8 +54,10 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${publicSans.variable} ${notoNastaliqUrdu.variable} ${fraunces.variable}`}>
       <body className="min-h-screen flex flex-col antialiased font-sans">
-        <TextThemeStyle />
-        <NavigationProgress>{children}</NavigationProgress>
+        <ThemeProvider>
+          <TextThemeStyle />
+          <NavigationProgress>{children}</NavigationProgress>
+        </ThemeProvider>
       </body>
     </html>
   );
