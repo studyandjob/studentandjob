@@ -7,32 +7,36 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // Single, fixed design system shared by the ENTIRE site (public
-        // pages + admin dashboard) — the old per-visitor "Theme Settings"
-        // switcher has been removed, so these are no longer CSS variables,
-        // just plain hex values. `brand` is a green shade ramp built from
-        // the admin panel's `atl2` (#1E8449) and `accent` is a blue ramp
-        // built from the admin panel's `atl` (#2E5AAC) — the exact same
-        // math the old theme engine used for the default "BCI Platform"
-        // theme, just computed once instead of at runtime.
+        // Runtime-switchable design system for the PUBLIC site. `brand` and
+        // `accent` resolve through CSS variables (set by
+        // contexts/ThemeContext.js, mounted in app/layout.js) so picking a
+        // theme in the admin's "Theme Settings" panel re-colors every
+        // existing `bg-brand-600` / `text-accent-700` / `border-brand-900/10`
+        // class instantly — no component needs to change. The fallback
+        // triplet after each var() is the default "BCI Platform (Green &
+        // Blue)" theme, so nothing changes visually until an admin actually
+        // picks and saves a different theme (same pattern as `gray` below).
+        // NOTE: Tailwind's `/NN` opacity modifiers need "R G B" triplets
+        // here, not hex — that's what ThemeContext's hexToRgbTriplet()
+        // writes into each variable.
         brand: {
-          50: '#f4f9f6',
-          100: '#ddede4',
-          200: '#bcdac8',
-          300: '#8ec2a4',
-          400: '#56a376',
-          500: '#34905b',
-          600: '#1E8449',
-          700: '#1a703e',
-          800: '#155c33',
-          900: '#104928',
+          50: 'rgb(var(--brand-50, 244 249 246) / <alpha-value>)',
+          100: 'rgb(var(--brand-100, 221 237 228) / <alpha-value>)',
+          200: 'rgb(var(--brand-200, 188 218 200) / <alpha-value>)',
+          300: 'rgb(var(--brand-300, 142 194 164) / <alpha-value>)',
+          400: 'rgb(var(--brand-400, 86 163 118) / <alpha-value>)',
+          500: 'rgb(var(--brand-500, 52 144 91) / <alpha-value>)',
+          600: 'rgb(var(--brand-600, 30 132 73) / <alpha-value>)',
+          700: 'rgb(var(--brand-700, 26 112 62) / <alpha-value>)',
+          800: 'rgb(var(--brand-800, 21 92 51) / <alpha-value>)',
+          900: 'rgb(var(--brand-900, 16 73 40) / <alpha-value>)',
         },
         accent: {
-          50: '#eef2f8',
-          100: '#d1dbed',
-          500: '#2E5AAC',
-          600: '#284f97',
-          700: '#234483',
+          50: 'rgb(var(--accent-50, 238 242 248) / <alpha-value>)',
+          100: 'rgb(var(--accent-100, 209 219 237) / <alpha-value>)',
+          500: 'rgb(var(--accent-500, 46 90 172) / <alpha-value>)',
+          600: 'rgb(var(--accent-600, 40 79 151) / <alpha-value>)',
+          700: 'rgb(var(--accent-700, 35 68 131) / <alpha-value>)',
         },
         // Neutral "black" text scale used across the PUBLIC site
         // (text-gray-400..900 — headings, body copy, muted labels).
