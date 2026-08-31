@@ -20,6 +20,8 @@ const EMPTY_JOB = {
   apply_link: '',
   official_website: '',
   ad_image_url: '',
+  verified_on: '',
+  source_type: '',
   application_mode: 'Online',
   salary: '',
   vacancies: '',
@@ -40,7 +42,11 @@ const EMPTY_JOB = {
  * update.
  */
 export default function JobForm({ initialJob, onSubmit, onCancel, saving }) {
-  const [form, setForm] = useState(() => ({ ...EMPTY_JOB, ...(initialJob || {}) }));
+  const [form, setForm] = useState(() => ({
+    ...EMPTY_JOB,
+    verified_on: new Date().toISOString().slice(0, 10),
+    ...(initialJob || {}),
+  }));
   const [error, setError] = useState('');
   const [imageUploading, setImageUploading] = useState(false);
 
@@ -238,6 +244,34 @@ export default function JobForm({ initialJob, onSubmit, onCancel, saving }) {
             placeholder="https://... (organization's official website)"
             className={inputClass}
           />
+        </label>
+
+        <label>
+          <span className={labelClass}>Verification Source</span>
+          <select
+            value={form.source_type}
+            onChange={(e) => update('source_type', e.target.value)}
+            className={inputClass}
+          >
+            <option value="">Not verified yet</option>
+            <option value="Official Website">Official Website</option>
+            <option value="Advertisement">Advertisement</option>
+            <option value="Both">Both (Website &amp; Advertisement)</option>
+          </select>
+          <p className="mt-1 text-xs text-amuted">
+            Only select this after checking the job against the source below — this is what candidates see as proof.
+          </p>
+        </label>
+
+        <label>
+          <span className={labelClass}>Verified On</span>
+          <input
+            type="date"
+            value={form.verified_on || ''}
+            onChange={(e) => update('verified_on', e.target.value)}
+            className={inputClass}
+          />
+          <p className="mt-1 text-xs text-amuted">Date you checked this job against its official source.</p>
         </label>
 
         <label>

@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import SearchBar from './SearchBar';
+import { isJobOpen } from '@/lib/jobStatus';
 import {
   MapPinIcon3D as MapPinIcon,
   BuildingIcon3D as BuildingIcon,
@@ -67,7 +68,7 @@ function daysRemaining(dateStr) {
 export default function HeroSlider({ jobs = [], mainHeading, subHeading, slideSpeed = '1x' }) {
   // Latest open jobs, newest first (already ordered that way by the
   // homepage query), capped so the dots row stays tidy.
-  const heroJobs = jobs.filter((j) => j.status !== 'closed').slice(0, MAX_HERO_JOBS);
+  const heroJobs = jobs.filter(isJobOpen).slice(0, MAX_HERO_JOBS);
 
   const [active, setActive] = useState(0);
 
@@ -188,7 +189,7 @@ export default function HeroSlider({ jobs = [], mainHeading, subHeading, slideSp
       />
       <div className="relative mx-auto max-w-5xl px-4 pb-10 pt-8 text-center md:px-6 md:pb-14 md:pt-12">
         <span className="inline-flex items-center gap-1.5 rounded-full border border-brand-100 bg-brand-50 px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-brand-700 md:text-xs">
-          ✅ Trusted by thousands of job seekers &amp; students
+          ✅ Verified Job Postings &middot; Updated Daily
         </span>
 
         <h1

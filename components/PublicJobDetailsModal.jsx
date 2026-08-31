@@ -80,23 +80,38 @@ export default function PublicJobDetailsModal({ job, settings, onClose }) {
         {/* Body */}
         <div className="flex flex-col gap-6 px-5 py-5 sm:px-6">
           {/* Official Source strip — always visible so candidates can verify the job themselves */}
-          <div className="flex flex-wrap items-center gap-2 rounded-xl border border-amber-200 bg-amber-50 px-3.5 py-2.5">
-            <span className="text-[0.7rem] font-bold uppercase tracking-wide text-amber-700">Source:</span>
-            {job.official_website ? (
-              <a
-                href={job.official_website}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-sm font-semibold text-amber-800 underline decoration-amber-400 underline-offset-2"
-              >
-                Official Website
-              </a>
+          <div className="flex flex-col gap-2 rounded-xl border border-amber-200 bg-amber-50 px-3.5 py-2.5">
+            {job.source_type && job.verified_on ? (
+              <p className="text-sm font-bold text-emerald-700">✓ Official Source Verified</p>
             ) : (
-              <span className="text-sm font-semibold text-amber-800">Official Website not linked</span>
+              <p className="text-sm font-bold text-amber-700">⚠ Not yet verified against an official source</p>
             )}
-            {job.ad_image_url && (
-              <>
-                <span className="text-amber-400">•</span>
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm">
+              <span>
+                <span className="font-semibold text-amber-700">Source: </span>
+                <span className="text-amber-900">{job.source_type || 'Not specified'}</span>
+              </span>
+              {job.verified_on && (
+                <span>
+                  <span className="font-semibold text-amber-700">Verified On: </span>
+                  <span className="text-amber-900">{formatDate(job.verified_on)}</span>
+                </span>
+              )}
+            </div>
+            <div className="flex flex-wrap items-center gap-3">
+              {job.official_website ? (
+                <a
+                  href={job.official_website}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm font-semibold text-amber-800 underline decoration-amber-400 underline-offset-2"
+                >
+                  Official Website
+                </a>
+              ) : (
+                <span className="text-sm text-amber-800">Official Website not linked</span>
+              )}
+              {job.ad_image_url && (
                 <a
                   href={job.ad_image_url}
                   target="_blank"
@@ -105,8 +120,8 @@ export default function PublicJobDetailsModal({ job, settings, onClose }) {
                 >
                   Official Advertisement
                 </a>
-              </>
-            )}
+              )}
+            </div>
           </div>
 
           <dl className="grid grid-cols-2 gap-4 sm:grid-cols-3">

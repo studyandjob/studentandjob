@@ -67,9 +67,9 @@ export default function PublicJobCard({ job, onViewDetails }) {
                 {job.sector}
               </span>
             )}
-            {(job.official_website || job.ad_image_url) && (
+            {job.source_type && job.verified_on && (
               <span className="flex items-center gap-1 rounded-full bg-emerald-50 px-2.5 py-1 text-[0.68rem] font-semibold text-emerald-700">
-                ✓ Verified Source
+                ✓ Verified {formatDate(job.verified_on)}
               </span>
             )}
           </div>

@@ -5,9 +5,10 @@ import PublicJobCard from './PublicJobCard';
 import PublicJobDetailsModal from './PublicJobDetailsModal';
 import WhatsAppServiceCard from './WhatsAppServiceCard';
 import { SECTORS, JOB_CATEGORIES } from '@/lib/matching';
+import { isJobExpired } from '@/lib/jobStatus';
 import { SearchIcon3D as SearchIcon, FilterIcon3D, ChevronDownIcon3D } from './Icons3D';
 
-const FILTER_DEFAULTS = { search: '', sector: 'all', jobType: 'all', category: 'all', city: 'all' };
+const FILTER_DEFAULTS = { search: '', sector: 'all', jobType: 'all', category: 'all', city: 'all', view: 'open' };
 
 export default function PublicJobsBrowser({ jobs = [], siteName, settings }) {
   const [filters, setFilters] = useState(FILTER_DEFAULTS);
@@ -19,6 +20,9 @@ export default function PublicJobsBrowser({ jobs = [], siteName, settings }) {
   const filtered = useMemo(() => {
     return jobs.filter((job) => {
       if (job.status === 'closed') return false;
+      const expired = isJobExpired(job);
+      if (filters.view === 'open' && expired) return false;
+      if (filters.view === 'expired' && !expired) return false;
       if (filters.sector !== 'all' && job.sector !== filters.sector) return false;
       if (filters.jobType !== 'all' && job.job_type !== filters.jobType) return false;
       if (filters.category !== 'all' && job.category !== filters.category) return false;
@@ -33,7 +37,7 @@ export default function PublicJobsBrowser({ jobs = [], siteName, settings }) {
   }, [jobs, filters]);
 
   const activeFilterCount = Object.entries(filters).filter(
-    ([k, v]) => k !== 'search' && v && v !== 'all'
+    ([k, v]) => k !== 'search' && k !== 'view' && v && v !== 'all'
   ).length;
 
   function update(key, value) {
@@ -93,6 +97,23 @@ export default function PublicJobsBrowser({ jobs = [], siteName, settings }) {
           </button>
 
           <div className={`${filtersOpen ? 'flex' : 'hidden'} flex-col gap-3 md:flex`}>
+            <div className="flex gap-2 rounded-lg border border-gray-200 bg-gray-50 p-1">
+              {[
+                { value: 'open', label: 'Open Jobs' },
+                { value: 'expired', label: 'Expired Jobs' },
+              ].map((t) => (
+                <button
+                  key={t.value}
+                  onClick={() => update('view', t.value)}
+                  className={`flex-1 rounded-md px-3 py-3 text-xs font-semibold transition active:scale-[0.98] sm:py-2 sm:text-sm ${
+                    filters.view === t.value ? 'bg-brand-600 text-white' : 'text-gray-500 hover:text-gray-800'
+                  }`}
+                >
+                  {t.label}
+                </button>
+              ))}
+            </div>
+
             <div className="flex gap-2 rounded-lg border border-gray-200 bg-gray-50 p-1">
               {['all', 'Government', 'Private'].map((t) => (
                 <button
