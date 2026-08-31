@@ -1,4 +1,5 @@
 import { VerifiedBadgeIcon3D, CalendarClockIcon3D } from './Icons3D';
+import { daysRemaining } from '@/lib/jobStatus';
 
 function formatDate(dateStr) {
   if (!dateStr) return null;
@@ -6,12 +7,8 @@ function formatDate(dateStr) {
 }
 
 function daysAgo(dateStr) {
-  if (!dateStr) return null;
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  const announced = new Date(dateStr);
-  announced.setHours(0, 0, 0, 0);
-  return Math.round((today - announced) / 86400000);
+  const remaining = daysRemaining(dateStr);
+  return remaining === null ? null : -remaining;
 }
 
 export default function ResultCard({ result }) {

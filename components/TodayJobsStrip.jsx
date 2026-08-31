@@ -3,22 +3,14 @@
 import { useMemo, useState } from 'react';
 import PublicJobDetailsModal from './PublicJobDetailsModal';
 import { CalendarClockIcon3D, BriefcaseIcon3D } from './Icons3D';
+import { toDateKey, todayKey } from '@/lib/jobStatus';
 
-/** Returns a Date with the time zeroed out, for pure date-only comparisons. */
-function startOfDay(d) {
-  const x = new Date(d);
-  x.setHours(0, 0, 0, 0);
-  return x;
-}
-
-function isSameDay(a, b) {
-  return startOfDay(a).getTime() === startOfDay(b).getTime();
-}
-
-function addDays(date, n) {
-  const d = new Date(date);
-  d.setDate(d.getDate() + n);
-  return d;
+/** 'YYYY-MM-DD' key for tomorrow, in Pakistan time (same anchor as todayKey()). */
+function tomorrowKey() {
+  const [y, m, d] = todayKey().split('-').map(Number);
+  const t = new Date(Date.UTC(y, m - 1, d));
+  t.setUTCDate(t.getUTCDate() + 1);
+  return t.toISOString().slice(0, 10);
 }
 
 const GROUPS = [
@@ -54,12 +46,12 @@ const GROUPS = [
  */
 function useTodayGroups(jobs) {
   return useMemo(() => {
-    const today = new Date();
-    const tomorrow = addDays(today, 1);
+    const today = todayKey();
+    const tomorrow = tomorrowKey();
 
-    const closingToday = jobs.filter((j) => j.last_date && isSameDay(j.last_date, today));
-    const closingTomorrow = jobs.filter((j) => j.last_date && isSameDay(j.last_date, tomorrow));
-    const newToday = jobs.filter((j) => j.created_at && isSameDay(j.created_at, today));
+    const closingToday = jobs.filter((j) => toDateKey(j.last_date) === today);
+    const closingTomorrow = jobs.filter((j) => toDateKey(j.last_date) === tomorrow);
+    const newToday = jobs.filter((j) => toDateKey(j.created_at) === today);
 
     return { closingToday, closingTomorrow, newToday };
   }, [jobs]);

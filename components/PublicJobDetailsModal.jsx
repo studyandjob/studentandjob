@@ -2,19 +2,11 @@
 
 import { CloseIcon3D } from './Icons3D';
 import WhatsAppServiceCard from './WhatsAppServiceCard';
+import { isDatePast } from '@/lib/jobStatus';
 
 function formatDate(dateStr) {
   if (!dateStr) return 'Not specified';
   return new Date(dateStr).toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' });
-}
-
-function isPastLastDate(dateStr) {
-  if (!dateStr) return false;
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  const due = new Date(dateStr);
-  due.setHours(0, 0, 0, 0);
-  return due < today;
 }
 
 function Row({ label, value, danger }) {
@@ -135,7 +127,7 @@ export default function PublicJobDetailsModal({ job, settings, onClose }) {
             <Row label="Age Limit" value={job.age_limit} />
             <Row label="Experience" value={job.experience_required} />
             <Row label="Application Mode" value={job.application_mode} />
-            <Row label="Last Date to Apply" value={formatDate(job.last_date)} danger={isPastLastDate(job.last_date)} />
+            <Row label="Last Date to Apply" value={formatDate(job.last_date)} danger={isDatePast(job.last_date)} />
           </dl>
 
           {(job.education_required?.length > 0 || job.skills_required?.length > 0) && (

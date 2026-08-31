@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import PublicJobDetailsModal from './PublicJobDetailsModal';
 import { BriefcaseIcon3D } from './Icons3D';
+import { isDatePast } from '@/lib/jobStatus';
 
 function formatDate(dateStr) {
   if (!dateStr) return null;
@@ -12,16 +13,6 @@ function formatDate(dateStr) {
     month: 'short',
     year: 'numeric',
   });
-}
-
-/** True once the job's last_date has already passed. */
-function isPastLastDate(dateStr) {
-  if (!dateStr) return false;
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  const due = new Date(dateStr);
-  due.setHours(0, 0, 0, 0);
-  return due < today;
 }
 
 export default function JobsList({ jobs = [] }) {
@@ -54,7 +45,7 @@ export default function JobsList({ jobs = [] }) {
                   {job.last_date && (
                     <span
                       className={`ml-2 rounded px-1.5 py-0.5 font-medium ${
-                        isPastLastDate(job.last_date) ? 'bg-red-100 text-red-700' : 'bg-red-50 text-red-600'
+                        isDatePast(job.last_date) ? 'bg-red-100 text-red-700' : 'bg-red-50 text-red-600'
                       }`}
                     >
                       Last date: {formatDate(job.last_date)}

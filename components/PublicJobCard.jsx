@@ -8,20 +8,11 @@ import {
   ArrowRightIcon3D as ArrowRightIcon,
   CalendarClockIcon3D as CalendarClockIcon,
 } from './Icons3D';
+import { daysRemaining } from '@/lib/jobStatus';
 
 function formatDate(dateStr) {
   if (!dateStr) return null;
   return new Date(dateStr).toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' });
-}
-
-/** Returns how many days remain until the deadline (negative = past). */
-function daysRemaining(dateStr) {
-  if (!dateStr) return null;
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  const due = new Date(dateStr);
-  due.setHours(0, 0, 0, 0);
-  return Math.round((due - today) / 86400000);
 }
 
 /**
