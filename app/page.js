@@ -9,6 +9,7 @@ import JobsList from '@/components/JobsList';
 import StudentsZone from '@/components/StudentsZone';
 import Footer from '@/components/Footer';
 import { getHomeStats, getTestimonials } from '@/lib/data';
+import { isJobOpen } from '@/lib/jobStatus';
 
 // Re-fetch fresh data on every request so admin edits show up immediately.
 // Swap to `export const revalidate = 60` if you'd rather cache for 60s.
@@ -28,15 +29,17 @@ async function getHomePageData() {
       .order('updated_at', { ascending: false, nullsFirst: false })
       .limit(1)
       .maybeSingle(),
-    supabase.from('jobs_table').select('*').order('created_at', { ascending: false }).limit(8),
+    supabase.from('jobs_table').select('*').order('created_at', { ascending: false }).limit(30),
     supabase.from('students_data').select('*').order('created_at', { ascending: false }).limit(6),
     getHomeStats(),
     getTestimonials(6),
   ]);
 
+  const openJobs = (jobs || []).filter(isJobOpen).slice(0, 8);
+
   return {
     settings: settings || {},
-    jobs: jobs || [],
+    jobs: openJobs,
     notes: notes || [],
     stats,
     testimonials,

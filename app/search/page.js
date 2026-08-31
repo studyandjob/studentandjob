@@ -6,6 +6,7 @@ import SearchBar from '@/components/SearchBar';
 import SearchJobsGrid from '@/components/SearchJobsGrid';
 import { SearchIcon3D } from '@/components/Icons3D';
 import { getSiteSettings, getJobs, getNotes, getResults, getScholarships } from '@/lib/data';
+import { isJobOpen } from '@/lib/jobStatus';
 
 // Re-fetch fresh data on every search (results/jobs/notes change often) and
 // so `searchParams.q` is always read for the current request.
@@ -44,7 +45,7 @@ export default async function SearchPage({ searchParams }) {
   ]);
 
   const jobs = ql
-    ? allJobs.filter((j) => j.status !== 'closed' && matches([j.title, j.department, j.city, j.sector, j.job_type], ql))
+    ? allJobs.filter((j) => isJobOpen(j) && matches([j.title, j.department, j.city, j.sector, j.job_type], ql))
     : [];
   const notes = ql ? allNotes.filter((n) => matches([n.title, n.category], ql)) : [];
   const results = ql ? allResults.filter((r) => matches([r.title, r.board_or_department], ql)) : [];
