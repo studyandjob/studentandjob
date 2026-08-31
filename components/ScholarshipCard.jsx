@@ -61,7 +61,7 @@ export default function ScholarshipCard({ scholarship }) {
           href={scholarship.apply_link || '#'}
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-auto flex items-center justify-center rounded-xl bg-gradient-to-r from-accent-600 to-accent-700 px-4 py-2.5 text-center text-sm font-semibold text-white shadow-md shadow-accent-600/20 transition-all duration-200 hover:shadow-lg hover:shadow-accent-600/30 hover:-translate-y-0.5"
+          className="mt-auto flex items-center justify-center rounded-xl bg-gradient-to-r from-accent-600 to-accent-700 px-4 py-3.5 text-center text-sm font-semibold text-white shadow-md shadow-accent-600/20 transition-all duration-200 active:scale-[0.98] hover:shadow-lg hover:shadow-accent-600/30 hover:-translate-y-0.5 sm:py-2.5"
         >
           Apply Now
         </a>

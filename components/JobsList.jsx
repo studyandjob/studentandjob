@@ -65,7 +65,7 @@ export default function JobsList({ jobs = [] }) {
               <div className="flex flex-shrink-0 items-center gap-2">
                 <button
                   onClick={() => setSelectedJob(job)}
-                  className="rounded-md border border-gray-200 px-3 py-1.5 text-xs font-semibold text-gray-600 transition hover:border-brand-200 hover:text-brand-700"
+                  className="flex min-h-[40px] items-center justify-center rounded-md border border-gray-200 px-3.5 py-2 text-xs font-semibold text-gray-600 transition active:scale-95 hover:border-brand-200 hover:text-brand-700"
                 >
                   View
                 </button>
@@ -73,7 +73,7 @@ export default function JobsList({ jobs = [] }) {
                 href={job.apply_link || '#'}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex-shrink-0 rounded-md bg-brand-600 px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-brand-700"
+                className="flex min-h-[40px] flex-shrink-0 items-center justify-center rounded-md bg-brand-600 px-3.5 py-2 text-xs font-semibold text-white transition active:scale-95 hover:bg-brand-700"
               >
                 Apply
               </a>

@@ -2,6 +2,7 @@ import { supabase } from '@/lib/supabaseClient';
 import Header from '@/components/Header';
 import NewsTicker from '@/components/NewsTicker';
 import HeroSlider from '@/components/HeroSlider';
+import TodayJobsStrip from '@/components/TodayJobsStrip';
 import TrustStrip from '@/components/TrustStrip';
 import StatsStrip from '@/components/StatsStrip';
 import Testimonials from '@/components/Testimonials';
@@ -35,11 +36,13 @@ async function getHomePageData() {
     getTestimonials(6),
   ]);
 
-  const openJobs = (jobs || []).filter(isJobOpen).slice(0, 8);
+  const allOpenJobs = (jobs || []).filter(isJobOpen);
+  const openJobs = allOpenJobs.slice(0, 8);
 
   return {
     settings: settings || {},
     jobs: openJobs,
+    allOpenJobs,
     notes: notes || [],
     stats,
     testimonials,
@@ -47,7 +50,7 @@ async function getHomePageData() {
 }
 
 export default async function HomePage() {
-  const { settings, jobs, notes, stats, testimonials } = await getHomePageData();
+  const { settings, jobs, allOpenJobs, notes, stats, testimonials } = await getHomePageData();
 
   return (
     <>
@@ -64,6 +67,11 @@ export default async function HomePage() {
           subHeading={settings.sub_heading}
           slideSpeed={settings.hero_slide_speed}
         />
+
+        {/* Gives visitors a reason to check back daily: jobs closing today/
+            tomorrow (act now) and jobs posted today (what's fresh). Hidden
+            entirely when none of the three buckets have anything. */}
+        <TodayJobsStrip jobs={allOpenJobs} />
 
         <TrustStrip />
 
