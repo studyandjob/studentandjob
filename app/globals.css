@@ -7,10 +7,34 @@ html {
 }
 
 body {
-  /* Fixed site-wide design system — same background/text pairing as the
-     admin dashboard (acream / aink). No longer switchable at runtime. */
-  background-color: #F1F4F8;
-  color: #1F2937;
+  /* Matches the default theme's background/text (lib/themes.js) so there's
+     no color mismatch before ThemeContext/the boot script run. Whichever
+     theme an admin actually has saved still overrides this instantly via
+     --color-bg/--color-text further down. */
+  background-color: #F7F5EF;
+  color: #1E2A28;
+  background-color: var(--color-bg, #F7F5EF);
+  color: var(--color-text, #1E2A28);
+}
+
+/* Give every heading the site's display voice (Fraunces) instead of
+   plain sans-serif — previously only the header logo and a couple of
+   hero headlines opted into font-serif explicitly, so most section
+   titles across the site (Home, Jobs, Study Zone, etc.) read as
+   visually flat. Doing it once here, site-wide, means every existing
+   <h1>-<h6> picks it up with no per-component class changes, and any
+   component can still override with a plain `font-sans` class if a
+   specific heading should stay in the body face. */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-fraunces), Georgia, serif;
+  letter-spacing: -0.01em;
+}
+
+/* Slightly roomier reading rhythm for body copy — the previous default
+   line-height (Tailwind's 1.5) reads a bit tight at the site's ~15-16px
+   base size for longer paragraphs (job descriptions, static pages). */
+p {
+  line-height: 1.65;
 }
 
 /* Simple line-clamp fallback (Tailwind's plugin isn't required) */
