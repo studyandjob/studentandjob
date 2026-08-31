@@ -4,6 +4,64 @@ import { supabase } from '@/lib/supabaseClient';
 import NavigationProgress from '@/components/NavigationProgress';
 import TextThemeStyle from '@/components/TextThemeStyle';
 import { ThemeProvider } from '@/contexts/ThemeContext';
+import { DEFAULT_TEXT_THEME_ID, TEXT_THEMES } from '@/lib/textThemes';
+import { DEFAULT_THEME_ID, THEMES, buildAccentScale, buildShadeScale, hexToRgbTriplet } from '@/lib/themes';
+
+// --- Anti-flash boot script ------------------------------------------
+// Both TextThemeStyle and ThemeContext apply their saved theme inside a
+// React `useEffect`, which only runs AFTER the first paint. On a hard/
+// fresh page load (typing the URL, refreshing, opening in a new tab —
+// exactly how most visitors land on the Home page) the browser paints
+// once with the default colors, then a beat later swaps to the saved
+// theme. On a client-side <Link> navigation (e.g. Home -> Jobs) the vars
+// are already sitting on <html> from the previous page, so no flash is
+// visible there. That mismatch is what reads as "theme shows on the Jobs
+// page but not on Home".
+//
+// Fix: pre-compute every theme's CSS variables at build time (below) and
+// run a tiny synchronous script in <head>, BEFORE the page paints, that
+// reads the same localStorage keys the two client components already use
+// and sets the variables immediately. TextThemeStyle/ThemeContext still
+// run afterwards to (a) handle visitors with no localStorage entry yet
+// and (b) sync the site-wide Supabase default — they just no longer have
+// anything to visibly "fix", so every page (Home included) is correct on
+// the very first frame.
+const TEXT_THEME_VARS = Object.fromEntries(
+  TEXT_THEMES.map((theme) => [theme.id, theme.shades])
+);
+
+const BRAND_THEME_VARS = Object.fromEntries(
+  THEMES.map((theme) => [
+    theme.id,
+    {
+      brand: Object.fromEntries(
+        Object.entries(buildShadeScale(theme.primary)).map(([step, hex]) => [step, hexToRgbTriplet(hex)])
+      ),
+      accent: Object.fromEntries(
+        Object.entries(buildAccentScale(theme.accent)).map(([step, hex]) => [step, hexToRgbTriplet(hex)])
+      ),
+      bg: theme.background,
+      text: theme.text,
+    },
+  ])
+);
+
+const THEME_BOOT_SCRIPT = `(function(){try{
+  var d=document.documentElement;
+  var TT=${JSON.stringify(TEXT_THEME_VARS)};
+  var BT=${JSON.stringify(BRAND_THEME_VARS)};
+  var tId=localStorage.getItem('psj-text-theme')||'${DEFAULT_TEXT_THEME_ID}';
+  var tt=TT[tId]||TT['${DEFAULT_TEXT_THEME_ID}'];
+  for(var k in tt){d.style.setProperty('--text-'+k,tt[k]);}
+  d.dataset.textTheme=tId;
+  var bId=localStorage.getItem('psj-active-theme')||'${DEFAULT_THEME_ID}';
+  var bt=BT[bId]||BT['${DEFAULT_THEME_ID}'];
+  for(var k2 in bt.brand){d.style.setProperty('--brand-'+k2,bt.brand[k2]);}
+  for(var k3 in bt.accent){d.style.setProperty('--accent-'+k3,bt.accent[k3]);}
+  d.style.setProperty('--color-bg',bt.bg);
+  d.style.setProperty('--color-text',bt.text);
+  d.dataset.theme=bId;
+}catch(e){}})();`;
 
 // English/Latin body font used across the whole public site.
 const publicSans = Public_Sans({
@@ -52,7 +110,17 @@ export async function generateMetadata() {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${publicSans.variable} ${notoNastaliqUrdu.variable} ${fraunces.variable}`}>
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${publicSans.variable} ${notoNastaliqUrdu.variable} ${fraunces.variable}`}
+    >
+      <head>
+        {/* Runs before first paint on every page (Home included) so the
+            saved text/brand theme is correct from frame one — see the
+            comment above THEME_BOOT_SCRIPT. */}
+        <script dangerouslySetInnerHTML={{ __html: THEME_BOOT_SCRIPT }} />
+      </head>
       <body className="min-h-screen flex flex-col antialiased font-sans">
         <ThemeProvider>
           <TextThemeStyle />
