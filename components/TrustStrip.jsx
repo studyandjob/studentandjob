@@ -10,7 +10,7 @@ const ITEMS = [
 export default function TrustStrip() {
   return (
     <div className="border-b border-gray-100 bg-white">
-      <div className="mx-auto grid max-w-7xl grid-cols-2 gap-4 px-4 py-6 sm:grid-cols-4 md:gap-6 md:px-6 md:py-8">
+      <div className="mx-auto grid max-w-7xl grid-cols-2 gap-4 px-4 py-8 sm:grid-cols-4 md:gap-6 md:px-6 md:py-10">
         {ITEMS.map(({ label, Icon }) => (
           <div key={label} className="flex flex-col items-center gap-2.5 text-center sm:flex-row sm:text-left">
             {/* Full realistic 3D icon — glossy, gradient-shaded, own drop
