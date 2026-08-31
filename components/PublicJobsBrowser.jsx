@@ -6,6 +6,7 @@ import PublicJobDetailsModal from './PublicJobDetailsModal';
 import WhatsAppServiceCard from './WhatsAppServiceCard';
 import { SECTORS, JOB_CATEGORIES } from '@/lib/matching';
 import { isJobExpired } from '@/lib/jobStatus';
+import { matchesQuery } from '@/lib/searchMatch';
 import { SearchIcon3D as SearchIcon, FilterIcon3D, ChevronDownIcon3D } from './Icons3D';
 
 const FILTER_DEFAULTS = { search: '', sector: 'all', jobType: 'all', category: 'all', city: 'all', view: 'open' };
@@ -28,9 +29,9 @@ export default function PublicJobsBrowser({ jobs = [], siteName, settings }) {
       if (filters.category !== 'all' && job.category !== filters.category) return false;
       if (filters.city !== 'all' && job.city !== filters.city) return false;
       if (filters.search.trim()) {
-        const q = filters.search.trim().toLowerCase();
-        const haystack = `${job.title} ${job.department} ${job.city || ''}`.toLowerCase();
-        if (!haystack.includes(q)) return false;
+        if (!matchesQuery([job.title, job.department, job.city, job.sector, job.category, job.job_type], filters.search)) {
+          return false;
+        }
       }
       return true;
     });
