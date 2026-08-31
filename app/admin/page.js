@@ -15,6 +15,7 @@ import MessagesManager from '@/components/admin/MessagesManager';
 import ContactsManager from '@/components/admin/ContactsManager';
 import PagesManager from '@/components/admin/PagesManager';
 import JobsManager from '@/components/admin/JobsManager';
+import WhatsAppServiceForm from '@/components/admin/WhatsAppServiceForm';
 import MembersManager from '@/components/admin/MembersManager';
 import StudyZoneManager from '@/components/admin/StudyZone/StudyZoneManager';
 import {
@@ -40,6 +41,7 @@ const TAB_TITLES = {
   social: 'Social Media',
   slides: 'Hero Slides',
   jobs: 'Jobs',
+  whatsapp_service: 'WhatsApp Service',
   members: 'Admin Portal Requests',
   studyzone: 'Study Zone (Tests, Papers & Notes)',
   results: 'Results',
@@ -246,6 +248,8 @@ export default function AdminDashboard() {
               )}
 
               {activeTab === 'jobs' && <JobsManager initialJobs={jobs} settings={settings} />}
+
+              {activeTab === 'whatsapp_service' && <WhatsAppServiceForm settings={settings} />}
 
               {activeTab === 'members' && <MembersManager initialRequests={memberRequests} />}
 

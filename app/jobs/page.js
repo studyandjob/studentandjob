@@ -20,7 +20,7 @@ export default async function JobsPage() {
       <Header siteName={settings.site_name} logoUrl={settings.logo_url} />
 
       <main className="flex-1 bg-gray-50">
-        <PublicJobsBrowser jobs={jobs} siteName={settings.site_name} />
+        <PublicJobsBrowser jobs={jobs} siteName={settings.site_name} settings={settings} />
       </main>
 
       <Footer siteName={settings.site_name} settings={settings} />

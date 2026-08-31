@@ -6,16 +6,34 @@ function formatCount(n) {
 }
 
 export default function StatsStrip({ stats }) {
-  const items = [
+  const allItems = [
     { label: 'Jobs Posted', value: stats.jobs, Icon: BriefcaseIcon3D },
     { label: 'Notes & Papers', value: stats.notes, Icon: NotesBookIcon3D },
     { label: 'Scholarships Listed', value: stats.scholarships, Icon: GraduationCapIcon3D },
     { label: 'Results Announced', value: stats.results, Icon: VerifiedBadgeIcon3D },
   ];
 
+  // Don't show a category that would read "0 ..." — a brand-new site with
+  // nothing in a category yet looks more professional saying nothing than
+  // saying zero. (Admin → Website Settings can also set a starting "boost"
+  // number per category so real, honest totals don't look sparse.)
+  const items = allItems.filter((item) => item.value > 0);
+  if (items.length === 0) return null;
+
+  // Grid columns adapt to how many stats actually have data, so 2 or 3
+  // live categories don't leave an awkward empty slot on desktop.
+  const colsClass =
+    items.length === 1
+      ? 'grid-cols-1'
+      : items.length === 2
+      ? 'grid-cols-2'
+      : items.length === 3
+      ? 'grid-cols-2 sm:grid-cols-3'
+      : 'grid-cols-2 sm:grid-cols-4';
+
   return (
     <div className="border-y border-gray-100 bg-white">
-      <div className="mx-auto grid max-w-7xl grid-cols-2 gap-6 px-4 py-10 sm:grid-cols-4 md:gap-8 md:px-6 md:py-14">
+      <div className={`mx-auto grid max-w-7xl ${colsClass} gap-6 px-4 py-10 md:gap-8 md:px-6 md:py-14`}>
         {items.map(({ label, value, Icon }) => (
           <div key={label} className="flex flex-col items-center gap-2 text-center">
             <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand-50 text-brand-600">

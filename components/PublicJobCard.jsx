@@ -124,20 +124,22 @@ export default function PublicJobCard({ job, onViewDetails }) {
           </div>
         )}
 
-        {/* Actions — Apply first on mobile for thumb reach, side-by-side on desktop */}
+        {/* Actions — Apply first on mobile for thumb reach, side-by-side on desktop.
+            py-3.5 on mobile keeps both buttons at a full ~44px+ tap target;
+            desktop drops back to a tighter py-2.5. */}
         <div className="mt-auto flex flex-col gap-2 pt-1 sm:flex-row">
           <a
             href={job.apply_link || '#'}
             target="_blank"
             rel="noopener noreferrer"
-            className="group/btn order-1 flex flex-1 items-center justify-center gap-1.5 rounded-xl bg-gradient-to-r from-brand-600 to-brand-700 px-4 py-2.5 text-center text-sm font-semibold text-white shadow-md shadow-brand-600/20 transition-all duration-200 hover:shadow-lg hover:shadow-brand-600/30 hover:-translate-y-0.5 sm:order-2"
+            className="group/btn order-1 flex flex-1 items-center justify-center gap-1.5 rounded-xl bg-gradient-to-r from-brand-600 to-brand-700 px-4 py-3.5 text-center text-sm font-semibold text-white shadow-md shadow-brand-600/20 transition-all duration-200 active:scale-[0.98] hover:shadow-lg hover:shadow-brand-600/30 hover:-translate-y-0.5 sm:order-2 sm:py-2.5"
           >
             Apply Now
             <ArrowRightIcon className="h-4 w-4 transition-transform duration-200 group-hover/btn:translate-x-1" />
           </a>
           <button
             onClick={onViewDetails}
-            className="order-2 flex-1 rounded-xl border-2 border-gray-200 bg-white px-4 py-2.5 text-center text-sm font-semibold text-gray-700 transition-all duration-200 hover:border-brand-300 hover:bg-brand-50 hover:text-brand-700 sm:order-1"
+            className="order-2 flex-1 rounded-xl border-2 border-gray-200 bg-white px-4 py-3.5 text-center text-sm font-semibold text-gray-700 transition-all duration-200 active:scale-[0.98] hover:border-brand-300 hover:bg-brand-50 hover:text-brand-700 sm:order-1 sm:py-2.5"
           >
             View Details
           </button>

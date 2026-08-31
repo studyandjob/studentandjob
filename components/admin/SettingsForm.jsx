@@ -19,6 +19,10 @@ export default function SettingsForm({ settings }) {
     sub_heading: settings?.sub_heading || '',
     hero_slide_speed: settings?.hero_slide_speed || '1x',
     scrolling_news: settings?.scrolling_news || '',
+    stats_jobs_boost: settings?.stats_jobs_boost ?? 0,
+    stats_notes_boost: settings?.stats_notes_boost ?? 0,
+    stats_scholarships_boost: settings?.stats_scholarships_boost ?? 0,
+    stats_results_boost: settings?.stats_results_boost ?? 0,
   });
   const [saving, setSaving] = useState(false);
   const [logoUploading, setLogoUploading] = useState(false);
@@ -145,6 +149,56 @@ export default function SettingsForm({ settings }) {
             className={inputClass}
           />
         </label>
+
+        <div className="sm:col-span-2">
+          <p className={labelClass}>Homepage Stats — Boost Numbers</p>
+          <p className="mb-3 -mt-1 text-xs text-amuted">
+            Each stat on the homepage shows your real live count plus this boost, e.g. 9 live jobs + 40 boost = "49+
+            Jobs Posted". A category still at 0 after the boost is hidden automatically instead of showing "0".
+          </p>
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+            <label className="block">
+              <span className="mb-1 block text-xs text-amuted">Jobs Posted</span>
+              <input
+                type="number"
+                min="0"
+                value={form.stats_jobs_boost}
+                onChange={(e) => update('stats_jobs_boost', Math.max(0, parseInt(e.target.value, 10) || 0))}
+                className={inputClass}
+              />
+            </label>
+            <label className="block">
+              <span className="mb-1 block text-xs text-amuted">Notes & Papers</span>
+              <input
+                type="number"
+                min="0"
+                value={form.stats_notes_boost}
+                onChange={(e) => update('stats_notes_boost', Math.max(0, parseInt(e.target.value, 10) || 0))}
+                className={inputClass}
+              />
+            </label>
+            <label className="block">
+              <span className="mb-1 block text-xs text-amuted">Scholarships</span>
+              <input
+                type="number"
+                min="0"
+                value={form.stats_scholarships_boost}
+                onChange={(e) => update('stats_scholarships_boost', Math.max(0, parseInt(e.target.value, 10) || 0))}
+                className={inputClass}
+              />
+            </label>
+            <label className="block">
+              <span className="mb-1 block text-xs text-amuted">Results</span>
+              <input
+                type="number"
+                min="0"
+                value={form.stats_results_boost}
+                onChange={(e) => update('stats_results_boost', Math.max(0, parseInt(e.target.value, 10) || 0))}
+                className={inputClass}
+              />
+            </label>
+          </div>
+        </div>
 
         <div className="flex flex-wrap items-center gap-3 sm:col-span-2">
           <button

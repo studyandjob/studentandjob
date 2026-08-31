@@ -31,6 +31,9 @@ const SOCIAL_PLATFORMS = [
 
 export default function Footer({ siteName, settings }) {
   const socialLinks = SOCIAL_PLATFORMS.filter((p) => settings?.[p.field]);
+  const legalLinks = settings?.wa_service_enabled
+    ? [{ href: '/application-support', label: 'Application Support' }, ...LEGAL_LINKS]
+    : LEGAL_LINKS;
 
   return (
     <footer className="mt-auto border-t border-brand-100 bg-white">
@@ -44,7 +47,7 @@ export default function Footer({ siteName, settings }) {
           </div>
 
           <nav className="flex flex-wrap justify-center gap-x-5 gap-y-2">
-            {LEGAL_LINKS.map((link) => (
+            {legalLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}

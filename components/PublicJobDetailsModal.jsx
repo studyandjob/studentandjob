@@ -1,6 +1,7 @@
 'use client';
 
 import { CloseIcon3D } from './Icons3D';
+import WhatsAppServiceCard from './WhatsAppServiceCard';
 
 function formatDate(dateStr) {
   if (!dateStr) return 'Not specified';
@@ -42,7 +43,7 @@ function TagGroup({ label, tags }) {
   );
 }
 
-export default function PublicJobDetailsModal({ job, onClose }) {
+export default function PublicJobDetailsModal({ job, settings, onClose }) {
   if (!job) return null;
   const showManual = job.job_type === 'Government' || job.application_mode === 'Manual/By Post';
 
@@ -161,48 +162,54 @@ export default function PublicJobDetailsModal({ job, onClose }) {
             </div>
           )}
 
+          {settings?.wa_service_enabled && <WhatsAppServiceCard settings={settings} compact />}
         </div>
 
-        {/* Footer */}
-        <div className="sticky bottom-0 flex flex-wrap gap-2 border-t border-gray-100 bg-white px-5 py-4 sm:px-6">
+        {/* Footer — Apply Now is the dominant, full-width action on mobile
+            (it's why the candidate opened this modal); Official Website,
+            WhatsApp and Close sit together as a smaller secondary row
+            underneath, then sit inline next to Apply Now on desktop. */}
+        <div className="sticky bottom-0 flex flex-col gap-2 border-t border-gray-100 bg-white px-5 py-4 sm:flex-row sm:flex-wrap sm:items-center sm:px-6">
           {job.apply_link && (
             <a
               href={job.apply_link}
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-full bg-brand-600 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-700"
+              className="order-1 w-full rounded-full bg-brand-600 px-5 py-3.5 text-center text-sm font-bold text-white shadow-md shadow-brand-600/20 transition active:scale-[0.98] hover:bg-brand-700 sm:w-auto sm:py-2.5 sm:font-semibold"
             >
               Apply Now
             </a>
           )}
-          {job.official_website && (
-            <a
-              href={job.official_website}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="rounded-full border border-gray-200 px-5 py-2.5 text-sm font-semibold text-gray-700 transition hover:border-brand-300 hover:text-brand-700"
+          <div className="order-2 flex flex-wrap gap-2">
+            {job.official_website && (
+              <a
+                href={job.official_website}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex-1 rounded-full border border-gray-200 px-4 py-2.5 text-center text-sm font-semibold text-gray-700 transition active:scale-[0.98] hover:border-brand-300 hover:text-brand-700 sm:flex-none"
+              >
+                Official Website
+              </a>
+            )}
+            {job.whatsapp_number && (
+              <a
+                href={`https://wa.me/${job.whatsapp_number.replace(/\D/g, '')}?text=${encodeURIComponent(
+                  `I'm interested in the ${job.title} position.`
+                )}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex-1 rounded-full border border-brand-200 bg-brand-50 px-4 py-2.5 text-center text-sm font-semibold text-brand-700 transition active:scale-[0.98] hover:bg-brand-600 hover:text-white sm:flex-none"
+              >
+                WhatsApp Inquiry
+              </a>
+            )}
+            <button
+              onClick={onClose}
+              className="flex-1 rounded-full border border-gray-200 px-4 py-2.5 text-center text-sm font-semibold text-gray-600 transition hover:text-gray-900 sm:flex-none"
             >
-              Official Website
-            </a>
-          )}
-          {job.whatsapp_number && (
-            <a
-              href={`https://wa.me/${job.whatsapp_number.replace(/\D/g, '')}?text=${encodeURIComponent(
-                `I'm interested in the ${job.title} position.`
-              )}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="rounded-full border border-brand-200 bg-brand-50 px-5 py-2.5 text-sm font-semibold text-brand-700 transition hover:bg-brand-600 hover:text-white"
-            >
-              WhatsApp Inquiry
-            </a>
-          )}
-          <button
-            onClick={onClose}
-            className="rounded-full border border-gray-200 px-5 py-2.5 text-sm font-semibold text-gray-600 transition hover:text-gray-900"
-          >
-            Close
-          </button>
+              Close
+            </button>
+          </div>
         </div>
       </div>
     </div>

@@ -3,12 +3,13 @@
 import { useMemo, useState } from 'react';
 import PublicJobCard from './PublicJobCard';
 import PublicJobDetailsModal from './PublicJobDetailsModal';
+import WhatsAppServiceCard from './WhatsAppServiceCard';
 import { SECTORS, JOB_CATEGORIES } from '@/lib/matching';
 import { SearchIcon3D as SearchIcon, FilterIcon3D, ChevronDownIcon3D } from './Icons3D';
 
 const FILTER_DEFAULTS = { search: '', sector: 'all', jobType: 'all', category: 'all', city: 'all' };
 
-export default function PublicJobsBrowser({ jobs = [], siteName }) {
+export default function PublicJobsBrowser({ jobs = [], siteName, settings }) {
   const [filters, setFilters] = useState(FILTER_DEFAULTS);
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [selectedJob, setSelectedJob] = useState(null);
@@ -77,11 +78,12 @@ export default function PublicJobsBrowser({ jobs = [], siteName }) {
 
       {/* --- Content --- */}
       <div className="mx-auto max-w-6xl px-4 py-8 md:px-6 md:py-10">
-        {/* Filter bar */}
-        <div className="mb-6 rounded-2xl bg-white p-4 shadow-sm ring-1 ring-black/5 md:p-5">
+        {/* Filter bar — sticky on mobile so filters/results-count stay reachable
+            with one thumb while scrolling a long job list. */}
+        <div className="sticky top-16 z-10 mb-6 rounded-2xl bg-white p-4 shadow-sm ring-1 ring-black/5 md:static md:p-5">
           <button
             onClick={() => setFiltersOpen((v) => !v)}
-            className="mb-3 flex w-full items-center justify-between rounded-lg border border-gray-200 px-4 py-2.5 text-sm font-semibold text-gray-700 md:hidden"
+            className="mb-3 flex min-h-[44px] w-full items-center justify-between rounded-lg border border-gray-200 px-4 py-3 text-sm font-semibold text-gray-700 active:scale-[0.99] md:hidden"
           >
             <span className="flex items-center gap-2">
               <FilterIcon3D className="h-4 w-4" />
@@ -96,7 +98,7 @@ export default function PublicJobsBrowser({ jobs = [], siteName }) {
                 <button
                   key={t}
                   onClick={() => update('jobType', t)}
-                  className={`flex-1 rounded-md px-3 py-2 text-xs font-semibold transition sm:text-sm ${
+                  className={`flex-1 rounded-md px-3 py-3 text-xs font-semibold transition active:scale-[0.98] sm:py-2 sm:text-sm ${
                     filters.jobType === t ? 'bg-brand-600 text-white' : 'text-gray-500 hover:text-gray-800'
                   }`}
                 >
@@ -109,7 +111,7 @@ export default function PublicJobsBrowser({ jobs = [], siteName }) {
               <select
                 value={filters.sector}
                 onChange={(e) => update('sector', e.target.value)}
-                className="rounded-lg border border-gray-200 bg-gray-50 px-3.5 py-2.5 text-sm text-gray-800 outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-100"
+                className="min-h-[44px] rounded-lg border border-gray-200 bg-gray-50 px-3.5 py-3 text-sm text-gray-800 outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-100 sm:py-2.5"
               >
                 <option value="all">All Sectors</option>
                 {SECTORS.map((s) => (
@@ -122,7 +124,7 @@ export default function PublicJobsBrowser({ jobs = [], siteName }) {
               <select
                 value={filters.category}
                 onChange={(e) => update('category', e.target.value)}
-                className="rounded-lg border border-gray-200 bg-gray-50 px-3.5 py-2.5 text-sm text-gray-800 outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-100"
+                className="min-h-[44px] rounded-lg border border-gray-200 bg-gray-50 px-3.5 py-3 text-sm text-gray-800 outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-100 sm:py-2.5"
               >
                 <option value="all">All Categories</option>
                 {JOB_CATEGORIES.map((c) => (
@@ -135,7 +137,7 @@ export default function PublicJobsBrowser({ jobs = [], siteName }) {
               <select
                 value={filters.city}
                 onChange={(e) => update('city', e.target.value)}
-                className="rounded-lg border border-gray-200 bg-gray-50 px-3.5 py-2.5 text-sm text-gray-800 outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-100"
+                className="min-h-[44px] rounded-lg border border-gray-200 bg-gray-50 px-3.5 py-3 text-sm text-gray-800 outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-100 sm:py-2.5"
               >
                 <option value="all">All Cities</option>
                 {cities.map((c) => (
@@ -147,7 +149,10 @@ export default function PublicJobsBrowser({ jobs = [], siteName }) {
             </div>
 
             {activeFilterCount > 0 && (
-              <button onClick={clearFilters} className="self-start text-xs font-semibold text-brand-600 hover:underline">
+              <button
+                onClick={clearFilters}
+                className="self-start py-1 text-xs font-semibold text-brand-600 hover:underline"
+              >
                 Clear all filters ×
               </button>
             )}
@@ -157,6 +162,12 @@ export default function PublicJobsBrowser({ jobs = [], siteName }) {
         <p className="mb-4 text-sm text-gray-500">
           {filtered.length} job{filtered.length === 1 ? '' : 's'} found
         </p>
+
+        {settings?.wa_service_enabled && (
+          <div className="mb-6">
+            <WhatsAppServiceCard settings={settings} />
+          </div>
+        )}
 
         {/* Job card grid */}
         {filtered.length === 0 ? (
@@ -172,7 +183,9 @@ export default function PublicJobsBrowser({ jobs = [], siteName }) {
         )}
       </div>
 
-      {selectedJob && <PublicJobDetailsModal job={selectedJob} onClose={() => setSelectedJob(null)} />}
+      {selectedJob && (
+        <PublicJobDetailsModal job={selectedJob} settings={settings} onClose={() => setSelectedJob(null)} />
+      )}
     </>
   );
 }
