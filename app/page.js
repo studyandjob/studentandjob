@@ -87,7 +87,7 @@ export default async function HomePage() {
 
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-8">
             <JobsList jobs={jobs} />
-            <StudentsZone notes={notes} />
+            <StudentsZone notes={notes} settings={settings} />
           </div>
         </div>
 
