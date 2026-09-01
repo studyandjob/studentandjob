@@ -189,7 +189,7 @@ export default function HeroSlider({ jobs = [], mainHeading, subHeading, slideSp
           lang={isUrduText(mainHeading) ? 'ur' : undefined}
         >
           <span className={isUrduText(mainHeading) ? 'font-urdu' : 'font-serif'}>
-            {mainHeading || 'Find Your Next Government Job'}
+            {mainHeading || 'Find Jobs. Build Skills. Shape Your Future.'}
           </span>
         </h1>
         <p
@@ -198,9 +198,25 @@ export default function HeroSlider({ jobs = [], mainHeading, subHeading, slideSp
           lang={isUrduText(subHeading) ? 'ur' : undefined}
         >
           <span className={isUrduText(subHeading) ? 'font-urdu leading-loose' : ''}>
-            {subHeading || 'Latest jobs, results, notes & scholarships in one place'}
+            {subHeading ||
+              'Latest Government & Private Jobs, Scholarships, Results, Notes and Study Resources — all in one place.'}
           </span>
         </p>
+
+        <div className="mt-5 flex flex-wrap items-center justify-center gap-3">
+          <Link
+            href="/jobs"
+            className="rounded-full bg-brand-600 px-6 py-3 text-sm font-bold text-white shadow-md shadow-brand-600/20 transition hover:bg-brand-700 hover:shadow-lg active:scale-[0.98]"
+          >
+            Explore Jobs
+          </Link>
+          <Link
+            href="/study-zone"
+            className="rounded-full border border-brand-200 bg-white px-6 py-3 text-sm font-bold text-brand-700 transition hover:bg-brand-50 active:scale-[0.98]"
+          >
+            Study Zone
+          </Link>
+        </div>
 
         {/* Job spotlight — every open job is rendered into a horizontal
             track, and we simply translate the track to the active index.

@@ -13,11 +13,13 @@ export default function StatsStrip({ stats }) {
     { label: 'Results Announced', value: stats.results, Icon: VerifiedBadgeIcon3D },
   ];
 
-  // Don't show a category that would read "0 ..." — a brand-new site with
-  // nothing in a category yet looks more professional saying nothing than
-  // saying zero. (Admin → Website Settings can also set a starting "boost"
-  // number per category so real, honest totals don't look sparse.)
-  const items = allItems.filter((item) => item.value > 0);
+  // Don't show a category that would read "0 ..." or a tiny, weak-looking
+  // count like "1+"/"2+" — a growing site looks more professional saying
+  // nothing than saying a small number. (Admin → Website Settings can also
+  // set a starting "boost" number per category so real, honest totals
+  // don't look sparse once there's meaningful content.)
+  const MIN_DISPLAY_COUNT = 5;
+  const items = allItems.filter((item) => item.value >= MIN_DISPLAY_COUNT);
   if (items.length === 0) return null;
 
   // Grid columns adapt to how many stats actually have data, so 2 or 3

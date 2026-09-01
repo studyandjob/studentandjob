@@ -1,6 +1,7 @@
 'use client';
 
 import { useMemo, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import PublicJobCard from './PublicJobCard';
 import PublicJobDetailsModal from './PublicJobDetailsModal';
 import WhatsAppServiceCard from './WhatsAppServiceCard';
@@ -12,7 +13,17 @@ import { SearchIcon3D as SearchIcon, FilterIcon3D, ChevronDownIcon3D } from './I
 const FILTER_DEFAULTS = { search: '', sector: 'all', jobType: 'all', category: 'all', city: 'all', view: 'open' };
 
 export default function PublicJobsBrowser({ jobs = [], siteName, settings }) {
-  const [filters, setFilters] = useState(FILTER_DEFAULTS);
+  // Lets a link like /jobs?category=Banking%20/%20Finance land with that
+  // filter already applied — used by the homepage's "Browse by Category"
+  // tiles so clicking a category actually filters, instead of dropping
+  // the visitor on an unfiltered list they then have to filter manually.
+  const searchParams = useSearchParams();
+  const [filters, setFilters] = useState(() => ({
+    ...FILTER_DEFAULTS,
+    category: searchParams.get('category') || FILTER_DEFAULTS.category,
+    jobType: searchParams.get('jobType') || FILTER_DEFAULTS.jobType,
+    sector: searchParams.get('sector') || FILTER_DEFAULTS.sector,
+  }));
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [selectedJob, setSelectedJob] = useState(null);
 

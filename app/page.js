@@ -3,13 +3,16 @@ import Header from '@/components/Header';
 import NewsTicker from '@/components/NewsTicker';
 import HeroSlider from '@/components/HeroSlider';
 import TodayJobsStrip from '@/components/TodayJobsStrip';
+import BrowseCategories from '@/components/BrowseCategories';
 import TrustStrip from '@/components/TrustStrip';
 import StatsStrip from '@/components/StatsStrip';
 import Testimonials from '@/components/Testimonials';
 import JobsList from '@/components/JobsList';
 import StudentsZone from '@/components/StudentsZone';
+import ScholarshipsTeaser from '@/components/ScholarshipsTeaser';
+import WhatsAppServiceCard from '@/components/WhatsAppServiceCard';
 import Footer from '@/components/Footer';
-import { getHomeStats, getTestimonials } from '@/lib/data';
+import { getHomeStats, getTestimonials, getScholarships } from '@/lib/data';
 import { isJobOpen } from '@/lib/jobStatus';
 
 // Re-fetch fresh data on every request so admin edits show up immediately.
@@ -23,7 +26,7 @@ async function getHomePageData() {
   // edits), .limit(1) can arbitrarily return the old/seed row here — showing
   // a stale logo/site name on the home page even though Admin Dashboard →
   // Site Settings was saved correctly.
-  const [{ data: settings }, { data: jobs }, stats, testimonials] = await Promise.all([
+  const [{ data: settings }, { data: jobs }, stats, testimonials, scholarships] = await Promise.all([
     supabase
       .from('site_settings')
       .select('*')
@@ -33,6 +36,7 @@ async function getHomePageData() {
     supabase.from('jobs_table').select('*').order('created_at', { ascending: false }).limit(30),
     getHomeStats(),
     getTestimonials(6),
+    getScholarships(3),
   ]);
 
   const allOpenJobs = (jobs || []).filter(isJobOpen);
@@ -44,11 +48,12 @@ async function getHomePageData() {
     allOpenJobs,
     stats,
     testimonials,
+    scholarships: scholarships || [],
   };
 }
 
 export default async function HomePage() {
-  const { settings, jobs, allOpenJobs, stats, testimonials } = await getHomePageData();
+  const { settings, jobs, allOpenJobs, stats, testimonials, scholarships } = await getHomePageData();
 
   return (
     <>
@@ -71,23 +76,42 @@ export default async function HomePage() {
             entirely when none of the three buckets have anything. */}
         <TodayJobsStrip jobs={allOpenJobs} />
 
-        <TrustStrip />
-
-        <StatsStrip stats={stats} />
+        <BrowseCategories />
 
         <div className="mx-auto max-w-7xl px-4 py-10 md:px-6 md:py-14">
           <div className="mb-6 flex items-end justify-between md:mb-8">
             <div>
-              <h2 className="text-xl font-extrabold text-gray-900 md:text-2xl">Explore the Portal</h2>
+              <h2 className="text-xl font-extrabold text-gray-900 md:text-2xl">Latest Jobs &amp; Study Zone</h2>
               <p className="mt-1 text-sm text-gray-500">Fresh job postings and study material, updated regularly.</p>
             </div>
           </div>
 
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-8">
             <JobsList jobs={jobs} />
-            <StudentsZone settings={settings} />
+            <StudentsZone />
           </div>
         </div>
+
+        <ScholarshipsTeaser scholarships={scholarships} />
+
+        <StatsStrip stats={stats} />
+
+        <TrustStrip />
+
+        {/* Paid application-support service, as its own full-width section
+            (was previously tucked into a side column) — title, price,
+            features and refund-policy link, same content shown on the
+            /jobs page and job details modal. */}
+        {settings?.wa_service_enabled && (
+          <section className="border-b border-gray-100 bg-white">
+            <div className="mx-auto max-w-4xl px-4 py-10 md:px-6 md:py-14">
+              <h2 className="mb-6 text-center text-xl font-extrabold text-gray-900 md:mb-8 md:text-2xl">
+                Need Help Applying?
+              </h2>
+              <WhatsAppServiceCard settings={settings} />
+            </div>
+          </section>
+        )}
 
         <Testimonials testimonials={testimonials} />
       </main>

@@ -3,6 +3,7 @@ import NewsTicker from '@/components/NewsTicker';
 import Footer from '@/components/Footer';
 import PublicJobsBrowser from '@/components/PublicJobsBrowser';
 import { getSiteSettings, getJobs } from '@/lib/data';
+import { Suspense } from 'react';
 
 export const dynamic = 'force-dynamic';
 
@@ -20,7 +21,9 @@ export default async function JobsPage() {
       <Header siteName={settings.site_name} logoUrl={settings.logo_url} />
 
       <main className="flex-1 bg-gray-50">
-        <PublicJobsBrowser jobs={jobs} siteName={settings.site_name} settings={settings} />
+        <Suspense fallback={null}>
+          <PublicJobsBrowser jobs={jobs} siteName={settings.site_name} settings={settings} />
+        </Suspense>
       </main>
 
       <Footer siteName={settings.site_name} settings={settings} />
