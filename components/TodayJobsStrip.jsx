@@ -3,17 +3,9 @@
 import { useMemo, useState } from 'react';
 import PublicJobDetailsModal from './PublicJobDetailsModal';
 import { CalendarClockIcon3D, BriefcaseIcon3D } from './Icons3D';
-import { toDateKey, todayKey } from '@/lib/jobStatus';
+import { getTodayJobGroups } from '@/lib/jobStatus';
 
-/** 'YYYY-MM-DD' key for tomorrow, in Pakistan time (same anchor as todayKey()). */
-function tomorrowKey() {
-  const [y, m, d] = todayKey().split('-').map(Number);
-  const t = new Date(Date.UTC(y, m - 1, d));
-  t.setUTCDate(t.getUTCDate() + 1);
-  return t.toISOString().slice(0, 10);
-}
-
-const STATIC_GROUPS = [
+const GROUP_DEFS = [
   {
     key: 'closingToday',
     emoji: '🔴',
@@ -28,54 +20,23 @@ const STATIC_GROUPS = [
     chipClass: 'bg-amber-50 text-amber-700 border-amber-100',
     barClass: 'border-amber-100 bg-amber-50',
   },
+  {
+    key: 'newToday',
+    emoji: '🆕',
+    label: 'New Today',
+    chipClass: 'bg-emerald-50 text-emerald-700 border-emerald-100',
+    barClass: 'border-emerald-100 bg-emerald-50',
+  },
 ];
-
-/**
- * Splits the (already-open) job list into three buckets an admin/visitor
- * cares about checking daily: closing today, closing tomorrow, and newly
- * posted today. A job can land in more than one bucket (e.g. posted and
- * due today) — that's intentional, each bucket answers a different
- * question ("what do I need to act on right now" vs "what's fresh").
- *
- * The third bucket only has content on days something was actually
- * posted, so on quieter days it used to vanish entirely. It now falls
- * back to "Latest Jobs" (the most recently posted, regardless of date)
- * so the box always has something to show — labeled honestly, not as
- * if they were posted today when they weren't.
- */
-function useTodayGroups(jobs) {
-  return useMemo(() => {
-    const today = todayKey();
-    const tomorrow = tomorrowKey();
-
-    const closingToday = jobs.filter((j) => toDateKey(j.last_date) === today);
-    const closingTomorrow = jobs.filter((j) => toDateKey(j.last_date) === tomorrow);
-    const newToday = jobs.filter((j) => toDateKey(j.created_at) === today);
-
-    const isNewToday = newToday.length > 0;
-    const latestBucket = isNewToday
-      ? newToday
-      : [...jobs].sort((a, b) => new Date(b.created_at) - new Date(a.created_at)).slice(0, 4);
-
-    return { closingToday, closingTomorrow, latestBucket, isNewToday };
-  }, [jobs]);
-}
 
 export default function TodayJobsStrip({ jobs = [] }) {
   const [selectedJob, setSelectedJob] = useState(null);
-  const { closingToday, closingTomorrow, latestBucket, isNewToday } = useTodayGroups(jobs);
+  const { closingToday, closingTomorrow, newToday } = useMemo(() => getTodayJobGroups(jobs), [jobs]);
 
-  const groups = [
-    ...STATIC_GROUPS.map((g) => ({ ...g, jobs: g.key === 'closingToday' ? closingToday : closingTomorrow })),
-    {
-      key: 'latest',
-      emoji: '🟢',
-      label: isNewToday ? 'New Jobs Today' : 'Latest Jobs',
-      chipClass: 'bg-emerald-50 text-emerald-700 border-emerald-100',
-      barClass: 'border-emerald-100 bg-emerald-50',
-      jobs: latestBucket,
-    },
-  ];
+  const groups = GROUP_DEFS.map((g) => ({
+    ...g,
+    jobs: g.key === 'closingToday' ? closingToday : g.key === 'closingTomorrow' ? closingTomorrow : newToday,
+  }));
 
   const totalCount = groups.reduce((sum, g) => sum + g.jobs.length, 0);
   if (totalCount === 0) return null;

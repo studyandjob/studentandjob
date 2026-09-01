@@ -13,7 +13,7 @@ import ScholarshipsTeaser from '@/components/ScholarshipsTeaser';
 import WhatsAppServiceCard from '@/components/WhatsAppServiceCard';
 import Footer from '@/components/Footer';
 import { getHomeStats, getTestimonials, getScholarships } from '@/lib/data';
-import { isJobOpen } from '@/lib/jobStatus';
+import { isJobOpen, getTodayJobGroups } from '@/lib/jobStatus';
 
 // Re-fetch fresh data on every request so admin edits show up immediately.
 // Swap to `export const revalidate = 60` if you'd rather cache for 60s.
@@ -42,9 +42,25 @@ async function getHomePageData() {
   const allOpenJobs = (jobs || []).filter(isJobOpen);
   const openJobs = allOpenJobs.slice(0, 8);
 
+  // Today's Important Jobs already surfaces closing-today / closing-
+  // tomorrow / new-today jobs above the "Latest Jobs" list. Without
+  // excluding them here, a job like "Traffic Constable" that's closing
+  // today would show up twice on the homepage — once in that strip and
+  // again in "Latest Jobs" right below it.
+  const { closingToday, closingTomorrow, newToday } = getTodayJobGroups(allOpenJobs);
+  const todayHighlightIds = new Set(
+    [...closingToday, ...closingTomorrow, ...newToday].map((j) => j.id)
+  );
+  const remainingJobs = allOpenJobs.filter((j) => !todayHighlightIds.has(j.id));
+  // Edge case: if every open job happens to be closing today/tomorrow or
+  // was just posted, don't leave "Latest Jobs" empty (which would wrongly
+  // read as "no jobs posted yet") — fall back to the full open list.
+  const latestJobs = (remainingJobs.length > 0 ? remainingJobs : allOpenJobs).slice(0, 8);
+
   return {
     settings: settings || {},
     jobs: openJobs,
+    latestJobs,
     allOpenJobs,
     stats,
     testimonials,
@@ -53,7 +69,7 @@ async function getHomePageData() {
 }
 
 export default async function HomePage() {
-  const { settings, jobs, allOpenJobs, stats, testimonials, scholarships } = await getHomePageData();
+  const { settings, jobs, latestJobs, allOpenJobs, stats, testimonials, scholarships } = await getHomePageData();
 
   return (
     <>
@@ -87,7 +103,7 @@ export default async function HomePage() {
           </div>
 
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-8">
-            <JobsList jobs={jobs} />
+            <JobsList jobs={latestJobs} />
             <StudentsZone />
           </div>
         </div>
