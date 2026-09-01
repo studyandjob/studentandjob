@@ -4,6 +4,7 @@ import Footer from '@/components/Footer';
 import PageBanner from '@/components/PageBanner';
 import StatsStrip from '@/components/StatsStrip';
 import ContactCards from '@/components/ContactCards';
+import RichContent from '@/components/RichContent';
 import {
   BriefcaseIcon3D,
   NotesBookIcon3D,
@@ -76,7 +77,7 @@ export default async function AboutUsPage() {
         <div className="mx-auto max-w-3xl px-4 pt-10 md:px-6 md:pt-14">
           <div className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-black/5 md:p-10">
             <h2 className="mb-3 font-serif text-lg font-bold text-gray-900 md:text-xl">Our Story</h2>
-            <p className="whitespace-pre-wrap text-sm leading-7 text-gray-700 md:text-base">{story}</p>
+            <RichContent text={story} />
           </div>
         </div>
 
