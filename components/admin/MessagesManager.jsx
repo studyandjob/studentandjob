@@ -103,7 +103,7 @@ export default function MessagesManager({ initialRows = [] }) {
                       <p className={unread ? 'font-bold text-aink' : 'font-semibold text-aink'}>
                         {row.name} <span className="font-normal text-amuted">— {row.subject || 'No subject'}</span>
                         {unread && (
-                          <span className="ml-2 inline-block rounded-full bg-atl2/15 px-2 py-0.5 text-[0.65rem] font-bold uppercase tracking-wide text-atl2">
+                          <span className="ml-2 inline-block rounded-full bg-atl2/15 px-2 py-0.5 text-xs font-bold uppercase tracking-wide text-atl2">
                             New
                           </span>
                         )}

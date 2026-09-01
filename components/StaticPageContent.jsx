@@ -2,6 +2,7 @@ import Header from '@/components/Header';
 import NewsTicker from '@/components/NewsTicker';
 import Footer from '@/components/Footer';
 import PageBanner from '@/components/PageBanner';
+import RichContent from '@/components/RichContent';
 import { getSiteSettings, getPage } from '@/lib/data';
 
 // Shared renderer for the editable static/legal pages (About Us, Privacy
@@ -23,7 +24,7 @@ export default async function StaticPageContent({ slug, fallbackTitle }) {
         <div className="mx-auto max-w-3xl px-4 py-10 md:px-6 md:py-14">
           <div className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-black/5 md:p-10">
             {content ? (
-              <div className="whitespace-pre-wrap text-sm leading-7 text-gray-700 md:text-base">{content}</div>
+              <RichContent text={content} />
             ) : (
               <p className="text-sm text-gray-500">This page has no content yet.</p>
             )}

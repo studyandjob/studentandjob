@@ -15,8 +15,8 @@ function Swatch({ label, hex }) {
         style={{ backgroundColor: hex }}
         title={hex}
       />
-      <span className="text-[0.68rem] font-medium text-amuted">{label}</span>
-      <span className="font-mono text-[0.62rem] text-amuted/80">{hex}</span>
+      <span className="text-xs font-medium text-amuted">{label}</span>
+      <span className="font-mono text-xs text-amuted/80">{hex}</span>
     </div>
   );
 }
@@ -31,10 +31,10 @@ function ThemeCard({ theme, isActive, isServerSaved, onApply }) {
       <div className="flex items-start justify-between gap-2">
         <div>
           <p className="font-serif text-[0.98rem] font-bold text-aink">{theme.name}</p>
-          {theme.isDefault && <p className="text-[0.7rem] text-amuted">Default theme</p>}
+          {theme.isDefault && <p className="text-xs text-amuted">Default theme</p>}
         </div>
         {isActive && (
-          <span className="flex-shrink-0 rounded-full bg-atl2/15 px-2.5 py-1 text-[0.65rem] font-bold tracking-wide text-atl2">
+          <span className="flex-shrink-0 rounded-full bg-atl2/15 px-2.5 py-1 text-xs font-bold tracking-wide text-atl2">
             [ ACTIVE ]
           </span>
         )}
@@ -61,7 +61,7 @@ function ThemeCard({ theme, isActive, isServerSaved, onApply }) {
       </button>
 
       {isServerSaved && (
-        <p className="-mt-2 text-center text-[0.68rem] text-amuted">Live site-wide default</p>
+        <p className="-mt-2 text-center text-xs text-amuted">Live site-wide default</p>
       )}
     </div>
   );

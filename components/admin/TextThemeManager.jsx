@@ -23,7 +23,7 @@ function ThemeSwatch({ theme, isActive, onSelect }) {
       </span>
       <span className="text-center text-[0.78rem] font-semibold text-aink">{theme.name}</span>
       {isActive && (
-        <span className="rounded-full bg-atl2/15 px-2.5 py-0.5 text-[0.62rem] font-bold tracking-wide text-atl2">
+        <span className="rounded-full bg-atl2/15 px-2.5 py-0.5 text-xs font-bold tracking-wide text-atl2">
           ACTIVE
         </span>
       )}

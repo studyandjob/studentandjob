@@ -218,7 +218,7 @@ export default function ExamRunner({ sessionId }) {
 
       {/* Question */}
       <div className="p-5 md:p-8">
-        <span className="mb-3 inline-block rounded bg-brand-50 px-2 py-0.5 text-[10px] font-semibold uppercase text-brand-600">
+        <span className="mb-3 inline-block rounded bg-brand-50 px-2 py-0.5 text-xs font-semibold uppercase text-brand-600">
           {current.type.replace('_', ' ')} · {current.marks} marks
         </span>
         <p className="mb-5 text-base font-semibold leading-relaxed text-gray-900 md:text-lg">{current.text}</p>

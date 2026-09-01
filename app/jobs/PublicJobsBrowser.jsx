@@ -163,14 +163,14 @@ export default function PublicJobsBrowser({ jobs = [] }) {
                 <div className="mb-1 flex flex-wrap items-center gap-1.5">
                   <p className="text-sm font-semibold text-gray-800 md:text-base">{job.title}</p>
                   <span
-                    className={`rounded-full px-2 py-0.5 text-[0.65rem] font-bold uppercase tracking-wide ${
+                    className={`rounded-full px-2 py-0.5 text-xs font-bold uppercase tracking-wide ${
                       job.job_type === 'Government' ? 'bg-brand-50 text-brand-700' : 'bg-gray-50 text-gray-600'
                     }`}
                   >
                     {job.job_type}
                   </span>
                   {job.sector && (
-                    <span className="rounded-full bg-gray-100 px-2 py-0.5 text-[0.65rem] font-medium text-gray-600">
+                    <span className="rounded-full bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-600">
                       {job.sector}
                     </span>
                   )}

@@ -98,14 +98,14 @@ export default function HeroSlider({ jobs = [], mainHeading, subHeading, slideSp
           </span>
           <div className="flex flex-wrap items-center gap-1.5">
             <span
-              className={`rounded-full px-2.5 py-0.5 text-[0.65rem] font-bold uppercase tracking-wide ${
+              className={`rounded-full px-2.5 py-0.5 text-xs font-bold uppercase tracking-wide ${
                 isGovernment ? 'bg-brand-50 text-brand-700' : 'bg-accent-50 text-accent-700'
               }`}
             >
               {job.job_type}
             </span>
             {job.sector && (
-              <span className="rounded-full bg-gray-100 px-2.5 py-0.5 text-[0.65rem] font-semibold text-gray-600">
+              <span className="rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-semibold text-gray-600">
                 {job.sector}
               </span>
             )}
@@ -179,7 +179,7 @@ export default function HeroSlider({ jobs = [], mainHeading, subHeading, slideSp
         }}
       />
       <div className="relative mx-auto max-w-5xl px-4 pb-10 pt-8 text-center md:px-6 md:pb-14 md:pt-12">
-        <span className="inline-flex items-center gap-1.5 rounded-full border border-brand-100 bg-brand-50 px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-brand-700 md:text-xs">
+        <span className="inline-flex items-center gap-1.5 rounded-full border border-brand-100 bg-brand-50 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-brand-700">
           ✅ Verified Job Postings &middot; Updated Daily
         </span>
 

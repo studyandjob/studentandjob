@@ -12,14 +12,14 @@ export default function JobCard({ job, match, onViewDetails }) {
     <div className="flex flex-col rounded-2xl bg-white p-5 shadow-sm ring-1 ring-black/5 transition hover:shadow-md">
       <div className="mb-2 flex items-start justify-between gap-2">
         <span
-          className={`rounded-full px-2.5 py-1 text-[0.68rem] font-bold uppercase tracking-wide ${
+          className={`rounded-full px-2.5 py-1 text-xs font-bold uppercase tracking-wide ${
             job.job_type === 'Government' ? 'bg-brand-50 text-brand-600' : 'bg-gray-50 text-gray-600'
           }`}
         >
           {job.job_type}
         </span>
         {match && (
-          <span className="rounded-full bg-brand-50 px-2.5 py-1 text-[0.68rem] font-bold text-brand-700">
+          <span className="rounded-full bg-brand-50 px-2.5 py-1 text-xs font-bold text-brand-700">
             {match.score}% Match
           </span>
         )}
@@ -31,8 +31,8 @@ export default function JobCard({ job, match, onViewDetails }) {
       </p>
 
       <div className="mb-4 flex flex-wrap gap-1.5">
-        <span className="rounded-full bg-gray-100 px-2 py-0.5 text-[0.68rem] text-gray-600">{job.sector}</span>
-        {job.category && <span className="rounded-full bg-gray-100 px-2 py-0.5 text-[0.68rem] text-gray-600">{job.category}</span>}
+        <span className="rounded-full bg-gray-100 px-2 py-0.5 text-xs text-gray-600">{job.sector}</span>
+        {job.category && <span className="rounded-full bg-gray-100 px-2 py-0.5 text-xs text-gray-600">{job.category}</span>}
       </div>
 
       <p className="mb-4 text-xs font-medium text-red-600">Last date: {formatDate(job.last_date)}</p>

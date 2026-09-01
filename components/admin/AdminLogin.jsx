@@ -112,7 +112,7 @@ export default function AdminLogin({ onLoggedIn, siteName, logoUrl }) {
           </Link>
         </div>
 
-        <p className="mt-4 text-center text-[0.72rem] text-amuted">
+        <p className="mt-4 text-center text-xs text-amuted">
           Only accounts created by the site owner can access this dashboard.
         </p>
       </div>

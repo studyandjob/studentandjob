@@ -9,7 +9,7 @@ function Row({ label, value }) {
   if (!value) return null;
   return (
     <div>
-      <dt className="text-[0.7rem] font-semibold uppercase tracking-wide text-gray-400">{label}</dt>
+      <dt className="text-xs font-semibold uppercase tracking-wide text-gray-400">{label}</dt>
       <dd className="mt-0.5 text-sm text-gray-800">{value}</dd>
     </div>
   );
@@ -19,7 +19,7 @@ function TagGroup({ label, tags }) {
   if (!tags || tags.length === 0) return null;
   return (
     <div>
-      <p className="mb-1.5 text-[0.7rem] font-semibold uppercase tracking-wide text-gray-400">{label}</p>
+      <p className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-gray-400">{label}</p>
       <div className="flex flex-wrap gap-1.5">
         {tags.map((t) => (
           <span key={t} className="rounded-full bg-brand-50 px-2.5 py-1 text-xs font-medium text-brand-700">
@@ -47,7 +47,7 @@ export default function PublicJobDetailsModal({ job, onClose }) {
             <div className="mb-1 flex flex-wrap items-center gap-2">
               <h2 className="text-lg font-bold text-gray-900">{job.title}</h2>
               <span
-                className={`rounded-full px-2 py-0.5 text-[0.68rem] font-bold uppercase tracking-wide ${
+                className={`rounded-full px-2 py-0.5 text-xs font-bold uppercase tracking-wide ${
                   job.job_type === 'Government' ? 'bg-brand-50 text-brand-700' : 'bg-gray-50 text-gray-600'
                 }`}
               >
@@ -90,7 +90,7 @@ export default function PublicJobDetailsModal({ job, onClose }) {
               <div className="flex flex-col gap-3 text-sm">
                 {job.postal_address && (
                   <div>
-                    <p className="text-[0.7rem] font-semibold uppercase tracking-wide text-gray-600">
+                    <p className="text-xs font-semibold uppercase tracking-wide text-gray-600">
                       Postal Address
                     </p>
                     <p className="mt-0.5 text-gray-900">{job.postal_address}</p>
@@ -98,7 +98,7 @@ export default function PublicJobDetailsModal({ job, onClose }) {
                 )}
                 {job.required_documents && (
                   <div>
-                    <p className="text-[0.7rem] font-semibold uppercase tracking-wide text-gray-600">
+                    <p className="text-xs font-semibold uppercase tracking-wide text-gray-600">
                       Required Documents
                     </p>
                     <p className="mt-0.5 whitespace-pre-line text-gray-900">{job.required_documents}</p>
@@ -106,7 +106,7 @@ export default function PublicJobDetailsModal({ job, onClose }) {
                 )}
                 {job.fee_details && (
                   <div>
-                    <p className="text-[0.7rem] font-semibold uppercase tracking-wide text-gray-600">
+                    <p className="text-xs font-semibold uppercase tracking-wide text-gray-600">
                       Fee / Challan Details
                     </p>
                     <p className="mt-0.5 text-gray-900">{job.fee_details}</p>

@@ -20,7 +20,7 @@ function Row({ label, value, danger }) {
   if (!value) return null;
   return (
     <div>
-      <dt className="text-[0.7rem] font-semibold uppercase tracking-wide text-amuted">{label}</dt>
+      <dt className="text-xs font-semibold uppercase tracking-wide text-amuted">{label}</dt>
       <dd className={`mt-0.5 text-sm ${danger ? 'font-bold text-red-600' : 'text-aink'}`}>{value}</dd>
     </div>
   );
@@ -30,7 +30,7 @@ function TagGroup({ label, tags }) {
   if (!tags || tags.length === 0) return null;
   return (
     <div>
-      <p className="mb-1.5 text-[0.7rem] font-semibold uppercase tracking-wide text-amuted">{label}</p>
+      <p className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-amuted">{label}</p>
       <div className="flex flex-wrap gap-1.5">
         {tags.map((t) => (
           <span key={t} className="rounded-full bg-atl/10 px-2.5 py-1 text-xs font-medium text-atl">
@@ -63,14 +63,14 @@ export default function JobDetailsModal({ job, onClose, onEdit }) {
               <div className="mb-1 flex flex-wrap items-center gap-2">
                 <h2 className="text-lg font-bold text-aink">{job.title}</h2>
                 <span
-                  className={`rounded-full px-2 py-0.5 text-[0.68rem] font-bold uppercase tracking-wide ${
+                  className={`rounded-full px-2 py-0.5 text-xs font-bold uppercase tracking-wide ${
                     job.job_type === 'Government' ? 'bg-atl/10 text-atl' : 'bg-agold/15 text-agold'
                   }`}
                 >
                   {job.job_type}
                 </span>
                 {job.status === 'closed' && (
-                  <span className="rounded-full bg-red-100 px-2 py-0.5 text-[0.68rem] font-bold text-red-600">
+                  <span className="rounded-full bg-red-100 px-2 py-0.5 text-xs font-bold text-red-600">
                     Closed
                   </span>
                 )}
@@ -162,13 +162,13 @@ export default function JobDetailsModal({ job, onClose, onEdit }) {
               <div className="flex flex-col gap-3 text-sm">
                 {job.postal_address && (
                   <div>
-                    <p className="text-[0.7rem] font-semibold uppercase tracking-wide text-amuted">Postal Address</p>
+                    <p className="text-xs font-semibold uppercase tracking-wide text-amuted">Postal Address</p>
                     <p className="mt-0.5 text-aink">{job.postal_address}</p>
                   </div>
                 )}
                 {job.required_documents && (
                   <div>
-                    <p className="text-[0.7rem] font-semibold uppercase tracking-wide text-amuted">
+                    <p className="text-xs font-semibold uppercase tracking-wide text-amuted">
                       Required Documents
                     </p>
                     <p className="mt-0.5 whitespace-pre-line text-aink">{job.required_documents}</p>
@@ -176,7 +176,7 @@ export default function JobDetailsModal({ job, onClose, onEdit }) {
                 )}
                 {job.fee_details && (
                   <div>
-                    <p className="text-[0.7rem] font-semibold uppercase tracking-wide text-amuted">
+                    <p className="text-xs font-semibold uppercase tracking-wide text-amuted">
                       Fee / Challan Details
                     </p>
                     <p className="mt-0.5 text-aink">{job.fee_details}</p>

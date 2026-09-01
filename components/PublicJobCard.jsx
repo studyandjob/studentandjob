@@ -47,19 +47,19 @@ export default function PublicJobCard({ job, onViewDetails }) {
           />
           <div className="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 pt-1">
             <span
-              className={`rounded-full px-2.5 py-1 text-[0.68rem] font-bold uppercase tracking-wide ${
+              className={`rounded-full px-2.5 py-1 text-xs font-bold uppercase tracking-wide ${
                 isGovernment ? 'bg-brand-50 text-brand-700' : 'bg-accent-50 text-accent-700'
               }`}
             >
               {job.job_type}
             </span>
             {job.sector && (
-              <span className="rounded-full bg-gray-100 px-2.5 py-1 text-[0.68rem] font-semibold text-gray-600">
+              <span className="rounded-full bg-gray-100 px-2.5 py-1 text-xs font-semibold text-gray-600">
                 {job.sector}
               </span>
             )}
             {job.source_type && job.verified_on && (
-              <span className="flex items-center gap-1 rounded-full bg-emerald-50 px-2.5 py-1 text-[0.68rem] font-semibold text-emerald-700">
+              <span className="flex items-center gap-1 rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-semibold text-emerald-700">
                 ✓ Verified {formatDate(job.verified_on)}
               </span>
             )}
@@ -107,7 +107,7 @@ export default function PublicJobCard({ job, onViewDetails }) {
           <div className="mb-4 flex items-center gap-2 rounded-xl border border-red-100 bg-red-50 px-3 py-2">
             <IconBadge icon={CalendarClockIcon} gradient="from-red-500 to-red-600" />
             <div className="min-w-0 leading-tight">
-              <p className="text-[0.65rem] font-semibold uppercase tracking-wide text-red-500">
+              <p className="text-xs font-semibold uppercase tracking-wide text-red-500">
                 {isExpired ? 'Expired' : 'Last date to apply'}
               </p>
               <p className="truncate text-sm font-bold text-red-700">{formatDate(job.last_date)}</p>

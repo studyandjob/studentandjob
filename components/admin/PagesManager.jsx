@@ -1,8 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { supabase } from '@/lib/supabaseClient';
 import AdminCard from './AdminCard';
+import RichContent from '../RichContent';
 import { FileTextIcon, SaveIcon } from './icons';
 
 const inputClass =
@@ -16,10 +17,61 @@ const PAGE_LINKS = {
   'terms-and-conditions': '/terms-and-conditions',
 };
 
+// Toolbar buttons write the same plain-text conventions RichContent.jsx
+// reads on the public site — admin never touches HTML, just clicks a
+// button (or types the shortcut directly) and the live Preview tab
+// shows exactly how it'll look before Save.
+const TOOLBAR_BUTTONS = [
+  { type: 'h2', label: 'H2' },
+  { type: 'h3', label: 'H3' },
+  { type: 'bullet', label: '• List' },
+  { type: 'bold', label: 'B' },
+];
+
+function applyFormat(textareaRef, type, setContent) {
+  const el = textareaRef.current;
+  if (!el) return;
+
+  const { selectionStart: start, selectionEnd: end, value } = el;
+  const selected = value.slice(start, end);
+  let insertText = '';
+
+  if (type === 'h2' || type === 'h3') {
+    const prefix = type === 'h2' ? '## ' : '### ';
+    const body = selected || 'Heading text';
+    const needsLeadingBreak = start > 0 && value[start - 1] !== '\n';
+    insertText = `${needsLeadingBreak ? '\n' : ''}${prefix}${body}\n`;
+  } else if (type === 'bullet') {
+    const body = selected || 'List item';
+    const lines = body.split('\n').map((l) => (l.trim().startsWith('- ') ? l : `- ${l}`));
+    const needsLeadingBreak = start > 0 && value[start - 1] !== '\n';
+    insertText = `${needsLeadingBreak ? '\n' : ''}${lines.join('\n')}\n`;
+  } else if (type === 'bold') {
+    insertText = `**${selected || 'bold text'}**`;
+  }
+
+  const newValue = value.slice(0, start) + insertText + value.slice(end);
+  setContent(newValue);
+
+  // Textarea is controlled by React state; wait for the re-render before
+  // restoring focus and moving the caret to just after what was inserted.
+  requestAnimationFrame(() => {
+    el.focus();
+    const pos = start + insertText.length;
+    el.setSelectionRange(pos, pos);
+  });
+}
+
 function PageEditor({ page }) {
   const [form, setForm] = useState({ title: page.title || '', content: page.content || '' });
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState('');
+  const [tab, setTab] = useState('write'); // 'write' | 'preview'
+  const textareaRef = useRef(null);
+
+  function setContent(content) {
+    setForm((f) => ({ ...f, content }));
+  }
 
   async function handleSave(e) {
     e.preventDefault();
@@ -69,15 +121,66 @@ function PageEditor({ page }) {
           <input value={form.title} onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))} className={inputClass} />
         </label>
 
-        <label className="block">
-          <span className={labelClass}>Content</span>
-          <textarea
-            value={form.content}
-            onChange={(e) => setForm((f) => ({ ...f, content: e.target.value }))}
-            rows={8}
-            className={inputClass}
-          />
-        </label>
+        <div>
+          <div className="mb-1.5 flex items-center justify-between">
+            <span className={labelClass + ' mb-0'}>Content</span>
+            <div className="flex overflow-hidden rounded-lg border border-aline text-xs font-semibold">
+              <button
+                type="button"
+                onClick={() => setTab('write')}
+                className={`px-3 py-1.5 transition ${tab === 'write' ? 'bg-atl text-white' : 'bg-white text-amuted hover:text-aink'}`}
+              >
+                Write
+              </button>
+              <button
+                type="button"
+                onClick={() => setTab('preview')}
+                className={`px-3 py-1.5 transition ${tab === 'preview' ? 'bg-atl text-white' : 'bg-white text-amuted hover:text-aink'}`}
+              >
+                Preview
+              </button>
+            </div>
+          </div>
+
+          {tab === 'write' ? (
+            <>
+              <div className="mb-2 flex flex-wrap gap-1.5">
+                {TOOLBAR_BUTTONS.map((btn) => (
+                  <button
+                    key={btn.type}
+                    type="button"
+                    onClick={() => applyFormat(textareaRef, btn.type, setContent)}
+                    className="rounded-md border border-aline bg-[#FCFAF6] px-2.5 py-1 text-xs font-bold text-aink transition hover:border-atl2 hover:text-atl2"
+                  >
+                    {btn.label}
+                  </button>
+                ))}
+              </div>
+              <textarea
+                ref={textareaRef}
+                value={form.content}
+                onChange={(e) => setContent(e.target.value)}
+                rows={10}
+                placeholder="Write the page content here. Use the buttons above, or type directly: ## for a heading, ### for a sub-heading, a line starting with - for a bullet point, and a blank line between paragraphs."
+                className={inputClass}
+              />
+              <p className="mt-1.5 text-xs text-amuted">
+                <code className="rounded bg-gray-100 px-1">## Heading</code> ·{' '}
+                <code className="rounded bg-gray-100 px-1">### Sub-heading</code> ·{' '}
+                <code className="rounded bg-gray-100 px-1">- bullet point</code> ·{' '}
+                <code className="rounded bg-gray-100 px-1">**bold**</code> · blank line = new paragraph.
+              </p>
+            </>
+          ) : (
+            <div className="max-h-[26rem] overflow-y-auto rounded-[10px] border border-aline bg-[#FCFAF6] p-4">
+              {form.content.trim() ? (
+                <RichContent text={form.content} />
+              ) : (
+                <p className="text-sm text-amuted">Nothing to preview yet — switch to Write and add some content.</p>
+              )}
+            </div>
+          )}
+        </div>
 
         <div className="flex flex-wrap items-center gap-3">
           <button
@@ -102,12 +205,15 @@ function PageEditor({ page }) {
 
 // Editor for the fixed set of static/legal pages (About Us, Privacy Policy,
 // Disclaimer, Terms & Conditions). Rows are seeded by the SQL schema, so
-// there's no add/delete here — just edit-and-save per page.
+// there's no add/delete here — just edit-and-save per page. Content can
+// use headings, bullet points and paragraphs (see RichContent.jsx) so
+// long pages stay readable instead of one solid block of text — still
+// fully controlled from here, nothing to touch outside this dashboard.
 export default function PagesManager({ initialRows = [] }) {
   return (
     <AdminCard
       title="Pages (About / Legal)"
-      description="Edit the content shown on About Us, Privacy Policy, Disclaimer and Terms & Conditions."
+      description="Edit the content shown on About Us, Privacy Policy, Disclaimer and Terms & Conditions. Use the toolbar for headings and bullet points, and Preview to check the layout before saving."
       icon={FileTextIcon}
     >
       {initialRows.length === 0 ? (

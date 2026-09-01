@@ -112,7 +112,7 @@ export default function MembersManager({ initialRequests = [] }) {
               {t.label}
               {count > 0 && (
                 <span
-                  className={`flex h-5 min-w-[20px] items-center justify-center rounded-full px-1.5 text-[0.68rem] font-bold ${
+                  className={`flex h-5 min-w-[20px] items-center justify-center rounded-full px-1.5 text-xs font-bold ${
                     tab === t.id ? 'bg-white/25 text-white' : 'bg-acoral/15 text-acoral'
                   }`}
                 >
@@ -183,7 +183,7 @@ export default function MembersManager({ initialRequests = [] }) {
                 )}
 
                 <span
-                  className={`mb-3 inline-block rounded-full px-2.5 py-1 text-[0.68rem] font-bold uppercase tracking-wide ${
+                  className={`mb-3 inline-block rounded-full px-2.5 py-1 text-xs font-bold uppercase tracking-wide ${
                     req.status === 'active'
                       ? 'bg-brand-100 text-brand-700'
                       : req.status === 'expired'

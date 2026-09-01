@@ -229,7 +229,7 @@ export default function QuestionGenerator({ classes, subjects }) {
             {draftQuestions.map((q) => (
               <li key={q._key} className="rounded-lg border border-aline p-3">
                 <div className="mb-2 flex items-center justify-between gap-2">
-                  <span className="inline-block rounded bg-brand-50 px-2 py-0.5 text-[10px] font-semibold uppercase text-brand-600">
+                  <span className="inline-block rounded bg-brand-50 px-2 py-0.5 text-xs font-semibold uppercase text-brand-600">
                     {q.question_type.replace('_', ' ')}
                   </span>
                   <div className="flex items-center gap-2">

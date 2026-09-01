@@ -116,7 +116,7 @@ export default function ImageUploadField({
             <ImageIcon className="h-3.5 w-3.5" />
             {uploading ? 'Uploading...' : imageUrl ? 'Change Image' : 'Upload Image'}
           </button>
-          <p className="mt-1.5 text-[0.72rem] text-amuted">JPG or PNG, uploaded directly — saved automatically.</p>
+          <p className="mt-1.5 text-xs text-amuted">JPG or PNG, uploaded directly — saved automatically.</p>
         </div>
       </div>
     </div>

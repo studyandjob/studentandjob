@@ -23,7 +23,7 @@ export default function ResultCard({ result }) {
             <VerifiedBadgeIcon3D className="h-full w-full" />
           </span>
           {isFresh && (
-            <span className="rounded-full bg-brand-50 px-2.5 py-1 text-[0.65rem] font-bold uppercase tracking-wide text-brand-700">
+            <span className="rounded-full bg-brand-50 px-2.5 py-1 text-xs font-bold uppercase tracking-wide text-brand-700">
               New
             </span>
           )}
@@ -39,7 +39,7 @@ export default function ResultCard({ result }) {
           <div className="mb-4 flex items-center gap-2 rounded-xl border border-gray-100 bg-gray-50 px-3 py-2">
             <CalendarClockIcon3D className="h-4 w-4 flex-shrink-0" />
             <div className="min-w-0 leading-tight">
-              <p className="text-[0.65rem] font-semibold uppercase tracking-wide text-gray-500">Announced</p>
+              <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">Announced</p>
               <p className="truncate text-sm font-bold text-gray-700">{formatDate(result.result_date)}</p>
             </div>
           </div>

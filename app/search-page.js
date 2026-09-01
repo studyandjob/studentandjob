@@ -102,7 +102,7 @@ export default async function SearchPage({ searchParams }) {
                           rel="noopener noreferrer"
                           className="flex h-full flex-col gap-1.5 rounded-lg border border-gray-100 bg-white p-4 shadow-sm transition hover:border-brand-200 hover:bg-brand-50"
                         >
-                          <span className="inline-block w-fit rounded bg-brand-50 px-2 py-0.5 text-[10px] font-semibold uppercase text-brand-600">
+                          <span className="inline-block w-fit rounded bg-brand-50 px-2 py-0.5 text-xs font-semibold uppercase text-brand-600">
                             {note.category || 'General'}
                           </span>
                           <span className="text-sm font-medium text-gray-800">{note.title}</span>

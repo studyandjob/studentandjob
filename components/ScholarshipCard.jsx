@@ -36,7 +36,7 @@ export default function ScholarshipCard({ scholarship }) {
             <CalendarClockIcon3D className="h-4 w-4 flex-shrink-0" />
             <div className="min-w-0 leading-tight">
               <p
-                className={`text-[0.65rem] font-semibold uppercase tracking-wide ${
+                className={`text-xs font-semibold uppercase tracking-wide ${
                   isUrgent ? 'text-red-500' : 'text-gray-500'
                 }`}
               >

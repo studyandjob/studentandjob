@@ -234,17 +234,17 @@ export default function JobsManager({ initialJobs = [], settings: initialSetting
                       <div className="flex flex-wrap items-center gap-2">
                         <p className="font-semibold text-aink">{job.title}</p>
                         <span
-                          className={`rounded-full px-2 py-0.5 text-[0.68rem] font-bold uppercase tracking-wide ${
+                          className={`rounded-full px-2 py-0.5 text-xs font-bold uppercase tracking-wide ${
                             job.job_type === 'Government' ? 'bg-atl/10 text-atl' : 'bg-agold/15 text-agold'
                           }`}
                         >
                           {job.job_type}
                         </span>
-                        <span className="rounded-full bg-aline/60 px-2 py-0.5 text-[0.68rem] font-semibold text-amuted">
+                        <span className="rounded-full bg-aline/60 px-2 py-0.5 text-xs font-semibold text-amuted">
                           {job.sector}
                         </span>
                         {job.status === 'closed' && (
-                          <span className="rounded-full bg-red-100 px-2 py-0.5 text-[0.68rem] font-bold text-red-600">
+                          <span className="rounded-full bg-red-100 px-2 py-0.5 text-xs font-bold text-red-600">
                             Closed
                           </span>
                         )}

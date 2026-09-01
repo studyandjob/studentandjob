@@ -77,7 +77,7 @@ export default function Sidebar({ activeTab, onTabChange, open, onClose, siteNam
             )}
             <div className="flex min-w-0 flex-col">
               <span className="truncate font-serif text-sm font-bold text-atl">{siteName || 'Admin'}</span>
-              <small className="text-[0.7rem] text-amuted">Dashboard</small>
+              <small className="text-xs text-amuted">Dashboard</small>
             </div>
           </div>
           <button onClick={onClose} className="text-amuted hover:text-aink md:hidden" aria-label="Close menu">
@@ -101,7 +101,7 @@ export default function Sidebar({ activeTab, onTabChange, open, onClose, siteNam
                 <Icon className="h-[18px] w-[18px] flex-shrink-0" />
                 <span className="flex-1">{item.label}</span>
                 {badgeValue > 0 && (
-                  <span className="flex h-5 min-w-[20px] flex-shrink-0 items-center justify-center rounded-full bg-acoral px-1.5 text-[0.68rem] font-bold text-white">
+                  <span className="flex h-5 min-w-[20px] flex-shrink-0 items-center justify-center rounded-full bg-acoral px-1.5 text-xs font-bold text-white">
                     {badgeValue}
                   </span>
                 )}

@@ -302,12 +302,12 @@ export default function QuestionBankBrowser({ classes, subjects }) {
                 <li key={r.id} className="flex items-start justify-between gap-3 rounded-lg border border-aline px-3 py-2.5">
                   <div className="min-w-0 flex-1">
                     <div className="mb-1 flex flex-wrap items-center gap-1.5">
-                      <span className="inline-block rounded bg-brand-50 px-2 py-0.5 text-[10px] font-semibold uppercase text-brand-600">
+                      <span className="inline-block rounded bg-brand-50 px-2 py-0.5 text-xs font-semibold uppercase text-brand-600">
                         {r.question_type.replace('_', ' ')}
                       </span>
-                      <span className="text-[10px] text-amuted">{r.chapter_name}</span>
-                      <span className="text-[10px] text-amuted">· {r.marks} marks</span>
-                      <span className="text-[10px] text-amuted">· {r.source}</span>
+                      <span className="text-xs text-amuted">{r.chapter_name}</span>
+                      <span className="text-xs text-amuted">· {r.marks} marks</span>
+                      <span className="text-xs text-amuted">· {r.source}</span>
                     </div>
                     <p className="line-clamp-2 text-sm text-aink">{r.question_text}</p>
                   </div>
