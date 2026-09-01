@@ -1,7 +1,8 @@
 import Link from 'next/link';
-import { NotesBookIcon3D, ChatBubbleIcon3D } from './Icons3D';
+import { NotesBookIcon3D } from './Icons3D';
+import WhatsAppServiceCard from './WhatsAppServiceCard';
 
-export default function StudentsZone({ notes = [], whatsappNumber = '923000000000' }) {
+export default function StudentsZone({ notes = [], settings = {} }) {
   return (
     <div className="flex flex-col gap-6">
       {/* Students notes / PDFs */}
@@ -41,22 +42,11 @@ export default function StudentsZone({ notes = [], whatsappNumber = '92300000000
         )}
       </section>
 
-      {/* Paid services / WhatsApp banner */}
-      <section className="flex flex-col items-start gap-3 rounded-xl border border-gray-100 bg-white p-5 shadow-sm md:p-6">
-        <h3 className="text-lg font-bold text-gray-900">Need Help Applying? 📝</h3>
-        <p className="text-sm text-gray-600">
-          Get one-on-one help with job applications, form filling, and CV writing — book our paid service directly on WhatsApp.
-        </p>
-        <a
-          href={`https://wa.me/${whatsappNumber}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mt-1 inline-flex items-center gap-2 rounded-lg bg-brand-600 px-4 py-2 text-sm font-bold text-white transition hover:bg-brand-700"
-        >
-          <ChatBubbleIcon3D className="h-5 w-5" />
-          Book on WhatsApp
-        </a>
-      </section>
+      {/* Paid application-support service — same settings-driven card
+          (title, price, features, refund-policy link) shown on the /jobs
+          page and job details modal, so the offer is consistent everywhere
+          instead of homepage showing a separate, simplified version. */}
+      {settings?.wa_service_enabled && <WhatsAppServiceCard settings={settings} />}
     </div>
   );
 }

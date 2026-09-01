@@ -13,7 +13,7 @@ function tomorrowKey() {
   return t.toISOString().slice(0, 10);
 }
 
-const GROUPS = [
+const STATIC_GROUPS = [
   {
     key: 'closingToday',
     emoji: '🔴',
@@ -28,13 +28,6 @@ const GROUPS = [
     chipClass: 'bg-amber-50 text-amber-700 border-amber-100',
     barClass: 'border-amber-100 bg-amber-50',
   },
-  {
-    key: 'newToday',
-    emoji: '🟢',
-    label: 'New Jobs Today',
-    chipClass: 'bg-emerald-50 text-emerald-700 border-emerald-100',
-    barClass: 'border-emerald-100 bg-emerald-50',
-  },
 ];
 
 /**
@@ -43,6 +36,12 @@ const GROUPS = [
  * posted today. A job can land in more than one bucket (e.g. posted and
  * due today) — that's intentional, each bucket answers a different
  * question ("what do I need to act on right now" vs "what's fresh").
+ *
+ * The third bucket only has content on days something was actually
+ * posted, so on quieter days it used to vanish entirely. It now falls
+ * back to "Latest Jobs" (the most recently posted, regardless of date)
+ * so the box always has something to show — labeled honestly, not as
+ * if they were posted today when they weren't.
  */
 function useTodayGroups(jobs) {
   return useMemo(() => {
@@ -53,15 +52,32 @@ function useTodayGroups(jobs) {
     const closingTomorrow = jobs.filter((j) => toDateKey(j.last_date) === tomorrow);
     const newToday = jobs.filter((j) => toDateKey(j.created_at) === today);
 
-    return { closingToday, closingTomorrow, newToday };
+    const isNewToday = newToday.length > 0;
+    const latestBucket = isNewToday
+      ? newToday
+      : [...jobs].sort((a, b) => new Date(b.created_at) - new Date(a.created_at)).slice(0, 4);
+
+    return { closingToday, closingTomorrow, latestBucket, isNewToday };
   }, [jobs]);
 }
 
 export default function TodayJobsStrip({ jobs = [] }) {
   const [selectedJob, setSelectedJob] = useState(null);
-  const groups = useTodayGroups(jobs);
+  const { closingToday, closingTomorrow, latestBucket, isNewToday } = useTodayGroups(jobs);
 
-  const totalCount = groups.closingToday.length + groups.closingTomorrow.length + groups.newToday.length;
+  const groups = [
+    ...STATIC_GROUPS.map((g) => ({ ...g, jobs: g.key === 'closingToday' ? closingToday : closingTomorrow })),
+    {
+      key: 'latest',
+      emoji: '🟢',
+      label: isNewToday ? 'New Jobs Today' : 'Latest Jobs',
+      chipClass: 'bg-emerald-50 text-emerald-700 border-emerald-100',
+      barClass: 'border-emerald-100 bg-emerald-50',
+      jobs: latestBucket,
+    },
+  ];
+
+  const totalCount = groups.reduce((sum, g) => sum + g.jobs.length, 0);
   if (totalCount === 0) return null;
 
   return (
@@ -75,8 +91,7 @@ export default function TodayJobsStrip({ jobs = [] }) {
         </div>
 
         <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-          {GROUPS.map(({ key, emoji, label, chipClass, barClass }) => {
-            const groupJobs = groups[key];
+          {groups.map(({ key, emoji, label, chipClass, barClass, jobs: groupJobs }) => {
             if (groupJobs.length === 0) return null;
 
             return (
