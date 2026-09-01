@@ -23,7 +23,7 @@ async function getHomePageData() {
   // edits), .limit(1) can arbitrarily return the old/seed row here — showing
   // a stale logo/site name on the home page even though Admin Dashboard →
   // Site Settings was saved correctly.
-  const [{ data: settings }, { data: jobs }, { data: notes }, stats, testimonials] = await Promise.all([
+  const [{ data: settings }, { data: jobs }, stats, testimonials] = await Promise.all([
     supabase
       .from('site_settings')
       .select('*')
@@ -31,7 +31,6 @@ async function getHomePageData() {
       .limit(1)
       .maybeSingle(),
     supabase.from('jobs_table').select('*').order('created_at', { ascending: false }).limit(30),
-    supabase.from('students_data').select('*').order('created_at', { ascending: false }).limit(6),
     getHomeStats(),
     getTestimonials(6),
   ]);
@@ -43,14 +42,13 @@ async function getHomePageData() {
     settings: settings || {},
     jobs: openJobs,
     allOpenJobs,
-    notes: notes || [],
     stats,
     testimonials,
   };
 }
 
 export default async function HomePage() {
-  const { settings, jobs, allOpenJobs, notes, stats, testimonials } = await getHomePageData();
+  const { settings, jobs, allOpenJobs, stats, testimonials } = await getHomePageData();
 
   return (
     <>
@@ -87,7 +85,7 @@ export default async function HomePage() {
 
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-8">
             <JobsList jobs={jobs} />
-            <StudentsZone notes={notes} settings={settings} />
+            <StudentsZone settings={settings} />
           </div>
         </div>
 
