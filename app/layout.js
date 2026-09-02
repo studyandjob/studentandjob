@@ -2,6 +2,7 @@ import { Public_Sans, Noto_Nastaliq_Urdu, Fraunces } from 'next/font/google';
 import './globals.css';
 import { supabase } from '@/lib/supabaseClient';
 import NavigationProgress from '@/components/NavigationProgress';
+import MobileBottomNav from '@/components/MobileBottomNav';
 import TextThemeStyle from '@/components/TextThemeStyle';
 import { ThemeProvider } from '@/contexts/ThemeContext';
 import { DEFAULT_TEXT_THEME_ID, TEXT_THEMES } from '@/lib/textThemes';
@@ -121,10 +122,11 @@ export default function RootLayout({ children }) {
             comment above THEME_BOOT_SCRIPT. */}
         <script dangerouslySetInnerHTML={{ __html: THEME_BOOT_SCRIPT }} />
       </head>
-      <body className="min-h-screen flex flex-col antialiased font-sans">
+      <body className="min-h-screen flex flex-col antialiased font-sans pb-16 md:pb-0">
         <ThemeProvider>
           <TextThemeStyle />
           <NavigationProgress>{children}</NavigationProgress>
+          <MobileBottomNav />
         </ThemeProvider>
       </body>
     </html>
