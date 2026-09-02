@@ -74,7 +74,11 @@ export default async function HomePage() {
       <Header siteName={settings.site_name} logoUrl={settings.logo_url} />
 
       <main className="flex-1 bg-white">
-        <Hero mainHeading={settings.main_heading} subHeading={settings.sub_heading} />
+        <Hero
+          mainHeading={settings.main_heading}
+          subHeading={settings.sub_heading}
+          illustrationUrl={settings.hero_illustration_url}
+        />
 
         <BrowseCategories />
 
