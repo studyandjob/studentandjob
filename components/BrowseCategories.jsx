@@ -1,38 +1,42 @@
 import Link from 'next/link';
+import {
+  ShieldCheckIcon3D,
+  BriefcaseIcon3D,
+  GraduationCapIcon3D,
+  VerifiedBadgeIcon3D,
+  NotesBookIcon3D,
+} from './Icons3D';
 
-// A curated subset of JOB_CATEGORIES/JOB_TYPES — the ones a visitor is most
-// likely to scan for on a homepage — each with an emoji for quick visual
-// scanning. Links straight into /jobs pre-filtered (see PublicJobsBrowser's
-// searchParams handling), so a tap here is a shortcut, not just a label.
+// The five entry points the reference design highlights right under the
+// hero — each maps to an existing route/filter already used elsewhere on
+// the site (BrowseCategories previously only covered job sub-categories;
+// this widens it to the five top-level sections a visitor scans for).
 const CATEGORIES = [
-  { emoji: '🏛️', label: 'Government', href: '/jobs?jobType=Government' },
-  { emoji: '🏭', label: 'Private', href: '/jobs?jobType=Private' },
-  { emoji: '🏦', label: 'Banking', href: '/jobs?category=Banking%20%2F%20Finance' },
-  { emoji: '👨‍🏫', label: 'Teaching', href: '/jobs?category=Teaching%20%2F%20Education' },
-  { emoji: '💻', label: 'IT', href: '/jobs?category=Information%20Technology%20(IT)' },
-  { emoji: '👮', label: 'Police', href: '/jobs?category=Police' },
-  { emoji: '🏥', label: 'Healthcare', href: '/jobs?category=Healthcare%20%2F%20Medical' },
-  { emoji: '🎓', label: 'Internships', href: '/jobs?category=Internships' },
+  { label: 'Government Jobs', sub: 'Latest Govt Jobs', href: '/jobs?jobType=Government', Icon: ShieldCheckIcon3D },
+  { label: 'Private Jobs', sub: 'Private Sector Jobs', href: '/jobs?jobType=Private', Icon: BriefcaseIcon3D },
+  { label: 'Scholarships', sub: 'Local & International', href: '/scholarships', Icon: GraduationCapIcon3D },
+  { label: 'Results', sub: 'Exam Results', href: '/results', Icon: VerifiedBadgeIcon3D },
+  { label: 'Study Material', sub: 'Notes, Papers & More', href: '/study-zone', Icon: NotesBookIcon3D },
 ];
 
 export default function BrowseCategories() {
   return (
     <section className="border-b border-gray-100 bg-white">
-      <div className="mx-auto max-w-7xl px-4 py-10 md:px-6 md:py-14">
-        <div className="mb-6 md:mb-8">
-          <h2 className="text-xl font-extrabold text-gray-900 md:text-2xl">Browse Jobs by Category</h2>
-          <p className="mt-1 text-sm text-gray-500">Jump straight to the type of job you're looking for.</p>
-        </div>
-
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 md:gap-4">
-          {CATEGORIES.map(({ emoji, label, href }) => (
+      <div className="mx-auto max-w-7xl px-4 py-6 md:px-6 md:py-8">
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-5 md:gap-4">
+          {CATEGORIES.map(({ label, sub, href, Icon }) => (
             <Link
               key={label}
               href={href}
-              className="flex flex-col items-center gap-2 rounded-2xl border border-gray-100 bg-gray-50 px-3 py-5 text-center transition active:scale-[0.97] hover:-translate-y-0.5 hover:border-brand-200 hover:bg-brand-50/60 hover:shadow-sm"
+              className="flex items-center gap-3 rounded-xl border border-gray-100 bg-white px-3.5 py-3.5 transition hover:-translate-y-0.5 hover:border-brand-200 hover:shadow-sm active:scale-[0.98]"
             >
-              <span className="text-3xl">{emoji}</span>
-              <span className="text-sm font-semibold text-gray-800">{label}</span>
+              <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-brand-50">
+                <Icon className="h-6 w-6" />
+              </span>
+              <span className="min-w-0">
+                <span className="block truncate text-sm font-bold text-gray-900">{label}</span>
+                <span className="block truncate text-xs text-gray-500">{sub}</span>
+              </span>
             </Link>
           ))}
         </div>

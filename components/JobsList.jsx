@@ -25,7 +25,7 @@ export default function JobsList({ jobs = [] }) {
           <span className="relative flex h-10 w-10 flex-shrink-0 items-center justify-center">
             <BriefcaseIcon3D className="h-full w-full" />
           </span>
-          <h2 className="text-base font-bold text-gray-900 md:text-lg">Latest Government Jobs</h2>
+          <h2 className="text-base font-bold text-gray-900 md:text-lg">Latest Jobs</h2>
         </div>
         <Link href="/jobs" className="text-xs font-semibold text-brand-600 hover:underline md:text-sm">
           View all →
