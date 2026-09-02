@@ -94,6 +94,26 @@ const notoNastaliqUrdu = Noto_Nastaliq_Urdu({
   variable: '--font-urdu',
 });
 
+// Production URL — used for metadataBase (so relative OG/canonical URLs
+// resolve correctly) and as the canonical/OG url itself. Overridable via
+// env for staging/custom-domain deployments without touching code.
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://onlinejobsandstudy.vercel.app';
+
+// Generic, natural (not stuffed) keywords describing what this site
+// actually is — jobs + education resources for Pakistan. These describe
+// the real, existing site sections (Jobs, Scholarships, Study Zone,
+// Results, Notes/Past Papers), not invented features.
+const SITE_KEYWORDS = [
+  'Pakistan jobs',
+  'latest jobs in Pakistan',
+  'government jobs Pakistan',
+  'scholarships in Pakistan',
+  'study resources',
+  'online tests',
+  'past papers',
+  'student resources',
+];
+
 export async function generateMetadata() {
   // Same ordering fix as app/page.js and lib/data.js — without it this could
   // read a stale row and show the wrong browser-tab title.
@@ -103,13 +123,57 @@ export async function generateMetadata() {
     .order('updated_at', { ascending: false, nullsFirst: false })
     .limit(1)
     .maybeSingle();
+
+  const siteName = data?.site_name || 'Education & Job Portal';
+  const description = data?.sub_heading || 'Government jobs, results, notes and scholarships in one place.';
+  // logo_url is whatever the admin actually uploaded — used as-is for the
+  // OG image so social previews never show a placeholder/fake graphic.
+  const ogImage = data?.logo_url || undefined;
+
   return {
-    title: data?.site_name || 'Education & Job Portal',
-    description: data?.sub_heading || 'Government jobs, results, notes and scholarships in one place.',
+    metadataBase: new URL(SITE_URL),
+    title: { default: siteName, template: `%s — ${siteName}` },
+    description,
+    keywords: SITE_KEYWORDS,
+    alternates: { canonical: '/' },
+    robots: { index: true, follow: true },
+    openGraph: {
+      type: 'website',
+      url: '/',
+      siteName,
+      title: siteName,
+      description,
+      locale: 'en_PK',
+      images: ogImage ? [{ url: ogImage }] : undefined,
+    },
+    twitter: {
+      card: ogImage ? 'summary_large_image' : 'summary',
+      title: siteName,
+      description,
+      images: ogImage ? [ogImage] : undefined,
+    },
   };
 }
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
+  // Reused for JSON-LD structured data below — same query generateMetadata
+  // already runs, so the site's actual (admin-set) name/logo drives the
+  // schema too instead of a hardcoded organization name.
+  const { data: settings } = await supabase
+    .from('site_settings')
+    .select('site_name, logo_url')
+    .order('updated_at', { ascending: false, nullsFirst: false })
+    .limit(1)
+    .maybeSingle();
+
+  const websiteSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: settings?.site_name || 'Education & Job Portal',
+    url: SITE_URL,
+    ...(settings?.logo_url ? { image: settings.logo_url } : {}),
+  };
+
   return (
     <html
       lang="en"
@@ -117,6 +181,14 @@ export default function RootLayout({ children }) {
       className={`${publicSans.variable} ${notoNastaliqUrdu.variable} ${fraunces.variable}`}
     >
       <head>
+        {/* Structured data (Organization/WebSite) — real fields only,
+            driven by whatever the admin has actually set in Website
+            Settings. Helps search engines show a richer result without
+            asserting anything the site can't back up. */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+        />
         {/* Runs before first paint on every page (Home included) so the
             saved text/brand theme is correct from frame one — see the
             comment above THEME_BOOT_SCRIPT. */}

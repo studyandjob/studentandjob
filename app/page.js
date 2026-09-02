@@ -12,7 +12,7 @@ import SupportBanner from '@/components/SupportBanner';
 import TrustBadgesStrip from '@/components/TrustBadgesStrip';
 import Footer from '@/components/Footer';
 import { getTestimonials, getScholarships } from '@/lib/data';
-import { isJobOpen, getTodayJobGroups } from '@/lib/jobStatus';
+import { isJobOpen, isScholarshipOpen, getTodayJobGroups } from '@/lib/jobStatus';
 
 // Re-fetch fresh data on every request so admin edits show up immediately.
 // Swap to `export const revalidate = 60` if you'd rather cache for 60s.
@@ -34,7 +34,11 @@ async function getHomePageData() {
       .maybeSingle(),
     supabase.from('jobs_table').select('*').order('created_at', { ascending: false }).limit(30),
     getTestimonials(6),
-    getScholarships(6),
+    // Fetch a buffer beyond the 5 the homepage actually shows (ScholarshipsList
+    // caps at 5), since some of the most-recent rows may already be past
+    // their deadline and get filtered out below — same reasoning as jobs
+    // fetching 30 to backfill after the isJobOpen filter.
+    getScholarships(15),
   ]);
 
   const allOpenJobs = (jobs || []).filter(isJobOpen);
@@ -67,6 +71,9 @@ async function getHomePageData() {
 
 export default async function HomePage() {
   const { settings, latestJobs, testimonials, scholarships } = await getHomePageData();
+  // Expired scholarships shouldn't surface on the homepage teaser, same
+  // rule as jobs (see isJobOpen usage above).
+  const openScholarships = scholarships.filter(isScholarshipOpen);
 
   return (
     <>
@@ -86,7 +93,7 @@ export default async function HomePage() {
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-3 lg:gap-6">
             <JobsList jobs={latestJobs} />
             <StudentsZone />
-            <ScholarshipsList scholarships={scholarships} />
+            <ScholarshipsList scholarships={openScholarships} />
           </div>
         </div>
 

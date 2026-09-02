@@ -5,6 +5,7 @@ import PageBanner from '@/components/PageBanner';
 import ScholarshipCard from '@/components/ScholarshipCard';
 import { GraduationCapIcon3D } from '@/components/Icons3D';
 import { getSiteSettings, getScholarships } from '@/lib/data';
+import { isScholarshipOpen } from '@/lib/jobStatus';
 
 export const dynamic = 'force-dynamic';
 
@@ -14,7 +15,12 @@ export async function generateMetadata() {
 }
 
 export default async function ScholarshipsPage() {
-  const [settings, scholarships] = await Promise.all([getSiteSettings(), getScholarships()]);
+  const [settings, allScholarships] = await Promise.all([getSiteSettings(), getScholarships()]);
+  // Same rule as jobs: a scholarship past its deadline shouldn't sit in
+  // the public listing looking applyable. (Unlike /jobs, there's no
+  // separate "expired" archive view here yet — every scholarship is
+  // simply gone once its deadline passes.)
+  const scholarships = allScholarships.filter(isScholarshipOpen);
 
   return (
     <>
