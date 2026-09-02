@@ -41,7 +41,13 @@ export default async function ScholarshipsPage() {
 
           {scholarships.length === 0 ? (
             <div className="rounded-2xl bg-white p-10 text-center shadow-sm ring-1 ring-black/5">
-              <p className="text-sm text-gray-500">No scholarships posted yet. Check back soon.</p>
+              <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-brand-50">
+                <GraduationCapIcon3D className="h-8 w-8" />
+              </span>
+              <p className="mt-4 text-base font-semibold text-gray-700">Scholarships are being updated</p>
+              <p className="mt-1.5 text-sm text-gray-500">
+                New local and international scholarship opportunities will appear here.
+              </p>
             </div>
           ) : (
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">

@@ -10,6 +10,7 @@ import StudentsZone from '@/components/StudentsZone';
 import ScholarshipsList from '@/components/ScholarshipsList';
 import SupportBanner from '@/components/SupportBanner';
 import TrustBadgesStrip from '@/components/TrustBadgesStrip';
+import FinalCta from '@/components/FinalCta';
 import Footer from '@/components/Footer';
 import { getTestimonials, getScholarships } from '@/lib/data';
 import { isJobOpen, isScholarshipOpen, getTodayJobGroups } from '@/lib/jobStatus';
@@ -104,6 +105,8 @@ export default async function HomePage() {
         <TrustBadgesStrip />
 
         <Testimonials testimonials={testimonials} />
+
+        <FinalCta />
       </main>
 
       <Footer siteName={settings.site_name} settings={settings} />
