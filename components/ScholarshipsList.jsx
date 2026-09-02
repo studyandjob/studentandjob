@@ -23,7 +23,23 @@ export default function ScholarshipsList({ scholarships = [] }) {
       </div>
 
       {scholarships.length === 0 ? (
-        <p className="py-8 text-center text-sm text-gray-500">No scholarships posted yet. Check back soon.</p>
+        <div className="flex flex-col items-center gap-3 py-8 text-center">
+          <span className="flex h-12 w-12 items-center justify-center rounded-full bg-brand-50">
+            <GraduationCapIcon3D className="h-7 w-7" />
+          </span>
+          <div>
+            <p className="text-sm font-semibold text-gray-700">Scholarships are being updated</p>
+            <p className="mt-1 text-xs text-gray-500">
+              New local and international scholarship opportunities will appear here.
+            </p>
+          </div>
+          <Link
+            href="/scholarships"
+            className="mt-1 inline-flex items-center gap-1 text-xs font-semibold text-brand-600 hover:underline"
+          >
+            Browse Scholarships →
+          </Link>
+        </div>
       ) : (
         <ul className="divide-y divide-gray-100">
           {scholarships.slice(0, 5).map((s) => {
