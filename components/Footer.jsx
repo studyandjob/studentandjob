@@ -12,19 +12,22 @@ import {
 const QUICK_LINKS = [
   { href: '/', label: 'Home' },
   { href: '/jobs', label: 'Jobs' },
-  { href: '/study-zone', label: 'Study Zone' },
+  { href: '/scholarships', label: 'Scholarships' },
   { href: '/results', label: 'Results' },
 ];
 
-const IMPORTANT_LINKS = [
-  { href: '/scholarships', label: 'Scholarships' },
-  { href: '/contact', label: 'Contact Us' },
-  { href: '/vip', label: 'VIP Portal' },
-  { href: '/privacy-policy', label: 'Privacy Policy' },
+// Direct links into Study Zone's sub-sections — previously the footer
+// only linked to the /study-zone hub, so Notes / Past Papers / Online
+// Tests had no footer entry point of their own.
+const STUDY_RESOURCE_LINKS = [
+  { href: '/study-zone/notes', label: 'Notes' },
+  { href: '/study-zone/materials?type=old_paper', label: 'Past Papers' },
+  { href: '/study-zone/test', label: 'Online Tests' },
 ];
 
 const LEGAL_LINKS = [
   { href: '/about-us', label: 'About Us' },
+  { href: '/privacy-policy', label: 'Privacy Policy' },
   { href: '/terms-and-conditions', label: 'Terms & Conditions' },
   { href: '/disclaimer', label: 'Disclaimer' },
 ];
@@ -43,16 +46,26 @@ const SOCIAL_PLATFORMS = [
 
 export default function Footer({ siteName, settings }) {
   const socialLinks = SOCIAL_PLATFORMS.filter((p) => settings?.[p.field]);
-  const importantLinks = settings?.wa_service_enabled
-    ? [...IMPORTANT_LINKS, { href: '/application-support', label: 'Application Support' }]
-    : IMPORTANT_LINKS;
+  const waEnabled = Boolean(settings?.wa_service_enabled && settings?.wa_service_whatsapp_number);
+  const waLink = waEnabled
+    ? `https://wa.me/${settings.wa_service_whatsapp_number.replace(/\D/g, '')}`
+    : null;
+
+  // Support column — every entry is a real, existing route/link; nothing
+  // shown unless the underlying feature is actually configured.
+  const supportLinks = [
+    { href: '/contact', label: 'Contact Us' },
+    { href: '/vip', label: 'VIP Portal' },
+    ...(waEnabled ? [{ href: '/application-support', label: 'Application Support' }] : []),
+  ];
+
   const name = siteName || '';
 
   return (
     <footer className="mt-auto bg-gray-900 text-gray-300">
       <div className="mx-auto max-w-7xl px-4 py-12 md:px-6">
-        <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 md:grid-cols-4">
-          <div>
+        <div className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-6">
+          <div className="col-span-2 sm:col-span-3 lg:col-span-1">
             {name && <p className="font-serif text-lg font-bold text-white">{name}</p>}
             <p className="mt-3 max-w-xs text-sm leading-relaxed text-gray-400">
               Your trusted platform for jobs, scholarships, results and study resources.
@@ -73,9 +86,47 @@ export default function Footer({ siteName, settings }) {
           </div>
 
           <div>
-            <p className="text-sm font-bold text-white">Important Links</p>
+            <p className="text-sm font-bold text-white">Study Resources</p>
             <ul className="mt-3 flex flex-col gap-2.5">
-              {importantLinks.map((link) => (
+              {STUDY_RESOURCE_LINKS.map((link) => (
+                <li key={link.href}>
+                  <Link href={link.href} className="text-sm text-gray-400 transition hover:text-white">
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <p className="text-sm font-bold text-white">Support</p>
+            <ul className="mt-3 flex flex-col gap-2.5">
+              {supportLinks.map((link) => (
+                <li key={link.href}>
+                  <Link href={link.href} className="text-sm text-gray-400 transition hover:text-white">
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+              {waLink && (
+                <li>
+                  <a
+                    href={waLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm text-gray-400 transition hover:text-white"
+                  >
+                    Chat on WhatsApp
+                  </a>
+                </li>
+              )}
+            </ul>
+          </div>
+
+          <div>
+            <p className="text-sm font-bold text-white">Legal</p>
+            <ul className="mt-3 flex flex-col gap-2.5">
+              {LEGAL_LINKS.map((link) => (
                 <li key={link.href}>
                   <Link href={link.href} className="text-sm text-gray-400 transition hover:text-white">
                     {link.label}
@@ -106,16 +157,6 @@ export default function Footer({ siteName, settings }) {
             ) : (
               <p className="mt-3 text-sm text-gray-500">Coming soon</p>
             )}
-
-            <ul className="mt-5 flex flex-col gap-2.5">
-              {LEGAL_LINKS.map((link) => (
-                <li key={link.href}>
-                  <Link href={link.href} className="text-sm text-gray-400 transition hover:text-white">
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
           </div>
         </div>
       </div>
