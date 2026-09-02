@@ -32,7 +32,14 @@ export default function ScholarshipsList({ scholarships = [] }) {
             return (
               <li key={s.id} className="flex items-center justify-between gap-3 py-3">
                 <div className="min-w-0">
-                  <p className="truncate text-sm font-semibold text-gray-800 md:text-base">{s.title}</p>
+                  <div className="flex flex-wrap items-center gap-1.5">
+                    <p className="truncate text-sm font-semibold text-gray-800 md:text-base">{s.title}</p>
+                    {isUrgent && (
+                      <span className="flex-shrink-0 rounded-full bg-red-50 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-red-600">
+                        Expiring Soon
+                      </span>
+                    )}
+                  </div>
                   {s.deadline && (
                     <p className="mt-0.5 text-xs text-gray-500">
                       Deadline:{' '}

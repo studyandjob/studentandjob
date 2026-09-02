@@ -15,6 +15,30 @@ function formatDate(dateStr) {
   return new Date(dateStr).toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' });
 }
 
+// "Posted 2 days ago" style label for job.created_at — purely a
+// presentation helper, never invents a date when created_at is missing.
+function formatPosted(createdAt) {
+  if (!createdAt) return null;
+  const created = new Date(createdAt);
+  if (Number.isNaN(created.getTime())) return null;
+  const days = Math.floor((Date.now() - created.getTime()) / 86400000);
+  if (days <= 0) return 'Posted Today';
+  if (days === 1) return 'Posted Yesterday';
+  if (days < 30) return `Posted ${days} days ago`;
+  return `Posted ${formatDate(createdAt)}`;
+}
+
+// Label for the last-date banner. Only ever computed from the real
+// last_date via daysRemaining() (Pakistan-time, no hardcoded "today") —
+// never shows "X days left" unless it's mathematically accurate.
+function lastDateLabel(remaining, isExpired) {
+  if (isExpired) return 'Expired';
+  if (remaining === 0) return 'Closing Today';
+  if (remaining === 1) return '1 Day Left — Apply Soon';
+  if (remaining !== null && remaining <= 3) return `${remaining} Days Left`;
+  return 'Last date to apply';
+}
+
 /**
  * Full-realistic 3D icon chip — the icon graphics from Icons3D.jsx already
  * carry their own gradient, shadow and glare, so the badge here is just a
@@ -34,6 +58,8 @@ export default function PublicJobCard({ job, onViewDetails }) {
   const isGovernment = job.job_type === 'Government';
   const remaining = daysRemaining(job.last_date);
   const isExpired = remaining !== null && remaining < 0;
+  const isUrgent = !isExpired && remaining !== null && remaining <= 3;
+  const posted = formatPosted(job.created_at);
 
   return (
     <div className="group relative flex flex-col overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md">
@@ -67,7 +93,10 @@ export default function PublicJobCard({ job, onViewDetails }) {
         </div>
 
         {/* Title */}
-        <h3 className="mb-3 text-lg font-bold leading-snug text-gray-900">{job.title}</h3>
+        <h3 className="mb-1.5 text-lg font-bold leading-snug text-gray-900">{job.title}</h3>
+
+        {/* Posted date — only when created_at exists, never fabricated */}
+        {posted && <p className="mb-3 text-xs font-medium text-gray-400">{posted}</p>}
 
         {/* Metadata */}
         <div className="mb-4 flex flex-col gap-2 text-sm text-gray-600">
@@ -101,16 +130,28 @@ export default function PublicJobCard({ job, onViewDetails }) {
           </div>
         )}
 
-        {/* Last-date banner — always red, title switches between the two
-            states the admin wants: "Last date to apply" or "Expired". */}
+        {/* Last-date banner — red when urgent/expired so it still draws
+            the eye, amber for a normal upcoming deadline. Label switches
+            between Expired / Closing Today / N Days Left / plain date,
+            always computed from the real last_date (see lastDateLabel). */}
         {job.last_date && (
-          <div className="mb-4 flex items-center gap-2 rounded-xl border border-red-100 bg-red-50 px-3 py-2">
-            <IconBadge icon={CalendarClockIcon} gradient="from-red-500 to-red-600" />
+          <div
+            className={`mb-4 flex items-center gap-2 rounded-xl border px-3 py-2 ${
+              isExpired || isUrgent ? 'border-red-100 bg-red-50' : 'border-amber-100 bg-amber-50'
+            }`}
+          >
+            <IconBadge icon={CalendarClockIcon} gradient={isExpired || isUrgent ? 'from-red-500 to-red-600' : 'from-amber-500 to-amber-600'} />
             <div className="min-w-0 leading-tight">
-              <p className="text-xs font-semibold uppercase tracking-wide text-red-500">
-                {isExpired ? 'Expired' : 'Last date to apply'}
+              <p
+                className={`text-xs font-semibold uppercase tracking-wide ${
+                  isExpired || isUrgent ? 'text-red-500' : 'text-amber-600'
+                }`}
+              >
+                {lastDateLabel(remaining, isExpired)}
               </p>
-              <p className="truncate text-sm font-bold text-red-700">{formatDate(job.last_date)}</p>
+              <p className={`truncate text-sm font-bold ${isExpired || isUrgent ? 'text-red-700' : 'text-amber-800'}`}>
+                {formatDate(job.last_date)}
+              </p>
             </div>
           </div>
         )}

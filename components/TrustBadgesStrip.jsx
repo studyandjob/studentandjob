@@ -1,6 +1,6 @@
 const BADGES = [
   { label: '100% Free Resources', emoji: '🎁' },
-  { label: 'Trusted by Thousands', emoji: '👥' },
+  { label: 'Built for Students & Job Seekers', emoji: '🎓' },
   { label: 'Daily Job Updates', emoji: '🔔' },
   { label: 'Secure & Reliable', emoji: '🔒' },
 ];

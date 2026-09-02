@@ -11,6 +11,12 @@ import { SupportIcon3D, WhatsappIcon3D } from './Icons3D';
 export default function SupportBanner({ settings }) {
   const waEnabled = Boolean(settings?.wa_service_enabled && settings?.wa_service_whatsapp_number);
   const price = settings?.wa_service_price || 'PKR 500';
+  // Admins sometimes already type "per application" into the price field
+  // itself (see the WhatsApp Service admin form placeholder). Only show
+  // our own "Per Application" caption when the price text doesn't already
+  // say it, so it never renders twice (e.g. "PKR 500 per application" +
+  // "Per Application").
+  const priceAlreadySaysPerApplication = /per\s*application/i.test(price);
   const waLink = waEnabled
     ? `https://wa.me/${settings.wa_service_whatsapp_number.replace(/\D/g, '')}?text=${encodeURIComponent(
         `Hi, I want help applying via your ${settings.wa_service_title || 'WhatsApp Application Support'} service.`
@@ -32,7 +38,9 @@ export default function SupportBanner({ settings }) {
           </div>
           <span className="flex-shrink-0 rounded-lg bg-white px-3 py-2 text-center text-xs font-bold text-brand-700 shadow-sm">
             {price}
-            <span className="block text-[10px] font-medium text-gray-400">Per Application</span>
+            {!priceAlreadySaysPerApplication && (
+              <span className="block text-[10px] font-medium text-gray-400">Per Application</span>
+            )}
           </span>
         </div>
 

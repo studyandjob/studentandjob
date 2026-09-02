@@ -14,9 +14,23 @@ export default function ScholarshipCard({ scholarship }) {
   return (
     <div className="group relative flex flex-col overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md">
       <div className="flex flex-1 flex-col p-5">
-        <span className="mb-3 flex h-11 w-11 flex-shrink-0 items-center justify-center">
-          <GraduationCapIcon3D className="h-full w-full" />
-        </span>
+        <div className="mb-3 flex items-start justify-between gap-2">
+          <span className="flex h-11 w-11 flex-shrink-0 items-center justify-center">
+            <GraduationCapIcon3D className="h-full w-full" />
+          </span>
+          {/* Status badge — Active vs Expiring Soon. Expired scholarships
+              never reach this card (filtered out where scholarships are
+              fetched), so there's no "Expired" state to show here. */}
+          {scholarship.deadline && (
+            <span
+              className={`flex-shrink-0 rounded-full px-2.5 py-1 text-xs font-bold uppercase tracking-wide ${
+                isUrgent ? 'bg-red-50 text-red-600' : 'bg-emerald-50 text-emerald-700'
+              }`}
+            >
+              {isUrgent ? 'Expiring Soon' : 'Active'}
+            </span>
+          )}
+        </div>
 
         <h3 className="mb-2 text-base font-bold leading-snug text-gray-900">{scholarship.title}</h3>
 

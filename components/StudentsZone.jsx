@@ -2,10 +2,10 @@ import Link from 'next/link';
 import { GraduationCapIcon3D, DocumentIcon3D, NotesBookIcon3D } from './Icons3D';
 
 const STUDY_ZONE_LINKS = [
-  { href: '/study-zone/test', icon: GraduationCapIcon3D, title: 'Start Online Test / Papers' },
-  { href: '/study-zone/materials?type=guess_paper', icon: DocumentIcon3D, title: 'Guess Papers & Suggestions' },
-  { href: '/study-zone/materials?type=old_paper', icon: NotesBookIcon3D, title: 'Previous / Old Papers' },
-  { href: '/study-zone/notes', icon: NotesBookIcon3D, title: 'Notes' },
+  { href: '/study-zone/test', icon: GraduationCapIcon3D, title: 'Online Tests', description: 'Practice with topic-based, timed MCQ tests.' },
+  { href: '/study-zone/materials?type=guess_paper', icon: DocumentIcon3D, title: 'Guess Papers', description: 'Important questions & exam suggestions.' },
+  { href: '/study-zone/materials?type=old_paper', icon: NotesBookIcon3D, title: 'Past Papers', description: 'Previous exam papers, class-wise.' },
+  { href: '/study-zone/notes', icon: NotesBookIcon3D, title: 'Notes', description: 'Free notes, ready to view or download.' },
 ];
 
 export default function StudentsZone() {
@@ -23,18 +23,20 @@ export default function StudentsZone() {
         </Link>
       </div>
 
-      <ul className="flex flex-col divide-y divide-gray-100">
-        {STUDY_ZONE_LINKS.map(({ href, icon: Icon, title }) => (
-          <li key={href} className="flex items-center gap-3 py-3">
-            <span className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg bg-brand-50">
-              <Icon className="h-6 w-6" />
-            </span>
-            <span className="flex-1 truncate text-sm font-semibold text-gray-800">{title}</span>
+      <ul className="flex flex-col gap-2.5">
+        {STUDY_ZONE_LINKS.map(({ href, icon: Icon, title, description }) => (
+          <li key={href}>
             <Link
               href={href}
-              className="flex min-h-[40px] flex-shrink-0 items-center justify-center rounded-md border border-gray-200 px-3.5 py-2 text-xs font-semibold text-gray-600 transition active:scale-95 hover:border-brand-200 hover:text-brand-700"
+              className="group flex items-center gap-3 rounded-xl border border-gray-100 bg-gray-50/60 p-3 transition hover:border-brand-200 hover:bg-brand-50"
             >
-              View
+              <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-white shadow-sm">
+                <Icon className="h-6 w-6" />
+              </span>
+              <div className="min-w-0 flex-1">
+                <p className="truncate text-sm font-semibold text-gray-800 group-hover:text-brand-700">{title}</p>
+                <p className="truncate text-xs text-gray-500">{description}</p>
+              </div>
             </Link>
           </li>
         ))}
