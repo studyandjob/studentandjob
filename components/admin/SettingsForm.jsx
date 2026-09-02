@@ -15,6 +15,7 @@ export default function SettingsForm({ settings }) {
     id: settings?.id,
     site_name: settings?.site_name || '',
     logo_url: settings?.logo_url || '',
+    hero_illustration_url: settings?.hero_illustration_url || '',
     main_heading: settings?.main_heading || '',
     sub_heading: settings?.sub_heading || '',
     hero_slide_speed: settings?.hero_slide_speed || '1x',
@@ -26,6 +27,7 @@ export default function SettingsForm({ settings }) {
   });
   const [saving, setSaving] = useState(false);
   const [logoUploading, setLogoUploading] = useState(false);
+  const [heroImageUploading, setHeroImageUploading] = useState(false);
   const [message, setMessage] = useState('');
 
   function update(field, value) {
@@ -36,6 +38,10 @@ export default function SettingsForm({ settings }) {
     e.preventDefault();
     if (logoUploading) {
       setMessage('Error: Logo is still uploading — please wait for it to finish, then Save.');
+      return;
+    }
+    if (heroImageUploading) {
+      setMessage('Error: Hero illustration is still uploading — please wait for it to finish, then Save.');
       return;
     }
     setSaving(true);
@@ -105,6 +111,34 @@ export default function SettingsForm({ settings }) {
           onError={(msg) => setMessage(`Error: ${msg}`)}
           onUploadingChange={setLogoUploading}
         />
+
+        <div className="sm:col-span-2">
+          <ImageUploadField
+            folder="hero"
+            label="Hero Illustration (Home Page)"
+            shape="rect"
+            previewSize={96}
+            imageUrl={form.hero_illustration_url}
+            onUploaded={(url) => update('hero_illustration_url', url)}
+            onError={(msg) => setMessage(`Error: ${msg}`)}
+            onUploadingChange={setHeroImageUploading}
+          />
+          <p className="-mt-1 text-xs text-amuted">
+            Recommended: a <strong>square (1:1) image, at least 800×800px</strong>, PNG with a transparent
+            background if possible, under 1MB. It's shown with "contain" sizing (never cropped) on both
+            desktop and mobile, so square/near-square art fills the space best — a very wide or very tall
+            image will just show with empty space on the sides. Leave empty to keep the default illustration.
+          </p>
+          {form.hero_illustration_url && (
+            <button
+              type="button"
+              onClick={() => update('hero_illustration_url', '')}
+              className="mt-2 text-xs font-semibold text-red-600 hover:underline"
+            >
+              Remove image — use default illustration
+            </button>
+          )}
+        </div>
 
         <label className="block sm:col-span-2">
           <span className={labelClass}>Main Heading</span>
@@ -203,12 +237,12 @@ export default function SettingsForm({ settings }) {
         <div className="flex flex-wrap items-center gap-3 sm:col-span-2">
           <button
             type="submit"
-            disabled={saving || logoUploading}
+            disabled={saving || logoUploading || heroImageUploading}
             className="inline-flex items-center gap-2 rounded-full px-6 py-2.5 text-sm font-semibold text-white shadow-[0_6px_18px_-6px_rgba(30,132,73,0.5)] transition hover:-translate-y-0.5 disabled:opacity-60"
             style={{ background: 'linear-gradient(135deg, #1E8449, #2E5AAC)' }}
           >
             <SaveIcon className="h-4 w-4" />
-            {saving ? 'Saving...' : logoUploading ? 'Uploading logo...' : 'Save Settings'}
+            {saving ? 'Saving...' : logoUploading || heroImageUploading ? 'Uploading image...' : 'Save Settings'}
           </button>
           {message && (
             <span className={`text-sm ${message.startsWith('Error') ? 'text-red-600' : 'text-brand-600'}`}>

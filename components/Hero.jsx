@@ -24,7 +24,7 @@ function splitHeading(heading) {
   return { lead: parts.slice(0, -1).join(' '), highlight: parts[parts.length - 1] };
 }
 
-export default function Hero({ mainHeading, subHeading }) {
+export default function Hero({ mainHeading, subHeading, illustrationUrl }) {
   const { lead, highlight } = splitHeading(mainHeading);
   const rtl = isUrduText(mainHeading);
 
@@ -80,9 +80,24 @@ export default function Hero({ mainHeading, subHeading }) {
           </div>
         </div>
 
-        {/* Illustration column */}
-        <div className="relative mx-auto hidden w-full max-w-md lg:block">
-          <HeroIllustration />
+        {/* Illustration column — shown on every screen size (not just
+            desktop) so it also appears on mobile, same as the reference
+            design. Uses object-contain inside a fixed square box so an
+            admin-uploaded image is never cropped on any device — see the
+            "Hero Illustration" field in Admin → Website Settings for the
+            recommended image size. */}
+        <div className="relative mx-auto w-full max-w-sm lg:max-w-md">
+          <div className="relative aspect-square w-full">
+            {illustrationUrl ? (
+              <img
+                src={illustrationUrl}
+                alt=""
+                className="h-full w-full object-contain"
+              />
+            ) : (
+              <HeroIllustration />
+            )}
+          </div>
 
           <FloatingCard className="left-0 top-4" tone="brand" label="Find Jobs" Icon={BriefcaseIcon3D} />
           <FloatingCard className="right-0 top-0" tone="green" label="Study Resources" Icon={GraduationCapIcon3D} />
@@ -127,7 +142,7 @@ function FloatingCard({ className = '', tone = 'brand', label, Icon, bars = fals
 // third-party artwork, just built to carry the same warm, friendly tone.
 function HeroIllustration() {
   return (
-    <svg viewBox="0 0 400 340" className="w-full drop-shadow-sm" xmlns="http://www.w3.org/2000/svg">
+    <svg viewBox="0 0 400 340" className="h-full w-full drop-shadow-sm" xmlns="http://www.w3.org/2000/svg">
       <ellipse cx="200" cy="310" rx="150" ry="18" className="fill-brand-100/70" />
 
       {/* Desk */}
