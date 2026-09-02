@@ -28,7 +28,7 @@ export default function TrustStrip({ siteName }) {
     <div className="border-b border-gray-100 bg-white">
       <div className="mx-auto max-w-7xl px-4 py-10 md:px-6 md:py-14">
         <h2 className="mb-8 text-center text-xl font-extrabold text-gray-900 md:text-2xl">
-          Why Choose {siteName || 'Online Jobs & Study'}?
+          {siteName ? `Why Choose ${siteName}?` : 'Why Choose Us?'}
         </h2>
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-4 md:gap-8">
           {ITEMS.map(({ label, sub, Icon }) => (

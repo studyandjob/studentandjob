@@ -46,14 +46,14 @@ export default function Footer({ siteName, settings }) {
   const importantLinks = settings?.wa_service_enabled
     ? [...IMPORTANT_LINKS, { href: '/application-support', label: 'Application Support' }]
     : IMPORTANT_LINKS;
-  const name = siteName || 'Online Jobs & Study';
+  const name = siteName || '';
 
   return (
     <footer className="mt-auto bg-gray-900 text-gray-300">
       <div className="mx-auto max-w-7xl px-4 py-12 md:px-6">
         <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 md:grid-cols-4">
           <div>
-            <p className="font-serif text-lg font-bold text-white">{name}</p>
+            {name && <p className="font-serif text-lg font-bold text-white">{name}</p>}
             <p className="mt-3 max-w-xs text-sm leading-relaxed text-gray-400">
               Your trusted platform for jobs, scholarships, results and study resources.
             </p>
@@ -122,7 +122,7 @@ export default function Footer({ siteName, settings }) {
 
       <div className="border-t border-gray-800">
         <p className="mx-auto max-w-7xl px-4 py-5 text-center text-xs text-gray-500 md:px-6">
-          © {new Date().getFullYear()} {name}. All Rights Reserved.
+          © {new Date().getFullYear()} {name ? `${name}. ` : ''}All Rights Reserved.
         </p>
       </div>
     </footer>

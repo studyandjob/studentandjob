@@ -48,13 +48,17 @@ export default function Header({ siteName, logoUrl }) {
                 className="h-10 w-10 rounded-full border-2 border-brand-200 bg-brand-50 object-cover shadow-sm"
               />
             ) : (
-              <div className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-brand-200 bg-brand-600 font-bold text-white shadow-sm">
-                {(siteName || 'P').charAt(0)}
-              </div>
+              siteName && (
+                <div className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-brand-200 bg-brand-600 font-bold text-white shadow-sm">
+                  {siteName.charAt(0)}
+                </div>
+              )
             )}
-            <span className="font-serif text-lg font-bold tracking-tight text-gray-900 md:text-xl">
-              {siteName || 'Pak Study And Jobs'}
-            </span>
+            {siteName && (
+              <span className="font-serif text-lg font-bold tracking-tight text-gray-900 md:text-xl">
+                {siteName}
+              </span>
+            )}
           </Link>
 
           {/* Desktop nav */}
@@ -94,7 +98,7 @@ export default function Header({ siteName, logoUrl }) {
           }`}
         >
           <div className="flex items-center justify-between bg-brand-600 px-5 py-4">
-            <span className="text-base font-bold text-white">{siteName || 'Pak Study And Jobs'}</span>
+            <span className="text-base font-bold text-white">{siteName}</span>
             <button
               onClick={() => setOpen(false)}
               className="rounded-lg p-1.5 text-white hover:bg-white/10"
