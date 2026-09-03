@@ -5,11 +5,21 @@ import PageLoadingOverlay from '@/components/PageLoadingOverlay';
 // (here: the homepage's Supabase fetches) is still in flight — including
 // on a hard refresh / typed URL / new tab, not just client-side <Link>
 // navigations (those are already covered by NavigationProgress +
-// PageLoadingOverlay). No siteName/logoUrl is available yet at this
-// point (that data is exactly what's still loading), so this renders
-// PageLoadingOverlay's built-in generic fallback state (first-letter
-// badge + "Loading" text) — same visual design, just without the final
-// site branding until the real page takes over.
+// PageLoadingOverlay).
+//
+// At this point the real site_name/logo_url haven't loaded yet (that's
+// exactly the DB fetch this screen is covering for), so PageLoadingOverlay
+// would otherwise fall back to a generic first-letter avatar. Hardcoding
+// the site's actual current logo/name here instead means the real
+// branding shows instantly on first paint rather than a placeholder.
+// NOTE: if the admin uploads a new logo or changes the site name in
+// Admin -> Site Settings, update these two constants to match — this
+// file can't read the database before it renders.
+const FALLBACK_SITE_NAME = 'Online Jobs and Study';
+const FALLBACK_LOGO_URL =
+  'https://uddrgvvdpwgbcndbdoka.supabase.co/storage/v1/object/public/site-images/logo/b9c0cc70-f31f-4495-bd8b-f1a537511cce.jfif';
+
 export default function Loading() {
-  return <PageLoadingOverlay siteName="" logoUrl="" />;
+  return <PageLoadingOverlay siteName={FALLBACK_SITE_NAME} logoUrl={FALLBACK_LOGO_URL} />;
 }
+
