@@ -173,6 +173,44 @@ export const SupportIcon3D = (props) => (
 );
 
 /* ---------------------------------------------------------------------- */
+/* Free Resources — glossy gift box                                        */
+/* ---------------------------------------------------------------------- */
+export const GiftIcon3D = (props) => (
+  <Base {...props}>
+    <defs>
+      <linearGradient id="gf-box" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stopColor="#3F79CF" />
+        <stop offset="100%" stopColor="#0047AB" />
+      </linearGradient>
+      <linearGradient id="gf-lid" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stopColor="#5CD08A" />
+        <stop offset="100%" stopColor="#28A745" />
+      </linearGradient>
+      <linearGradient id="gf-ribbon" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stopColor="#FFD97A" />
+        <stop offset="100%" stopColor="#E8A33D" />
+      </linearGradient>
+      <filter id="gf-shadow" x="-40%" y="-40%" width="180%" height="180%">
+        <feDropShadow dx="0" dy="3" stdDeviation="3" floodColor="#0B2A55" floodOpacity="0.3" />
+      </filter>
+    </defs>
+    <g filter="url(#gf-shadow)">
+      <rect x="12" y="28" width="40" height="26" rx="3" fill="url(#gf-box)" />
+      <rect x="9" y="18" width="46" height="12" rx="3" fill="url(#gf-lid)" />
+      <rect x="29" y="18" width="6" height="36" fill="url(#gf-ribbon)" />
+      <path
+        d="M32 18c-6-8-16-8-16-1 0 4 6 1 16 1zM32 18c6-8 16-8 16-1 0 4-6 1-16 1z"
+        fill="url(#gf-ribbon)"
+        stroke="#C67F1E"
+        strokeWidth="0.6"
+      />
+      <ellipse cx="20" cy="34" rx="6" ry="2.4" fill="#FFFFFF" opacity="0.25" />
+      <rect x="9" y="18" width="46" height="4" rx="2" fill="#FFFFFF" opacity="0.3" />
+    </g>
+  </Base>
+);
+
+/* ---------------------------------------------------------------------- */
 /* Search — glossy magnifier                                               */
 /* ---------------------------------------------------------------------- */
 export const SearchIcon3D = (props) => (
@@ -526,6 +564,45 @@ export const ArrowRightIcon3D = (props) => (
 export const ShieldCheckIcon3D = VerifiedBadgeIcon3D;
 export const CalendarClockIcon3D = DailyUpdateIcon3D;
 export const WhatsappIcon3D = ChatBubbleIcon3D;
+
+/* ---------------------------------------------------------------------- */
+/* Secure & Reliable — glossy padlock on a rounded shield                  */
+/* ---------------------------------------------------------------------- */
+export const LockShieldIcon3D = (props) => (
+  <Base {...props}>
+    <defs>
+      <linearGradient id="lk-shield" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stopColor="#3F79CF" />
+        <stop offset="100%" stopColor="#0047AB" />
+      </linearGradient>
+      <linearGradient id="lk-body" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stopColor="#FFD97A" />
+        <stop offset="100%" stopColor="#E8A33D" />
+      </linearGradient>
+      <radialGradient id="lk-glare" cx="35%" cy="20%" r="65%">
+        <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.8" />
+        <stop offset="100%" stopColor="#FFFFFF" stopOpacity="0" />
+      </radialGradient>
+      <filter id="lk-shadow" x="-40%" y="-40%" width="180%" height="180%">
+        <feDropShadow dx="0" dy="3" stdDeviation="3" floodColor="#0B2A55" floodOpacity="0.3" />
+      </filter>
+    </defs>
+    <g filter="url(#lk-shadow)">
+      <path
+        d="M32 6l19 7v15c0 14-8.5 22.5-19 28-10.5-5.5-19-14-19-28V13z"
+        fill="url(#lk-shield)"
+        stroke="#0B2A55"
+        strokeOpacity="0.15"
+        strokeWidth="1"
+      />
+      <path d="M32 6l19 7v15c0 14-8.5 22.5-19 28z" fill="url(#lk-glare)" />
+      <rect x="23" y="30" width="18" height="15" rx="3.5" fill="url(#lk-body)" />
+      <path d="M26 30v-5a6 6 0 0112 0v5" fill="none" stroke="url(#lk-body)" strokeWidth="4" strokeLinecap="round" />
+      <circle cx="32" cy="36.5" r="2.4" fill="#7A4A0E" />
+      <rect x="30.8" y="37.5" width="2.4" height="4.5" rx="1.2" fill="#7A4A0E" />
+    </g>
+  </Base>
+);
 
 /* ---------------------------------------------------------------------- */
 /* Graduation cap — glossy, for scholarships/education                     */

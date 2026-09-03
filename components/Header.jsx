@@ -52,22 +52,22 @@ export default function Header({ siteName, logoUrl }) {
       <header className="sticky top-0 z-50 border-b border-brand-100 bg-white shadow-sm">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 md:px-6">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2.5">
+          <Link href="/" className="flex items-center gap-3">
             {logoUrl ? (
               <img
                 src={logoUrl}
                 alt={siteName || 'Logo'}
-                className="h-10 w-10 rounded-full border-2 border-brand-200 bg-brand-50 object-cover shadow-sm"
+                className="h-12 w-12 flex-shrink-0 rounded-full border-2 border-brand-200 bg-brand-50 object-cover shadow-sm md:h-14 md:w-14"
               />
             ) : (
               siteName && (
-                <div className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-brand-200 bg-brand-600 font-bold text-white shadow-sm">
+                <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full border-2 border-brand-200 bg-brand-600 text-lg font-bold text-white shadow-sm md:h-14 md:w-14 md:text-xl">
                   {siteName.charAt(0)}
                 </div>
               )
             )}
             {siteName && (
-              <span className="font-serif text-lg font-bold tracking-tight text-gray-900 md:text-xl">
+              <span className="font-serif text-lg font-bold tracking-tight text-gray-900 md:text-2xl">
                 {siteName}
               </span>
             )}

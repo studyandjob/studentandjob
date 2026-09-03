@@ -67,7 +67,7 @@ export default function Footer({ siteName, settings }) {
         <div className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-6">
           <div className="col-span-2 sm:col-span-3 lg:col-span-1">
             {name && <p className="font-serif text-lg font-bold text-white">{name}</p>}
-            <p className="mt-3 max-w-xs text-sm leading-relaxed text-gray-400">
+            <p className="mt-3 max-w-xs text-sm leading-relaxed text-gray-200">
               Your trusted platform for jobs, scholarships, results and study resources.
             </p>
           </div>
@@ -77,7 +77,7 @@ export default function Footer({ siteName, settings }) {
             <ul className="mt-3 flex flex-col gap-2.5">
               {QUICK_LINKS.map((link) => (
                 <li key={link.href}>
-                  <Link href={link.href} className="text-sm text-gray-400 transition hover:text-white">
+                  <Link href={link.href} className="text-sm text-gray-200 transition hover:text-white">
                     {link.label}
                   </Link>
                 </li>
@@ -90,7 +90,7 @@ export default function Footer({ siteName, settings }) {
             <ul className="mt-3 flex flex-col gap-2.5">
               {STUDY_RESOURCE_LINKS.map((link) => (
                 <li key={link.href}>
-                  <Link href={link.href} className="text-sm text-gray-400 transition hover:text-white">
+                  <Link href={link.href} className="text-sm text-gray-200 transition hover:text-white">
                     {link.label}
                   </Link>
                 </li>
@@ -103,7 +103,7 @@ export default function Footer({ siteName, settings }) {
             <ul className="mt-3 flex flex-col gap-2.5">
               {supportLinks.map((link) => (
                 <li key={link.href}>
-                  <Link href={link.href} className="text-sm text-gray-400 transition hover:text-white">
+                  <Link href={link.href} className="text-sm text-gray-200 transition hover:text-white">
                     {link.label}
                   </Link>
                 </li>
@@ -114,7 +114,7 @@ export default function Footer({ siteName, settings }) {
                     href={waLink}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-sm text-gray-400 transition hover:text-white"
+                    className="text-sm text-gray-200 transition hover:text-white"
                   >
                     Chat on WhatsApp
                   </a>
@@ -128,7 +128,7 @@ export default function Footer({ siteName, settings }) {
             <ul className="mt-3 flex flex-col gap-2.5">
               {LEGAL_LINKS.map((link) => (
                 <li key={link.href}>
-                  <Link href={link.href} className="text-sm text-gray-400 transition hover:text-white">
+                  <Link href={link.href} className="text-sm text-gray-200 transition hover:text-white">
                     {link.label}
                   </Link>
                 </li>
@@ -148,21 +148,21 @@ export default function Footer({ siteName, settings }) {
                     rel="noopener noreferrer"
                     aria-label={label}
                     title={label}
-                    className="flex h-9 w-9 items-center justify-center rounded-full bg-gray-800 transition hover:-translate-y-0.5 hover:bg-gray-700"
+                    className="flex h-12 w-12 items-center justify-center rounded-full bg-white/5 ring-1 ring-white/10 transition hover:-translate-y-0.5 hover:bg-white/10"
                   >
-                    <PlatformIcon className="h-5 w-5" />
+                    <PlatformIcon className="h-8 w-8" />
                   </a>
                 ))}
               </div>
             ) : (
-              <p className="mt-3 text-sm text-gray-500">Coming soon</p>
+              <p className="mt-3 text-sm text-gray-300">Coming soon</p>
             )}
           </div>
         </div>
       </div>
 
       <div className="border-t border-gray-800">
-        <p className="mx-auto max-w-7xl px-4 py-5 text-center text-xs text-gray-500 md:px-6">
+        <p className="mx-auto max-w-7xl px-4 py-5 text-center text-xs text-gray-300 md:px-6">
           © {new Date().getFullYear()} {name ? `${name}. ` : ''}All Rights Reserved.
         </p>
       </div>

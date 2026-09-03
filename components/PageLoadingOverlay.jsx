@@ -14,22 +14,22 @@ export default function PageLoadingOverlay({ siteName, logoUrl }) {
       aria-label="Loading page"
     >
       {/* Logo + rotating rings */}
-      <div className="relative flex h-32 w-32 items-center justify-center">
+      <div className="relative flex h-40 w-40 items-center justify-center md:h-48 md:w-48">
         {/* Outer dashed ring — slow rotation, opposite direction */}
-        <span className="absolute inset-0 animate-spin-reverse-slow rounded-full border-2 border-dashed border-brand-500/70" />
+        <span className="absolute inset-0 animate-spin-reverse-slow rounded-full border-[3px] border-dashed border-brand-500/70" />
 
         {/* Inner solid ring — faster rotation, standard direction */}
-        <span className="absolute inset-3 animate-spin rounded-full border-4 border-brand-600 border-t-transparent" />
+        <span className="absolute inset-4 animate-spin rounded-full border-[5px] border-brand-600 border-t-transparent" />
 
-        <div className="relative flex h-16 w-16 items-center justify-center animate-pulse-soft">
+        <div className="relative flex h-20 w-20 items-center justify-center animate-pulse-soft md:h-24 md:w-24">
           {logoUrl ? (
             <img
               src={logoUrl}
               alt={siteName || 'Loading'}
-              className="h-16 w-16 rounded-full object-cover shadow-lg ring-4 ring-white"
+              className="h-20 w-20 rounded-full object-cover shadow-lg ring-4 ring-white md:h-24 md:w-24"
             />
           ) : (
-            <div className="flex h-16 w-16 items-center justify-center rounded-full bg-brand-600 text-2xl font-bold text-white shadow-lg ring-4 ring-white">
+            <div className="flex h-20 w-20 items-center justify-center rounded-full bg-brand-600 text-3xl font-bold text-white shadow-lg ring-4 ring-white md:h-24 md:w-24 md:text-4xl">
               {(siteName || 'P').charAt(0)}
             </div>
           )}
@@ -42,14 +42,14 @@ export default function PageLoadingOverlay({ siteName, logoUrl }) {
           Tailwind's `animate-*` utilities each set the CSS `animation`
           shorthand, so stacking two of them on the SAME element just has
           one override the other instead of combining. */}
-      <div className="animate-fade-in-up">
-        <p className="animate-pulse-soft text-center text-lg font-bold text-gray-800 md:text-xl">
+      <div className="animate-fade-in-up px-4">
+        <p className="animate-pulse-soft text-center text-xl font-bold text-gray-800 md:text-2xl">
           {displayName}
         </p>
       </div>
 
       {/* Indeterminate sliding loading bar */}
-      <div className="h-1.5 w-40 overflow-hidden rounded-full bg-gray-200 md:w-48">
+      <div className="h-2 w-48 overflow-hidden rounded-full bg-gray-200 md:w-64">
         <div className="h-full w-1/3 animate-loading-bar rounded-full bg-gradient-to-r from-brand-500 to-brand-700" />
       </div>
     </div>

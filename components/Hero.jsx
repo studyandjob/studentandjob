@@ -2,13 +2,7 @@
 
 import Link from 'next/link';
 import SearchBar from './SearchBar';
-import {
-  BriefcaseIcon3D,
-  GraduationCapIcon3D,
-  VerifiedBadgeIcon3D,
-  DocumentIcon3D,
-  ShieldCheckIcon3D,
-} from './Icons3D';
+import { BriefcaseIcon3D, GraduationCapIcon3D, ShieldCheckIcon3D } from './Icons3D';
 
 // Admin-entered main/sub headings (site_settings.main_heading / sub_heading)
 // can be English, Urdu, or a mix. Detect Arabic/Urdu script so the text
@@ -118,11 +112,6 @@ export default function Hero({ mainHeading, subHeading, illustrationUrl }) {
             <div className="relative aspect-square w-full">
               <img src={illustrationUrl} alt="" className="h-full w-full object-contain" />
             </div>
-
-            <FloatingCard className="left-0 top-4" tone="brand" label="Find Jobs" Icon={BriefcaseIcon3D} />
-            <FloatingCard className="right-0 top-0" tone="green" label="Study Resources" Icon={GraduationCapIcon3D} />
-            <FloatingCard className="right-2 top-1/3" tone="accent" label="Results" bars />
-            <FloatingCard className="right-8 bottom-4" tone="amber" label="Scholarships" Icon={VerifiedBadgeIcon3D} />
           </div>
         ) : (
           <DefaultHeroVisual />
@@ -142,43 +131,11 @@ function DefaultHeroVisual() {
       <div className="absolute inset-0 rounded-[2.5rem] bg-gradient-to-br from-brand-50 via-white to-accent-50" />
       <div className="absolute inset-6 rounded-[2rem] border border-brand-100/70" />
 
-      {/* Center badge */}
+      {/* Center badge — no overlaid category stickers, just the clean
+          abstract composition. */}
       <div className="relative z-10 flex h-28 w-28 items-center justify-center rounded-full bg-white shadow-xl shadow-brand-900/10 ring-1 ring-black/5">
         <ShieldCheckIcon3D className="h-12 w-12" />
       </div>
-
-      <FloatingCard className="left-4 top-8" tone="brand" label="Find Jobs" Icon={BriefcaseIcon3D} />
-      <FloatingCard className="right-2 top-4" tone="green" label="Study Resources" Icon={GraduationCapIcon3D} />
-      <FloatingCard className="left-6 bottom-10" tone="accent" label="Notes & Papers" Icon={DocumentIcon3D} />
-      <FloatingCard className="right-6 bottom-4" tone="amber" label="Scholarships" Icon={VerifiedBadgeIcon3D} />
-    </div>
-  );
-}
-
-const TONE_CLASSES = {
-  brand: 'bg-brand-600 text-white',
-  green: 'bg-emerald-500 text-white',
-  accent: 'bg-accent-600 text-white',
-  amber: 'bg-amber-500 text-white',
-};
-
-function FloatingCard({ className = '', tone = 'brand', label, Icon, bars = false }) {
-  return (
-    <div
-      className={`absolute z-10 flex items-center gap-2 rounded-xl bg-white px-3 py-2 shadow-lg ring-1 ring-black/5 ${className}`}
-    >
-      <span className={`flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-lg ${TONE_CLASSES[tone]}`}>
-        {bars ? (
-          <svg viewBox="0 0 16 16" className="h-3.5 w-3.5" fill="currentColor">
-            <rect x="1" y="8" width="3" height="6" rx="0.5" />
-            <rect x="6.5" y="4" width="3" height="10" rx="0.5" />
-            <rect x="12" y="1" width="3" height="13" rx="0.5" />
-          </svg>
-        ) : (
-          <Icon className="h-4 w-4" />
-        )}
-      </span>
-      <span className="text-xs font-semibold text-gray-800">{label}</span>
     </div>
   );
 }
