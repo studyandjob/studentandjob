@@ -1,13 +1,18 @@
+import Image from 'next/image';
 import { StarIcon3D } from './Icons3D';
 
 function Avatar({ name, imageUrl }) {
   if (imageUrl) {
     return (
-      <img
-        src={imageUrl}
-        alt={name}
-        className="h-11 w-11 flex-shrink-0 rounded-full object-cover ring-2 ring-brand-100"
-      />
+      <div className="relative h-11 w-11 flex-shrink-0">
+        <Image
+          src={imageUrl}
+          alt={name}
+          fill
+          sizes="44px"
+          className="rounded-full object-cover ring-2 ring-brand-100"
+        />
+      </div>
     );
   }
   return (

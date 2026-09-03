@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useNavigationProgress } from './NavigationProgress';
 import { MenuIcon3D, CloseIcon3D, StarIcon3D } from './Icons3D';
@@ -54,11 +55,16 @@ export default function Header({ siteName, logoUrl }) {
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3">
             {logoUrl ? (
-              <img
-                src={logoUrl}
-                alt={siteName || 'Logo'}
-                className="h-12 w-12 flex-shrink-0 rounded-full border-2 border-brand-200 bg-brand-50 object-cover shadow-sm md:h-14 md:w-14"
-              />
+              <div className="relative h-12 w-12 flex-shrink-0 md:h-14 md:w-14">
+                <Image
+                  src={logoUrl}
+                  alt={siteName || 'Logo'}
+                  fill
+                  sizes="56px"
+                  priority
+                  className="rounded-full border-2 border-brand-200 bg-brand-50 object-cover shadow-sm"
+                />
+              </div>
             ) : (
               siteName && (
                 <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full border-2 border-brand-200 bg-brand-600 text-lg font-bold text-white shadow-sm md:h-14 md:w-14 md:text-xl">

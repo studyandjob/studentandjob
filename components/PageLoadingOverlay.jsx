@@ -3,6 +3,8 @@
 // shows the site logo centered on screen with a continuous circular motion
 // (two rings spinning in opposite directions) around it, the site name
 // animating in below it, and a sliding indeterminate loading bar underneath.
+import Image from 'next/image';
+
 export default function PageLoadingOverlay({ siteName, logoUrl }) {
   const displayName = siteName || 'Loading';
 
@@ -21,15 +23,18 @@ export default function PageLoadingOverlay({ siteName, logoUrl }) {
         {/* Inner solid ring — faster rotation, standard direction */}
         <span className="absolute inset-4 animate-spin rounded-full border-[5px] border-brand-600 border-t-transparent" />
 
-        <div className="relative flex h-20 w-20 items-center justify-center animate-pulse-soft md:h-24 md:w-24">
+        <div className="relative h-20 w-20 animate-pulse-soft md:h-24 md:w-24">
           {logoUrl ? (
-            <img
+            <Image
               src={logoUrl}
               alt={siteName || 'Loading'}
-              className="h-20 w-20 rounded-full object-cover shadow-lg ring-4 ring-white md:h-24 md:w-24"
+              fill
+              sizes="96px"
+              priority
+              className="rounded-full object-cover shadow-lg ring-4 ring-white"
             />
           ) : (
-            <div className="flex h-20 w-20 items-center justify-center rounded-full bg-brand-600 text-3xl font-bold text-white shadow-lg ring-4 ring-white md:h-24 md:w-24 md:text-4xl">
+            <div className="flex h-full w-full items-center justify-center rounded-full bg-brand-600 text-3xl font-bold text-white shadow-lg ring-4 ring-white md:text-4xl">
               {(siteName || 'P').charAt(0)}
             </div>
           )}

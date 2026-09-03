@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import SearchBar from './SearchBar';
 import { BriefcaseIcon3D, GraduationCapIcon3D, ShieldCheckIcon3D } from './Icons3D';
 
@@ -91,7 +92,7 @@ export default function Hero({ mainHeading, subHeading, illustrationUrl }) {
             </Link>
             <Link
               href="/study-zone"
-              className="inline-flex items-center gap-2 rounded-lg border border-brand-200 bg-white px-5 py-3.5 text-sm font-semibold text-brand-700 transition hover:bg-brand-50 active:scale-[0.98]"
+              className="inline-flex items-center gap-2 rounded-lg border-2 border-brand-600 bg-white px-5 py-3.5 text-sm font-semibold text-brand-700 transition hover:bg-brand-50 hover:shadow-sm active:scale-[0.98]"
             >
               <GraduationCapIcon3D className="h-4 w-4" />
               Explore Study Resources
@@ -110,7 +111,14 @@ export default function Hero({ mainHeading, subHeading, illustrationUrl }) {
         {illustrationUrl ? (
           <div className="relative mx-auto w-full max-w-sm lg:max-w-md">
             <div className="relative aspect-square w-full">
-              <img src={illustrationUrl} alt="" className="h-full w-full object-contain" />
+              <Image
+                src={illustrationUrl}
+                alt=""
+                fill
+                sizes="(min-width: 1024px) 448px, 384px"
+                priority
+                className="object-contain"
+              />
             </div>
           </div>
         ) : (
