@@ -3,6 +3,7 @@ import './globals.css';
 import { supabase } from '@/lib/supabaseClient';
 import NavigationProgress from '@/components/NavigationProgress';
 import MobileBottomNav from '@/components/MobileBottomNav';
+import FloatingWhatsAppButton from '@/components/FloatingWhatsAppButton';
 import TextThemeStyle from '@/components/TextThemeStyle';
 import { ThemeProvider } from '@/contexts/ThemeContext';
 import { DEFAULT_TEXT_THEME_ID, TEXT_THEMES } from '@/lib/textThemes';
@@ -158,10 +159,12 @@ export async function generateMetadata() {
 export default async function RootLayout({ children }) {
   // Reused for JSON-LD structured data below — same query generateMetadata
   // already runs, so the site's actual (admin-set) name/logo drives the
-  // schema too instead of a hardcoded organization name.
+  // schema too instead of a hardcoded organization name. Also pulls the
+  // WhatsApp support fields so the site-wide FloatingWhatsAppButton below
+  // can render on every page, not just the homepage.
   const { data: settings } = await supabase
     .from('site_settings')
-    .select('site_name, logo_url')
+    .select('site_name, logo_url, wa_service_enabled, wa_service_whatsapp_number')
     .order('updated_at', { ascending: false, nullsFirst: false })
     .limit(1)
     .maybeSingle();
@@ -199,6 +202,7 @@ export default async function RootLayout({ children }) {
           <TextThemeStyle />
           <NavigationProgress>{children}</NavigationProgress>
           <MobileBottomNav />
+          <FloatingWhatsAppButton settings={settings} />
         </ThemeProvider>
       </body>
     </html>

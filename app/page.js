@@ -3,6 +3,7 @@ import Header from '@/components/Header';
 import NewsTicker from '@/components/NewsTicker';
 import Hero from '@/components/Hero';
 import BrowseCategories from '@/components/BrowseCategories';
+import StatsStrip from '@/components/StatsStrip';
 import TrustStrip from '@/components/TrustStrip';
 import Testimonials from '@/components/Testimonials';
 import JobsList from '@/components/JobsList';
@@ -12,7 +13,7 @@ import SupportBanner from '@/components/SupportBanner';
 import TrustBadgesStrip from '@/components/TrustBadgesStrip';
 import FinalCta from '@/components/FinalCta';
 import Footer from '@/components/Footer';
-import { getTestimonials, getScholarships } from '@/lib/data';
+import { getTestimonials, getScholarships, getHomeStats } from '@/lib/data';
 import { isJobOpen, isScholarshipOpen, getTodayJobGroups } from '@/lib/jobStatus';
 
 // Re-fetch fresh data on every request so admin edits show up immediately.
@@ -26,7 +27,7 @@ async function getHomePageData() {
   // edits), .limit(1) can arbitrarily return the old/seed row here — showing
   // a stale logo/site name on the home page even though Admin Dashboard →
   // Site Settings was saved correctly.
-  const [{ data: settings }, { data: jobs }, testimonials, scholarships] = await Promise.all([
+  const [{ data: settings }, { data: jobs }, testimonials, scholarships, stats] = await Promise.all([
     supabase
       .from('site_settings')
       .select('*')
@@ -40,6 +41,9 @@ async function getHomePageData() {
     // their deadline and get filtered out below — same reasoning as jobs
     // fetching 30 to backfill after the isJobOpen filter.
     getScholarships(15),
+    // Live counts (+ admin boost) for the homepage Stats strip — same
+    // source used by the About Us page's StatsStrip.
+    getHomeStats(),
   ]);
 
   const allOpenJobs = (jobs || []).filter(isJobOpen);
@@ -67,11 +71,12 @@ async function getHomePageData() {
     allOpenJobs,
     testimonials,
     scholarships: scholarships || [],
+    stats,
   };
 }
 
 export default async function HomePage() {
-  const { settings, latestJobs, testimonials, scholarships } = await getHomePageData();
+  const { settings, latestJobs, testimonials, scholarships, stats } = await getHomePageData();
   // Expired scholarships shouldn't surface on the homepage teaser, same
   // rule as jobs (see isJobOpen usage above).
   const openScholarships = scholarships.filter(isScholarshipOpen);
@@ -89,6 +94,12 @@ export default async function HomePage() {
         />
 
         <BrowseCategories />
+
+        {/* Real, live numbers (+ admin boost) — same source/component as
+            the About Us page's stats strip. Placed right after the entry
+            categories so a first-time visitor sees proof of an active
+            platform before scrolling into the job/scholarship lists. */}
+        <StatsStrip stats={stats} />
 
         <div className="mx-auto max-w-7xl px-4 py-10 md:px-6 md:py-14">
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-3 lg:gap-6">
