@@ -16,9 +16,13 @@ import Footer from '@/components/Footer';
 import { getTestimonials, getScholarships, getHomeStats } from '@/lib/data';
 import { isJobOpen, isScholarshipOpen, getTodayJobGroups } from '@/lib/jobStatus';
 
-// Re-fetch fresh data on every request so admin edits show up immediately.
-// Swap to `export const revalidate = 60` if you'd rather cache for 60s.
-export const dynamic = 'force-dynamic';
+// Cache homepage data for 60s so repeat visits load faster, instead of
+// hitting Supabase fresh on every single request. Admin edits (site
+// settings, new jobs/scholarships) now take up to ~60s to appear on the
+// live homepage instead of instantly — an acceptable trade for
+// meaningfully faster page loads. Revert to `force-dynamic` if instant
+// admin-edit visibility matters more than speed for this site.
+export const revalidate = 60;
 
 async function getHomePageData() {
   // site_settings is ordered by updated_at (most recent first), matching
