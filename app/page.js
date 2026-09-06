@@ -80,7 +80,7 @@ async function getHomePageData() {
 }
 
 export default async function HomePage() {
-  const { settings, latestJobs, testimonials, scholarships, stats } = await getHomePageData();
+  const { settings, latestJobs, allOpenJobs, testimonials, scholarships, stats } = await getHomePageData();
   // Expired scholarships shouldn't surface on the homepage teaser, same
   // rule as jobs (see isJobOpen usage above).
   const openScholarships = scholarships.filter(isScholarshipOpen);
@@ -95,31 +95,40 @@ export default async function HomePage() {
           mainHeading={settings.main_heading}
           subHeading={settings.sub_heading}
           illustrationUrl={settings.hero_illustration_url}
+          openJobsCount={allOpenJobs.length}
         />
+
+        {/* Trust signals come right after the hero, before any numbers —
+            a first-time visitor should see "why this platform" first, so
+            the stats/badges that follow land as reinforcement rather than
+            unsupported claims. */}
+        <TrustStrip siteName={settings.site_name} />
+
+        {/* Real, live numbers (+ admin boost) — same source/component as
+            the About Us page's stats strip. Now backed by the trust
+            strip above it, so the numbers read as proof, not just noise. */}
+        <StatsStrip stats={stats} />
 
         <BrowseCategories />
 
-        {/* Real, live numbers (+ admin boost) — same source/component as
-            the About Us page's stats strip. Placed right after the entry
-            categories so a first-time visitor sees proof of an active
-            platform before scrolling into the job/scholarship lists. */}
-        <StatsStrip stats={stats} />
-
-        <div className="mx-auto max-w-7xl px-4 py-10 md:px-6 md:py-14">
-          <div className="grid grid-cols-1 gap-6 lg:grid-cols-3 lg:gap-6">
-            <JobsList jobs={latestJobs} />
-            <StudentsZone />
-            <ScholarshipsList scholarships={openScholarships} />
+        <div className="border-y border-gray-100 bg-gray-50/60">
+          <div className="mx-auto max-w-7xl px-4 py-10 md:px-6 md:py-14">
+            <div className="grid grid-cols-1 gap-6 lg:grid-cols-3 lg:gap-6">
+              <JobsList jobs={latestJobs} />
+              <StudentsZone />
+              <ScholarshipsList scholarships={openScholarships} />
+            </div>
           </div>
         </div>
 
-        <TrustStrip siteName={settings.site_name} />
-
         <SupportBanner settings={settings} />
 
-        <TrustBadgesStrip />
-
+        {/* Real testimonials before the badge strip — social proof from
+            actual people lands better right before the logo/badge-style
+            trust markers than after them. */}
         <Testimonials testimonials={testimonials} />
+
+        <TrustBadgesStrip />
 
         <FinalCta />
       </main>
