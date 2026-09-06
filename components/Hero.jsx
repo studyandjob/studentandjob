@@ -25,7 +25,7 @@ function splitHeading(heading) {
   return { lead: parts.slice(0, -1).join(' '), highlight: parts[parts.length - 1] };
 }
 
-export default function Hero({ mainHeading, subHeading, illustrationUrl }) {
+export default function Hero({ mainHeading, subHeading, illustrationUrl, openJobsCount = 0 }) {
   const hasHeading = Boolean(mainHeading?.trim());
   const hasSubHeading = Boolean(subHeading?.trim());
   const { lead, highlight } = hasHeading ? splitHeading(mainHeading) : { lead: '', highlight: '' };
@@ -49,9 +49,25 @@ export default function Hero({ mainHeading, subHeading, illustrationUrl }) {
       <div className="relative mx-auto grid max-w-7xl grid-cols-1 items-center gap-10 px-4 py-12 md:px-6 md:py-16 lg:grid-cols-2 lg:gap-12">
         {/* Copy column */}
         <div className="text-center lg:text-left">
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-brand-50 px-3.5 py-1.5 text-xs font-semibold text-brand-700 ring-1 ring-inset ring-brand-100">
-            Your One-Stop Platform for Jobs &amp; Study
-          </span>
+          <div className="flex flex-wrap items-center justify-center gap-2 lg:justify-start">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-brand-50 px-3.5 py-1.5 text-xs font-semibold text-brand-700 ring-1 ring-inset ring-brand-100">
+              Your One-Stop Platform for Jobs &amp; Study
+            </span>
+
+            {/* Live, real open-jobs count (allOpenJobs.length from the
+                homepage query) — not a static marketing claim. Hidden
+                entirely when there are no open jobs, same "say nothing
+                rather than a weak number" rule as StatsStrip. */}
+            {openJobsCount > 0 && (
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-3.5 py-1.5 text-xs font-semibold text-emerald-700 ring-1 ring-inset ring-emerald-100">
+                <span className="relative flex h-1.5 w-1.5">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+                  <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                </span>
+                {openJobsCount}+ Jobs Open Right Now
+              </span>
+            )}
+          </div>
 
           {/* Main heading (site_settings.main_heading) — nothing shown
               here until the admin actually sets it in Admin → Website

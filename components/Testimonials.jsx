@@ -29,7 +29,7 @@ export default function Testimonials({ testimonials = [] }) {
   if (testimonials.length === 0) return null;
 
   return (
-    <div className="border-t border-gray-100 bg-white">
+    <div className="border-t border-gray-100 bg-gray-50/60">
       <div className="mx-auto max-w-7xl px-4 py-10 md:px-6 md:py-14">
         <div className="mb-6 text-center md:mb-8">
           <h2 className="font-serif text-xl font-bold text-gray-900 md:text-2xl">Success Stories</h2>

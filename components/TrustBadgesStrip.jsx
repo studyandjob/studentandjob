@@ -14,7 +14,7 @@ const BADGES = [
 export default function TrustBadgesStrip() {
   return (
     <div className="border-b border-gray-100 bg-white">
-      <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-x-8 gap-y-4 px-4 py-6 md:px-6">
+      <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-x-8 gap-y-4 px-4 py-8 md:px-6 md:py-10">
         {BADGES.map(({ label, Icon }) => (
           <span key={label} className="flex items-center gap-2 text-xs font-semibold text-gray-600 md:text-sm">
             <Icon className="h-6 w-6 flex-shrink-0 md:h-7 md:w-7" />

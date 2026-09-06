@@ -22,8 +22,8 @@ export default function SupportBanner({ settings }) {
     : null;
 
   return (
-    <section className="border-b border-gray-100 bg-gray-50/60">
-      <div className="mx-auto grid max-w-7xl grid-cols-1 gap-4 px-4 py-8 md:grid-cols-2 md:gap-6 md:px-6 md:py-10">
+    <section className="border-b border-gray-100 bg-white">
+      <div className="mx-auto grid max-w-7xl grid-cols-1 gap-4 px-4 py-10 md:grid-cols-2 md:gap-6 md:px-6 md:py-14">
         <div className="flex flex-col gap-3 rounded-2xl border border-brand-100 bg-brand-50/60 p-5">
           <div className="flex items-start justify-between gap-3">
             <div className="flex items-center gap-3">

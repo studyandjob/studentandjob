@@ -34,7 +34,7 @@ export default function StatsStrip({ stats }) {
       : 'grid-cols-2 sm:grid-cols-4';
 
   return (
-    <div className="border-y border-gray-100 bg-white">
+    <div className="border-y border-gray-100 bg-gray-50/60">
       <div className={`mx-auto grid max-w-7xl ${colsClass} gap-6 px-4 py-10 md:gap-8 md:px-6 md:py-14`}>
         {items.map(({ label, value, Icon }) => (
           <div key={label} className="flex flex-col items-center gap-2 text-center">

@@ -22,7 +22,7 @@ const CATEGORIES = [
 export default function BrowseCategories() {
   return (
     <section className="border-b border-gray-100 bg-white">
-      <div className="mx-auto max-w-7xl px-4 py-6 md:px-6 md:py-8">
+      <div className="mx-auto max-w-7xl px-4 py-10 md:px-6 md:py-14">
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-5 md:gap-4">
           {CATEGORIES.map(({ label, sub, href, Icon }) => (
             <Link
