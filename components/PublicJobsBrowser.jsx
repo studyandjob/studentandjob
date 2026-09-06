@@ -4,11 +4,14 @@ import { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import PublicJobCard from './PublicJobCard';
 import WhatsAppServiceCard from './WhatsAppServiceCard';
-import { SECTORS, JOB_CATEGORIES } from '@/lib/matching';
 import { isJobExpired, daysRemaining } from '@/lib/jobStatus';
 import { matchesQuery } from '@/lib/searchMatch';
-import { SearchIcon3D as SearchIcon, FilterIcon3D, ChevronDownIcon3D } from './Icons3D';
+import { SearchIcon3D as SearchIcon } from './Icons3D';
 
+// Sector/category/city/job-type/view are still supported as URL params (the
+// homepage's "Browse by Category" tiles link to /jobs?category=X and rely on
+// this), but there's no visible filter UI on this page anymore — just the
+// search box. Only 'search' and 'sort' are user-adjustable here now.
 const FILTER_DEFAULTS = { search: '', sector: 'all', jobType: 'all', category: 'all', city: 'all', view: 'open' };
 const PAGE_SIZE = 12;
 
@@ -50,11 +53,8 @@ export default function PublicJobsBrowser({ jobs = [], siteName, settings }) {
     jobType: searchParams.get('jobType') || FILTER_DEFAULTS.jobType,
     sector: searchParams.get('sector') || FILTER_DEFAULTS.sector,
   }));
-  const [filtersOpen, setFiltersOpen] = useState(false);
   const [sort, setSort] = useState('newest');
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
-
-  const cities = useMemo(() => [...new Set(jobs.map((j) => j.city).filter(Boolean))].sort(), [jobs]);
 
   const filtered = useMemo(() => {
     const list = jobs.filter((job) => {
@@ -132,114 +132,21 @@ export default function PublicJobsBrowser({ jobs = [], siteName, settings }) {
 
       {/* --- Content --- */}
       <div className="mx-auto max-w-6xl px-4 py-8 md:px-6 md:py-10">
-        {/* Filter bar — sticky on mobile so filters/results-count stay reachable
-            with one thumb while scrolling a long job list. */}
-        <div className="sticky top-16 z-10 mb-6 rounded-2xl bg-white p-4 shadow-sm ring-1 ring-black/5 md:static md:p-5">
-          <button
-            onClick={() => setFiltersOpen((v) => !v)}
-            className="mb-3 flex min-h-[44px] w-full items-center justify-between rounded-lg border border-gray-200 px-4 py-3 text-sm font-semibold text-gray-700 active:scale-[0.99] md:hidden"
-          >
-            <span className="flex items-center gap-2">
-              <FilterIcon3D className="h-4 w-4" />
-              Filters {activeFilterCount > 0 && `(${activeFilterCount})`}
-            </span>
-            <ChevronDownIcon3D className={`h-4 w-4 transition-transform ${filtersOpen ? 'rotate-180' : ''}`} />
-          </button>
-
-          <div className={`${filtersOpen ? 'flex' : 'hidden'} flex-col gap-3 md:flex`}>
-            <div className="flex gap-2 rounded-lg border border-gray-200 bg-gray-50 p-1">
-              {[
-                { value: 'open', label: 'Open Jobs' },
-                { value: 'expired', label: 'Expired Jobs' },
-              ].map((t) => (
-                <button
-                  key={t.value}
-                  onClick={() => update('view', t.value)}
-                  className={`flex-1 rounded-md px-3 py-3 text-xs font-semibold transition active:scale-[0.98] sm:py-2 sm:text-sm ${
-                    filters.view === t.value ? 'bg-brand-600 text-white' : 'text-gray-500 hover:text-gray-800'
-                  }`}
-                >
-                  {t.label}
-                </button>
-              ))}
-            </div>
-
-            <div className="flex gap-2 rounded-lg border border-gray-200 bg-gray-50 p-1">
-              {['all', 'Government', 'Private'].map((t) => (
-                <button
-                  key={t}
-                  onClick={() => update('jobType', t)}
-                  className={`flex-1 rounded-md px-3 py-3 text-xs font-semibold transition active:scale-[0.98] sm:py-2 sm:text-sm ${
-                    filters.jobType === t ? 'bg-brand-600 text-white' : 'text-gray-500 hover:text-gray-800'
-                  }`}
-                >
-                  {t === 'all' ? 'All Jobs' : `${t} Jobs`}
-                </button>
-              ))}
-            </div>
-
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-              <select
-                value={filters.sector}
-                onChange={(e) => update('sector', e.target.value)}
-                className="min-h-[44px] rounded-lg border border-gray-200 bg-gray-50 px-3.5 py-3 text-sm text-gray-800 outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-100 sm:py-2.5"
-              >
-                <option value="all">All Sectors</option>
-                {SECTORS.map((s) => (
-                  <option key={s.value} value={s.value}>
-                    {s.label}
-                  </option>
-                ))}
-              </select>
-
-              <select
-                value={filters.category}
-                onChange={(e) => update('category', e.target.value)}
-                className="min-h-[44px] rounded-lg border border-gray-200 bg-gray-50 px-3.5 py-3 text-sm text-gray-800 outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-100 sm:py-2.5"
-              >
-                <option value="all">All Categories</option>
-                {JOB_CATEGORIES.map((c) => (
-                  <option key={c} value={c}>
-                    {c}
-                  </option>
-                ))}
-              </select>
-
-              <select
-                value={filters.city}
-                onChange={(e) => update('city', e.target.value)}
-                className="min-h-[44px] rounded-lg border border-gray-200 bg-gray-50 px-3.5 py-3 text-sm text-gray-800 outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-100 sm:py-2.5"
-              >
-                <option value="all">All Cities</option>
-                {cities.map((c) => (
-                  <option key={c} value={c}>
-                    {c}
-                  </option>
-                ))}
-              </select>
-            </div>
-
+        <div className="mb-6 flex flex-wrap items-center justify-between gap-3 rounded-full bg-white px-4 py-2 shadow-sm ring-1 ring-black/5">
+          <p className="text-xs text-gray-500 sm:text-sm">
+            <span className="font-bold text-gray-800">{filtered.length}</span> job{filtered.length === 1 ? '' : 's'} found
             {activeFilterCount > 0 && (
-              <button
-                onClick={clearFilters}
-                className="self-start py-1 text-xs font-semibold text-brand-600 hover:underline"
-              >
-                Clear all filters ×
+              <button onClick={clearFilters} className="ml-2 text-xs font-semibold text-brand-600 hover:underline">
+                Clear ×
               </button>
             )}
-          </div>
-        </div>
-
-        <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-          <p className="text-sm text-gray-500">
-            {filtered.length} job{filtered.length === 1 ? '' : 's'} found
           </p>
-          <label className="flex items-center gap-2 text-sm text-gray-500">
-            Sort by
+          <label className="flex items-center gap-1.5 text-xs text-gray-500 sm:text-sm">
+            <span className="hidden sm:inline">Sort:</span>
             <select
               value={sort}
               onChange={(e) => setSort(e.target.value)}
-              className="rounded-lg border border-gray-200 bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-700 outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-100"
+              className="rounded-full border-none bg-gray-50 px-3 py-1.5 text-xs font-semibold text-gray-700 outline-none focus:ring-2 focus:ring-brand-100 sm:text-sm"
             >
               {SORT_OPTIONS.map((o) => (
                 <option key={o.value} value={o.value}>
@@ -249,12 +156,6 @@ export default function PublicJobsBrowser({ jobs = [], siteName, settings }) {
             </select>
           </label>
         </div>
-
-        {settings?.wa_service_enabled && (
-          <div className="mb-6">
-            <WhatsAppServiceCard settings={settings} />
-          </div>
-        )}
 
         {/* Job card grid */}
         {filtered.length === 0 ? (
@@ -291,6 +192,14 @@ export default function PublicJobsBrowser({ jobs = [], siteName, settings }) {
               </div>
             )}
           </>
+        )}
+
+        {/* WhatsApp application-support ad — moved below the jobs list so
+            it doesn't interrupt the listing right after the search box. */}
+        {settings?.wa_service_enabled && (
+          <div className="mt-8">
+            <WhatsAppServiceCard settings={settings} />
+          </div>
         )}
       </div>
     </>
