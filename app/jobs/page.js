@@ -9,7 +9,16 @@ export const dynamic = 'force-dynamic';
 
 export async function generateMetadata() {
   const settings = await getSiteSettings();
-  return { title: `Jobs — ${settings.site_name || 'Education & Job Portal'}` };
+  const siteName = settings.site_name || 'Education & Job Portal';
+  const description =
+    'Browse the latest government and private job ads in Pakistan — filter by sector, category and city, and apply directly.';
+  return {
+    title: `Jobs — ${siteName}`,
+    description,
+    alternates: { canonical: '/jobs' },
+    openGraph: { title: `Jobs — ${siteName}`, description, url: '/jobs' },
+    twitter: { card: 'summary', title: `Jobs — ${siteName}`, description },
+  };
 }
 
 export default async function JobsPage() {
