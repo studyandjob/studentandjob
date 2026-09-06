@@ -10,7 +10,6 @@ import JobsList from '@/components/JobsList';
 import StudentsZone from '@/components/StudentsZone';
 import ScholarshipsList from '@/components/ScholarshipsList';
 import SupportBanner from '@/components/SupportBanner';
-import TrustBadgesStrip from '@/components/TrustBadgesStrip';
 import FinalCta from '@/components/FinalCta';
 import Footer from '@/components/Footer';
 import { getTestimonials, getScholarships, getHomeStats } from '@/lib/data';
@@ -123,12 +122,11 @@ export default async function HomePage() {
 
         <SupportBanner settings={settings} />
 
-        {/* Real testimonials before the badge strip — social proof from
-            actual people lands better right before the logo/badge-style
-            trust markers than after them. */}
+        {/* Real testimonials right before the closing CTA — social proof
+            from actual people is a stronger last impression than another
+            generic trust strip (the old separate badge strip was merged
+            into TrustStrip above to remove that repetition). */}
         <Testimonials testimonials={testimonials} />
-
-        <TrustBadgesStrip />
 
         <FinalCta />
       </main>
