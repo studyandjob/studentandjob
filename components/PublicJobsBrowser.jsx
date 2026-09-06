@@ -7,11 +7,13 @@ import WhatsAppServiceCard from './WhatsAppServiceCard';
 import { isJobExpired, daysRemaining } from '@/lib/jobStatus';
 import { matchesQuery } from '@/lib/searchMatch';
 import { SearchIcon3D as SearchIcon } from './Icons3D';
+import { SECTORS, JOB_TYPES } from '@/lib/matching';
 
-// Sector/category/city/job-type/view are still supported as URL params (the
-// homepage's "Browse by Category" tiles link to /jobs?category=X and rely on
-// this), but there's no visible filter UI on this page anymore — just the
-// search box. Only 'search' and 'sort' are user-adjustable here now.
+// Sector (shown to visitors as "Province", since SECTORS is Federal/Punjab/
+// Sindh/Balochistan/KPK/Azad Kashmir), City and Job Type are now real,
+// user-adjustable dropdown filters below the search box. They're also still
+// readable from the URL (?category=/&jobType=/&sector=) so the homepage's
+// "Browse by Category" tiles keep working exactly as before.
 const FILTER_DEFAULTS = { search: '', sector: 'all', jobType: 'all', category: 'all', city: 'all', view: 'open' };
 const PAGE_SIZE = 12;
 
@@ -55,6 +57,14 @@ export default function PublicJobsBrowser({ jobs = [], siteName, settings }) {
   }));
   const [sort, setSort] = useState('newest');
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
+
+  // Distinct, non-empty cities actually present in the job data, sorted
+  // alphabetically — never a hardcoded list, so it always matches what's
+  // really posted.
+  const cities = useMemo(() => {
+    const set = new Set(jobs.map((j) => j.city?.trim()).filter(Boolean));
+    return Array.from(set).sort((a, b) => a.localeCompare(b));
+  }, [jobs]);
 
   const filtered = useMemo(() => {
     const list = jobs.filter((job) => {
@@ -132,29 +142,77 @@ export default function PublicJobsBrowser({ jobs = [], siteName, settings }) {
 
       {/* --- Content --- */}
       <div className="mx-auto max-w-6xl px-4 py-8 md:px-6 md:py-10">
-        <div className="mb-6 flex flex-wrap items-center justify-between gap-3 rounded-full bg-white px-4 py-2 shadow-sm ring-1 ring-black/5">
-          <p className="text-xs text-gray-500 sm:text-sm">
-            <span className="font-bold text-gray-800">{filtered.length}</span> job{filtered.length === 1 ? '' : 's'} found
-            {activeFilterCount > 0 && (
-              <button onClick={clearFilters} className="ml-2 text-xs font-semibold text-brand-600 hover:underline">
-                Clear ×
-              </button>
-            )}
-          </p>
-          <label className="flex items-center gap-1.5 text-xs text-gray-500 sm:text-sm">
-            <span className="hidden sm:inline">Sort:</span>
+        <div className="mb-6 flex flex-col gap-3 rounded-xl border border-gray-100 bg-white px-4 py-3 shadow-sm">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <p className="text-xs text-gray-500 sm:text-sm">
+              <span className="font-bold text-gray-800">{filtered.length}</span> job{filtered.length === 1 ? '' : 's'} found
+              {activeFilterCount > 0 && (
+                <button onClick={clearFilters} className="ml-2 text-xs font-semibold text-brand-600 hover:underline">
+                  Clear ×
+                </button>
+              )}
+            </p>
+            <label className="flex items-center gap-1.5 text-xs text-gray-500 sm:text-sm">
+              <span>Sort:</span>
+              <select
+                value={sort}
+                onChange={(e) => setSort(e.target.value)}
+                className="rounded-lg border border-gray-200 bg-white px-2.5 py-1.5 text-xs font-semibold text-gray-700 outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-100 sm:text-sm"
+              >
+                {SORT_OPTIONS.map((o) => (
+                  <option key={o.value} value={o.value}>
+                    {o.label}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </div>
+
+          {/* Province (sector) / City / Job Type — real filters, not just
+              URL-driven. Each select's own "All ..." option doubles as its
+              label, so there's no extra caption text crowding the row. */}
+          <div className="flex flex-wrap items-center gap-2 border-t border-gray-100 pt-3">
             <select
-              value={sort}
-              onChange={(e) => setSort(e.target.value)}
-              className="rounded-full border-none bg-gray-50 px-3 py-1.5 text-xs font-semibold text-gray-700 outline-none focus:ring-2 focus:ring-brand-100 sm:text-sm"
+              value={filters.sector}
+              onChange={(e) => update('sector', e.target.value)}
+              className="rounded-lg border border-gray-200 bg-white px-2.5 py-1.5 text-xs font-medium text-gray-700 outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-100 sm:text-sm"
             >
-              {SORT_OPTIONS.map((o) => (
-                <option key={o.value} value={o.value}>
-                  {o.label}
+              <option value="all">All Provinces</option>
+              {SECTORS.map((s) => (
+                <option key={s.value} value={s.value}>
+                  {s.label}
                 </option>
               ))}
             </select>
-          </label>
+
+            <select
+              value={filters.jobType}
+              onChange={(e) => update('jobType', e.target.value)}
+              className="rounded-lg border border-gray-200 bg-white px-2.5 py-1.5 text-xs font-medium text-gray-700 outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-100 sm:text-sm"
+            >
+              <option value="all">All Job Types</option>
+              {JOB_TYPES.map((t) => (
+                <option key={t} value={t}>
+                  {t}
+                </option>
+              ))}
+            </select>
+
+            {cities.length > 0 && (
+              <select
+                value={filters.city}
+                onChange={(e) => update('city', e.target.value)}
+                className="rounded-lg border border-gray-200 bg-white px-2.5 py-1.5 text-xs font-medium text-gray-700 outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-100 sm:text-sm"
+              >
+                <option value="all">All Cities</option>
+                {cities.map((c) => (
+                  <option key={c} value={c}>
+                    {c}
+                  </option>
+                ))}
+              </select>
+            )}
+          </div>
         </div>
 
         {/* Job card grid */}
