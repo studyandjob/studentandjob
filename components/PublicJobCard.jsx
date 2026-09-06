@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import {
   MapPinIcon3D as MapPinIcon,
   BuildingIcon3D as BuildingIcon,
@@ -54,7 +55,7 @@ function IconBadge({ icon: IconComp, size = 'md' }) {
   );
 }
 
-export default function PublicJobCard({ job, onViewDetails }) {
+export default function PublicJobCard({ job }) {
   const isGovernment = job.job_type === 'Government';
   const remaining = daysRemaining(job.last_date);
   const isExpired = remaining !== null && remaining < 0;
@@ -97,6 +98,13 @@ export default function PublicJobCard({ job, onViewDetails }) {
 
         {/* Posted date — only when created_at exists, never fabricated */}
         {posted && <p className="mb-3 text-xs font-medium text-gray-400">{posted}</p>}
+
+        {/* Description snippet — one line teaser so candidates get a sense
+            of the role before clicking through; full text is on the job's
+            own page. */}
+        {job.description && (
+          <p className="mb-3 line-clamp-2 text-sm leading-relaxed text-gray-500">{job.description}</p>
+        )}
 
         {/* Metadata */}
         <div className="mb-4 flex flex-col gap-2 text-sm text-gray-600">
@@ -169,12 +177,12 @@ export default function PublicJobCard({ job, onViewDetails }) {
             Apply Now
             <ArrowRightIcon className="h-4 w-4 transition-transform duration-200 group-hover/btn:translate-x-1" />
           </a>
-          <button
-            onClick={onViewDetails}
+          <Link
+            href={`/jobs/${job.id}`}
             className="order-2 flex-1 rounded-xl border-2 border-gray-200 bg-white px-4 py-3.5 text-center text-sm font-semibold text-gray-700 transition-all duration-200 active:scale-[0.98] hover:border-brand-300 hover:bg-brand-50 hover:text-brand-700 sm:order-1 sm:py-2.5"
           >
             View Details
-          </button>
+          </Link>
         </div>
       </div>
     </div>

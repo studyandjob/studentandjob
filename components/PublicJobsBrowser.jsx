@@ -1,16 +1,42 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import PublicJobCard from './PublicJobCard';
-import PublicJobDetailsModal from './PublicJobDetailsModal';
 import WhatsAppServiceCard from './WhatsAppServiceCard';
 import { SECTORS, JOB_CATEGORIES } from '@/lib/matching';
-import { isJobExpired } from '@/lib/jobStatus';
+import { isJobExpired, daysRemaining } from '@/lib/jobStatus';
 import { matchesQuery } from '@/lib/searchMatch';
 import { SearchIcon3D as SearchIcon, FilterIcon3D, ChevronDownIcon3D } from './Icons3D';
 
 const FILTER_DEFAULTS = { search: '', sector: 'all', jobType: 'all', category: 'all', city: 'all', view: 'open' };
+const PAGE_SIZE = 12;
+
+const SORT_OPTIONS = [
+  { value: 'newest', label: 'Newest First' },
+  { value: 'closing', label: 'Closing Soon' },
+];
+
+/** Applies the active sort to an already-filtered job list. 'closing' pushes
+ * jobs with no last_date to the bottom instead of treating them as most
+ * urgent. */
+function sortJobs(list, sort) {
+  const arr = [...list];
+  if (sort === 'closing') {
+    arr.sort((a, b) => {
+      const da = daysRemaining(a.last_date);
+      const db = daysRemaining(b.last_date);
+      if (da === null && db === null) return 0;
+      if (da === null) return 1;
+      if (db === null) return -1;
+      return da - db;
+    });
+    return arr;
+  }
+  // newest first (default) — created_at descending
+  arr.sort((a, b) => new Date(b.created_at || 0) - new Date(a.created_at || 0));
+  return arr;
+}
 
 export default function PublicJobsBrowser({ jobs = [], siteName, settings }) {
   // Lets a link like /jobs?category=Banking%20/%20Finance land with that
@@ -25,12 +51,13 @@ export default function PublicJobsBrowser({ jobs = [], siteName, settings }) {
     sector: searchParams.get('sector') || FILTER_DEFAULTS.sector,
   }));
   const [filtersOpen, setFiltersOpen] = useState(false);
-  const [selectedJob, setSelectedJob] = useState(null);
+  const [sort, setSort] = useState('newest');
+  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
 
   const cities = useMemo(() => [...new Set(jobs.map((j) => j.city).filter(Boolean))].sort(), [jobs]);
 
   const filtered = useMemo(() => {
-    return jobs.filter((job) => {
+    const list = jobs.filter((job) => {
       if (job.status === 'closed') return false;
       const expired = isJobExpired(job);
       if (filters.view === 'open' && expired) return false;
@@ -46,7 +73,18 @@ export default function PublicJobsBrowser({ jobs = [], siteName, settings }) {
       }
       return true;
     });
-  }, [jobs, filters]);
+    return sortJobs(list, sort);
+  }, [jobs, filters, sort]);
+
+  // Reset how many cards are shown whenever the result set actually
+  // changes shape (new filters/sort/search) — otherwise "Load More"
+  // progress from a previous search would carry over.
+  useEffect(() => {
+    setVisibleCount(PAGE_SIZE);
+  }, [filters, sort]);
+
+  const visibleJobs = filtered.slice(0, visibleCount);
+  const hasMore = visibleCount < filtered.length;
 
   const activeFilterCount = Object.entries(filters).filter(
     ([k, v]) => k !== 'search' && k !== 'view' && v && v !== 'all'
@@ -192,9 +230,25 @@ export default function PublicJobsBrowser({ jobs = [], siteName, settings }) {
           </div>
         </div>
 
-        <p className="mb-4 text-sm text-gray-500">
-          {filtered.length} job{filtered.length === 1 ? '' : 's'} found
-        </p>
+        <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+          <p className="text-sm text-gray-500">
+            {filtered.length} job{filtered.length === 1 ? '' : 's'} found
+          </p>
+          <label className="flex items-center gap-2 text-sm text-gray-500">
+            Sort by
+            <select
+              value={sort}
+              onChange={(e) => setSort(e.target.value)}
+              className="rounded-lg border border-gray-200 bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-700 outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-100"
+            >
+              {SORT_OPTIONS.map((o) => (
+                <option key={o.value} value={o.value}>
+                  {o.label}
+                </option>
+              ))}
+            </select>
+          </label>
+        </div>
 
         {settings?.wa_service_enabled && (
           <div className="mb-6">
@@ -204,21 +258,41 @@ export default function PublicJobsBrowser({ jobs = [], siteName, settings }) {
 
         {/* Job card grid */}
         {filtered.length === 0 ? (
-          <div className="rounded-2xl bg-white py-16 text-center shadow-sm ring-1 ring-black/5">
+          <div className="flex flex-col items-center gap-3 rounded-2xl bg-white py-16 text-center shadow-sm ring-1 ring-black/5">
+            <span className="flex h-14 w-14 items-center justify-center rounded-full bg-gray-50 text-2xl">
+              🔍
+            </span>
             <p className="text-sm text-gray-500">No jobs match your search. Try clearing some filters.</p>
+            {activeFilterCount > 0 || filters.search ? (
+              <button
+                onClick={clearFilters}
+                className="rounded-full bg-brand-600 px-4 py-2 text-xs font-semibold text-white transition hover:bg-brand-700"
+              >
+                Clear all filters
+              </button>
+            ) : null}
           </div>
         ) : (
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {filtered.map((job) => (
-              <PublicJobCard key={job.id} job={job} onViewDetails={() => setSelectedJob(job)} />
-            ))}
-          </div>
+          <>
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {visibleJobs.map((job) => (
+                <PublicJobCard key={job.id} job={job} />
+              ))}
+            </div>
+
+            {hasMore && (
+              <div className="mt-8 flex justify-center">
+                <button
+                  onClick={() => setVisibleCount((c) => c + PAGE_SIZE)}
+                  className="rounded-full border-2 border-gray-200 bg-white px-6 py-3 text-sm font-semibold text-gray-700 transition active:scale-[0.98] hover:border-brand-300 hover:bg-brand-50 hover:text-brand-700"
+                >
+                  Load More Jobs
+                </button>
+              </div>
+            )}
+          </>
         )}
       </div>
-
-      {selectedJob && (
-        <PublicJobDetailsModal job={selectedJob} settings={settings} onClose={() => setSelectedJob(null)} />
-      )}
     </>
   );
 }

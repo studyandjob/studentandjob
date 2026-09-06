@@ -89,6 +89,13 @@ export default function JobDetailsModal({ job, onClose, onEdit }) {
 
         {/* Body */}
         <div className="flex flex-col gap-6 px-6 py-5">
+          {job.description && (
+            <div>
+              <p className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-amuted">Description</p>
+              <p className="whitespace-pre-line text-sm text-aink">{job.description}</p>
+            </div>
+          )}
+
           <dl className="grid grid-cols-2 gap-4 sm:grid-cols-3">
             <Row label="Sector" value={job.sector} />
             <Row label="Category" value={job.category} />

@@ -1,7 +1,7 @@
 'use client';
 
-import { useMemo, useState } from 'react';
-import PublicJobDetailsModal from './PublicJobDetailsModal';
+import { useMemo } from 'react';
+import Link from 'next/link';
 import { CalendarClockIcon3D, BriefcaseIcon3D } from './Icons3D';
 import { getTodayJobGroups } from '@/lib/jobStatus';
 
@@ -30,7 +30,6 @@ const GROUP_DEFS = [
 ];
 
 export default function TodayJobsStrip({ jobs = [] }) {
-  const [selectedJob, setSelectedJob] = useState(null);
   const { closingToday, closingTomorrow, newToday } = useMemo(() => getTodayJobGroups(jobs), [jobs]);
 
   const groups = GROUP_DEFS.map((g) => ({
@@ -64,8 +63,8 @@ export default function TodayJobsStrip({ jobs = [] }) {
                 <ul className="flex flex-col gap-2">
                   {groupJobs.slice(0, 4).map((job) => (
                     <li key={job.id}>
-                      <button
-                        onClick={() => setSelectedJob(job)}
+                      <Link
+                        href={`/jobs/${job.id}`}
                         className={`flex w-full items-center gap-2 rounded-xl border px-3 py-2.5 text-left transition active:scale-[0.98] ${barClass}`}
                       >
                         <span className="flex h-7 w-7 flex-shrink-0 items-center justify-center opacity-80">
@@ -77,7 +76,7 @@ export default function TodayJobsStrip({ jobs = [] }) {
                             <span className="block truncate text-xs text-gray-500">{job.department}</span>
                           )}
                         </span>
-                      </button>
+                      </Link>
                     </li>
                   ))}
                 </ul>
@@ -86,8 +85,6 @@ export default function TodayJobsStrip({ jobs = [] }) {
           })}
         </div>
       </div>
-
-      {selectedJob && <PublicJobDetailsModal job={selectedJob} onClose={() => setSelectedJob(null)} />}
     </section>
   );
 }

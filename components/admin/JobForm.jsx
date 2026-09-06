@@ -11,6 +11,7 @@ const labelClass = 'mb-1.5 block text-[0.85rem] font-semibold text-aink';
 
 const EMPTY_JOB = {
   title: '',
+  description: '',
   department: '',
   sector: 'Federal',
   job_type: 'Government',
@@ -120,6 +121,18 @@ export default function JobForm({ initialJob, onSubmit, onCancel, saving }) {
             placeholder="e.g. Junior Clerk (BPS-11)"
             className={inputClass}
           />
+        </label>
+
+        <label className="sm:col-span-2">
+          <span className={labelClass}>Description</span>
+          <textarea
+            rows={5}
+            value={form.description}
+            onChange={(e) => update('description', e.target.value)}
+            placeholder="Role summary, responsibilities, eligibility notes, or any extra details for candidates…"
+            className={inputClass}
+          />
+          <p className="mt-1 text-xs text-amuted">Shown to candidates on the job's details page.</p>
         </label>
 
         <label>
