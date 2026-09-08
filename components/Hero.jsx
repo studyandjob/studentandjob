@@ -171,13 +171,20 @@ function getYouTubeVideoId(url) {
 function HeroImageCarousel({ slides }) {
   const [active, setActive] = useState(0);
 
+  // Is the currently-shown slide a YouTube video? If so, the timer below
+  // is paused entirely — auto-advancing mid-video used to cut it off after
+  // 5 seconds. Image slides keep auto-rotating as before; video slides
+  // only move on when the person clicks a dot (or the video ends, handled
+  // by the iframe's own loop=1 param replaying it instead of advancing).
+  const activeIsVideo = Boolean(getYouTubeVideoId(slides[active]?.video_url));
+
   useEffect(() => {
-    if (slides.length < 2) return;
+    if (slides.length < 2 || activeIsVideo) return;
     const timer = setInterval(() => {
       setActive((prev) => (prev + 1) % slides.length);
     }, SLIDE_INTERVAL_MS);
     return () => clearInterval(timer);
-  }, [slides.length]);
+  }, [slides.length, active, activeIsVideo]);
 
   useEffect(() => {
     if (active >= slides.length) setActive(0);
