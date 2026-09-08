@@ -12,7 +12,7 @@ import ScholarshipsList from '@/components/ScholarshipsList';
 import SupportBanner from '@/components/SupportBanner';
 import FinalCta from '@/components/FinalCta';
 import Footer from '@/components/Footer';
-import { getTestimonials, getScholarships, getHomeStats } from '@/lib/data';
+import { getTestimonials, getScholarships, getHomeStats, getHeroSlides } from '@/lib/data';
 import { isJobOpen, isScholarshipOpen, getTodayJobGroups } from '@/lib/jobStatus';
 
 // Cache homepage data for 60s so repeat visits load faster, instead of
