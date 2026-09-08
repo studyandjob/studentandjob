@@ -95,6 +95,7 @@ export default async function JobDetailsPage({ params }) {
   const showManual = job.job_type === 'Government' || job.application_mode === 'Manual/By Post';
   const isExpired = isDatePast(job.last_date);
   const remaining = daysRemaining(job.last_date);
+  const canApply = job.show_apply_button !== false && !!job.apply_link;
 
   // JobPosting structured data — only real, admin-entered fields; never
   // fabricates an employment type, salary number or address that wasn't
@@ -295,7 +296,7 @@ export default async function JobDetailsPage({ params }) {
                 as a sticky mobile bar below so Apply Now stays reachable
                 on a long job description without scrolling back up. */}
             <div className="flex flex-col gap-2 border-t border-gray-100 bg-white px-5 py-4 sm:flex-row sm:flex-wrap sm:items-center sm:px-6">
-              {job.apply_link && (
+              {canApply && (
                 <a
                   href={job.apply_link}
                   target="_blank"
@@ -349,7 +350,7 @@ export default async function JobDetailsPage({ params }) {
       {/* Sticky mobile Apply bar — mirrors the old modal's always-reachable
           Apply Now button, since this page can now be much longer than the
           modal ever was. */}
-      {job.apply_link && (
+      {canApply && (
         <div className="fixed inset-x-0 bottom-16 z-20 border-t border-gray-100 bg-white/95 px-4 py-3 shadow-[0_-4px_12px_rgba(0,0,0,0.06)] backdrop-blur sm:hidden">
           <a
             href={job.apply_link}
