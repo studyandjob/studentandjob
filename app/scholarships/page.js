@@ -41,8 +41,9 @@ export default async function ScholarshipsPage() {
 
           {scholarships.length === 0 ? (
             <div className="rounded-2xl bg-white p-10 text-center shadow-sm ring-1 ring-black/5">
-              <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-brand-50">
-                <GraduationCapIcon3D className="h-8 w-8" />
+              <span className="relative mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-brand-100 to-brand-50">
+                <span className="absolute inset-2 rounded-full bg-white/60 blur-md" aria-hidden="true" />
+                <GraduationCapIcon3D className="relative h-9 w-9" />
               </span>
               <p className="mt-4 text-base font-semibold text-gray-700">Scholarships are being updated</p>
               <p className="mt-1.5 text-sm text-gray-500">

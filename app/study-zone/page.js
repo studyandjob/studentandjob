@@ -69,8 +69,9 @@ export default async function StudyZonePage() {
                   href={card.href}
                   className="group flex flex-col gap-3 rounded-2xl bg-white p-6 shadow-sm ring-1 ring-black/5 transition hover:-translate-y-1 hover:shadow-md"
                 >
-                  <span className="flex h-14 w-14 items-center justify-center rounded-xl bg-brand-50">
-                    <Icon className="h-9 w-9" />
+                  <span className="relative flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-100 to-brand-50">
+                    <span className="absolute inset-2 rounded-full bg-white/60 blur-md" aria-hidden="true" />
+                    <Icon className="relative h-10 w-10" />
                   </span>
                   <h2 className="text-lg font-bold text-gray-900">{card.title}</h2>
                   <p className="flex-1 text-sm text-gray-500">{card.description}</p>
