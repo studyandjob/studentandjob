@@ -30,7 +30,7 @@ async function getHomePageData() {
   // edits), .limit(1) can arbitrarily return the old/seed row here — showing
   // a stale logo/site name on the home page even though Admin Dashboard →
   // Site Settings was saved correctly.
-  const [{ data: settings }, { data: jobs }, testimonials, scholarships, stats] = await Promise.all([
+  const [{ data: settings }, { data: jobs }, testimonials, scholarships, stats, heroSlides] = await Promise.all([
     supabase
       .from('site_settings')
       .select('*')
@@ -47,6 +47,10 @@ async function getHomePageData() {
     // Live counts (+ admin boost) for the homepage Stats strip — same
     // source used by the About Us page's StatsStrip.
     getHomeStats(),
+    // Hero image carousel slides (Admin → Hero Slides). Empty array is a
+    // valid, expected state for sites that haven't added any yet — Hero
+    // falls back to the single settings.hero_illustration_url in that case.
+    getHeroSlides(),
   ]);
 
   const allOpenJobs = (jobs || []).filter(isJobOpen);
@@ -75,11 +79,12 @@ async function getHomePageData() {
     testimonials,
     scholarships: scholarships || [],
     stats,
+    heroSlides,
   };
 }
 
 export default async function HomePage() {
-  const { settings, latestJobs, allOpenJobs, testimonials, scholarships, stats } = await getHomePageData();
+  const { settings, latestJobs, allOpenJobs, testimonials, scholarships, stats, heroSlides } = await getHomePageData();
   // Expired scholarships shouldn't surface on the homepage teaser, same
   // rule as jobs (see isJobOpen usage above).
   const openScholarships = scholarships.filter(isScholarshipOpen);
@@ -94,6 +99,7 @@ export default async function HomePage() {
           mainHeading={settings.main_heading}
           subHeading={settings.sub_heading}
           illustrationUrl={settings.hero_illustration_url}
+          slides={heroSlides}
           openJobsCount={allOpenJobs.length}
         />
 
