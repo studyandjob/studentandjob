@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import SearchBar from './SearchBar';
@@ -25,7 +26,7 @@ function splitHeading(heading) {
   return { lead: parts.slice(0, -1).join(' '), highlight: parts[parts.length - 1] };
 }
 
-export default function Hero({ mainHeading, subHeading, illustrationUrl, openJobsCount = 0 }) {
+export default function Hero({ mainHeading, subHeading, illustrationUrl, slides = [], openJobsCount = 0 }) {
   const hasHeading = Boolean(mainHeading?.trim());
   const hasSubHeading = Boolean(subHeading?.trim());
   const { lead, highlight } = hasHeading ? splitHeading(mainHeading) : { lead: '', highlight: '' };
@@ -124,7 +125,9 @@ export default function Hero({ mainHeading, subHeading, illustrationUrl, openJob
             otherwise a built-in abstract composition (icons + shapes, no
             stock photo) so the hero always has a balanced second column
             instead of collapsing to plain centered text. */}
-        {illustrationUrl ? (
+        {slides.length > 0 ? (
+          <HeroImageCarousel slides={slides} />
+        ) : illustrationUrl ? (
           <div className="relative mx-auto w-full max-w-sm lg:max-w-md">
             <div className="relative aspect-square w-full">
               <Image
@@ -142,6 +145,84 @@ export default function Hero({ mainHeading, subHeading, illustrationUrl, openJob
         )}
       </div>
     </section>
+  );
+}
+
+// Auto-rotating image carousel for the hero's visual column, fed by the
+// admin's "Hero Slides" list (Admin → Hero Slides — title, image, optional
+// link, display order). Slides advance on a timer and via dots, same
+// translate-the-track pattern used by the job spotlight slider elsewhere
+// on the home page, just for plain images instead of job cards.
+const SLIDE_INTERVAL_MS = 5000;
+
+function HeroImageCarousel({ slides }) {
+  const [active, setActive] = useState(0);
+
+  useEffect(() => {
+    if (slides.length < 2) return;
+    const timer = setInterval(() => {
+      setActive((prev) => (prev + 1) % slides.length);
+    }, SLIDE_INTERVAL_MS);
+    return () => clearInterval(timer);
+  }, [slides.length]);
+
+  useEffect(() => {
+    if (active >= slides.length) setActive(0);
+  }, [slides.length, active]);
+
+  return (
+    <div className="relative mx-auto w-full max-w-sm lg:max-w-md">
+      <div className="relative aspect-square w-full overflow-hidden rounded-[1.5rem]">
+        <div
+          className="flex h-full transition-transform duration-700 ease-in-out"
+          style={{ transform: `translateX(-${active * 100}%)` }}
+        >
+          {slides.map((slide, i) => {
+            const isExternal = /^https?:\/\//.test(slide.link_url || '');
+            const image = (
+              <Image
+                src={slide.image_url}
+                alt={slide.title || ''}
+                fill
+                sizes="(min-width: 1024px) 448px, 384px"
+                priority={i === 0}
+                className="object-contain"
+              />
+            );
+            return (
+              <div key={slide.id} className="relative h-full w-full flex-shrink-0">
+                {slide.link_url ? (
+                  <Link
+                    href={slide.link_url}
+                    target={isExternal ? '_blank' : undefined}
+                    rel={isExternal ? 'noopener noreferrer' : undefined}
+                    className="relative block h-full w-full"
+                    aria-label={slide.title || 'Hero slide'}
+                  >
+                    {image}
+                  </Link>
+                ) : (
+                  image
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {slides.length > 1 && (
+        <div className="mt-4 flex justify-center gap-2">
+          {slides.map((slide, i) => (
+            <button
+              key={slide.id}
+              onClick={() => setActive(i)}
+              aria-label={`Go to slide ${i + 1}`}
+              className={`h-2 rounded-full transition-all ${i === active ? 'w-6 bg-brand-600' : 'w-2 bg-brand-200'}`}
+            />
+          ))}
+        </div>
+      )}
+    </div>
   );
 }
 
