@@ -30,8 +30,9 @@ export default function BrowseCategories() {
               href={href}
               className="flex items-center gap-3 rounded-xl border border-gray-100 bg-white px-3.5 py-3.5 transition hover:-translate-y-0.5 hover:border-brand-200 hover:shadow-sm active:scale-[0.98]"
             >
-              <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-brand-50">
-                <Icon className="h-6 w-6" />
+              <span className="relative flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-brand-100 to-brand-50">
+                <span className="absolute inset-1.5 rounded-full bg-white/60 blur-md" aria-hidden="true" />
+                <Icon className="relative h-9 w-9" />
               </span>
               <span className="min-w-0">
                 <span className="block truncate text-sm font-bold text-gray-900">{label}</span>

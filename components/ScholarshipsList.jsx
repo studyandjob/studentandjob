@@ -24,8 +24,9 @@ export default function ScholarshipsList({ scholarships = [] }) {
 
       {scholarships.length === 0 ? (
         <div className="flex flex-col items-center gap-3 py-8 text-center">
-          <span className="flex h-12 w-12 items-center justify-center rounded-full bg-brand-50">
-            <GraduationCapIcon3D className="h-7 w-7" />
+          <span className="relative flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-brand-100 to-brand-50">
+            <span className="absolute inset-2 rounded-full bg-white/60 blur-md" aria-hidden="true" />
+            <GraduationCapIcon3D className="relative h-9 w-9" />
           </span>
           <div>
             <p className="text-sm font-semibold text-gray-700">Scholarships are being updated</p>

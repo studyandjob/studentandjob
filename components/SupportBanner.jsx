@@ -27,8 +27,8 @@ export default function SupportBanner({ settings }) {
         <div className="flex flex-col gap-3 rounded-2xl border border-brand-100 bg-brand-50/60 p-5">
           <div className="flex items-start justify-between gap-3">
             <div className="flex items-center gap-3">
-              <span className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-white shadow-sm">
-                <SupportIcon3D className="h-6 w-6" />
+              <span className="relative flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-xl bg-white shadow-sm">
+                <SupportIcon3D className="h-9 w-9" />
               </span>
               <div>
                 <p className="text-sm font-bold text-gray-900">Optional Application Assistance</p>
@@ -61,8 +61,8 @@ export default function SupportBanner({ settings }) {
 
         <div className="flex items-center justify-between gap-4 rounded-2xl border border-emerald-100 bg-emerald-50/60 p-5">
           <div className="flex items-center gap-3">
-            <span className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-white shadow-sm">
-              <WhatsappIcon3D className="h-6 w-6" />
+            <span className="relative flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-xl bg-white shadow-sm">
+              <WhatsappIcon3D className="h-9 w-9" />
             </span>
             <div>
               <p className="text-sm font-bold text-gray-900">Get Help on WhatsApp</p>

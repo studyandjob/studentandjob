@@ -30,8 +30,8 @@ export default function StudentsZone() {
               href={href}
               className="group flex items-center gap-3 rounded-xl border border-gray-100 bg-gray-50/60 p-3 transition hover:border-brand-200 hover:bg-brand-50"
             >
-              <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-white shadow-sm">
-                <Icon className="h-6 w-6" />
+              <span className="relative flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-lg bg-white shadow-sm">
+                <Icon className="h-8 w-8" />
               </span>
               <div className="min-w-0 flex-1">
                 <p className="truncate text-sm font-semibold text-gray-800 group-hover:text-brand-700">{title}</p>

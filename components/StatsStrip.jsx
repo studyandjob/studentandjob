@@ -37,9 +37,10 @@ export default function StatsStrip({ stats }) {
     <div className="border-y border-gray-100 bg-gray-50/60">
       <div className={`mx-auto grid max-w-7xl ${colsClass} gap-6 px-4 py-10 md:gap-8 md:px-6 md:py-14`}>
         {items.map(({ label, value, Icon }) => (
-          <div key={label} className="flex flex-col items-center gap-2 text-center">
-            <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand-50 text-brand-600">
-              <Icon className="h-6 w-6" />
+          <div key={label} className="flex flex-col items-center gap-2.5 text-center">
+            <span className="relative flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-100 to-brand-50">
+              <span className="absolute inset-2 rounded-full bg-white/60 blur-md" aria-hidden="true" />
+              <Icon className="relative h-10 w-10" />
             </span>
             <span className="font-serif text-2xl font-bold text-brand-700 md:text-3xl">{formatCount(value)}</span>
             <span className="text-xs font-medium text-gray-500 md:text-sm">{label}</span>

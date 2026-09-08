@@ -3,8 +3,9 @@ export default function PageBanner({ title, subtitle, icon }) {
     <div className="relative overflow-hidden border-b border-gray-100 bg-white">
       <div className="relative mx-auto flex max-w-7xl items-center gap-3.5 px-4 py-8 md:px-6 md:py-11">
         {icon && (
-          <span className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl border border-gray-100 bg-brand-50 text-brand-600">
-            {icon}
+          <span className="relative flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-2xl border border-gray-100 bg-gradient-to-br from-brand-100 to-brand-50 text-brand-600">
+            <span className="absolute inset-2 rounded-full bg-white/60 blur-md" aria-hidden="true" />
+            <span className="relative flex h-11 w-11 items-center justify-center [&>svg]:h-full [&>svg]:w-full">{icon}</span>
           </span>
         )}
         <div>
