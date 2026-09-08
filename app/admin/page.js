@@ -228,19 +228,33 @@ export default function AdminDashboard() {
               {activeTab === 'slides' && (
                 <ListManager
                   title="Hero Slides"
-                  description="Slides shown on the home page banner, in display order."
+                  description="Slides shown on the home page banner, in display order. Each slide is either an image OR a YouTube video — fill in just one of the two."
                   icon={ImageIcon}
                   table="hero_slides"
                   initialRows={slides}
                   fields={[
                     { name: 'title', label: 'Title', required: true },
-                    { name: 'image_url', label: 'Slide Image', type: 'image', imageFolder: 'hero', required: true },
-                    { name: 'link_url', label: 'Link URL (optional)', placeholder: 'https://...' },
+                    {
+                      name: 'image_url',
+                      label: 'Slide Image',
+                      type: 'image',
+                      imageFolder: 'hero',
+                      requireGroup: 'media',
+                    },
+                    {
+                      name: 'video_url',
+                      label: 'YouTube Video URL',
+                      placeholder: 'https://www.youtube.com/watch?v=...',
+                      requireGroup: 'media',
+                    },
+                    { name: 'link_url', label: 'Link URL (optional, image slides only)', placeholder: 'https://...' },
                     { name: 'display_order', label: 'Display Order', type: 'number', placeholder: '1' },
                   ]}
                   renderRow={(row) => (
                     <div>
-                      <p className="font-semibold text-aink">{row.title}</p>
+                      <p className="font-semibold text-aink">
+                        {row.title} {row.video_url && <span className="ml-1 text-xs font-normal text-amuted">(YouTube video)</span>}
+                      </p>
                       <p className="text-xs text-amuted">Order: {row.display_order}</p>
                     </div>
                   )}

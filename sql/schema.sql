@@ -18,7 +18,8 @@ create table if not exists site_settings (
 create table if not exists hero_slides (
   id uuid primary key default gen_random_uuid(),
   title text not null,
-  image_url text not null,
+  image_url text,
+  video_url text,
   link_url text,
   display_order int not null default 0,
   created_at timestamptz default now()
