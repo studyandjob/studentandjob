@@ -148,12 +148,25 @@ export default function Hero({ mainHeading, subHeading, illustrationUrl, slides 
   );
 }
 
-// Auto-rotating image carousel for the hero's visual column, fed by the
-// admin's "Hero Slides" list (Admin → Hero Slides — title, image, optional
-// link, display order). Slides advance on a timer and via dots, same
-// translate-the-track pattern used by the job spotlight slider elsewhere
-// on the home page, just for plain images instead of job cards.
+// Auto-rotating image/video carousel for the hero's visual column, fed by
+// the admin's "Hero Slides" list (Admin → Hero Slides — title, image OR a
+// YouTube video URL, optional link, display order). Slides advance on a
+// timer and via dots, same translate-the-track pattern used by the job
+// spotlight slider elsewhere on the home page.
 const SLIDE_INTERVAL_MS = 5000;
+
+// Pulls the 11-character video ID out of any common YouTube URL shape
+// (watch?v=, youtu.be/, /embed/, /shorts/) so admins can paste whatever
+// link they copied from the address bar or the Share button, instead of
+// having to hand-craft an embed URL. Returns null for anything that isn't
+// a recognizable YouTube link, so callers can fall back gracefully.
+function getYouTubeVideoId(url) {
+  if (typeof url !== 'string' || !url.trim()) return null;
+  const match = url.match(
+    /(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/
+  );
+  return match ? match[1] : null;
+}
 
 function HeroImageCarousel({ slides }) {
   const [active, setActive] = useState(0);
@@ -178,6 +191,45 @@ function HeroImageCarousel({ slides }) {
           style={{ transform: `translateX(-${active * 100}%)` }}
         >
           {slides.map((slide, i) => {
+            const videoId = getYouTubeVideoId(slide.video_url);
+
+            // Video slide: only the currently-active slide actually loads
+            // the YouTube iframe (autoplaying, muted, looped so it behaves
+            // like a silent hero banner). Inactive video slides show the
+            // video's thumbnail instead — keeps the slide's width in the
+            // sliding track without every video in the list loading and
+            // playing at once in the background.
+            if (videoId) {
+              return (
+                <div key={slide.id} className="relative h-full w-full flex-shrink-0 bg-black">
+                  {i === active ? (
+                    <iframe
+                      className="absolute inset-0 h-full w-full"
+                      src={`https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&loop=1&playlist=${videoId}&controls=1&playsinline=1&rel=0`}
+                      title={slide.title || 'Hero video slide'}
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    />
+                  ) : (
+                    <Image
+                      src={`https://img.youtube.com/vi/${videoId}/hqdefault.jpg`}
+                      alt={slide.title || ''}
+                      fill
+                      sizes="(min-width: 1024px) 448px, 384px"
+                      className="object-cover"
+                      unoptimized
+                    />
+                  )}
+                </div>
+              );
+            }
+
+            // No usable video AND no image (e.g. an unrecognized YouTube
+            // link with no image fallback) — skip this slide entirely
+            // rather than letting next/image crash on an empty src.
+            const hasImage = typeof slide.image_url === 'string' && slide.image_url.trim() !== '';
+            if (!hasImage) return null;
+
             const isExternal = /^https?:\/\//.test(slide.link_url || '');
             const image = (
               <Image

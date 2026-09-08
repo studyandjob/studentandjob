@@ -19,10 +19,14 @@ const labelClass = 'mb-1.5 block text-[0.85rem] font-semibold text-aink';
  * @param {object} icon - Icon component for the card header
  * @param {string} table - Supabase table name
  * @param {Array} initialRows - Rows fetched server-side
- * @param {Array} fields - [{ name, label, type: 'text'|'date'|'number'|'textarea'|'image', placeholder?, imageFolder? }]
+ * @param {Array} fields - [{ name, label, type: 'text'|'date'|'number'|'textarea'|'image', placeholder?, imageFolder?, requireGroup? }]
  *   type: 'image' renders an upload-a-file control (via ImageUploadField)
  *   instead of a URL text box; imageFolder sets the storage subfolder
  *   (defaults to the field name).
+ *   requireGroup: fields sharing the same requireGroup name are treated as
+ *   "at least one of these must be filled in" instead of each being
+ *   individually required — e.g. a slide needs an image OR a video URL,
+ *   not both.
  * @param {Function} renderRow - (row) => JSX for how to display a row's summary
  */
 export default function ListManager({ title, description, icon, table, initialRows = [], fields, renderRow }) {
@@ -54,6 +58,19 @@ export default function ListManager({ title, description, icon, table, initialRo
       setError(`Please upload ${missingImage.label} before adding.`);
       return;
     }
+
+    // "At least one of" groups (see requireGroup doc above) — check each
+    // group has at least one non-empty field before allowing submit.
+    const groupNames = [...new Set(fields.filter((f) => f.requireGroup).map((f) => f.requireGroup))];
+    for (const groupName of groupNames) {
+      const groupFields = fields.filter((f) => f.requireGroup === groupName);
+      const anyFilled = groupFields.some((f) => String(form[f.name] || '').trim() !== '');
+      if (!anyFilled) {
+        setError(`Please fill in at least one of: ${groupFields.map((f) => f.label).join(' or ')}.`);
+        return;
+      }
+    }
+
     setSaving(true);
     setError('');
 
