@@ -32,41 +32,46 @@ export default function JobsList({ jobs = [] }) {
         <p className="py-8 text-center text-sm text-gray-500">No jobs posted yet. Check back soon.</p>
       ) : (
         <ul className="divide-y divide-brand-100">
-          {jobs.map((job) => (
-            <li key={job.id} className="flex items-center justify-between gap-3 py-3">
-              <div className="min-w-0">
-                <p className="truncate text-sm font-semibold text-gray-800 md:text-base">{job.title}</p>
-                <p className="mt-0.5 text-xs text-gray-500">
-                  {job.department}
-                  {job.last_date && (
-                    <span
-                      className={`ml-2 rounded px-1.5 py-0.5 font-medium ${
-                        isDatePast(job.last_date) ? 'bg-red-100 text-red-700' : 'bg-red-50 text-red-600'
-                      }`}
+          {jobs.map((job) => {
+            const canApply = job.show_apply_button !== false && !!job.apply_link;
+            return (
+              <li key={job.id} className="flex items-center justify-between gap-3 py-3">
+                <div className="min-w-0">
+                  <p className="truncate text-sm font-semibold text-gray-800 md:text-base">{job.title}</p>
+                  <p className="mt-0.5 text-xs text-gray-500">
+                    {job.department}
+                    {job.last_date && (
+                      <span
+                        className={`ml-2 rounded px-1.5 py-0.5 font-medium ${
+                          isDatePast(job.last_date) ? 'bg-red-100 text-red-700' : 'bg-red-50 text-red-600'
+                        }`}
+                      >
+                        Last date: {formatDate(job.last_date)}
+                      </span>
+                    )}
+                  </p>
+                </div>
+                <div className="flex flex-shrink-0 items-center gap-2">
+                  <Link
+                    href={`/jobs/${job.id}`}
+                    className="flex min-h-[40px] items-center justify-center rounded-md border border-gray-200 px-3.5 py-2 text-xs font-semibold text-gray-600 transition active:scale-95 hover:border-brand-200 hover:text-brand-700"
+                  >
+                    View
+                  </Link>
+                  {canApply && (
+                    <a
+                      href={job.apply_link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex min-h-[40px] flex-shrink-0 items-center justify-center rounded-md bg-brand-600 px-3.5 py-2 text-xs font-semibold text-white transition active:scale-95 hover:bg-brand-700"
                     >
-                      Last date: {formatDate(job.last_date)}
-                    </span>
+                      Apply
+                    </a>
                   )}
-                </p>
-              </div>
-              <div className="flex flex-shrink-0 items-center gap-2">
-                <Link
-                  href={`/jobs/${job.id}`}
-                  className="flex min-h-[40px] items-center justify-center rounded-md border border-gray-200 px-3.5 py-2 text-xs font-semibold text-gray-600 transition active:scale-95 hover:border-brand-200 hover:text-brand-700"
-                >
-                  View
-                </Link>
-                <a
-                href={job.apply_link || '#'}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex min-h-[40px] flex-shrink-0 items-center justify-center rounded-md bg-brand-600 px-3.5 py-2 text-xs font-semibold text-white transition active:scale-95 hover:bg-brand-700"
-              >
-                Apply
-              </a>
-              </div>
-            </li>
-          ))}
+                </div>
+              </li>
+            );
+          })}
         </ul>
       )}
     </section>

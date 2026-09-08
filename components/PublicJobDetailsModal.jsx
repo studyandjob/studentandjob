@@ -38,6 +38,7 @@ function TagGroup({ label, tags }) {
 export default function PublicJobDetailsModal({ job, settings, onClose }) {
   if (!job) return null;
   const showManual = job.job_type === 'Government' || job.application_mode === 'Manual/By Post';
+  const canApply = job.show_apply_button !== false && !!job.apply_link;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4" onClick={onClose}>
@@ -177,7 +178,7 @@ export default function PublicJobDetailsModal({ job, settings, onClose }) {
             WhatsApp and Close sit together as a smaller secondary row
             underneath, then sit inline next to Apply Now on desktop. */}
         <div className="sticky bottom-0 flex flex-col gap-2 border-t border-gray-100 bg-white px-5 py-4 sm:flex-row sm:flex-wrap sm:items-center sm:px-6">
-          {job.apply_link && (
+          {canApply && (
             <a
               href={job.apply_link}
               target="_blank"

@@ -105,7 +105,7 @@ export default function JobModal({ job, match, onClose }) {
         )}
 
         <div className="flex flex-wrap gap-2">
-          {job.apply_link && (
+          {job.show_apply_button !== false && job.apply_link && (
             <a
               href={job.apply_link}
               target="_blank"

@@ -19,6 +19,7 @@ const EMPTY_JOB = {
   city: '',
   last_date: '',
   apply_link: '',
+  show_apply_button: true,
   official_website: '',
   ad_image_url: '',
   verified_on: '',
@@ -237,7 +238,7 @@ export default function JobForm({ initialJob, onSubmit, onCancel, saving }) {
           />
         </label>
 
-        <label>
+        <label className="sm:col-span-2">
           <span className={labelClass}>Apply Now Link</span>
           <input
             type="url"
@@ -246,6 +247,21 @@ export default function JobForm({ initialJob, onSubmit, onCancel, saving }) {
             placeholder="https://... (the exact page to submit the application)"
             className={inputClass}
           />
+          <label className="mt-2.5 flex cursor-pointer items-start gap-2.5 rounded-[10px] border border-aline bg-[#FCFAF6] px-3.5 py-3">
+            <input
+              type="checkbox"
+              checked={form.show_apply_button}
+              onChange={(e) => update('show_apply_button', e.target.checked)}
+              className="mt-0.5 h-4 w-4 flex-shrink-0 accent-atl"
+            />
+            <span>
+              <span className="block text-sm font-semibold text-aink">Show "Apply Now" button</span>
+              <span className="block text-xs text-amuted">
+                Tick this to show an Apply Now button alongside View Details on the public site. Leave it unticked
+                to show only the View Details button (e.g. when you don't have a direct apply link yet).
+              </span>
+            </span>
+          </label>
         </label>
 
         <label>

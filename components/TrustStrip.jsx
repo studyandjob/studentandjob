@@ -20,49 +20,51 @@ const ITEMS = [
     label: 'Verified Sources',
     sub: 'All jobs and information from trusted sources',
     Icon: VerifiedBadgeIcon3D,
-    ring: 'bg-emerald-50',
+    ring: 'bg-gradient-to-br from-emerald-100 to-emerald-50',
   },
   {
     label: 'Daily Updates',
     sub: 'New jobs and content added every day',
     Icon: DailyUpdateIcon3D,
-    ring: 'bg-blue-50',
+    ring: 'bg-gradient-to-br from-blue-100 to-blue-50',
     href: '/jobs',
   },
   {
     label: '100% Free Resources',
     sub: 'Notes, tests, past papers and much more',
     Icon: GiftIcon3D,
-    ring: 'bg-amber-50',
+    ring: 'bg-gradient-to-br from-amber-100 to-amber-50',
     href: '/study-zone',
   },
   {
     label: 'Easy Applications',
     sub: 'Step-by-step guide for every application',
     Icon: SupportIcon3D,
-    ring: 'bg-brand-50',
+    ring: 'bg-gradient-to-br from-brand-100 to-brand-50',
     href: '/application-support',
   },
   {
     label: 'Built for Students & Job Seekers',
     sub: 'Everything in one place, for every kind of learner',
     Icon: GraduationCapIcon3D,
-    ring: 'bg-violet-50',
+    ring: 'bg-gradient-to-br from-violet-100 to-violet-50',
   },
   {
     label: 'Secure & Reliable',
     sub: 'Your data and privacy are always protected',
     Icon: LockShieldIcon3D,
-    ring: 'bg-sky-50',
+    ring: 'bg-gradient-to-br from-sky-100 to-sky-50',
     href: '/privacy-policy',
   },
 ];
 
 function Card({ label, sub, Icon, ring }) {
   return (
-    <div className="flex h-full flex-col items-center gap-3 rounded-2xl border border-gray-100 bg-white px-4 py-6 text-center shadow-sm ring-1 ring-black/5 transition group-hover:-translate-y-0.5 group-hover:shadow-md">
-      <span className={`flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-full ${ring}`}>
-        <Icon className="h-8 w-8" />
+    <div className="flex h-full flex-col items-center gap-4 rounded-2xl border border-gray-100 bg-white px-4 py-7 text-center shadow-sm ring-1 ring-black/5 transition group-hover:-translate-y-1 group-hover:shadow-lg">
+      <span className={`relative flex h-20 w-20 flex-shrink-0 items-center justify-center rounded-2xl ${ring}`}>
+        {/* soft blurred glow behind the icon so its own gradient/glare pops instead of sitting flat */}
+        <span className="absolute inset-2 rounded-full bg-white/60 blur-md" aria-hidden="true" />
+        <Icon className="relative h-14 w-14 drop-shadow-sm transition-transform duration-300 group-hover:scale-110" />
       </span>
       <div>
         <p className="text-sm font-bold text-gray-900">{label}</p>
