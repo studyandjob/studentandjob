@@ -18,6 +18,7 @@ import JobsManager from '@/components/admin/JobsManager';
 import WhatsAppServiceForm from '@/components/admin/WhatsAppServiceForm';
 import MembersManager from '@/components/admin/MembersManager';
 import StudyZoneManager from '@/components/admin/StudyZone/StudyZoneManager';
+import StaffManager from '@/components/admin/Staff/StaffManager';
 import {
   ImageIcon,
   BriefcaseIcon,
@@ -49,6 +50,7 @@ const TAB_TITLES = {
   messages: 'Contact Messages',
   contacts: 'Contact Us',
   pages: 'Pages (About / Legal)',
+  staff: 'Staff / Users',
 };
 
 export default function AdminDashboard() {
@@ -66,6 +68,8 @@ export default function AdminDashboard() {
   const [studyClasses, setStudyClasses] = useState([]);
   const [studySubjects, setStudySubjects] = useState([]);
   const [studyMaterials, setStudyMaterials] = useState([]);
+  const [staff, setStaff] = useState([]);
+  const [staffPermissions, setStaffPermissions] = useState([]);
   const [loadingData, setLoadingData] = useState(true);
   const [activeTab, setActiveTab] = useState('dashboard');
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -98,7 +102,7 @@ export default function AdminDashboard() {
     if (!session) return;
     (async () => {
       setLoadingData(true);
-      const [{ data: s }, { data: sl }, { data: j }, { data: n }, { data: r }, { data: sc }, { data: m }, { data: c }, { data: p }, { data: mr }, { data: sCls }, { data: sSub }, { data: sMat }] =
+      const [{ data: s }, { data: sl }, { data: j }, { data: n }, { data: r }, { data: sc }, { data: m }, { data: c }, { data: p }, { data: mr }, { data: sCls }, { data: sSub }, { data: sMat }, { data: stf }, { data: sp }] =
         await Promise.all([
           supabase.from('site_settings').select('*').order('updated_at', { ascending: false, nullsFirst: false }).limit(1).maybeSingle(),
           supabase.from('hero_slides').select('*').order('display_order', { ascending: true }),
@@ -113,6 +117,8 @@ export default function AdminDashboard() {
           supabase.from('classes').select('*').order('display_order', { ascending: true }),
           supabase.from('subjects').select('*').order('subject_name', { ascending: true }),
           supabase.from('study_materials').select('*').order('created_at', { ascending: false }),
+          supabase.from('staff_users').select('*').order('created_at', { ascending: false }),
+          supabase.from('staff_permissions').select('*'),
         ]);
       setSettings(s);
       setSlides(sl || []);
@@ -127,6 +133,8 @@ export default function AdminDashboard() {
       setStudyClasses(sCls || []);
       setStudySubjects(sSub || []);
       setStudyMaterials(sMat || []);
+      setStaff(stf || []);
+      setStaffPermissions(sp || []);
       setLoadingData(false);
     })();
   }, [session]);
@@ -345,6 +353,8 @@ export default function AdminDashboard() {
               {activeTab === 'contacts' && <ContactsManager initialRows={contacts} />}
 
               {activeTab === 'pages' && <PagesManager initialRows={pages} />}
+
+              {activeTab === 'staff' && <StaffManager initialStaff={staff} initialPermissions={staffPermissions} />}
             </>
           )}
         </div>
