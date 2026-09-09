@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { supabase } from '@/lib/supabaseClient';
 import { PlusIcon, TrashIcon } from '../icons';
+import FileUploadField from '../FileUploadField';
 
 const inputClass =
   'w-full rounded-[10px] border border-aline bg-[#FCFAF6] px-3.5 py-2.5 text-[0.9rem] text-aink outline-none transition focus:border-atl2 focus:ring-[3px] focus:ring-atl2/10';
@@ -14,6 +15,7 @@ export default function StudyMaterialsManager({ classes, subjects, initialRows =
   const [rows, setRows] = useState(initialRows);
   const [form, setForm] = useState(emptyForm);
   const [saving, setSaving] = useState(false);
+  const [uploading, setUploading] = useState(false);
   const [error, setError] = useState('');
   const [filterType, setFilterType] = useState('all');
 
@@ -26,8 +28,12 @@ export default function StudyMaterialsManager({ classes, subjects, initialRows =
 
   async function handleAdd(e) {
     e.preventDefault();
+    if (uploading) {
+      setError('The PDF is still uploading — please wait for it to finish before adding.');
+      return;
+    }
     if (!form.title.trim() || !form.file_url.trim()) {
-      setError('Title and File URL are required.');
+      setError('Title and PDF upload are required.');
       return;
     }
     setSaving(true);
@@ -108,20 +114,24 @@ export default function StudyMaterialsManager({ classes, subjects, initialRows =
           <input className={inputClass} placeholder="e.g. English Guess Paper 2026" value={form.title} onChange={(e) => update('title', e.target.value)} />
         </label>
 
-        <label className="sm:col-span-2">
-          <span className={labelClass}>File URL (PDF link)</span>
-          <input className={inputClass} placeholder="https://..." value={form.file_url} onChange={(e) => update('file_url', e.target.value)} />
-        </label>
+        <FileUploadField
+          folder="study-materials"
+          label="Upload PDF (Guess Paper / Old Paper)"
+          fileUrl={form.file_url}
+          onUploaded={(url) => update('file_url', url)}
+          onError={setError}
+          onUploadingChange={setUploading}
+        />
 
         <div className="sm:col-span-2">
           <button
             type="submit"
-            disabled={saving}
+            disabled={saving || uploading}
             className="inline-flex items-center gap-2 rounded-full px-6 py-2.5 text-sm font-semibold text-white shadow-[0_6px_18px_-6px_rgba(30,132,73,0.5)] transition hover:-translate-y-0.5 disabled:opacity-60"
             style={{ background: 'linear-gradient(135deg, #1E8449, #2E5AAC)' }}
           >
             <PlusIcon className="h-4 w-4" />
-            {saving ? 'Adding...' : 'Add'}
+            {saving ? 'Adding...' : uploading ? 'Uploading...' : 'Add'}
           </button>
         </div>
       </form>

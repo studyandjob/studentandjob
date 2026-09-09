@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { supabase } from '@/lib/supabaseClient';
 import AdminCard from './AdminCard';
 import ImageUploadField from './ImageUploadField';
+import FileUploadField from './FileUploadField';
 import { PlusIcon, TrashIcon } from './icons';
 
 const inputClass =
@@ -19,9 +20,12 @@ const labelClass = 'mb-1.5 block text-[0.85rem] font-semibold text-aink';
  * @param {object} icon - Icon component for the card header
  * @param {string} table - Supabase table name
  * @param {Array} initialRows - Rows fetched server-side
- * @param {Array} fields - [{ name, label, type: 'text'|'date'|'number'|'textarea'|'image', placeholder?, imageFolder?, requireGroup? }]
+ * @param {Array} fields - [{ name, label, type: 'text'|'date'|'number'|'textarea'|'image'|'file', placeholder?, imageFolder?, fileFolder?, requireGroup? }]
  *   type: 'image' renders an upload-a-file control (via ImageUploadField)
  *   instead of a URL text box; imageFolder sets the storage subfolder
+ *   (defaults to the field name).
+ *   type: 'file' renders an upload-a-PDF control (via FileUploadField)
+ *   instead of a URL text box; fileFolder sets the storage subfolder
  *   (defaults to the field name).
  *   requireGroup: fields sharing the same requireGroup name are treated as
  *   "at least one of these must be filled in" instead of each being
@@ -50,12 +54,17 @@ export default function ListManager({ title, description, icon, table, initialRo
   async function handleAdd(e) {
     e.preventDefault();
     if (anyUploading) {
-      setError('An image is still uploading — please wait for it to finish before adding.');
+      setError('A file is still uploading — please wait for it to finish before adding.');
       return;
     }
     const missingImage = fields.find((f) => f.type === 'image' && f.required && !form[f.name]);
     if (missingImage) {
       setError(`Please upload ${missingImage.label} before adding.`);
+      return;
+    }
+    const missingFile = fields.find((f) => f.type === 'file' && f.required && !form[f.name]);
+    if (missingFile) {
+      setError(`Please upload ${missingFile.label} before adding.`);
       return;
     }
 
@@ -128,6 +137,16 @@ export default function ListManager({ title, description, icon, table, initialRo
               onError={setError}
               onUploadingChange={(v) => setFieldUploading(f.name, v)}
             />
+          ) : f.type === 'file' ? (
+            <FileUploadField
+              key={f.name}
+              folder={f.fileFolder || f.name}
+              label={f.label}
+              fileUrl={form[f.name]}
+              onUploaded={(url) => update(f.name, url)}
+              onError={setError}
+              onUploadingChange={(v) => setFieldUploading(f.name, v)}
+            />
           ) : (
             <label key={f.name} className={f.type === 'textarea' ? 'block sm:col-span-2' : 'block'}>
               <span className={labelClass}>{f.label}</span>
@@ -162,7 +181,7 @@ export default function ListManager({ title, description, icon, table, initialRo
             style={{ background: 'linear-gradient(135deg, #1E8449, #2E5AAC)' }}
           >
             <PlusIcon className="h-4 w-4" />
-            {saving ? 'Adding...' : anyUploading ? 'Uploading image...' : 'Add'}
+            {saving ? 'Adding...' : anyUploading ? 'Uploading...' : 'Add'}
           </button>
         </div>
       </form>
