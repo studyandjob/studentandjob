@@ -227,6 +227,32 @@ export const UserCircleIcon = (props) => (
   />
 );
 
+export const UsersIcon = (props) => (
+  <Icon
+    {...props}
+    path={
+      <>
+        <circle cx="9" cy="8" r="3.2" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M3.2 19a5.8 5.8 0 0111.6 0" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M15.5 5.3a3.2 3.2 0 010 6.1" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M15 13.3a5.8 5.8 0 015.8 5.7" />
+      </>
+    }
+  />
+);
+
+export const CheckSquareIcon = (props) => (
+  <Icon
+    {...props}
+    path={
+      <>
+        <rect x="3.5" y="3.5" width="17" height="17" rx="3" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M8 12.2l2.6 2.6L16.2 9" />
+      </>
+    }
+  />
+);
+
 export const FileTextIcon = (props) => (
   <Icon
     {...props}

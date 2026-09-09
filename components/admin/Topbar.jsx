@@ -1,6 +1,6 @@
 import { MenuIcon } from './icons';
 
-export default function Topbar({ title, onMenuClick }) {
+export default function Topbar({ title, onMenuClick, badgeLabel = 'Admin' }) {
   return (
     <div className="sticky top-0 z-30 flex h-[62px] flex-shrink-0 items-center gap-4 border-b border-aline bg-white px-4 md:px-6">
       <button
@@ -12,7 +12,7 @@ export default function Topbar({ title, onMenuClick }) {
       </button>
       <h2 className="flex-1 font-serif text-lg font-bold text-atl">{title}</h2>
       <span className="hidden items-center gap-1.5 rounded-full border border-brand-200 bg-brand-50 px-3.5 py-1.5 text-[0.82rem] font-semibold text-brand-700 sm:flex">
-        Admin
+        {badgeLabel}
       </span>
     </div>
   );

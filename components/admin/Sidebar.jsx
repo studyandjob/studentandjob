@@ -16,6 +16,7 @@ import {
   GraduationCapIcon,
   PaletteIcon,
   PhoneIcon,
+  UsersIcon,
 } from './icons';
 
 // One nav item per public-facing page — kept in the same order as the
@@ -35,9 +36,22 @@ const NAV_ITEMS = [
   { id: 'messages', label: 'Contact Messages', icon: MailIcon, badgeKey: 'unreadMessages' },
   { id: 'contacts', label: 'Contact Us', icon: IdCardIcon },
   { id: 'pages', label: 'Pages (About / Legal)', icon: FileTextIcon },
+  { id: 'staff', label: 'Staff / Users', icon: UsersIcon },
 ];
 
-export default function Sidebar({ activeTab, onTabChange, open, onClose, siteName, logoUrl, onLogout, unreadMessages = 0, pendingMembers = 0 }) {
+export default function Sidebar({
+  activeTab,
+  onTabChange,
+  open,
+  onClose,
+  siteName,
+  logoUrl,
+  onLogout,
+  unreadMessages = 0,
+  pendingMembers = 0,
+  navItems = NAV_ITEMS,
+  dashboardLabel = 'Dashboard',
+}) {
   const badgeValues = { unreadMessages, pendingMembers };
   function handleSelect(id) {
     onTabChange(id);
@@ -77,7 +91,7 @@ export default function Sidebar({ activeTab, onTabChange, open, onClose, siteNam
             )}
             <div className="flex min-w-0 flex-col">
               <span className="truncate font-serif text-sm font-bold text-atl">{siteName || 'Admin'}</span>
-              <small className="text-xs text-amuted">Dashboard</small>
+              <small className="text-xs text-amuted">{dashboardLabel}</small>
             </div>
           </div>
           <button onClick={onClose} className="text-amuted hover:text-aink md:hidden" aria-label="Close menu">
@@ -86,7 +100,7 @@ export default function Sidebar({ activeTab, onTabChange, open, onClose, siteNam
         </div>
 
         <nav className="flex flex-1 flex-col gap-1 p-2.5">
-          {NAV_ITEMS.map((item) => {
+          {navItems.map((item) => {
             const Icon = item.icon;
             const isActive = activeTab === item.id;
             const badgeValue = item.badgeKey ? badgeValues[item.badgeKey] : 0;
