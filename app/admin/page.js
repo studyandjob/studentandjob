@@ -280,7 +280,7 @@ export default function AdminDashboard() {
                     fields={[
                       { name: 'title', label: 'Title', required: true },
                       { name: 'category', label: 'Category', placeholder: 'e.g. Guess Paper, Notes' },
-                      { name: 'file_url', label: 'File URL (PDF link)', required: true, placeholder: 'https://...' },
+                      { name: 'file_url', label: 'Upload PDF', type: 'file', fileFolder: 'notes', required: true },
                     ]}
                     renderRow={(row) => (
                       <div>
