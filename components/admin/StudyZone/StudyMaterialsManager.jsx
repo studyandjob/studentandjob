@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { supabase } from '@/lib/supabaseClient';
-import { PlusIcon, TrashIcon } from '../icons';
+import { PlusIcon, TrashIcon, EyeIcon } from '../icons';
 import FileUploadField from '../FileUploadField';
 
 const inputClass =
@@ -163,13 +163,26 @@ export default function StudyMaterialsManager({ classes, subjects, initialRows =
                   {row.year && ` · ${row.year}`}
                 </p>
               </div>
-              <button
-                onClick={() => handleDelete(row.id)}
-                className="flex flex-shrink-0 items-center gap-1.5 rounded-full border border-red-200 bg-red-50 px-3.5 py-1.5 text-xs font-semibold text-red-600 transition hover:bg-red-600 hover:text-white"
-              >
-                <TrashIcon className="h-3.5 w-3.5" />
-                Delete
-              </button>
+              <div className="flex flex-shrink-0 items-center gap-2">
+                {row.file_url && (
+                  <a
+                    href={row.file_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-1.5 rounded-full border border-atl2/30 bg-atl2/10 px-3.5 py-1.5 text-xs font-semibold text-atl2 transition hover:bg-atl2 hover:text-white"
+                  >
+                    <EyeIcon className="h-3.5 w-3.5" />
+                    View
+                  </a>
+                )}
+                <button
+                  onClick={() => handleDelete(row.id)}
+                  className="flex items-center gap-1.5 rounded-full border border-red-200 bg-red-50 px-3.5 py-1.5 text-xs font-semibold text-red-600 transition hover:bg-red-600 hover:text-white"
+                >
+                  <TrashIcon className="h-3.5 w-3.5" />
+                  Delete
+                </button>
+              </div>
             </li>
           ))}
         </ul>

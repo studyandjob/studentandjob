@@ -5,7 +5,7 @@ import { supabase } from '@/lib/supabaseClient';
 import AdminCard from './AdminCard';
 import ImageUploadField from './ImageUploadField';
 import FileUploadField from './FileUploadField';
-import { PlusIcon, TrashIcon } from './icons';
+import { PlusIcon, TrashIcon, EyeIcon } from './icons';
 
 const inputClass =
   'w-full rounded-[10px] border border-aline bg-[#FCFAF6] px-3.5 py-3 text-[0.93rem] text-aink outline-none transition focus:border-atl2 focus:ring-[3px] focus:ring-atl2/10';
@@ -191,21 +191,42 @@ export default function ListManager({ title, description, icon, table, initialRo
         <p className="py-6 text-center text-sm text-amuted">No entries yet.</p>
       ) : (
         <ul className="flex flex-col gap-2.5">
-          {rows.map((row) => (
-            <li
-              key={row.id}
-              className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-aline bg-white px-4 py-3 transition hover:border-brand-200 hover:shadow-sm"
-            >
-              <div className="min-w-0 flex-1 text-sm text-aink">{renderRow(row)}</div>
-              <button
-                onClick={() => handleDelete(row.id)}
-                className="flex flex-shrink-0 items-center gap-1.5 rounded-full border border-red-200 bg-red-50 px-3.5 py-1.5 text-xs font-semibold text-red-600 transition hover:bg-red-600 hover:text-white"
+          {rows.map((row) => {
+            // Auto-detect an uploaded file/image on this row (e.g. Notes'
+            // "Upload PDF", Hero Slides' "Slide Image") so a "View" link
+            // can be shown without every ListManager usage having to wire
+            // it up — first field of type 'file' or 'image' with a value
+            // wins.
+            const viewField = fields.find((f) => (f.type === 'file' || f.type === 'image') && row[f.name]);
+            return (
+              <li
+                key={row.id}
+                className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-aline bg-white px-4 py-3 transition hover:border-brand-200 hover:shadow-sm"
               >
-                <TrashIcon className="h-3.5 w-3.5" />
-                Delete
-              </button>
-            </li>
-          ))}
+                <div className="min-w-0 flex-1 text-sm text-aink">{renderRow(row)}</div>
+                <div className="flex flex-shrink-0 items-center gap-2">
+                  {viewField && (
+                    <a
+                      href={row[viewField.name]}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-1.5 rounded-full border border-atl2/30 bg-atl2/10 px-3.5 py-1.5 text-xs font-semibold text-atl2 transition hover:bg-atl2 hover:text-white"
+                    >
+                      <EyeIcon className="h-3.5 w-3.5" />
+                      View
+                    </a>
+                  )}
+                  <button
+                    onClick={() => handleDelete(row.id)}
+                    className="flex items-center gap-1.5 rounded-full border border-red-200 bg-red-50 px-3.5 py-1.5 text-xs font-semibold text-red-600 transition hover:bg-red-600 hover:text-white"
+                  >
+                    <TrashIcon className="h-3.5 w-3.5" />
+                    Delete
+                  </button>
+                </div>
+              </li>
+            );
+          })}
         </ul>
       )}
     </AdminCard>
