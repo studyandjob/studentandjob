@@ -3,6 +3,10 @@ import { supabase } from '@/lib/supabaseClient';
 import Header from '@/components/Header';
 import NewsTicker from '@/components/NewsTicker';
 import HomeHero from '@/components/HomeHero';
+import HomeCategories from '@/components/HomeCategories';
+import HomeInfo from '@/components/HomeInfo';
+import HomeFaq from '@/components/HomeFaq';
+import { getHeroSlides } from '@/lib/data';
 import TodayJobsStrip from '@/components/TodayJobsStrip';
 import JobsList from '@/components/JobsList';
 import AdSlot from '@/components/AdSlot';
@@ -17,7 +21,7 @@ export const revalidate = 60;
 async function getHomePageData() {
   // site_settings is ordered by updated_at (most recent first), matching
   // lib/data.js's getSiteSettings(), so a stale seed row is never returned.
-  const [{ data: settings }, { data: jobs }] = await Promise.all([
+  const [{ data: settings }, { data: jobs }, slides] = await Promise.all([
     supabase
       .from('site_settings')
       .select('*')
@@ -25,6 +29,7 @@ async function getHomePageData() {
       .limit(1)
       .maybeSingle(),
     supabase.from('jobs_table').select('*').order('created_at', { ascending: false }).limit(30),
+    getHeroSlides(),
   ]);
 
   const allOpenJobs = (jobs || []).filter(isJobOpen);
@@ -36,11 +41,11 @@ async function getHomePageData() {
   const remaining = allOpenJobs.filter((j) => !highlighted.has(j.id));
   const latestJobs = (remaining.length > 0 ? remaining : allOpenJobs).slice(0, 10);
 
-  return { settings: settings || {}, latestJobs, allOpenJobs };
+  return { settings: settings || {}, latestJobs, allOpenJobs, slides: slides || [] };
 }
 
 export default async function HomePage() {
-  const { settings, latestJobs, allOpenJobs } = await getHomePageData();
+  const { settings, latestJobs, allOpenJobs, slides } = await getHomePageData();
 
   return (
     <>
@@ -48,10 +53,11 @@ export default async function HomePage() {
       <Header siteName={settings.site_name} logoUrl={settings.logo_url} />
 
       <main className="flex-1 bg-white">
-        <HomeHero openJobsCount={allOpenJobs.length} />
+        <HomeHero openJobsCount={allOpenJobs.length} slides={slides} slideSpeed={settings.hero_slide_speed} />
         <TodayJobsStrip jobs={allOpenJobs} />
+        <HomeCategories />
 
-        <div className="border-b border-gray-100 bg-gray-50/60">
+        <div className="border-y border-gray-100 bg-gray-50/60">
           <div className="mx-auto max-w-4xl px-4 py-10 md:px-6 md:py-12">
             <JobsList jobs={latestJobs} />
             <AdSlot html={settings.ad_code_list} />
@@ -63,8 +69,14 @@ export default async function HomePage() {
                 View all jobs
               </Link>
             </div>
-            <ChannelCta settings={settings} className="mt-8" />
           </div>
+        </div>
+
+        <HomeInfo />
+        <HomeFaq />
+
+        <div className="mx-auto max-w-4xl px-4 py-10 md:px-6">
+          <ChannelCta settings={settings} />
         </div>
       </main>
 
