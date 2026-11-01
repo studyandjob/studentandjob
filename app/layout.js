@@ -3,6 +3,9 @@ import './globals.css';
 import { supabase } from '@/lib/supabaseClient';
 import NavigationProgress from '@/components/NavigationProgress';
 import MobileBottomNav from '@/components/MobileBottomNav';
+import AdCode from '@/components/AdCode';
+import { SiteConfigProvider } from '@/components/SiteConfigProvider';
+import { resolveVisibility } from '@/lib/pages';
 import FloatingWhatsAppButton from '@/components/FloatingWhatsAppButton';
 import TextThemeStyle from '@/components/TextThemeStyle';
 import { ThemeProvider } from '@/contexts/ThemeContext';
@@ -101,18 +104,15 @@ const notoNastaliqUrdu = Noto_Nastaliq_Urdu({
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://onlinejobsandstudy.vercel.app';
 
 // Generic, natural (not stuffed) keywords describing what this site
-// actually is — jobs + education resources for Pakistan. These describe
-// the real, existing site sections (Jobs, Scholarships, Study Zone,
-// Results, Notes/Past Papers), not invented features.
+// actually is — a jobs-only site for Pakistan.
 const SITE_KEYWORDS = [
   'Pakistan jobs',
   'latest jobs in Pakistan',
   'government jobs Pakistan',
-  'scholarships in Pakistan',
-  'study resources',
-  'online tests',
-  'past papers',
-  'student resources',
+  'private jobs Pakistan',
+  'jobs advertisement',
+  'job last date',
+  'apply online jobs',
 ];
 
 export async function generateMetadata() {
@@ -125,8 +125,9 @@ export async function generateMetadata() {
     .limit(1)
     .maybeSingle();
 
-  const siteName = data?.site_name || 'Education & Job Portal';
-  const description = data?.sub_heading || 'Government jobs, results, notes and scholarships in one place.';
+  const siteName = data?.site_name || 'Online Jobs';
+  const description =
+    'Latest government and private job ads in Pakistan — check the last date, requirements and how to apply, all in one place.';
   // logo_url is whatever the admin actually uploaded — used as-is for the
   // OG image so social previews never show a placeholder/fake graphic.
   const ogImage = data?.logo_url || undefined;
@@ -164,15 +165,28 @@ export default async function RootLayout({ children }) {
   // can render on every page, not just the homepage.
   const { data: settings } = await supabase
     .from('site_settings')
-    .select('site_name, logo_url, wa_service_enabled, wa_service_whatsapp_number')
+    .select('*')
     .order('updated_at', { ascending: false, nullsFirst: false })
     .limit(1)
     .maybeSingle();
 
+  const visibility = resolveVisibility(settings);
+  // Public, non-secret config for client components (menus + job links).
+  const siteConfig = {
+    visibility,
+    adGate: {
+      enabled: Boolean(settings?.ad_gate_enabled && settings?.ad_gate_code?.trim()),
+      maxPerSession: Number(settings?.ad_gate_max_per_session) || 0,
+    },
+  };
+  // The paid WhatsApp chat button belongs to the Application Support page,
+  // so it only shows while that page is switched on.
+  const floatingWaSettings = visibility['application-support'] ? settings : null;
+
   const websiteSchema = {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
-    name: settings?.site_name || 'Education & Job Portal',
+    name: settings?.site_name || 'Online Jobs',
     url: SITE_URL,
     ...(settings?.logo_url ? { image: settings.logo_url } : {}),
   };
@@ -199,10 +213,15 @@ export default async function RootLayout({ children }) {
       </head>
       <body className="min-h-screen flex flex-col antialiased font-sans pb-16 md:pb-0">
         <ThemeProvider>
-          <TextThemeStyle />
-          <NavigationProgress>{children}</NavigationProgress>
-          <MobileBottomNav />
-          <FloatingWhatsAppButton settings={settings} />
+          <SiteConfigProvider value={siteConfig}>
+            <TextThemeStyle />
+            {/* Site-wide ad script (e.g. the AdSense library / auto ads),
+                pasted by the admin in Pages & Ads. */}
+            <AdCode html={settings?.ad_head_code} />
+            <NavigationProgress>{children}</NavigationProgress>
+            <MobileBottomNav />
+            <FloatingWhatsAppButton settings={floatingWaSettings} />
+          </SiteConfigProvider>
         </ThemeProvider>
       </body>
     </html>

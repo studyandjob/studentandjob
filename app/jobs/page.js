@@ -2,6 +2,7 @@ import Header from '@/components/Header';
 import NewsTicker from '@/components/NewsTicker';
 import Footer from '@/components/Footer';
 import PublicJobsBrowser from '@/components/PublicJobsBrowser';
+import AdSlot from '@/components/AdSlot';
 import { getSiteSettings, getJobs } from '@/lib/data';
 import { Suspense } from 'react';
 
@@ -30,6 +31,9 @@ export default async function JobsPage() {
       <Header siteName={settings.site_name} logoUrl={settings.logo_url} />
 
       <main className="flex-1 bg-gray-50">
+        <div className="mx-auto max-w-7xl px-4 md:px-6">
+          <AdSlot html={settings.ad_code_list} className="mb-0" />
+        </div>
         <Suspense fallback={null}>
           <PublicJobsBrowser jobs={jobs} siteName={settings.site_name} settings={settings} />
         </Suspense>

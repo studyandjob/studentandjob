@@ -6,6 +6,9 @@ import Footer from '@/components/Footer';
 import PublicJobCard from '@/components/PublicJobCard';
 import JobShareButton from '@/components/JobShareButton';
 import WhatsAppServiceCard from '@/components/WhatsAppServiceCard';
+import AdSlot from '@/components/AdSlot';
+import ChannelCta from '@/components/ChannelCta';
+import { isPageEnabled } from '@/lib/pages';
 import { getSiteSettings, getJobById, getRelatedJobs } from '@/lib/data';
 import { isDatePast, daysRemaining } from '@/lib/jobStatus';
 
@@ -145,6 +148,10 @@ export default async function JobDetailsPage({ params }) {
             <span>/</span>
             <span className="truncate text-gray-400">{job.title}</span>
           </nav>
+        </div>
+
+        <div className="mx-auto max-w-3xl px-4 md:px-6">
+          <AdSlot html={settings?.ad_code_top} className="mb-0" />
         </div>
 
         <div className="mx-auto max-w-3xl px-4 py-5 md:px-6">
@@ -288,7 +295,11 @@ export default async function JobDetailsPage({ params }) {
                 </div>
               )}
 
-              {settings?.wa_service_enabled && <WhatsAppServiceCard settings={settings} compact />}
+              <AdSlot html={settings?.ad_code_middle} className="my-0" />
+
+              {settings?.wa_service_enabled && isPageEnabled(settings, 'application-support') && (
+                <WhatsAppServiceCard settings={settings} compact />
+              )}
             </div>
 
             {/* Actions — same layout as the old modal footer, just inline
@@ -344,6 +355,8 @@ export default async function JobDetailsPage({ params }) {
               </div>
             </div>
           )}
+          <AdSlot html={settings?.ad_code_bottom} />
+          <ChannelCta settings={settings} className="mt-6" />
         </div>
       </main>
 

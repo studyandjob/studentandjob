@@ -1,36 +1,23 @@
+import Link from 'next/link';
 import { supabase } from '@/lib/supabaseClient';
 import Header from '@/components/Header';
 import NewsTicker from '@/components/NewsTicker';
-import Hero from '@/components/Hero';
-import BrowseCategories from '@/components/BrowseCategories';
-import StatsStrip from '@/components/StatsStrip';
-import TrustStrip from '@/components/TrustStrip';
-import Testimonials from '@/components/Testimonials';
+import HomeHero from '@/components/HomeHero';
+import TodayJobsStrip from '@/components/TodayJobsStrip';
 import JobsList from '@/components/JobsList';
-import StudentsZone from '@/components/StudentsZone';
-import ScholarshipsList from '@/components/ScholarshipsList';
-import SupportBanner from '@/components/SupportBanner';
-import FinalCta from '@/components/FinalCta';
+import AdSlot from '@/components/AdSlot';
+import ChannelCta from '@/components/ChannelCta';
 import Footer from '@/components/Footer';
-import { getTestimonials, getScholarships, getHomeStats, getHeroSlides } from '@/lib/data';
-import { isJobOpen, isScholarshipOpen, getTodayJobGroups } from '@/lib/jobStatus';
+import { isJobOpen, getTodayJobGroups } from '@/lib/jobStatus';
 
-// Cache homepage data for 60s so repeat visits load faster, instead of
-// hitting Supabase fresh on every single request. Admin edits (site
-// settings, new jobs/scholarships) now take up to ~60s to appear on the
-// live homepage instead of instantly — an acceptable trade for
-// meaningfully faster page loads. Revert to `force-dynamic` if instant
-// admin-edit visibility matters more than speed for this site.
+// Cache homepage data for 60s so repeat visits load faster. Admin edits
+// (new jobs, settings) can take up to ~60s to appear on the live homepage.
 export const revalidate = 60;
 
 async function getHomePageData() {
   // site_settings is ordered by updated_at (most recent first), matching
-  // lib/data.js's getSiteSettings(). Without this order, if the table ever
-  // has more than one row (e.g. the seed row plus the row the admin actually
-  // edits), .limit(1) can arbitrarily return the old/seed row here — showing
-  // a stale logo/site name on the home page even though Admin Dashboard →
-  // Site Settings was saved correctly.
-  const [{ data: settings }, { data: jobs }, testimonials, scholarships, stats, heroSlides] = await Promise.all([
+  // lib/data.js's getSiteSettings(), so a stale seed row is never returned.
+  const [{ data: settings }, { data: jobs }] = await Promise.all([
     supabase
       .from('site_settings')
       .select('*')
@@ -38,56 +25,22 @@ async function getHomePageData() {
       .limit(1)
       .maybeSingle(),
     supabase.from('jobs_table').select('*').order('created_at', { ascending: false }).limit(30),
-    getTestimonials(6),
-    // Fetch a buffer beyond the 5 the homepage actually shows (ScholarshipsList
-    // caps at 5), since some of the most-recent rows may already be past
-    // their deadline and get filtered out below — same reasoning as jobs
-    // fetching 30 to backfill after the isJobOpen filter.
-    getScholarships(15),
-    // Live counts (+ admin boost) for the homepage Stats strip — same
-    // source used by the About Us page's StatsStrip.
-    getHomeStats(),
-    // Hero image carousel slides (Admin → Hero Slides). Empty array is a
-    // valid, expected state for sites that haven't added any yet — Hero
-    // falls back to the single settings.hero_illustration_url in that case.
-    getHeroSlides(),
   ]);
 
   const allOpenJobs = (jobs || []).filter(isJobOpen);
-  const openJobs = allOpenJobs.slice(0, 8);
 
-  // Today's Important Jobs already surfaces closing-today / closing-
-  // tomorrow / new-today jobs above the "Latest Jobs" list. Without
-  // excluding them here, a job like "Traffic Constable" that's closing
-  // today would show up twice on the homepage — once in that strip and
-  // again in "Latest Jobs" right below it.
+  // Jobs already shown in "Today's Important Jobs" are left out of "Latest
+  // Jobs" so none appears twice — unless that would leave the list empty.
   const { closingToday, closingTomorrow, newToday } = getTodayJobGroups(allOpenJobs);
-  const todayHighlightIds = new Set(
-    [...closingToday, ...closingTomorrow, ...newToday].map((j) => j.id)
-  );
-  const remainingJobs = allOpenJobs.filter((j) => !todayHighlightIds.has(j.id));
-  // Edge case: if every open job happens to be closing today/tomorrow or
-  // was just posted, don't leave "Latest Jobs" empty (which would wrongly
-  // read as "no jobs posted yet") — fall back to the full open list.
-  const latestJobs = (remainingJobs.length > 0 ? remainingJobs : allOpenJobs).slice(0, 8);
+  const highlighted = new Set([...closingToday, ...closingTomorrow, ...newToday].map((j) => j.id));
+  const remaining = allOpenJobs.filter((j) => !highlighted.has(j.id));
+  const latestJobs = (remaining.length > 0 ? remaining : allOpenJobs).slice(0, 10);
 
-  return {
-    settings: settings || {},
-    jobs: openJobs,
-    latestJobs,
-    allOpenJobs,
-    testimonials,
-    scholarships: scholarships || [],
-    stats,
-    heroSlides,
-  };
+  return { settings: settings || {}, latestJobs, allOpenJobs };
 }
 
 export default async function HomePage() {
-  const { settings, latestJobs, allOpenJobs, testimonials, scholarships, stats, heroSlides } = await getHomePageData();
-  // Expired scholarships shouldn't surface on the homepage teaser, same
-  // rule as jobs (see isJobOpen usage above).
-  const openScholarships = scholarships.filter(isScholarshipOpen);
+  const { settings, latestJobs, allOpenJobs } = await getHomePageData();
 
   return (
     <>
@@ -95,46 +48,24 @@ export default async function HomePage() {
       <Header siteName={settings.site_name} logoUrl={settings.logo_url} />
 
       <main className="flex-1 bg-white">
-        <Hero
-          mainHeading={settings.main_heading}
-          subHeading={settings.sub_heading}
-          illustrationUrl={settings.hero_illustration_url}
-          slides={heroSlides}
-          openJobsCount={allOpenJobs.length}
-        />
+        <HomeHero openJobsCount={allOpenJobs.length} />
+        <TodayJobsStrip jobs={allOpenJobs} />
 
-        {/* Trust signals come right after the hero, before any numbers —
-            a first-time visitor should see "why this platform" first, so
-            the stats/badges that follow land as reinforcement rather than
-            unsupported claims. */}
-        <TrustStrip siteName={settings.site_name} />
-
-        {/* Real, live numbers (+ admin boost) — same source/component as
-            the About Us page's stats strip. Now backed by the trust
-            strip above it, so the numbers read as proof, not just noise. */}
-        <StatsStrip stats={stats} />
-
-        <BrowseCategories />
-
-        <div className="border-y border-gray-100 bg-gray-50/60">
-          <div className="mx-auto max-w-7xl px-4 py-10 md:px-6 md:py-14">
-            <div className="grid grid-cols-1 gap-6 lg:grid-cols-3 lg:gap-6">
-              <JobsList jobs={latestJobs} />
-              <StudentsZone />
-              <ScholarshipsList scholarships={openScholarships} />
+        <div className="border-b border-gray-100 bg-gray-50/60">
+          <div className="mx-auto max-w-4xl px-4 py-10 md:px-6 md:py-12">
+            <JobsList jobs={latestJobs} />
+            <AdSlot html={settings.ad_code_list} />
+            <div className="mt-6 text-center">
+              <Link
+                href="/jobs"
+                className="inline-block rounded-xl bg-brand-600 px-6 py-3 text-sm font-bold text-white shadow-md shadow-brand-600/20 transition hover:bg-brand-700 active:scale-[0.98]"
+              >
+                View all jobs
+              </Link>
             </div>
+            <ChannelCta settings={settings} className="mt-8" />
           </div>
         </div>
-
-        <SupportBanner settings={settings} />
-
-        {/* Real testimonials right before the closing CTA — social proof
-            from actual people is a stronger last impression than another
-            generic trust strip (the old separate badge strip was merged
-            into TrustStrip above to remove that repetition). */}
-        <Testimonials testimonials={testimonials} />
-
-        <FinalCta />
       </main>
 
       <Footer siteName={settings.site_name} settings={settings} />

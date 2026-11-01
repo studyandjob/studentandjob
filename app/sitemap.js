@@ -1,21 +1,22 @@
-import { getJobs } from '@/lib/data';
+import { getJobs, getSiteSettings } from '@/lib/data';
+import { resolveVisibility } from '@/lib/pages';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://onlinejobsandstudy.vercel.app';
 
 const STATIC_PAGES = [
-  { path: '', priority: 1, changeFrequency: 'daily' },
-  { path: '/jobs', priority: 0.9, changeFrequency: 'hourly' },
-  { path: '/scholarships', priority: 0.7, changeFrequency: 'daily' },
-  { path: '/results', priority: 0.6, changeFrequency: 'daily' },
-  { path: '/students-zone', priority: 0.6, changeFrequency: 'weekly' },
-  { path: '/study-zone', priority: 0.6, changeFrequency: 'weekly' },
-  { path: '/vip', priority: 0.5, changeFrequency: 'weekly' },
-  { path: '/about-us', priority: 0.3, changeFrequency: 'monthly' },
-  { path: '/contact', priority: 0.3, changeFrequency: 'monthly' },
-  { path: '/application-support', priority: 0.3, changeFrequency: 'monthly' },
-  { path: '/privacy-policy', priority: 0.1, changeFrequency: 'yearly' },
-  { path: '/terms-and-conditions', priority: 0.1, changeFrequency: 'yearly' },
-  { path: '/disclaimer', priority: 0.1, changeFrequency: 'yearly' },
+  { key: 'home', path: '', priority: 1, changeFrequency: 'daily' },
+  { key: 'jobs', path: '/jobs', priority: 0.9, changeFrequency: 'hourly' },
+  { key: 'scholarships', path: '/scholarships', priority: 0.7, changeFrequency: 'daily' },
+  { key: 'results', path: '/results', priority: 0.6, changeFrequency: 'daily' },
+  { key: 'students-zone', path: '/students-zone', priority: 0.6, changeFrequency: 'weekly' },
+  { key: 'study-zone', path: '/study-zone', priority: 0.6, changeFrequency: 'weekly' },
+  { key: 'vip', path: '/vip', priority: 0.5, changeFrequency: 'weekly' },
+  { key: 'about', path: '/about-us', priority: 0.3, changeFrequency: 'monthly' },
+  { key: 'contact', path: '/contact', priority: 0.3, changeFrequency: 'monthly' },
+  { key: 'application-support', path: '/application-support', priority: 0.3, changeFrequency: 'monthly' },
+  { key: 'privacy', path: '/privacy-policy', priority: 0.1, changeFrequency: 'yearly' },
+  { key: 'terms', path: '/terms-and-conditions', priority: 0.1, changeFrequency: 'yearly' },
+  { key: 'disclaimer', path: '/disclaimer', priority: 0.1, changeFrequency: 'yearly' },
 ];
 
 /**
@@ -26,9 +27,11 @@ const STATIC_PAGES = [
  * scholarships/results so those get picked up too.
  */
 export default async function sitemap() {
-  const jobs = await getJobs();
+  const [jobs, settings] = await Promise.all([getJobs(), getSiteSettings()]);
+  // Pages switched off in Admin → Pages & Ads are left out of the sitemap.
+  const visibility = resolveVisibility(settings);
 
-  const staticEntries = STATIC_PAGES.map((p) => ({
+  const staticEntries = STATIC_PAGES.filter((p) => visibility[p.key]).map((p) => ({
     url: `${SITE_URL}${p.path}`,
     changeFrequency: p.changeFrequency,
     priority: p.priority,

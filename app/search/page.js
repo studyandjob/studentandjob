@@ -1,3 +1,4 @@
+import { redirect } from 'next/navigation';
 import Header from '@/components/Header';
 import NewsTicker from '@/components/NewsTicker';
 import Footer from '@/components/Footer';
@@ -17,6 +18,7 @@ import {
 } from '@/lib/data';
 import { isJobOpen, isScholarshipOpen } from '@/lib/jobStatus';
 import { matchesQuery } from '@/lib/searchMatch';
+import { resolveVisibility } from '@/lib/pages';
 
 // Re-fetch fresh data on every search (results/jobs/notes change often) and
 // so `searchParams.q` is always read for the current request.
@@ -52,6 +54,13 @@ function formatDate(dateStr) {
 export default async function SearchPage({ searchParams }) {
   const q = (searchParams?.q || '').trim();
   const ql = q.toLowerCase();
+  // Jobs-only mode: when no other section is switched on, search is simply
+  // the job search on /jobs. The full multi-section search below comes back
+  // automatically as soon as Study Zone / Results / Scholarships is on.
+  const vis = resolveVisibility(await getSiteSettings());
+  if (!vis['study-zone'] && !vis.results && !vis.scholarships) {
+    redirect(q ? `/jobs?q=${encodeURIComponent(q)}` : '/jobs');
+  }
   const activeFilter = CATEGORY_FILTERS.some((f) => f.key === searchParams?.type) ? searchParams.type : 'all';
 
   const [settings, allJobs, allNotes, allResults, allScholarships, allMaterials, classes, subjects] = await Promise.all([
