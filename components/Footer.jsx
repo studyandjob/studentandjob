@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { resolveVisibility } from '@/lib/pages';
 import {
   FacebookIcon3D,
   WhatsappIcon3D,
@@ -10,10 +11,10 @@ import {
 } from './Icons3D';
 
 const QUICK_LINKS = [
-  { href: '/', label: 'Home' },
-  { href: '/jobs', label: 'Jobs' },
-  { href: '/scholarships', label: 'Scholarships' },
-  { href: '/results', label: 'Results' },
+  { key: 'home', href: '/', label: 'Home' },
+  { key: 'jobs', href: '/jobs', label: 'Jobs' },
+  { key: 'scholarships', href: '/scholarships', label: 'Scholarships' },
+  { key: 'results', href: '/results', label: 'Results' },
 ];
 
 // Direct links into Study Zone's sub-sections — previously the footer
@@ -26,10 +27,10 @@ const STUDY_RESOURCE_LINKS = [
 ];
 
 const LEGAL_LINKS = [
-  { href: '/about-us', label: 'About Us' },
-  { href: '/privacy-policy', label: 'Privacy Policy' },
-  { href: '/terms-and-conditions', label: 'Terms & Conditions' },
-  { href: '/disclaimer', label: 'Disclaimer' },
+  { key: 'about', href: '/about-us', label: 'About Us' },
+  { key: 'privacy', href: '/privacy-policy', label: 'Privacy Policy' },
+  { key: 'terms', href: '/terms-and-conditions', label: 'Terms & Conditions' },
+  { key: 'disclaimer', href: '/disclaimer', label: 'Disclaimer' },
 ];
 
 // Same field names as sql/add_social_media.sql / SocialMediaForm.jsx.
@@ -53,10 +54,16 @@ export default function Footer({ siteName, settings }) {
 
   // Support column — every entry is a real, existing route/link; nothing
   // shown unless the underlying feature is actually configured.
+  const visibility = resolveVisibility(settings);
+  const quickLinks = QUICK_LINKS.filter((l) => visibility[l.key]);
+  const legalLinks = LEGAL_LINKS.filter((l) => visibility[l.key]);
+  const showStudy = visibility['study-zone'];
   const supportLinks = [
     { href: '/contact', label: 'Contact Us' },
-    { href: '/vip', label: 'VIP Portal' },
-    ...(waEnabled ? [{ href: '/application-support', label: 'Application Support' }] : []),
+    ...(visibility.vip ? [{ href: '/vip', label: 'VIP Portal' }] : []),
+    ...(waEnabled && visibility['application-support']
+      ? [{ href: '/application-support', label: 'Application Support' }]
+      : []),
   ];
 
   const name = siteName || '';
@@ -68,14 +75,14 @@ export default function Footer({ siteName, settings }) {
           <div className="col-span-2 sm:col-span-3 lg:col-span-1">
             {name && <p className="font-serif text-lg font-bold text-white">{name}</p>}
             <p className="mt-3 max-w-xs text-sm leading-relaxed text-gray-200">
-              Your trusted platform for jobs, scholarships, results and study resources.
+              Latest government and private job openings in Pakistan, with last dates and how to apply.
             </p>
           </div>
 
           <div>
             <p className="text-sm font-bold text-white">Quick Links</p>
             <ul className="mt-3 flex flex-col gap-2.5">
-              {QUICK_LINKS.map((link) => (
+              {quickLinks.map((link) => (
                 <li key={link.href}>
                   <Link href={link.href} className="text-sm text-gray-200 transition hover:text-white">
                     {link.label}
@@ -85,6 +92,7 @@ export default function Footer({ siteName, settings }) {
             </ul>
           </div>
 
+{showStudy && (
           <div>
             <p className="text-sm font-bold text-white">Study Resources</p>
             <ul className="mt-3 flex flex-col gap-2.5">
@@ -97,6 +105,7 @@ export default function Footer({ siteName, settings }) {
               ))}
             </ul>
           </div>
+)}
 
           <div>
             <p className="text-sm font-bold text-white">Support</p>
@@ -126,7 +135,7 @@ export default function Footer({ siteName, settings }) {
           <div>
             <p className="text-sm font-bold text-white">Legal</p>
             <ul className="mt-3 flex flex-col gap-2.5">
-              {LEGAL_LINKS.map((link) => (
+              {legalLinks.map((link) => (
                 <li key={link.href}>
                   <Link href={link.href} className="text-sm text-gray-200 transition hover:text-white">
                     {link.label}

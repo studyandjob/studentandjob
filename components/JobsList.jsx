@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import JobViewLink from './JobViewLink';
 import { BriefcaseIcon3D } from './Icons3D';
 import { isDatePast } from '@/lib/jobStatus';
 
@@ -52,12 +53,12 @@ export default function JobsList({ jobs = [] }) {
                   </p>
                 </div>
                 <div className="flex flex-shrink-0 items-center gap-2">
-                  <Link
-                    href={`/jobs/${job.id}`}
+                  <JobViewLink
+                    jobId={job.id}
                     className="flex min-h-[40px] items-center justify-center rounded-md border border-gray-200 px-3.5 py-2 text-xs font-semibold text-gray-600 transition active:scale-95 hover:border-brand-200 hover:text-brand-700"
                   >
                     View
-                  </Link>
+                  </JobViewLink>
                   {canApply && (
                     <a
                       href={job.apply_link}

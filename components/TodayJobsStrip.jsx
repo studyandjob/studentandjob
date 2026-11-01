@@ -1,7 +1,7 @@
 'use client';
 
 import { useMemo } from 'react';
-import Link from 'next/link';
+import JobViewLink from './JobViewLink';
 import { CalendarClockIcon3D, BriefcaseIcon3D } from './Icons3D';
 import { getTodayJobGroups } from '@/lib/jobStatus';
 
@@ -63,8 +63,8 @@ export default function TodayJobsStrip({ jobs = [] }) {
                 <ul className="flex flex-col gap-2">
                   {groupJobs.slice(0, 4).map((job) => (
                     <li key={job.id}>
-                      <Link
-                        href={`/jobs/${job.id}`}
+                      <JobViewLink
+                        jobId={job.id}
                         className={`flex w-full items-center gap-2 rounded-xl border px-3 py-2.5 text-left transition active:scale-[0.98] ${barClass}`}
                       >
                         <span className="flex h-7 w-7 flex-shrink-0 items-center justify-center opacity-80">
@@ -76,7 +76,7 @@ export default function TodayJobsStrip({ jobs = [] }) {
                             <span className="block truncate text-xs text-gray-500">{job.department}</span>
                           )}
                         </span>
-                      </Link>
+                      </JobViewLink>
                     </li>
                   ))}
                 </ul>

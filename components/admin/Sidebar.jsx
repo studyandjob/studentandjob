@@ -23,11 +23,12 @@ import {
 // site's main menu so the admin dashboard mirrors the live website.
 const NAV_ITEMS = [
   { id: 'dashboard', label: 'Dashboard', icon: HomeIcon },
+  { id: 'jobs', label: 'Jobs', icon: BriefcaseIcon },
+  { id: 'pages_ads', label: 'Pages & Ads', icon: AwardIcon },
   { id: 'settings', label: 'Site Settings', icon: SettingsIcon },
   { id: 'texttheme', label: 'Text Theme', icon: PaletteIcon },
   { id: 'social', label: 'Social Media', icon: Share2Icon },
   { id: 'slides', label: 'Hero Slides', icon: ImageIcon },
-  { id: 'jobs', label: 'Jobs', icon: BriefcaseIcon },
   { id: 'whatsapp_service', label: 'WhatsApp Service', icon: PhoneIcon },
   { id: 'members', label: 'Portal Requests', icon: IdCardIcon, badgeKey: 'pendingMembers' },
   { id: 'studyzone', label: 'Study Zone', icon: GraduationCapIcon },

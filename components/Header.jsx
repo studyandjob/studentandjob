@@ -6,24 +6,28 @@ import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useNavigationProgress } from './NavigationProgress';
 import { MenuIcon3D, CloseIcon3D, StarIcon3D } from './Icons3D';
+import { useSiteConfig } from './SiteConfigProvider';
 
 // VIP Portal is rendered separately (as a distinguished CTA button) rather
 // than living in this list, so it doesn't get the same plain nav-link
 // treatment as the others — see the brief's "distinguish VIP Portal as a
 // CTA" requirement. Route itself is unchanged.
 const NAV_LINKS = [
-  { href: '/', label: 'Home' },
-  { href: '/jobs', label: 'Jobs' },
-  { href: '/study-zone', label: 'Study Zone' },
-  { href: '/results', label: 'Results' },
-  { href: '/scholarships', label: 'Scholarships' },
-  { href: '/contact', label: 'Contact Us' },
+  { key: 'home', href: '/', label: 'Home' },
+  { key: 'jobs', href: '/jobs', label: 'Jobs' },
+  { key: 'study-zone', href: '/study-zone', label: 'Study Zone' },
+  { key: 'results', href: '/results', label: 'Results' },
+  { key: 'scholarships', href: '/scholarships', label: 'Scholarships' },
+  { key: 'contact', href: '/contact', label: 'Contact Us' },
 ];
 
 export default function Header({ siteName, logoUrl }) {
   const [open, setOpen] = useState(false);
   const { setLogo } = useNavigationProgress();
   const pathname = usePathname();
+  // Only pages switched on in Admin → Pages & Ads appear in the menu.
+  const { visibility } = useSiteConfig();
+  const navLinks = NAV_LINKS.filter((l) => visibility[l.key] !== false);
 
   // "/" should only be active on the exact home page; every other link is
   // active on its own path or any nested route under it (e.g. /jobs/123).
@@ -81,7 +85,7 @@ export default function Header({ siteName, logoUrl }) {
 
           {/* Desktop nav */}
           <nav className="hidden items-center gap-1 md:flex">
-            {NAV_LINKS.map((link) => (
+            {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
@@ -93,8 +97,7 @@ export default function Header({ siteName, logoUrl }) {
                 {link.label}
               </Link>
             ))}
-            {/* VIP Portal — distinguished as its own CTA rather than a
-                plain nav link, same route as before. */}
+            {visibility.vip && (
             <Link
               href="/vip"
               className="ml-1 inline-flex items-center gap-1.5 rounded-lg bg-gradient-to-r from-accent-600 to-accent-700 px-3.5 py-2 text-sm font-semibold text-white shadow-sm shadow-accent-600/20 transition hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-500 focus-visible:ring-offset-2"
@@ -102,6 +105,7 @@ export default function Header({ siteName, logoUrl }) {
               <StarIcon3D className="h-4 w-4" />
               VIP Portal
             </Link>
+)}
           </nav>
 
           {/* Mobile hamburger */}
@@ -138,7 +142,7 @@ export default function Header({ siteName, logoUrl }) {
             </button>
           </div>
           <nav className="flex flex-1 flex-col gap-1 overflow-y-auto px-3 py-4">
-            {NAV_LINKS.map((link) => (
+            {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
@@ -151,8 +155,7 @@ export default function Header({ siteName, logoUrl }) {
                 {link.label}
               </Link>
             ))}
-            {/* VIP Portal CTA — kept at the bottom of the drawer, visually
-                distinct, same as the desktop nav. */}
+            {visibility.vip && (
             <Link
               href="/vip"
               onClick={() => setOpen(false)}
@@ -161,6 +164,7 @@ export default function Header({ siteName, logoUrl }) {
               <StarIcon3D className="h-4 w-4" />
               VIP Portal
             </Link>
+)}
           </nav>
         </aside>
       </div>

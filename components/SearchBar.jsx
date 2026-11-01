@@ -6,15 +6,16 @@ import { useRouter } from 'next/navigation';
 import { SearchIcon3D, BriefcaseIcon3D, GraduationCapIcon3D, NotesBookIcon3D, VerifiedBadgeIcon3D } from './Icons3D';
 import { supabase } from '@/lib/supabaseClient';
 import { isJobOpen } from '@/lib/jobStatus';
+import { useSiteConfig } from './SiteConfigProvider';
 
 // Quick category links shown under the search box so it's obvious what
 // this search actually covers — every href is a real, existing route.
 const CATEGORY_LINKS = [
-  { label: 'Jobs', href: '/jobs', Icon: BriefcaseIcon3D },
-  { label: 'Scholarships', href: '/scholarships', Icon: VerifiedBadgeIcon3D },
-  { label: 'Notes', href: '/study-zone/notes', Icon: NotesBookIcon3D },
-  { label: 'Past Papers', href: '/study-zone/materials?type=old_paper', Icon: GraduationCapIcon3D },
-  { label: 'Results', href: '/results', Icon: NotesBookIcon3D },
+  { key: 'jobs', label: 'Jobs', href: '/jobs', Icon: BriefcaseIcon3D },
+  { key: 'scholarships', label: 'Scholarships', href: '/scholarships', Icon: VerifiedBadgeIcon3D },
+  { key: 'study-zone', label: 'Notes', href: '/study-zone/notes', Icon: NotesBookIcon3D },
+  { key: 'study-zone', label: 'Past Papers', href: '/study-zone/materials?type=old_paper', Icon: GraduationCapIcon3D },
+  { key: 'results', label: 'Results', href: '/results', Icon: NotesBookIcon3D },
 ];
 
 const SUGGESTION_DEBOUNCE_MS = 300;
@@ -26,6 +27,7 @@ export default function SearchBar({ showCategoryLinks = true }) {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const { visibility } = useSiteConfig();
   const containerRef = useRef(null);
   const debounceRef = useRef(null);
 
@@ -52,8 +54,12 @@ export default function SearchBar({ showCategoryLinks = true }) {
             .ilike('title', `%${q}%`)
             .order('created_at', { ascending: false })
             .limit(MAX_PER_TYPE + 2), // small buffer since expired ones get filtered client-side
-          supabase.from('students_data').select('id, title').ilike('title', `%${q}%`).limit(MAX_PER_TYPE),
-          supabase.from('scholarships_table').select('id, title').ilike('title', `%${q}%`).limit(MAX_PER_TYPE),
+          visibility['study-zone'] !== false
+            ? supabase.from('students_data').select('id, title').ilike('title', `%${q}%`).limit(MAX_PER_TYPE)
+            : Promise.resolve({ data: [] }),
+          visibility.scholarships !== false
+            ? supabase.from('scholarships_table').select('id, title').ilike('title', `%${q}%`).limit(MAX_PER_TYPE)
+            : Promise.resolve({ data: [] }),
         ]);
 
         const openJobs = (jobs || []).filter(isJobOpen).slice(0, MAX_PER_TYPE);
@@ -73,7 +79,7 @@ export default function SearchBar({ showCategoryLinks = true }) {
     }, SUGGESTION_DEBOUNCE_MS);
 
     return () => clearTimeout(debounceRef.current);
-  }, [query]);
+  }, [query, visibility]);
 
   // Close the suggestions dropdown on outside click.
   useEffect(() => {
@@ -161,7 +167,7 @@ export default function SearchBar({ showCategoryLinks = true }) {
       {showCategoryLinks && (
         <div className="mt-3 flex flex-wrap items-center justify-center gap-x-4 gap-y-1.5 lg:justify-start">
           <span className="text-xs font-medium text-gray-400">You can search:</span>
-          {CATEGORY_LINKS.map(({ label, href }) => (
+          {CATEGORY_LINKS.filter((c) => visibility[c.key] !== false).map(({ label, href }) => (
             <Link
               key={href}
               href={href}

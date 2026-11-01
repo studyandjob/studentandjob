@@ -1,6 +1,6 @@
 'use client';
 
-import Link from 'next/link';
+import JobViewLink from './JobViewLink';
 import {
   MapPinIcon3D as MapPinIcon,
   BuildingIcon3D as BuildingIcon,
@@ -180,14 +180,14 @@ export default function PublicJobCard({ job }) {
               <ArrowRightIcon className="h-4 w-4 transition-transform duration-200 group-hover/btn:translate-x-1" />
             </a>
           )}
-          <Link
-            href={`/jobs/${job.id}`}
+          <JobViewLink
+            jobId={job.id}
             className={`order-2 flex-1 rounded-xl border-2 border-gray-200 bg-white px-4 py-3.5 text-center text-sm font-semibold text-gray-700 transition-all duration-200 active:scale-[0.98] hover:border-brand-300 hover:bg-brand-50 hover:text-brand-700 sm:order-1 sm:py-2.5 ${
               canApply ? '' : 'sm:flex-1'
             }`}
           >
             View Details
-          </Link>
+          </JobViewLink>
         </div>
       </div>
     </div>

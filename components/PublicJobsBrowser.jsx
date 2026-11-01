@@ -8,6 +8,7 @@ import { isJobExpired, daysRemaining } from '@/lib/jobStatus';
 import { matchesQuery } from '@/lib/searchMatch';
 import { SearchIcon3D as SearchIcon } from './Icons3D';
 import { SECTORS, JOB_TYPES } from '@/lib/matching';
+import { isPageEnabled } from '@/lib/pages';
 
 // Sector (shown to visitors as "Province", since SECTORS is Federal/Punjab/
 // Sindh/Balochistan/KPK/Azad Kashmir), City and Job Type are now real,
@@ -51,6 +52,7 @@ export default function PublicJobsBrowser({ jobs = [], siteName, settings }) {
   const searchParams = useSearchParams();
   const [filters, setFilters] = useState(() => ({
     ...FILTER_DEFAULTS,
+    search: searchParams.get('q') || FILTER_DEFAULTS.search,
     category: searchParams.get('category') || FILTER_DEFAULTS.category,
     jobType: searchParams.get('jobType') || FILTER_DEFAULTS.jobType,
     sector: searchParams.get('sector') || FILTER_DEFAULTS.sector,
@@ -254,7 +256,7 @@ export default function PublicJobsBrowser({ jobs = [], siteName, settings }) {
 
         {/* WhatsApp application-support ad — moved below the jobs list so
             it doesn't interrupt the listing right after the search box. */}
-        {settings?.wa_service_enabled && (
+        {settings?.wa_service_enabled && isPageEnabled(settings, 'application-support') && (
           <div className="mt-8">
             <WhatsAppServiceCard settings={settings} />
           </div>
