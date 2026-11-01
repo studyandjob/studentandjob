@@ -3,7 +3,7 @@ import './globals.css';
 import { supabase } from '@/lib/supabaseClient';
 import NavigationProgress from '@/components/NavigationProgress';
 import MobileBottomNav from '@/components/MobileBottomNav';
-import AdCode from '@/components/AdCode';
+import { AdHeadElements } from '@/lib/adHead';
 import { SiteConfigProvider } from '@/components/SiteConfigProvider';
 import { resolveVisibility } from '@/lib/pages';
 import FloatingWhatsAppButton from '@/components/FloatingWhatsAppButton';
@@ -210,14 +210,14 @@ export default async function RootLayout({ children }) {
             saved text/brand theme is correct from frame one — see the
             comment above THEME_BOOT_SCRIPT. */}
         <script dangerouslySetInnerHTML={{ __html: THEME_BOOT_SCRIPT }} />
+        {/* Site-wide ad script (AdSense library etc.) rendered on the
+            server so it is in the HTML source Google's crawler reads. */}
+        <AdHeadElements html={settings?.ad_head_code} />
       </head>
       <body className="min-h-screen flex flex-col antialiased font-sans pb-16 md:pb-0">
         <ThemeProvider>
           <SiteConfigProvider value={siteConfig}>
             <TextThemeStyle />
-            {/* Site-wide ad script (e.g. the AdSense library / auto ads),
-                pasted by the admin in Pages & Ads. */}
-            <AdCode html={settings?.ad_head_code} />
             <NavigationProgress>{children}</NavigationProgress>
             <MobileBottomNav />
             <FloatingWhatsAppButton settings={floatingWaSettings} />
