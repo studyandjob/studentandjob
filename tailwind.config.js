@@ -75,14 +75,22 @@ module.exports = {
       // Corporate look: every rounded-xl / 2xl / 3xl across the site becomes a
       // tighter radius, so cards, buttons and inputs read as official rather
       // than playful — without editing each component.
+      // Airbnb-style soft, generous corners site-wide.
       borderRadius: {
-        lg: '0.375rem',
-        xl: '0.375rem',
-        '2xl': '0.5rem',
-        '3xl': '0.5rem',
+        lg: '0.625rem',
+        xl: '0.875rem',
+        '2xl': '1.25rem',
+        '3xl': '1.75rem',
+      },
+      boxShadow: {
+        card: '0 1px 2px rgba(0,0,0,0.06), 0 2px 8px rgba(0,0,0,0.04)',
+        'card-hover': '0 6px 20px rgba(0,0,0,0.12)',
+        pill: '0 3px 12px rgba(0,0,0,0.12)',
       },
       fontFamily: {
-        serif: ['var(--font-fraunces)', 'Georgia', 'serif'],
+        // Airbnb look: no serif anywhere — every existing `font-serif` class
+        // now renders in the clean sans face, so no component edits needed.
+        serif: ['var(--font-public-sans)', 'var(--font-urdu)', 'ui-sans-serif', 'system-ui', '-apple-system', 'sans-serif'],
         // Public Sans handles Latin text; Noto Nastaliq Urdu is listed as a
         // fallback so any Urdu/Arabic-script characters anywhere on the
         // site render with that font too — the browser automatically picks
