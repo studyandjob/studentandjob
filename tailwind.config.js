@@ -72,6 +72,15 @@ module.exports = {
         aline: '#E2E8F0',
         amuted: '#5B6B82',
       },
+      // Corporate look: every rounded-xl / 2xl / 3xl across the site becomes a
+      // tighter radius, so cards, buttons and inputs read as official rather
+      // than playful — without editing each component.
+      borderRadius: {
+        lg: '0.375rem',
+        xl: '0.375rem',
+        '2xl': '0.5rem',
+        '3xl': '0.5rem',
+      },
       fontFamily: {
         serif: ['var(--font-fraunces)', 'Georgia', 'serif'],
         // Public Sans handles Latin text; Noto Nastaliq Urdu is listed as a
