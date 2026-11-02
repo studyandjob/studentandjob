@@ -36,18 +36,18 @@ export default function HomeFaq() {
   };
 
   return (
-    <section className="border-t border-gray-200 bg-gray-50">
+    <section className="border-t border-gray-200">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
       <div className="mx-auto max-w-7xl px-4 py-10 md:px-6 md:py-12">
         <HomeSection title="Frequently asked questions">
-          <div className="mt-4 grid items-start gap-3 md:grid-cols-2">
+          <div className="grid items-start gap-3 md:grid-cols-2">
             {FAQS.map((f) => (
-              <details key={f.q} className="group rounded-md border border-gray-200 bg-white">
-                <summary className="flex min-h-[52px] cursor-pointer list-none items-center justify-between gap-3 px-4 py-3 text-sm font-semibold text-gray-900 md:text-base [&::-webkit-details-marker]:hidden">
+              <details key={f.q} className="group rounded-2xl border border-gray-200 bg-white transition hover:shadow-card">
+                <summary className="flex min-h-[56px] cursor-pointer list-none items-center justify-between gap-3 px-5 py-3.5 text-sm font-semibold text-gray-900 md:text-base [&::-webkit-details-marker]:hidden">
                   {f.q}
-                  <HomeIcon name="chevron" className="h-5 w-5 flex-shrink-0 text-accent-600 transition group-open:rotate-180" />
+                  <HomeIcon name="chevron" className="h-5 w-5 flex-shrink-0 text-gray-700 transition group-open:rotate-180" />
                 </summary>
-                <p className="px-4 pb-4 text-sm leading-relaxed text-gray-600">{f.a}</p>
+                <p className="px-5 pb-5 text-sm leading-relaxed text-gray-600">{f.a}</p>
               </details>
             ))}
           </div>

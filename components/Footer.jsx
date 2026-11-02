@@ -69,22 +69,22 @@ export default function Footer({ siteName, settings }) {
   const name = siteName || '';
 
   return (
-    <footer className="mt-auto bg-gray-900 text-gray-300">
-      <div className="mx-auto max-w-7xl px-4 py-12 md:px-6">
+    <footer className="mt-auto border-t border-gray-200 bg-gray-50 text-gray-600">
+      <div className="mx-auto max-w-7xl px-4 py-10 md:px-6 md:py-12">
         <div className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-6">
           <div className="col-span-2 sm:col-span-3 lg:col-span-1">
-            {name && <p className="font-serif text-lg font-bold text-white">{name}</p>}
-            <p className="mt-3 max-w-xs text-sm leading-relaxed text-gray-200">
+            {name && <p className="text-lg font-extrabold text-brand-600">{name}</p>}
+            <p className="mt-3 max-w-xs text-sm leading-relaxed text-gray-600">
               Latest government and private job openings in Pakistan, with last dates and how to apply.
             </p>
           </div>
 
           <div>
-            <p className="text-sm font-bold text-white">Quick Links</p>
+            <p className="text-sm font-bold text-gray-900">Quick Links</p>
             <ul className="mt-3 flex flex-col gap-2.5">
               {quickLinks.map((link) => (
                 <li key={link.href}>
-                  <Link href={link.href} className="text-sm text-gray-200 transition hover:text-white">
+                  <Link href={link.href} className="text-sm text-gray-600 transition hover:text-gray-900 hover:underline">
                     {link.label}
                   </Link>
                 </li>
@@ -94,11 +94,11 @@ export default function Footer({ siteName, settings }) {
 
 {showStudy && (
           <div>
-            <p className="text-sm font-bold text-white">Study Resources</p>
+            <p className="text-sm font-bold text-gray-900">Study Resources</p>
             <ul className="mt-3 flex flex-col gap-2.5">
               {STUDY_RESOURCE_LINKS.map((link) => (
                 <li key={link.href}>
-                  <Link href={link.href} className="text-sm text-gray-200 transition hover:text-white">
+                  <Link href={link.href} className="text-sm text-gray-600 transition hover:text-gray-900 hover:underline">
                     {link.label}
                   </Link>
                 </li>
@@ -108,11 +108,11 @@ export default function Footer({ siteName, settings }) {
 )}
 
           <div>
-            <p className="text-sm font-bold text-white">Support</p>
+            <p className="text-sm font-bold text-gray-900">Support</p>
             <ul className="mt-3 flex flex-col gap-2.5">
               {supportLinks.map((link) => (
                 <li key={link.href}>
-                  <Link href={link.href} className="text-sm text-gray-200 transition hover:text-white">
+                  <Link href={link.href} className="text-sm text-gray-600 transition hover:text-gray-900 hover:underline">
                     {link.label}
                   </Link>
                 </li>
@@ -123,7 +123,7 @@ export default function Footer({ siteName, settings }) {
                     href={waLink}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-sm text-gray-200 transition hover:text-white"
+                    className="text-sm text-gray-600 transition hover:text-gray-900 hover:underline"
                   >
                     Chat on WhatsApp
                   </a>
@@ -133,11 +133,11 @@ export default function Footer({ siteName, settings }) {
           </div>
 
           <div>
-            <p className="text-sm font-bold text-white">Legal</p>
+            <p className="text-sm font-bold text-gray-900">Legal</p>
             <ul className="mt-3 flex flex-col gap-2.5">
               {legalLinks.map((link) => (
                 <li key={link.href}>
-                  <Link href={link.href} className="text-sm text-gray-200 transition hover:text-white">
+                  <Link href={link.href} className="text-sm text-gray-600 transition hover:text-gray-900 hover:underline">
                     {link.label}
                   </Link>
                 </li>
@@ -146,7 +146,7 @@ export default function Footer({ siteName, settings }) {
           </div>
 
           <div>
-            <p className="text-sm font-bold text-white">Follow Us</p>
+            <p className="text-sm font-bold text-gray-900">Follow Us</p>
             {socialLinks.length > 0 ? (
               <div className="mt-3 flex flex-wrap items-center gap-3">
                 {socialLinks.map(({ field, label, icon: PlatformIcon }) => (
@@ -157,21 +157,21 @@ export default function Footer({ siteName, settings }) {
                     rel="noopener noreferrer"
                     aria-label={label}
                     title={label}
-                    className="flex h-12 w-12 items-center justify-center rounded-full bg-white/5 ring-1 ring-white/10 transition hover:-translate-y-0.5 hover:bg-white/10"
+                    className="flex h-12 w-12 items-center justify-center rounded-full bg-white ring-1 ring-gray-200 transition hover:-translate-y-0.5 hover:shadow-card-hover"
                   >
                     <PlatformIcon className="h-8 w-8" />
                   </a>
                 ))}
               </div>
             ) : (
-              <p className="mt-3 text-sm text-gray-300">Coming soon</p>
+              <p className="mt-3 text-sm text-gray-500">Coming soon</p>
             )}
           </div>
         </div>
       </div>
 
-      <div className="border-t border-gray-800">
-        <p className="mx-auto max-w-7xl px-4 py-5 text-center text-xs text-gray-300 md:px-6">
+      <div className="border-t border-gray-200">
+        <p className="mx-auto max-w-7xl px-4 py-5 text-center text-xs text-gray-500 md:px-6">
           © {new Date().getFullYear()} {name ? `${name}. ` : ''}All Rights Reserved.
         </p>
       </div>

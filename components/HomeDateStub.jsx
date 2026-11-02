@@ -8,7 +8,7 @@ export default function HomeDateStub({ lastDate, size = 'md' }) {
   const dims = size === 'sm' ? 'h-12 w-12' : 'h-14 w-14';
   if (!key) {
     return (
-      <div className={`flex ${dims} flex-shrink-0 flex-col items-center justify-center rounded-md border border-gray-200 bg-gray-50 text-[11px] font-semibold text-gray-500`}>
+      <div className={`flex ${dims} flex-shrink-0 flex-col items-center justify-center rounded-xl bg-gray-100 text-[11px] font-semibold text-gray-500`}>
         Open
       </div>
     );
@@ -18,8 +18,8 @@ export default function HomeDateStub({ lastDate, size = 'md' }) {
   const urgent = left !== null && left <= 3;
   return (
     <div
-      className={`flex ${dims} flex-shrink-0 flex-col items-center justify-center rounded-md border ${
-        urgent ? 'border-red-200 bg-red-50 text-red-700' : 'border-brand-100 bg-brand-50 text-brand-800'
+      className={`flex ${dims} flex-shrink-0 flex-col items-center justify-center rounded-xl ${
+        urgent ? 'bg-red-50 text-red-700' : 'bg-gray-100 text-gray-900'
       }`}
       title={`Last date: ${d} ${MONTHS[m - 1]}`}
     >

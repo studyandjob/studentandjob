@@ -10,7 +10,7 @@ export default function ChannelCta({ settings, className = '' }) {
   if (!url) return null;
   return (
     <div
-      className={`flex flex-col items-center gap-3 rounded-2xl border border-emerald-100 bg-emerald-50 p-5 text-center sm:flex-row sm:text-left ${className}`}
+      className={`flex flex-col items-center gap-3 rounded-2xl border border-emerald-100 bg-emerald-50 p-6 shadow-card text-center sm:flex-row sm:text-left ${className}`}
     >
       <WhatsappIcon3D className="h-12 w-12 flex-shrink-0" />
       <div className="flex-1">
@@ -21,7 +21,7 @@ export default function ChannelCta({ settings, className = '' }) {
         href={url}
         target="_blank"
         rel="noopener noreferrer"
-        className="rounded-xl bg-emerald-600 px-5 py-2.5 text-sm font-bold text-white transition hover:bg-emerald-700 active:scale-[0.98]"
+        className="rounded-full bg-emerald-600 px-6 py-3 text-sm font-bold text-white transition hover:bg-emerald-700 active:scale-[0.98]"
       >
         Join channel
       </a>

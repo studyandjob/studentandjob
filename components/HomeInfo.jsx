@@ -8,23 +8,21 @@ const STEPS = [
 
 export default function HomeInfo() {
   return (
-    <section className="border-t border-gray-200 bg-white">
+    <section>
       <div className="mx-auto max-w-7xl px-4 py-10 md:px-6 md:py-12">
         <HomeSection title="How to apply, in three steps">
-          <ol className="mt-5 grid gap-6 md:grid-cols-3">
+          <ol className="grid gap-4 md:grid-cols-3 md:gap-6">
             {STEPS.map((s, i) => (
-              <li key={s.title} className="flex gap-4">
-                <span className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-md bg-brand-600 font-serif text-lg font-bold text-white">
+              <li key={s.title} className="rounded-2xl border border-gray-200 bg-white p-6 shadow-card">
+                <span className="flex h-11 w-11 items-center justify-center rounded-full bg-brand-600 text-lg font-bold text-white">
                   {i + 1}
                 </span>
-                <div>
-                  <h3 className="font-serif text-base font-bold text-brand-900">{s.title}</h3>
-                  <p className="mt-1 text-sm leading-relaxed text-gray-600">{s.text}</p>
-                </div>
+                <h3 className="mt-4 text-lg font-bold text-gray-900">{s.title}</h3>
+                <p className="mt-1.5 text-sm leading-relaxed text-gray-600">{s.text}</p>
               </li>
             ))}
           </ol>
-          <p className="mt-8 rounded-md border border-accent-100 bg-accent-50 px-4 py-3 text-sm text-gray-700">
+          <p className="mt-6 rounded-2xl bg-gray-50 px-5 py-4 text-sm text-gray-700">
             This website is free to use. We do not sell jobs and we never ask candidates for money. Always confirm the
             details on the employer&apos;s own advertisement.
           </p>

@@ -3,27 +3,27 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import {
-  BriefcaseIcon3D,
-  GraduationCapIcon3D,
-  VerifiedBadgeIcon3D,
-  MailIcon3D,
-  StarIcon3D,
-  MenuIcon3D,
-  CloseIcon3D,
-} from './Icons3D';
+import HomeIconSet from './HomeIcons';
 import { useSiteConfig } from './SiteConfigProvider';
 
-// Compact home icon — not in Icons3D's set, kept local since it's only
-// used here.
-function HomeIcon({ className = '', active = false }) {
-  return (
-    <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth={active ? 2.4 : 2}>
-      <path d="M3 11.5 12 4l9 7.5" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M5.5 10v9.5a1 1 0 0 0 1 1H9.5a1 1 0 0 0 1-1V15a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v4.5a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1V10" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
+// Line icons (Airbnb-style): outline when idle, heavier stroke when active.
+function mk(name) {
+  return function Icon({ className = '', active = false }) {
+    return (
+      <span className={active ? '[&_svg]:stroke-[2.4]' : ''}>
+        <HomeIconSet name={name} className={className} />
+      </span>
+    );
+  };
 }
+const HomeIcon = mk('home');
+const BriefcaseIcon3D = mk('briefcase');
+const MailIcon3D = mk('mail');
+const GraduationCapIcon3D = mk('grad');
+const VerifiedBadgeIcon3D = mk('award');
+const StarIcon3D = mk('star');
+const MenuIcon3D = mk('menu');
+const CloseIcon3D = mk('close');
 
 // Every possible entry, in display order. Only pages switched on in
 // Admin → Pages & Ads are shown.
@@ -62,7 +62,7 @@ export default function MobileBottomNav() {
   return (
     <>
       <nav
-        className="fixed inset-x-0 bottom-0 z-40 flex items-stretch justify-between border-t border-gray-100 bg-white px-1 shadow-[0_-2px_10px_rgba(0,0,0,0.05)] md:hidden"
+        className="fixed inset-x-0 bottom-0 z-40 flex items-stretch justify-between border-t border-gray-200 bg-white px-1 pb-[env(safe-area-inset-bottom)] md:hidden"
         aria-label="Primary"
       >
         {tabs.map(({ href, label, Icon }) => {
@@ -75,7 +75,7 @@ export default function MobileBottomNav() {
                 active ? 'text-brand-600' : 'text-gray-500'
               }`}
             >
-              {Icon === HomeIcon ? <Icon className="h-5 w-5" active={active} /> : <Icon className="h-5 w-5" />}
+              {Icon === HomeIcon ? <Icon className="h-5 w-5" active={active} /> : <Icon className="h-6 w-6" active={active} />}
               {label}
             </Link>
           );
@@ -85,7 +85,7 @@ export default function MobileBottomNav() {
             onClick={() => setMoreOpen(true)}
             className="flex flex-1 flex-col items-center justify-center gap-1 py-2 text-[11px] font-semibold text-gray-500"
           >
-            <MenuIcon3D className="h-5 w-5" />
+            <MenuIcon3D className="h-6 w-6" />
             Menu
           </button>
         )}
@@ -99,7 +99,7 @@ export default function MobileBottomNav() {
         >
           <div className="absolute inset-0 bg-black/40" onClick={() => setMoreOpen(false)} />
           <div
-            className={`absolute inset-x-0 bottom-0 rounded-t-2xl bg-white p-4 pb-6 shadow-xl transition-transform duration-200 ${
+            className={`absolute inset-x-0 bottom-0 rounded-t-3xl bg-white p-5 pb-8 shadow-2xl transition-transform duration-200 ${
               moreOpen ? 'translate-y-0' : 'translate-y-full'
             }`}
           >
@@ -107,7 +107,7 @@ export default function MobileBottomNav() {
               <span className="text-sm font-bold text-gray-900">More</span>
               <button
                 onClick={() => setMoreOpen(false)}
-                className="rounded-lg p-1.5 text-gray-500 hover:bg-gray-50"
+                className="rounded-full p-2 text-gray-600 hover:bg-gray-100"
                 aria-label="Close menu"
               >
                 <CloseIcon3D className="h-5 w-5" />
@@ -119,7 +119,7 @@ export default function MobileBottomNav() {
                   <Link
                     href={link.href}
                     onClick={() => setMoreOpen(false)}
-                    className="block py-3 text-sm font-semibold text-gray-700"
+                    className="block py-3.5 text-base font-semibold text-gray-800"
                   >
                     {link.label}
                   </Link>

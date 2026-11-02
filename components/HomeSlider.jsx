@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
+import HomeIcon from './HomeIcons';
 
 // Shown when the admin has not added any image slides yet, so the home page
 // always has a good-looking banner. Real slides come from Admin → Hero Slides.
@@ -63,7 +64,7 @@ export default function HomeSlider({ slides = [], speed = '1x' }) {
 
   return (
     <div
-      className="relative w-full overflow-hidden rounded-lg bg-brand-900 shadow-md"
+      className="relative w-full overflow-hidden rounded-3xl bg-brand-900 shadow-card"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       onTouchStart={onTouchStart}
@@ -72,7 +73,7 @@ export default function HomeSlider({ slides = [], speed = '1x' }) {
       aria-roledescription="carousel"
       aria-label="Featured jobs"
     >
-      <div className="relative aspect-[16/10] w-full lg:aspect-[16/9]">
+      <div className="relative aspect-[4/3] w-full sm:aspect-[16/9] lg:aspect-[21/9]">
         {items.map((s, i) => {
           const active = i === index;
           return (
@@ -90,21 +91,21 @@ export default function HomeSlider({ slides = [], speed = '1x' }) {
                   loading={i === 0 ? 'eager' : 'lazy'}
                 />
               ) : (
-                <div className="relative h-full w-full bg-gradient-to-br from-brand-600 via-brand-800 to-brand-900">
-                  <div className="absolute -right-10 -top-10 h-48 w-48 rounded-full bg-white/10" />
-                  <div className="absolute -bottom-16 left-10 h-56 w-56 rounded-full bg-white/5" />
+                <div className="relative h-full w-full bg-gradient-to-br from-brand-500 via-brand-700 to-brand-900">
+                  <div className="absolute -right-10 -top-10 h-64 w-64 rounded-full bg-white/10" />
+                  <div className="absolute -bottom-20 left-16 h-72 w-72 rounded-full bg-white/5" />
                 </div>
               )}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent" />
-              <div className="absolute inset-x-0 bottom-0 p-4 sm:p-6">
-                <p className="text-lg font-bold leading-snug text-white sm:text-2xl">{s.title}</p>
-                {s.sub && <p className="mt-1 text-xs text-white/80 sm:text-sm">{s.sub}</p>}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+              <div className="absolute inset-x-0 bottom-0 p-5 pb-10 sm:p-8 sm:pb-12 lg:p-10 lg:pb-14">
+                <p className="max-w-2xl text-2xl font-extrabold leading-tight text-white sm:text-3xl lg:text-4xl">{s.title}</p>
+                {s.sub && <p className="mt-2 max-w-xl text-sm text-white/85 sm:text-base">{s.sub}</p>}
                 {s.href && (
                   <SlideLink
                     href={s.href}
-                    className="mt-3 inline-flex min-h-[40px] items-center rounded-md bg-white px-4 py-2 text-xs font-bold text-brand-800 transition hover:bg-brand-50 sm:text-sm"
+                    className="mt-4 inline-flex min-h-[44px] items-center rounded-full bg-white px-6 py-2.5 text-sm font-bold text-gray-900 transition hover:scale-[1.03] hover:shadow-pill"
                   >
-                    Browse jobs →
+                    Browse jobs
                   </SlideLink>
                 )}
               </div>
@@ -119,19 +120,19 @@ export default function HomeSlider({ slides = [], speed = '1x' }) {
             type="button"
             onClick={() => go(index - 1)}
             aria-label="Previous slide"
-            className="absolute left-2 top-1/2 hidden h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-black/35 text-white backdrop-blur transition hover:bg-black/55 sm:flex"
+            className="absolute left-3 top-1/2 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-gray-900 shadow-pill transition hover:scale-105 hover:bg-white sm:flex"
           >
-            ‹
+            <HomeIcon name="chevronLeft" className="h-5 w-5" />
           </button>
           <button
             type="button"
             onClick={() => go(index + 1)}
             aria-label="Next slide"
-            className="absolute right-2 top-1/2 hidden h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-black/35 text-white backdrop-blur transition hover:bg-black/55 sm:flex"
+            className="absolute right-3 top-1/2 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-gray-900 shadow-pill transition hover:scale-105 hover:bg-white sm:flex"
           >
-            ›
+            <HomeIcon name="chevronRight" className="h-5 w-5" />
           </button>
-          <div className="absolute right-3 top-3 flex gap-1.5 sm:right-4 sm:top-4">
+          <div className="absolute inset-x-0 bottom-4 flex justify-center gap-1.5 sm:bottom-5">
             {items.map((s, i) => (
               <button
                 key={s.id}
@@ -139,7 +140,7 @@ export default function HomeSlider({ slides = [], speed = '1x' }) {
                 onClick={() => go(i)}
                 aria-label={`Go to slide ${i + 1}`}
                 aria-current={i === index}
-                className={`h-2 rounded-full transition-all ${i === index ? 'w-6 bg-white' : 'w-2 bg-white/50 hover:bg-white/80'}`}
+                className={`h-1.5 rounded-full transition-all ${i === index ? 'w-6 bg-white' : 'w-1.5 bg-white/60 hover:bg-white/90'}`}
               />
             ))}
           </div>
