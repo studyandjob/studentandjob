@@ -1,4 +1,5 @@
 import HomeIcon from './HomeIcons';
+import HomeSection from './HomeSection';
 
 const FAQS = [
   {
@@ -35,23 +36,22 @@ export default function HomeFaq() {
   };
 
   return (
-    <section className="bg-gray-50">
+    <section className="border-t border-gray-200 bg-gray-50">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
-      <div className="mx-auto max-w-3xl px-4 py-10 md:px-6 md:py-14">
-        <div className="mb-8 text-center">
-          <h2 className="font-serif text-2xl font-bold text-gray-900 md:text-3xl">Frequently Asked Questions</h2>
-        </div>
-        <div className="space-y-3">
-          {FAQS.map((f) => (
-            <details key={f.q} className="group rounded-xl bg-white shadow-sm ring-1 ring-black/5">
-              <summary className="flex min-h-[52px] cursor-pointer list-none items-center justify-between gap-3 px-4 py-3 text-sm font-semibold text-gray-900 md:text-base [&::-webkit-details-marker]:hidden">
-                {f.q}
-                <HomeIcon name="chevron" className="h-5 w-5 flex-shrink-0 text-brand-600 transition group-open:rotate-180" />
-              </summary>
-              <p className="px-4 pb-4 text-sm leading-relaxed text-gray-600">{f.a}</p>
-            </details>
-          ))}
-        </div>
+      <div className="mx-auto max-w-7xl px-4 py-10 md:px-6 md:py-12">
+        <HomeSection title="Frequently asked questions">
+          <div className="mt-4 grid items-start gap-3 md:grid-cols-2">
+            {FAQS.map((f) => (
+              <details key={f.q} className="group rounded-md border border-gray-200 bg-white">
+                <summary className="flex min-h-[52px] cursor-pointer list-none items-center justify-between gap-3 px-4 py-3 text-sm font-semibold text-gray-900 md:text-base [&::-webkit-details-marker]:hidden">
+                  {f.q}
+                  <HomeIcon name="chevron" className="h-5 w-5 flex-shrink-0 text-accent-600 transition group-open:rotate-180" />
+                </summary>
+                <p className="px-4 pb-4 text-sm leading-relaxed text-gray-600">{f.a}</p>
+              </details>
+            ))}
+          </div>
+        </HomeSection>
       </div>
     </section>
   );

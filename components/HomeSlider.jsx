@@ -63,7 +63,7 @@ export default function HomeSlider({ slides = [], speed = '1x' }) {
 
   return (
     <div
-      className="relative w-full overflow-hidden rounded-2xl bg-brand-900 shadow-2xl shadow-black/30 ring-1 ring-white/15"
+      className="relative w-full overflow-hidden rounded-lg bg-brand-900 shadow-md"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       onTouchStart={onTouchStart}
@@ -72,7 +72,7 @@ export default function HomeSlider({ slides = [], speed = '1x' }) {
       aria-roledescription="carousel"
       aria-label="Featured jobs"
     >
-      <div className="relative aspect-[16/10] w-full">
+      <div className="relative aspect-[16/10] w-full lg:aspect-[16/9]">
         {items.map((s, i) => {
           const active = i === index;
           return (
@@ -90,7 +90,7 @@ export default function HomeSlider({ slides = [], speed = '1x' }) {
                   loading={i === 0 ? 'eager' : 'lazy'}
                 />
               ) : (
-                <div className="relative h-full w-full bg-gradient-to-br from-brand-500 via-brand-700 to-brand-900">
+                <div className="relative h-full w-full bg-gradient-to-br from-brand-600 via-brand-800 to-brand-900">
                   <div className="absolute -right-10 -top-10 h-48 w-48 rounded-full bg-white/10" />
                   <div className="absolute -bottom-16 left-10 h-56 w-56 rounded-full bg-white/5" />
                 </div>
@@ -102,7 +102,7 @@ export default function HomeSlider({ slides = [], speed = '1x' }) {
                 {s.href && (
                   <SlideLink
                     href={s.href}
-                    className="mt-3 inline-flex min-h-[40px] items-center rounded-lg bg-white px-4 py-2 text-xs font-bold text-brand-800 transition hover:bg-brand-50 sm:text-sm"
+                    className="mt-3 inline-flex min-h-[40px] items-center rounded-md bg-white px-4 py-2 text-xs font-bold text-brand-800 transition hover:bg-brand-50 sm:text-sm"
                   >
                     Browse jobs →
                   </SlideLink>
