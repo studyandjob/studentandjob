@@ -55,7 +55,7 @@ export default function TodayJobsStrip({ jobs = [] }) {
             if (groupJobs.length === 0) return null;
 
             return (
-              <div key={key} className={`rounded-2xl border bg-white p-4 shadow-sm ring-1 ring-black/5`}>
+              <div key={key} className={`rounded-2xl border bg-white p-4 border border-gray-200 shadow-card`}>
                 <p className={`mb-3 inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-bold ${chipClass}`}>
                   <span>{emoji}</span>
                   {label} ({groupJobs.length})

@@ -208,7 +208,7 @@ export default function HeroSlider({ jobs = [], mainHeading, subHeading, slideSp
         <div className="mt-5 flex flex-wrap items-center justify-center gap-3">
           <Link
             href="/jobs"
-            className="rounded-full bg-brand-600 px-6 py-3 text-sm font-bold text-white shadow-md shadow-brand-600/20 transition hover:bg-brand-700 hover:shadow-lg active:scale-[0.98]"
+            className="rounded-full bg-brand-600 px-6 py-3 text-sm font-bold text-white  transition hover:bg-brand-700 hover:shadow-lg active:scale-[0.98]"
           >
             Explore Jobs
           </Link>

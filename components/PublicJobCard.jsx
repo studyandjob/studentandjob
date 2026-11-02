@@ -1,14 +1,7 @@
 'use client';
 
 import JobViewLink from './JobViewLink';
-import {
-  MapPinIcon3D as MapPinIcon,
-  BuildingIcon3D as BuildingIcon,
-  ShieldCheckIcon3D as ShieldCheckIcon,
-  BriefcaseIcon3D as BriefcaseIcon,
-  ArrowRightIcon3D as ArrowRightIcon,
-  CalendarClockIcon3D as CalendarClockIcon,
-} from './Icons3D';
+import HomeIcon from './HomeIcons';
 import { daysRemaining } from '@/lib/jobStatus';
 
 function formatDate(dateStr) {
@@ -23,173 +16,114 @@ function formatPosted(createdAt) {
   const created = new Date(createdAt);
   if (Number.isNaN(created.getTime())) return null;
   const days = Math.floor((Date.now() - created.getTime()) / 86400000);
-  if (days <= 0) return 'Posted Today';
-  if (days === 1) return 'Posted Yesterday';
+  if (days <= 0) return 'Posted today';
+  if (days === 1) return 'Posted yesterday';
   if (days < 30) return `Posted ${days} days ago`;
   return `Posted ${formatDate(createdAt)}`;
 }
 
-// Label for the last-date banner. Only ever computed from the real
-// last_date via daysRemaining() (Pakistan-time, no hardcoded "today") —
-// never shows "X days left" unless it's mathematically accurate.
-function lastDateLabel(remaining, isExpired) {
+// Badge text for the deadline — only ever computed from the real
+// last_date via daysRemaining() (Pakistan-time), never invented.
+function deadlineBadge(remaining, isExpired) {
   if (isExpired) return 'Expired';
-  if (remaining === 0) return 'Closing Today';
-  if (remaining === 1) return '1 Day Left — Apply Soon';
-  if (remaining !== null && remaining <= 3) return `${remaining} Days Left`;
-  return 'Last date to apply';
+  if (remaining === 0) return 'Closes today';
+  if (remaining === 1) return '1 day left';
+  if (remaining !== null && remaining <= 7) return `${remaining} days left`;
+  return null;
 }
 
-/**
- * Full-realistic 3D icon chip — the icon graphics from Icons3D.jsx already
- * carry their own gradient, shadow and glare, so the badge here is just a
- * transparent sizing wrapper (kept as a component so call sites don't
- * change) rather than an extra flat-color circle behind them.
- */
-function IconBadge({ icon: IconComp, size = 'md' }) {
-  const sizing = size === 'lg' ? 'h-11 w-11' : 'h-8 w-8';
-  return (
-    <span className={`relative flex flex-shrink-0 items-center justify-center ${sizing}`}>
-      <IconComp className="h-full w-full" />
-    </span>
-  );
-}
-
+/** Airbnb-style listing card: soft "photo" tile on top, clean text below. */
 export default function PublicJobCard({ job }) {
   const isGovernment = job.job_type === 'Government';
   const canApply = job.show_apply_button !== false && !!job.apply_link;
   const remaining = daysRemaining(job.last_date);
   const isExpired = remaining !== null && remaining < 0;
-  const isUrgent = !isExpired && remaining !== null && remaining <= 3;
+  const badge = deadlineBadge(remaining, isExpired);
   const posted = formatPosted(job.created_at);
 
   return (
-    <div className="group relative flex flex-col overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md">
-      <div className="flex flex-1 flex-col p-5">
-        {/* Header: category icon + tags */}
-        <div className="mb-3 flex items-start gap-3">
-          <IconBadge
-            size="lg"
-            icon={isGovernment ? ShieldCheckIcon : BriefcaseIcon}
-            gradient={isGovernment ? 'from-brand-500 to-brand-700' : 'from-accent-500 to-accent-700'}
-          />
-          <div className="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 pt-1">
-            <span
-              className={`rounded-full px-2.5 py-1 text-xs font-bold uppercase tracking-wide ${
-                isGovernment ? 'bg-brand-50 text-brand-700' : 'bg-accent-50 text-accent-700'
-              }`}
-            >
-              {job.job_type}
-            </span>
-            {job.sector && (
-              <span className="rounded-full bg-gray-100 px-2.5 py-1 text-xs font-semibold text-gray-600">
-                {job.sector}
-              </span>
-            )}
-            {job.source_type && job.verified_on && (
-              <span className="flex items-center gap-1 rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-semibold text-emerald-700">
-                ✓ Verified {formatDate(job.verified_on)}
-              </span>
-            )}
-          </div>
-        </div>
+    <div className="group relative flex flex-col">
+      <div
+        className={`relative flex aspect-[16/10] items-center justify-center overflow-hidden rounded-2xl ${
+          isGovernment
+            ? 'bg-gradient-to-br from-brand-100 to-brand-50 text-brand-700'
+            : 'bg-gradient-to-br from-accent-100 to-accent-50 text-accent-700'
+        }`}
+      >
+        <HomeIcon
+          name={isGovernment ? 'building' : 'briefcase'}
+          className="h-14 w-14 opacity-80 transition duration-300 group-hover:scale-110"
+        />
+        {job.job_type && (
+          <span className="absolute left-3 top-3 rounded-full bg-white px-3 py-1 text-xs font-bold text-gray-900 shadow-card">
+            {job.job_type}
+          </span>
+        )}
+        {badge && (
+          <span
+            className={`absolute right-3 top-3 rounded-full px-3 py-1 text-xs font-bold text-white shadow-card ${
+              isExpired ? 'bg-gray-700' : 'bg-red-600'
+            }`}
+          >
+            {badge}
+          </span>
+        )}
+        {job.source_type && job.verified_on && (
+          <span className="absolute bottom-3 left-3 rounded-full bg-white/95 px-2.5 py-1 text-[11px] font-semibold text-emerald-700 shadow-card">
+            ✓ Verified {formatDate(job.verified_on)}
+          </span>
+        )}
+      </div>
 
-        {/* Title */}
-        <h3 className="mb-1.5 text-lg font-bold leading-snug text-gray-900">{job.title}</h3>
-
-        {/* Posted date — only when created_at exists, never fabricated */}
-        {posted && <p className="mb-3 text-xs font-medium text-gray-400">{posted}</p>}
-
-        {/* Description snippet — one line teaser so candidates get a sense
-            of the role before clicking through; full text is on the job's
-            own page. */}
-        {job.description && (
-          <p className="mb-3 line-clamp-2 text-sm leading-relaxed text-gray-500">{job.description}</p>
+      <div className="mt-3 flex min-w-0 flex-1 flex-col">
+        <JobViewLink
+          jobId={job.id}
+          className="line-clamp-2 text-base font-semibold leading-snug text-gray-900 after:absolute after:inset-0 after:content-[''] focus-visible:outline-none focus-visible:after:rounded-2xl focus-visible:after:ring-2 focus-visible:after:ring-brand-500"
+        >
+          {job.title}
+        </JobViewLink>
+        {job.department && <p className="mt-0.5 truncate text-sm text-gray-500">{job.department}</p>}
+        {job.city && (
+          <p className="mt-1 flex items-center gap-1.5 truncate text-sm text-gray-500">
+            <HomeIcon name="pin" className="h-4 w-4 flex-shrink-0" />
+            {job.city}
+            {job.sector ? ` · ${job.sector}` : ''}
+          </p>
         )}
 
-        {/* Metadata */}
-        <div className="mb-4 flex flex-col gap-2 text-sm text-gray-600">
-          {job.city && (
-            <div className="flex items-center gap-2">
-              <IconBadge icon={MapPinIcon} gradient="from-accent-400 to-accent-700" />
-              <span className="truncate">{job.city}</span>
-            </div>
-          )}
-          {job.department && (
-            <div className="flex items-center gap-2">
-              <IconBadge icon={BuildingIcon} gradient="from-gray-400 to-gray-600" />
-              <span className="truncate">{job.department}</span>
-            </div>
-          )}
-        </div>
-
-        {/* Quick-glance chips: Salary / Vacancies, when the admin has filled them in */}
         {(job.salary || job.vacancies) && (
-          <div className="mb-4 flex flex-wrap gap-2">
+          <div className="mt-2 flex flex-wrap gap-1.5">
             {job.salary && (
-              <span className="rounded-full bg-gray-50 px-2.5 py-1 text-xs font-semibold text-gray-600">
-                💰 {job.salary}
+              <span className="rounded-full bg-gray-100 px-2.5 py-1 text-xs font-semibold text-gray-700">
+                {job.salary}
               </span>
             )}
             {job.vacancies && (
-              <span className="rounded-full bg-gray-50 px-2.5 py-1 text-xs font-semibold text-gray-600">
-                👥 {job.vacancies} {String(job.vacancies).match(/^\d+$/) ? 'Posts' : ''}
+              <span className="rounded-full bg-gray-100 px-2.5 py-1 text-xs font-semibold text-gray-700">
+                {job.vacancies} {String(job.vacancies).match(/^\d+$/) ? 'posts' : ''}
               </span>
             )}
           </div>
         )}
 
-        {/* Last-date banner — red when urgent/expired so it still draws
-            the eye, amber for a normal upcoming deadline. Label switches
-            between Expired / Closing Today / N Days Left / plain date,
-            always computed from the real last_date (see lastDateLabel). */}
-        {job.last_date && (
-          <div
-            className={`mb-4 flex items-center gap-2 rounded-xl border px-3 py-2 ${
-              isExpired || isUrgent ? 'border-red-100 bg-red-50' : 'border-amber-100 bg-amber-50'
-            }`}
-          >
-            <IconBadge icon={CalendarClockIcon} gradient={isExpired || isUrgent ? 'from-red-500 to-red-600' : 'from-amber-500 to-amber-600'} />
-            <div className="min-w-0 leading-tight">
-              <p
-                className={`text-xs font-semibold uppercase tracking-wide ${
-                  isExpired || isUrgent ? 'text-red-500' : 'text-amber-600'
-                }`}
-              >
-                {lastDateLabel(remaining, isExpired)}
-              </p>
-              <p className={`truncate text-sm font-bold ${isExpired || isUrgent ? 'text-red-700' : 'text-amber-800'}`}>
-                {formatDate(job.last_date)}
-              </p>
-            </div>
-          </div>
-        )}
-
-        {/* Actions — Apply first on mobile for thumb reach, side-by-side on desktop.
-            py-3.5 on mobile keeps both buttons at a full ~44px+ tap target;
-            desktop drops back to a tighter py-2.5. */}
-        <div className="mt-auto flex flex-col gap-2 pt-1 sm:flex-row">
-          {canApply && (
-            <a
-              href={job.apply_link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group/btn order-1 flex flex-1 items-center justify-center gap-1.5 rounded-xl bg-gradient-to-r from-brand-600 to-brand-700 px-4 py-3.5 text-center text-sm font-semibold text-white shadow-md shadow-brand-600/20 transition-all duration-200 active:scale-[0.98] hover:shadow-lg hover:shadow-brand-600/30 hover:-translate-y-0.5 sm:order-2 sm:py-2.5"
-            >
-              Apply Now
-              <ArrowRightIcon className="h-4 w-4 transition-transform duration-200 group-hover/btn:translate-x-1" />
-            </a>
-          )}
-          <JobViewLink
-            jobId={job.id}
-            className={`order-2 flex-1 rounded-xl border-2 border-gray-200 bg-white px-4 py-3.5 text-center text-sm font-semibold text-gray-700 transition-all duration-200 active:scale-[0.98] hover:border-brand-300 hover:bg-brand-50 hover:text-brand-700 sm:order-1 sm:py-2.5 ${
-              canApply ? '' : 'sm:flex-1'
-            }`}
-          >
-            View Details
-          </JobViewLink>
-        </div>
+        <p className="mt-2 text-sm text-gray-900">
+          <span className="font-semibold">
+            {job.last_date ? `Last date ${formatDate(job.last_date)}` : 'Open until filled'}
+          </span>
+          {posted && <span className="text-gray-500"> · {posted}</span>}
+        </p>
       </div>
+
+      {canApply && (
+        <a
+          href={job.apply_link}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="relative z-10 mt-3 flex min-h-[44px] items-center justify-center rounded-xl border border-gray-900 px-4 text-sm font-semibold text-gray-900 transition hover:bg-gray-900 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
+        >
+          Apply Now
+        </a>
+      )}
     </div>
   );
 }

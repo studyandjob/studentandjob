@@ -17,7 +17,7 @@ export default function HomeHero({ openJobsCount = 0, slides = [], slideSpeed = 
             <HomeIcon name="check" className="h-4 w-4" />
             Free job information for Pakistan
           </span>
-          <h1 className="mt-4 font-serif text-3xl font-bold leading-tight tracking-tight sm:text-4xl lg:text-5xl">
+          <h1 className="mt-4 text-3xl font-bold leading-tight tracking-tight sm:text-4xl lg:text-5xl">
             Find Your Next Job in Pakistan
           </h1>
           <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-white/80 lg:mx-0">

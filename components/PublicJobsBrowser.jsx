@@ -6,7 +6,7 @@ import PublicJobCard from './PublicJobCard';
 import WhatsAppServiceCard from './WhatsAppServiceCard';
 import { isJobExpired, daysRemaining } from '@/lib/jobStatus';
 import { matchesQuery } from '@/lib/searchMatch';
-import { SearchIcon3D as SearchIcon } from './Icons3D';
+import SearchIcon from './HomeIcons';
 import { SECTORS, JOB_TYPES } from '@/lib/matching';
 import { isPageEnabled } from '@/lib/pages';
 
@@ -111,115 +111,102 @@ export default function PublicJobsBrowser({ jobs = [], siteName, settings }) {
   }
 
   return (
-    <>
-      {/* --- Hero / Header --- */}
-      <div className="relative overflow-hidden border-b border-gray-100 bg-white">
-        <div className="relative mx-auto max-w-5xl px-4 py-10 text-center md:px-6 md:py-14">
-          <h1 className="font-serif text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl md:text-4xl">
-            {siteName || 'Pak Study And Jobs'}
-          </h1>
-          <p
-            className="mx-auto mt-2 max-w-xl font-urdu text-base leading-loose text-gray-600 sm:text-lg"
-            dir="rtl"
-            lang="ur"
-          >
-            ہزاروں تازہ ترین گورنمنٹ اور پرائیویٹ جابز تلاش کریں
-          </p>
+    <div className="bg-white">
+      {/* --- Header + search --- */}
+      <div className="mx-auto max-w-7xl px-4 pb-2 pt-6 md:px-6 md:pt-10">
+        <h1 className="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl md:text-4xl">
+          Find your next job
+        </h1>
+        <p className="mt-1 font-urdu text-base leading-loose text-gray-500" dir="rtl" lang="ur">
+          ہزاروں تازہ ترین گورنمنٹ اور پرائیویٹ جابز تلاش کریں
+        </p>
 
-          {/* Search bar */}
-          <div className="mx-auto mt-6 max-w-xl">
-            <div className="flex items-center gap-2 rounded-full border border-gray-200 bg-white px-4 py-2.5 shadow-md sm:py-3">
-              <SearchIcon className="h-5 w-5 flex-shrink-0 text-gray-400" />
-              <input
-                type="text"
-                value={filters.search}
-                onChange={(e) => update('search', e.target.value)}
-                placeholder="Search Job Title, Department or City"
-                className="w-full bg-transparent text-sm text-gray-800 outline-none placeholder:text-gray-400 sm:text-base"
-              />
-            </div>
-          </div>
+        {/* Search bar */}
+        <div className="mt-4 flex max-w-2xl items-center gap-3 rounded-full border border-gray-200 bg-white py-2 pl-5 pr-2 shadow-pill transition focus-within:shadow-card-hover">
+          <SearchIcon name="search" className="h-5 w-5 flex-shrink-0 text-gray-400" />
+          <input
+            type="text"
+            value={filters.search}
+            onChange={(e) => update('search', e.target.value)}
+            placeholder="Search job title, department or city"
+            className="w-full bg-transparent py-2 text-sm font-medium text-gray-900 outline-none placeholder:text-gray-500 sm:text-base"
+          />
+        </div>
+
+        {/* Province / Job type / City filters + sort */}
+        <div className="no-scrollbar -mx-4 mt-5 flex items-center gap-2 overflow-x-auto px-4 pb-2 md:mx-0 md:flex-wrap md:overflow-visible md:px-0">
+          <select
+            value={filters.sector}
+            onChange={(e) => update('sector', e.target.value)}
+            className="h-11 rounded-full border border-gray-300 bg-white px-4 text-sm font-semibold text-gray-800 outline-none transition hover:border-gray-900 focus:border-gray-900 focus:ring-2 focus:ring-gray-200"
+          >
+            <option value="all">All Provinces</option>
+            {SECTORS.map((s) => (
+              <option key={s.value} value={s.value}>
+                {s.label}
+              </option>
+            ))}
+          </select>
+
+          <select
+            value={filters.jobType}
+            onChange={(e) => update('jobType', e.target.value)}
+            className="h-11 rounded-full border border-gray-300 bg-white px-4 text-sm font-semibold text-gray-800 outline-none transition hover:border-gray-900 focus:border-gray-900 focus:ring-2 focus:ring-gray-200"
+          >
+            <option value="all">All Job Types</option>
+            {JOB_TYPES.map((t) => (
+              <option key={t} value={t}>
+                {t}
+              </option>
+            ))}
+          </select>
+
+          {cities.length > 0 && (
+            <select
+              value={filters.city}
+              onChange={(e) => update('city', e.target.value)}
+              className="h-11 rounded-full border border-gray-300 bg-white px-4 text-sm font-semibold text-gray-800 outline-none transition hover:border-gray-900 focus:border-gray-900 focus:ring-2 focus:ring-gray-200"
+            >
+              <option value="all">All Cities</option>
+              {cities.map((c) => (
+                <option key={c} value={c}>
+                  {c}
+                </option>
+              ))}
+            </select>
+          )}
+
+          <select
+            value={sort}
+            onChange={(e) => setSort(e.target.value)}
+            aria-label="Sort"
+            className="h-11 rounded-full border border-gray-300 bg-white px-4 text-sm font-semibold text-gray-800 outline-none transition hover:border-gray-900 focus:border-gray-900 focus:ring-2 focus:ring-gray-200"
+          >
+            {SORT_OPTIONS.map((o) => (
+              <option key={o.value} value={o.value}>
+                {o.label}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="mt-3 flex items-center justify-between border-b border-gray-200 pb-4">
+          <p className="text-sm text-gray-600">
+            <span className="font-bold text-gray-900">{filtered.length}</span> job{filtered.length === 1 ? '' : 's'} found
+          </p>
+          {activeFilterCount > 0 && (
+            <button onClick={clearFilters} className="text-sm font-semibold text-gray-900 underline underline-offset-4">
+              Clear filters
+            </button>
+          )}
         </div>
       </div>
 
       {/* --- Content --- */}
-      <div className="mx-auto max-w-6xl px-4 py-8 md:px-6 md:py-10">
-        <div className="mb-6 flex flex-col gap-3 rounded-xl border border-gray-100 bg-white px-4 py-3 shadow-sm">
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <p className="text-xs text-gray-500 sm:text-sm">
-              <span className="font-bold text-gray-800">{filtered.length}</span> job{filtered.length === 1 ? '' : 's'} found
-              {activeFilterCount > 0 && (
-                <button onClick={clearFilters} className="ml-2 text-xs font-semibold text-brand-600 hover:underline">
-                  Clear ×
-                </button>
-              )}
-            </p>
-            <label className="flex items-center gap-1.5 text-xs text-gray-500 sm:text-sm">
-              <span>Sort:</span>
-              <select
-                value={sort}
-                onChange={(e) => setSort(e.target.value)}
-                className="rounded-lg border border-gray-200 bg-white px-2.5 py-1.5 text-xs font-semibold text-gray-700 outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-100 sm:text-sm"
-              >
-                {SORT_OPTIONS.map((o) => (
-                  <option key={o.value} value={o.value}>
-                    {o.label}
-                  </option>
-                ))}
-              </select>
-            </label>
-          </div>
-
-          {/* Province (sector) / City / Job Type — real filters, not just
-              URL-driven. Each select's own "All ..." option doubles as its
-              label, so there's no extra caption text crowding the row. */}
-          <div className="flex flex-wrap items-center gap-2 border-t border-gray-100 pt-3">
-            <select
-              value={filters.sector}
-              onChange={(e) => update('sector', e.target.value)}
-              className="rounded-lg border border-gray-200 bg-white px-2.5 py-1.5 text-xs font-medium text-gray-700 outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-100 sm:text-sm"
-            >
-              <option value="all">All Provinces</option>
-              {SECTORS.map((s) => (
-                <option key={s.value} value={s.value}>
-                  {s.label}
-                </option>
-              ))}
-            </select>
-
-            <select
-              value={filters.jobType}
-              onChange={(e) => update('jobType', e.target.value)}
-              className="rounded-lg border border-gray-200 bg-white px-2.5 py-1.5 text-xs font-medium text-gray-700 outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-100 sm:text-sm"
-            >
-              <option value="all">All Job Types</option>
-              {JOB_TYPES.map((t) => (
-                <option key={t} value={t}>
-                  {t}
-                </option>
-              ))}
-            </select>
-
-            {cities.length > 0 && (
-              <select
-                value={filters.city}
-                onChange={(e) => update('city', e.target.value)}
-                className="rounded-lg border border-gray-200 bg-white px-2.5 py-1.5 text-xs font-medium text-gray-700 outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-100 sm:text-sm"
-              >
-                <option value="all">All Cities</option>
-                {cities.map((c) => (
-                  <option key={c} value={c}>
-                    {c}
-                  </option>
-                ))}
-              </select>
-            )}
-          </div>
-        </div>
-
+      <div className="mx-auto max-w-7xl px-4 py-6 md:px-6 md:py-8">
         {/* Job card grid */}
         {filtered.length === 0 ? (
-          <div className="flex flex-col items-center gap-3 rounded-2xl bg-white py-16 text-center shadow-sm ring-1 ring-black/5">
+          <div className="flex flex-col items-center gap-3 rounded-2xl border border-gray-200 bg-white py-16 text-center">
             <span className="flex h-14 w-14 items-center justify-center rounded-full bg-gray-50 text-2xl">
               🔍
             </span>
@@ -235,7 +222,7 @@ export default function PublicJobsBrowser({ jobs = [], siteName, settings }) {
           </div>
         ) : (
           <>
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="grid grid-cols-1 gap-x-6 gap-y-9 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               {visibleJobs.map((job) => (
                 <PublicJobCard key={job.id} job={job} />
               ))}
@@ -245,7 +232,7 @@ export default function PublicJobsBrowser({ jobs = [], siteName, settings }) {
               <div className="mt-8 flex justify-center">
                 <button
                   onClick={() => setVisibleCount((c) => c + PAGE_SIZE)}
-                  className="rounded-full border-2 border-gray-200 bg-white px-6 py-3 text-sm font-semibold text-gray-700 transition active:scale-[0.98] hover:border-brand-300 hover:bg-brand-50 hover:text-brand-700"
+                  className="rounded-xl bg-gray-900 px-7 py-3.5 text-sm font-semibold text-white transition active:scale-[0.98] hover:bg-black"
                 >
                   Load More Jobs
                 </button>
@@ -262,6 +249,6 @@ export default function PublicJobsBrowser({ jobs = [], siteName, settings }) {
           </div>
         )}
       </div>
-    </>
+    </div>
   );
 }

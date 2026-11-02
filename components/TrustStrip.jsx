@@ -60,7 +60,7 @@ const ITEMS = [
 
 function Card({ label, sub, Icon, ring }) {
   return (
-    <div className="flex h-full flex-col items-center gap-4 rounded-2xl border border-gray-100 bg-white px-4 py-7 text-center shadow-sm ring-1 ring-black/5 transition group-hover:-translate-y-1 group-hover:shadow-lg">
+    <div className="flex h-full flex-col items-center gap-4 rounded-2xl border border-gray-100 bg-white px-4 py-7 text-center border border-gray-200 shadow-card transition group-hover:-translate-y-1 group-hover:shadow-lg">
       <span className={`relative flex h-20 w-20 flex-shrink-0 items-center justify-center rounded-2xl ${ring}`}>
         {/* soft blurred glow behind the icon so its own gradient/glare pops instead of sitting flat */}
         <span className="absolute inset-2 rounded-full bg-white/60 blur-md" aria-hidden="true" />

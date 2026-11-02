@@ -19,7 +19,7 @@ export default function TrustBadgesStrip() {
           {BADGES.map(({ label, Icon, ring }) => (
             <div
               key={label}
-              className="flex flex-col items-center gap-3 rounded-2xl border border-gray-100 bg-white px-4 py-6 text-center shadow-sm ring-1 ring-black/5 transition hover:-translate-y-0.5 hover:shadow-md"
+              className="flex flex-col items-center gap-3 rounded-2xl border border-gray-100 bg-white px-4 py-6 text-center border border-gray-200 shadow-card transition hover:shadow-card-hover"
             >
               <span className={`flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-full ${ring}`}>
                 <Icon className="h-8 w-8" />

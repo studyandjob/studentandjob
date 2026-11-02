@@ -183,7 +183,7 @@ export default function PublicJobDetailsModal({ job, settings, onClose }) {
               href={job.apply_link}
               target="_blank"
               rel="noopener noreferrer"
-              className="order-1 w-full rounded-full bg-brand-600 px-5 py-3.5 text-center text-sm font-bold text-white shadow-md shadow-brand-600/20 transition active:scale-[0.98] hover:bg-brand-700 sm:w-auto sm:py-2.5 sm:font-semibold"
+              className="order-1 w-full rounded-full bg-brand-600 px-5 py-3.5 text-center text-sm font-bold text-white  transition active:scale-[0.98] hover:bg-brand-700 sm:w-auto sm:py-2.5 sm:font-semibold"
             >
               Apply Now
             </a>

@@ -42,7 +42,7 @@ export default function StatsStrip({ stats }) {
               <span className="absolute inset-2 rounded-full bg-white/60 blur-md" aria-hidden="true" />
               <Icon className="relative h-10 w-10" />
             </span>
-            <span className="font-serif text-2xl font-bold text-brand-700 md:text-3xl">{formatCount(value)}</span>
+            <span className="text-2xl font-bold text-brand-700 md:text-3xl">{formatCount(value)}</span>
             <span className="text-xs font-medium text-gray-500 md:text-sm">{label}</span>
           </div>
         ))}

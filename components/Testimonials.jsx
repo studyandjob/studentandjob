@@ -32,7 +32,7 @@ export default function Testimonials({ testimonials = [] }) {
     <div className="border-t border-gray-100 bg-gray-50/60">
       <div className="mx-auto max-w-7xl px-4 py-10 md:px-6 md:py-14">
         <div className="mb-6 text-center md:mb-8">
-          <h2 className="font-serif text-xl font-bold text-gray-900 md:text-2xl">Success Stories</h2>
+          <h2 className="text-xl font-bold text-gray-900 md:text-2xl">Success Stories</h2>
           <p className="mt-1 text-sm text-gray-500">Real students and job seekers who found their next step here.</p>
         </div>
 
@@ -40,7 +40,7 @@ export default function Testimonials({ testimonials = [] }) {
           {testimonials.slice(0, 6).map((t) => (
             <figure
               key={t.id}
-              className="flex flex-col gap-3 rounded-2xl border border-gray-100 bg-white p-5 shadow-sm ring-1 ring-black/5"
+              className="flex flex-col gap-3 rounded-2xl border border-gray-100 bg-white p-5 border border-gray-200 shadow-card"
             >
               {t.rating > 0 && (
                 <div className="flex gap-0.5">

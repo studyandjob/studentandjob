@@ -1,7 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import { PhoneIcon3D, MailIcon3D } from './Icons3D';
+import HomeIcon from './HomeIcons';
+const PhoneIcon3D = (p) => <HomeIcon name="phone" {...p} />;
+const MailIcon3D = (p) => <HomeIcon name="mail" {...p} />;
 
 // Plain <img> tag on purpose (not next/image) — a public Supabase Storage
 // URL is already a final, ready-to-use image URL, so there's nothing for
@@ -38,7 +40,7 @@ export default function ContactCards({ contacts = [] }) {
       {contacts.map((c) => (
         <div
           key={c.id}
-          className="flex flex-col items-center gap-3 rounded-2xl bg-white p-6 text-center shadow-sm ring-1 ring-black/5 transition hover:-translate-y-0.5 hover:shadow-md"
+          className="flex flex-col items-center gap-3 rounded-2xl bg-white p-6 text-center border border-gray-200 shadow-card transition hover:shadow-card-hover"
         >
           <Avatar name={c.name} imageUrl={c.image_url} />
           <div>

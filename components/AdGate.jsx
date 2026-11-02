@@ -29,7 +29,7 @@ export default function AdGate({ jobId, title, department, lastDate, seconds = 5
 
   return (
     <div className="mx-auto w-full max-w-xl px-4 py-8">
-      <div className="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-black/5 sm:p-6">
+      <div className="rounded-2xl bg-white p-5 border border-gray-200 shadow-card sm:p-6">
         <p className="text-xs font-semibold text-brand-700">Your job is ready</p>
         <h1 className="mt-1 text-lg font-bold leading-snug text-gray-900 sm:text-xl">{title}</h1>
         {department && <p className="mt-0.5 text-sm text-gray-500">{department}</p>}
@@ -44,7 +44,7 @@ export default function AdGate({ jobId, title, department, lastDate, seconds = 5
           type="button"
           onClick={handleContinue}
           disabled={left > 0}
-          className="mt-5 w-full rounded-xl bg-brand-600 px-4 py-3.5 text-sm font-bold text-white shadow-md shadow-brand-600/20 transition enabled:hover:bg-brand-700 enabled:active:scale-[0.98] disabled:cursor-not-allowed disabled:bg-gray-300 disabled:shadow-none"
+          className="mt-5 w-full rounded-xl bg-brand-600 px-4 py-3.5 text-sm font-bold text-white  transition enabled:hover:bg-brand-700 enabled:active:scale-[0.98] disabled:cursor-not-allowed disabled:bg-gray-300 disabled:shadow-none"
         >
           {left > 0 ? `Continue to job in ${left}…` : 'Continue to job'}
         </button>
