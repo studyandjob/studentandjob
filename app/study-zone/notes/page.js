@@ -20,7 +20,7 @@ export default async function StudyZoneNotesPage() {
       <NewsTicker text={settings.scrolling_news} />
       <Header siteName={settings.site_name} logoUrl={settings.logo_url} />
 
-      <main className="flex-1 bg-gray-50">
+      <main className="flex-1 bg-white">
         <PageBanner
           title="Notes"
           subtitle="Free notes and study material — download as PDF."
@@ -28,7 +28,7 @@ export default async function StudyZoneNotesPage() {
         />
 
         <div className="mx-auto max-w-5xl px-4 py-10 md:px-6 md:py-14">
-          <div className="rounded-2xl bg-white p-4 shadow-sm ring-1 ring-black/5 md:p-6">
+          <div className="rounded-2xl bg-white p-4 border border-gray-200 shadow-card md:p-6">
             <p className="mb-4 border-b border-gray-100 pb-4 text-sm text-gray-500">
               {notes.length} item{notes.length === 1 ? '' : 's'} available
             </p>

@@ -3,7 +3,10 @@ import Header from '@/components/Header';
 import NewsTicker from '@/components/NewsTicker';
 import Footer from '@/components/Footer';
 import PageBanner from '@/components/PageBanner';
-import { GraduationCapIcon3D, DocumentIcon3D, NotesBookIcon3D } from '@/components/Icons3D';
+import HomeIcon from '@/components/HomeIcons';
+const GraduationCapIcon3D = (p) => <HomeIcon name="grad" {...p} />;
+const DocumentIcon3D = (p) => <HomeIcon name="document" {...p} />;
+const NotesBookIcon3D = (p) => <HomeIcon name="document" {...p} />;
 import { getSiteSettings } from '@/lib/data';
 
 export const dynamic = 'force-dynamic';
@@ -52,7 +55,7 @@ export default async function StudyZonePage() {
       <NewsTicker text={settings.scrolling_news} />
       <Header siteName={settings.site_name} logoUrl={settings.logo_url} />
 
-      <main className="flex-1 bg-gray-50">
+      <main className="flex-1 bg-white">
         <PageBanner
           title="Study Zone"
           subtitle="AI-powered practice tests, guess papers and old papers — all in one place."
@@ -67,16 +70,15 @@ export default async function StudyZonePage() {
                 <Link
                   key={card.href}
                   href={card.href}
-                  className="group flex flex-col gap-3 rounded-2xl bg-white p-6 shadow-sm ring-1 ring-black/5 transition hover:-translate-y-1 hover:shadow-md"
+                  className="group flex flex-col gap-3 rounded-2xl bg-white p-6 border border-gray-200 shadow-card transition hover:shadow-card-hover"
                 >
-                  <span className="relative flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-100 to-brand-50">
-                    <span className="absolute inset-2 rounded-full bg-white/60 blur-md" aria-hidden="true" />
-                    <Icon className="relative h-10 w-10" />
+                  <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-brand-50 text-brand-600">
+                    <Icon className="h-8 w-8" />
                   </span>
                   <h2 className="text-lg font-bold text-gray-900">{card.title}</h2>
                   <p className="flex-1 text-sm text-gray-500">{card.description}</p>
                   <span className="inline-flex w-fit items-center gap-1 text-sm font-semibold text-brand-600 group-hover:underline">
-                    {card.cta} →
+                    {card.cta}
                   </span>
                 </Link>
               );

@@ -30,7 +30,7 @@ export default async function JobsPage() {
       <NewsTicker text={settings.scrolling_news} />
       <Header siteName={settings.site_name} logoUrl={settings.logo_url} />
 
-      <main className="flex-1 bg-gray-50">
+      <main className="flex-1 bg-white">
         <div className="mx-auto max-w-7xl px-4 md:px-6">
           <AdSlot html={settings.ad_code_list} className="mb-0" />
         </div>

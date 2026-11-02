@@ -21,7 +21,7 @@ export default async function ResultsPage() {
       <NewsTicker text={settings.scrolling_news} />
       <Header siteName={settings.site_name} logoUrl={settings.logo_url} />
 
-      <main className="flex-1 bg-gray-50">
+      <main className="flex-1 bg-white">
         <PageBanner
           title="Results"
           subtitle="Latest exam and test results — check your result online."
@@ -34,7 +34,7 @@ export default async function ResultsPage() {
           </p>
 
           {results.length === 0 ? (
-            <div className="rounded-2xl bg-white p-10 text-center shadow-sm ring-1 ring-black/5">
+            <div className="rounded-2xl bg-white p-10 text-center border border-gray-200 shadow-card">
               <p className="text-sm text-gray-500">No results announced yet. Check back soon.</p>
             </div>
           ) : (

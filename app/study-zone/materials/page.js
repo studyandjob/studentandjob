@@ -46,7 +46,7 @@ export default async function StudyMaterialsPage({ searchParams }) {
       <NewsTicker text={settings.scrolling_news} />
       <Header siteName={settings.site_name} logoUrl={settings.logo_url} />
 
-      <main className="flex-1 bg-gray-50">
+      <main className="flex-1 bg-white">
         <PageBanner title={meta.title} subtitle="Class-wise and subject-wise, ready to view or download." icon={<Icon className="h-9 w-9" />} />
 
         <div className="mx-auto max-w-5xl px-4 py-10 md:px-6 md:py-14">
@@ -95,7 +95,7 @@ export default async function StudyMaterialsPage({ searchParams }) {
             </div>
           )}
 
-          <div className="rounded-2xl bg-white p-4 shadow-sm ring-1 ring-black/5 md:p-6">
+          <div className="rounded-2xl bg-white p-4 border border-gray-200 shadow-card md:p-6">
             <p className="mb-4 border-b border-gray-100 pb-4 text-sm text-gray-500">
               {materials.length} item{materials.length === 1 ? '' : 's'} available
             </p>

@@ -14,7 +14,7 @@ export default function TestSessionPage({ params }) {
     <>
       <Header />
 
-      <main className="flex-1 bg-gray-50">
+      <main className="flex-1 bg-white">
         <div className="mx-auto max-w-3xl px-4 py-8 md:px-6 md:py-12">
           <ExamRunner sessionId={params.sessionId} />
         </div>

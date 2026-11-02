@@ -20,7 +20,7 @@ export default async function JobsPage() {
       <NewsTicker text={settings.scrolling_news} />
       <Header siteName={settings.site_name} logoUrl={settings.logo_url} />
 
-      <main className="flex-1 bg-gray-50">
+      <main className="flex-1 bg-white">
         <PageBanner
           title="Government & Private Jobs"
           subtitle="Browse the latest job postings, updated regularly."

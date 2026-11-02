@@ -57,7 +57,7 @@ export default async function SearchPage({ searchParams }) {
       <NewsTicker text={settings.scrolling_news} />
       <Header siteName={settings.site_name} logoUrl={settings.logo_url} />
 
-      <main className="flex-1 bg-gray-50">
+      <main className="flex-1 bg-white">
         <PageBanner
           title="Search"
           subtitle={q ? `Results for "${q}"` : 'Search jobs, notes, results & scholarships'}
@@ -74,7 +74,7 @@ export default async function SearchPage({ searchParams }) {
               Type something above to search jobs, notes, results and scholarships.
             </p>
           ) : totalCount === 0 ? (
-            <div className="rounded-2xl bg-white py-16 text-center shadow-sm ring-1 ring-black/5">
+            <div className="rounded-2xl bg-white py-16 text-center border border-gray-200 shadow-card">
               <p className="text-sm text-gray-500">No matches found for &ldquo;{q}&rdquo;. Try a different keyword.</p>
             </div>
           ) : (
@@ -117,7 +117,7 @@ export default async function SearchPage({ searchParams }) {
               {results.length > 0 && (
                 <section>
                   <h2 className="mb-4 text-lg font-bold text-gray-900">Results ({results.length})</h2>
-                  <div className="rounded-2xl bg-white p-4 shadow-sm ring-1 ring-black/5 md:p-6">
+                  <div className="rounded-2xl bg-white p-4 border border-gray-200 shadow-card md:p-6">
                     <ul className="divide-y divide-gray-100">
                       {results.map((r) => (
                         <li key={r.id} className="flex flex-col gap-3 py-4 sm:flex-row sm:items-center sm:justify-between">
@@ -150,7 +150,7 @@ export default async function SearchPage({ searchParams }) {
               {scholarships.length > 0 && (
                 <section>
                   <h2 className="mb-4 text-lg font-bold text-gray-900">Scholarships ({scholarships.length})</h2>
-                  <div className="rounded-2xl bg-white p-4 shadow-sm ring-1 ring-black/5 md:p-6">
+                  <div className="rounded-2xl bg-white p-4 border border-gray-200 shadow-card md:p-6">
                     <ul className="divide-y divide-gray-100">
                       {scholarships.map((s) => (
                         <li key={s.id} className="flex flex-col gap-3 py-4 sm:flex-row sm:items-center sm:justify-between">

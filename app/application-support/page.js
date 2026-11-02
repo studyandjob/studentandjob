@@ -31,12 +31,12 @@ export default async function ApplicationSupportPage() {
       <NewsTicker text={settings.scrolling_news} />
       <Header siteName={settings.site_name} logoUrl={settings.logo_url} />
 
-      <main className="flex-1 bg-gray-50">
+      <main className="flex-1 bg-white">
         <PageBanner title={settings.wa_service_title || 'Application Support via WhatsApp'} />
 
         <div className="mx-auto max-w-3xl px-4 py-10 md:px-6 md:py-14">
           {!enabled ? (
-            <div className="rounded-2xl bg-white p-8 text-center shadow-sm ring-1 ring-black/5">
+            <div className="rounded-2xl bg-white p-8 text-center border border-gray-200 shadow-card">
               <p className="text-sm text-gray-500">
                 This service is not currently available. Please check back later or contact us for help.
               </p>
@@ -44,7 +44,7 @@ export default async function ApplicationSupportPage() {
           ) : (
             <div className="flex flex-col gap-6">
               {/* Price — always shown first and clearly, before anything else */}
-              <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl bg-white p-6 shadow-sm ring-1 ring-black/5 md:p-8">
+              <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl bg-white p-6 border border-gray-200 shadow-card md:p-8">
                 <div>
                   <h1 className="text-lg font-bold text-gray-900 md:text-xl">
                     {settings.wa_service_title || 'Application Support via WhatsApp'}
@@ -59,7 +59,7 @@ export default async function ApplicationSupportPage() {
               </div>
 
               {features.length > 0 && (
-                <div className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-black/5 md:p-8">
+                <div className="rounded-2xl bg-white p-6 border border-gray-200 shadow-card md:p-8">
                   <h2 className="mb-3 text-sm font-bold uppercase tracking-wide text-gray-500">What's Included</h2>
                   <ul className="flex flex-col gap-2">
                     {features.map((f, i) => (
@@ -82,7 +82,7 @@ export default async function ApplicationSupportPage() {
                 </div>
               )}
 
-              <div className="rounded-2xl bg-white p-6 text-center shadow-sm ring-1 ring-black/5 md:p-8">
+              <div className="rounded-2xl bg-white p-6 text-center border border-gray-200 shadow-card md:p-8">
                 <p className="mb-4 text-sm text-gray-600">
                   By messaging us, you confirm you've read the price and the refund/terms above.
                 </p>

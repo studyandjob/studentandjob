@@ -22,7 +22,7 @@ export default async function ContactPage() {
       <NewsTicker text={settings.scrolling_news} />
       <Header siteName={settings.site_name} logoUrl={settings.logo_url} />
 
-      <main className="flex-1 bg-gray-50">
+      <main className="flex-1 bg-white">
         <PageBanner
           title="Contact Us"
           subtitle="Have a question? Send us a message and we'll get back to you."
@@ -32,7 +32,7 @@ export default async function ContactPage() {
         <div className="mx-auto max-w-5xl px-4 py-10 md:px-6 md:py-14">
           <ContactCards contacts={contacts} />
 
-          <div className="mx-auto max-w-3xl rounded-2xl bg-white p-5 shadow-sm ring-1 ring-black/5 md:p-8">
+          <div className="mx-auto max-w-3xl rounded-2xl bg-white p-5 border border-gray-200 shadow-card md:p-8">
             <ContactForm />
           </div>
         </div>

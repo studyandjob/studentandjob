@@ -134,7 +134,7 @@ export default async function JobDetailsPage({ params }) {
       <NewsTicker text={settings.scrolling_news} />
       <Header siteName={settings.site_name} logoUrl={settings.logo_url} />
 
-      <main className="flex-1 bg-gray-50 pb-24 md:pb-10">
+      <main className="flex-1 bg-white pb-24 md:pb-10">
         {/* Breadcrumb */}
         <div className="mx-auto max-w-3xl px-4 pt-6 md:px-6">
           <nav className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500">
@@ -155,7 +155,7 @@ export default async function JobDetailsPage({ params }) {
         </div>
 
         <div className="mx-auto max-w-3xl px-4 py-5 md:px-6">
-          <div className="overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-black/5">
+          <div className="overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-card">
             {/* Header */}
             <div className="flex flex-col gap-3 border-b border-gray-100 px-5 py-5 sm:px-6">
               <div className="flex flex-wrap items-center gap-2">
@@ -177,7 +177,7 @@ export default async function JobDetailsPage({ params }) {
                   </span>
                 )}
               </div>
-              <h1 className="text-xl font-bold leading-snug text-gray-900 sm:text-2xl">{job.title}</h1>
+              <h1 className="text-2xl font-extrabold leading-snug tracking-tight text-gray-900 sm:text-3xl">{job.title}</h1>
               <p className="text-sm text-gray-500">{job.department || 'Department not specified'}</p>
 
               <div className="flex flex-wrap items-center gap-3 pt-1">
@@ -187,7 +187,7 @@ export default async function JobDetailsPage({ params }) {
 
             <div className="flex flex-col gap-6 px-5 py-5 sm:px-6">
               {/* Official Source strip */}
-              <div className="flex flex-col gap-2 rounded-xl border border-amber-200 bg-amber-50 px-3.5 py-2.5">
+              <div className="flex flex-col gap-2 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3">
                 {job.source_type && job.verified_on ? (
                   <p className="text-sm font-bold text-emerald-700">✓ Official Source Verified</p>
                 ) : (
@@ -253,20 +253,20 @@ export default async function JobDetailsPage({ params }) {
               </dl>
 
               {!isExpired && remaining !== null && remaining <= 3 && (
-                <p className="rounded-xl border border-red-100 bg-red-50 px-3.5 py-2.5 text-sm font-bold text-red-600">
+                <p className="rounded-2xl border border-red-100 bg-red-50 px-4 py-3 text-sm font-bold text-red-600">
                   {remaining === 0 ? 'Closing today — apply now.' : `Only ${remaining} day${remaining === 1 ? '' : 's'} left to apply.`}
                 </p>
               )}
 
               {(job.education_required?.length > 0 || job.skills_required?.length > 0) && (
-                <div className="grid grid-cols-1 gap-4 rounded-xl bg-gray-50 p-4 sm:grid-cols-2">
+                <div className="grid grid-cols-1 gap-4 rounded-2xl bg-gray-50 p-5 sm:grid-cols-2">
                   <TagGroup label="Education Required" tags={job.education_required} />
                   <TagGroup label="Skills Required" tags={job.skills_required} />
                 </div>
               )}
 
               {showManual && (job.postal_address || job.required_documents || job.fee_details) && (
-                <div className="rounded-xl border border-gray-200 bg-gray-50 p-4">
+                <div className="rounded-2xl border border-gray-200 bg-gray-50 p-5">
                   <p className="mb-3 text-sm font-semibold text-gray-800">Manual / By-Post Details</p>
                   <div className="flex flex-col gap-3 text-sm">
                     {job.postal_address && (
@@ -312,7 +312,7 @@ export default async function JobDetailsPage({ params }) {
                   href={job.apply_link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="order-1 w-full rounded-full bg-brand-600 px-5 py-3.5 text-center text-sm font-bold text-white shadow-md shadow-brand-600/20 transition active:scale-[0.98] hover:bg-brand-700 sm:w-auto sm:py-2.5 sm:font-semibold"
+                  className="order-1 w-full rounded-xl bg-brand-600 px-8 py-3.5 text-center text-sm font-bold text-white transition active:scale-[0.98] hover:bg-brand-700 sm:w-auto"
                 >
                   Apply Now
                 </a>
@@ -323,7 +323,7 @@ export default async function JobDetailsPage({ params }) {
                     href={job.official_website}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex-1 rounded-full border border-gray-200 px-4 py-2.5 text-center text-sm font-semibold text-gray-700 transition active:scale-[0.98] hover:border-brand-300 hover:text-brand-700 sm:flex-none"
+                    className="flex-1 rounded-xl border border-gray-900 px-5 py-3 text-center text-sm font-semibold text-gray-900 transition active:scale-[0.98] hover:bg-gray-900 hover:text-white sm:flex-none"
                   >
                     Official Website
                   </a>
@@ -347,8 +347,8 @@ export default async function JobDetailsPage({ params }) {
           {/* Similar Jobs */}
           {relatedJobs.length > 0 && (
             <div className="mt-8">
-              <h2 className="mb-4 text-base font-bold text-gray-900 md:text-lg">Similar Jobs</h2>
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              <h2 className="mb-5 text-xl font-bold text-gray-900 md:text-2xl">Similar Jobs</h2>
+              <div className="grid grid-cols-1 gap-x-6 gap-y-9 sm:grid-cols-2">
                 {relatedJobs.map((rj) => (
                   <PublicJobCard key={rj.id} job={rj} />
                 ))}
@@ -369,7 +369,7 @@ export default async function JobDetailsPage({ params }) {
             href={job.apply_link}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex w-full items-center justify-center rounded-full bg-brand-600 px-5 py-3 text-center text-sm font-bold text-white shadow-md shadow-brand-600/20 active:scale-[0.98]"
+            className="flex w-full items-center justify-center rounded-xl bg-brand-600 px-5 py-3.5 text-center text-sm font-bold text-white active:scale-[0.98]"
           >
             Apply Now
           </a>
