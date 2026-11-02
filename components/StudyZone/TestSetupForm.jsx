@@ -82,7 +82,7 @@ export default function TestSetupForm({ classes }) {
   }
 
   return (
-    <form onSubmit={handleStart} className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-black/5">
+    <form onSubmit={handleStart} className="rounded-2xl bg-white p-6 border border-gray-200 shadow-card">
       {error && <p className="mb-4 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-600">{error}</p>}
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">

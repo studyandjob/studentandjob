@@ -115,7 +115,7 @@ export default function ExamRunner({ sessionId }) {
   }
   if (error) {
     return (
-      <div className="rounded-xl bg-white p-6 text-center shadow-sm ring-1 ring-black/5">
+      <div className="rounded-xl bg-white p-6 text-center border border-gray-200 shadow-card">
         <p className="mb-3 text-sm text-red-600">{error}</p>
         <Link href="/study-zone/test" className="text-sm font-semibold text-brand-600 hover:underline">
           ← Start a new test
@@ -128,7 +128,7 @@ export default function ExamRunner({ sessionId }) {
   if (result) {
     const pct = result.total_marks > 0 ? Math.round((result.score / result.total_marks) * 100) : 0;
     return (
-      <div className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-black/5 md:p-8">
+      <div className="rounded-2xl bg-white p-6 border border-gray-200 shadow-card md:p-8">
         <h2 className="mb-1 text-xl font-bold text-gray-900">Test Completed</h2>
         <p className="mb-6 text-sm text-gray-500">Here's your instant result for the objective portion of this paper.</p>
 
@@ -190,7 +190,7 @@ export default function ExamRunner({ sessionId }) {
   }
 
   return (
-    <div className="rounded-2xl bg-white shadow-sm ring-1 ring-black/5">
+    <div className="rounded-2xl bg-white border border-gray-200 shadow-card">
       {/* Timer + progress header */}
       <div className="sticky top-0 z-10 flex items-center justify-between gap-3 rounded-t-2xl border-b border-gray-100 bg-white/95 px-5 py-3.5 backdrop-blur">
         <div>
