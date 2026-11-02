@@ -2,9 +2,10 @@ import { supabase } from '@/lib/supabaseClient';
 import Header from '@/components/Header';
 import NewsTicker from '@/components/NewsTicker';
 import HomeLead from '@/components/HomeLead';
+import HomeCategories from '@/components/HomeCategories';
+import HomeClosingSoon from '@/components/HomeClosingSoon';
 import HomeLatestJobs from '@/components/HomeLatestJobs';
 import HomeSidebar from '@/components/HomeSidebar';
-import JobSearchForm from '@/components/JobSearchForm';
 import HomeInfo from '@/components/HomeInfo';
 import HomeFaq from '@/components/HomeFaq';
 import { getHeroSlides } from '@/lib/data';
@@ -45,22 +46,14 @@ export default async function HomePage() {
       <NewsTicker text={settings.scrolling_news} />
       <Header siteName={settings.site_name} logoUrl={settings.logo_url} />
 
-      <main className="flex-1">
-        {/* Phones: header has no search box, so it sits here */}
-        <div className="border-b border-gray-200 bg-white px-4 py-3 md:hidden">
-          <JobSearchForm />
-        </div>
-
-        <div className="mx-auto max-w-7xl space-y-8 px-4 py-6 md:px-6 md:py-8">
-          <HomeLead jobs={allOpenJobs} slides={slides} slideSpeed={settings.hero_slide_speed} />
-
-          <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_340px]">
-            <div>
-              <HomeLatestJobs jobs={latestJobs} />
-              <AdSlot html={settings.ad_code_list} />
-            </div>
-            <HomeSidebar settings={{ ...settings, ad_code_list: '' }} />
-          </div>
+      <main className="flex-1 bg-white">
+        <div className="mx-auto max-w-7xl space-y-8 px-4 py-4 md:space-y-10 md:px-6 md:py-6">
+          <HomeLead slides={slides} slideSpeed={settings.hero_slide_speed} />
+          <HomeCategories />
+          <HomeClosingSoon jobs={allOpenJobs} />
+          <HomeLatestJobs jobs={latestJobs} />
+          <AdSlot html={settings.ad_code_list} />
+          <HomeSidebar settings={{ ...settings, ad_code_list: '' }} />
         </div>
 
         <HomeInfo />
