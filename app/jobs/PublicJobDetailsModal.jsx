@@ -36,19 +36,19 @@ export default function PublicJobDetailsModal({ job, onClose }) {
   const showManual = job.job_type === 'Government' || job.application_mode === 'Manual/By Post';
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4" onClick={onClose}>
+    <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/50 sm:items-center sm:p-4" onClick={onClose} role="dialog" aria-modal="true">
       <div
-        className="max-h-[88vh] w-full max-w-2xl overflow-y-auto rounded-2xl bg-white shadow-2xl"
+        className="max-h-[88vh] w-full max-w-2xl overflow-y-auto rounded-3xl bg-surface shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="sticky top-0 flex items-start justify-between gap-3 border-b border-gray-100 bg-white px-5 py-4 sm:px-6 sm:py-5">
+        <div className="sticky top-0 flex items-start justify-between gap-3 border-b border-line bg-surface px-5 py-4 sm:px-6 sm:py-5">
           <div className="min-w-0">
             <div className="mb-1 flex flex-wrap items-center gap-2">
-              <h2 className="text-lg font-bold text-gray-900">{job.title}</h2>
+              <h2 className="text-xl font-semibold leading-snug text-gray-900">{job.title}</h2>
               <span
                 className={`rounded-full px-2 py-0.5 text-xs font-bold uppercase tracking-wide ${
-                  job.job_type === 'Government' ? 'bg-brand-50 text-brand-700' : 'bg-gray-50 text-gray-600'
+                  job.job_type === 'Government' ? 'bg-brand-50 text-brand-700' : 'bg-surface-alt text-gray-600'
                 }`}
               >
                 {job.job_type}
@@ -58,7 +58,7 @@ export default function PublicJobDetailsModal({ job, onClose }) {
           </div>
           <button
             onClick={onClose}
-            className="flex-shrink-0 rounded-full p-1.5 text-gray-400 transition hover:bg-gray-100 hover:text-gray-700"
+            className="flex-shrink-0 rounded-full p-1.5 text-gray-400 transition hover:bg-surface-alt hover:text-gray-700"
             aria-label="Close"
           >
             <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -68,7 +68,7 @@ export default function PublicJobDetailsModal({ job, onClose }) {
         </div>
 
         {/* Body */}
-        <div className="flex flex-col gap-6 px-5 py-5 sm:px-6">
+        <div className="flex flex-col gap-6 px-5 py-5 sm:px-7">
           <dl className="grid grid-cols-2 gap-4 sm:grid-cols-3">
             <Row label="Sector" value={job.sector} />
             <Row label="Category" value={job.category} />
@@ -78,14 +78,14 @@ export default function PublicJobDetailsModal({ job, onClose }) {
           </dl>
 
           {(job.education_required?.length > 0 || job.skills_required?.length > 0) && (
-            <div className="grid grid-cols-1 gap-4 rounded-xl bg-gray-50 p-4 sm:grid-cols-2">
+            <div className="grid grid-cols-1 gap-4 rounded-xl bg-surface-alt p-4 sm:grid-cols-2">
               <TagGroup label="Education Required" tags={job.education_required} />
               <TagGroup label="Skills Required" tags={job.skills_required} />
             </div>
           )}
 
           {showManual && (job.postal_address || job.required_documents || job.fee_details) && (
-            <div className="rounded-xl border border-gray-200 bg-gray-50 p-4">
+            <div className="rounded-xl border border-line bg-surface-alt p-4">
               <p className="mb-3 text-sm font-semibold text-gray-800">Manual / By-Post Details</p>
               <div className="flex flex-col gap-3 text-sm">
                 {job.postal_address && (
@@ -129,13 +129,13 @@ export default function PublicJobDetailsModal({ job, onClose }) {
         </div>
 
         {/* Footer */}
-        <div className="sticky bottom-0 flex flex-wrap gap-2 border-t border-gray-100 bg-white px-5 py-4 sm:px-6">
+        <div className="sticky bottom-0 flex flex-wrap gap-2 border-t border-line bg-surface px-5 py-4 sm:px-6">
           {job.apply_link && (
             <a
               href={job.apply_link}
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-full bg-brand-600 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-700"
+              className="rounded-xl bg-brand-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-brand-700"
             >
               Apply Now
             </a>
@@ -147,14 +147,14 @@ export default function PublicJobDetailsModal({ job, onClose }) {
               )}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-full border border-brand-200 bg-brand-50 px-5 py-2.5 text-sm font-semibold text-brand-700 transition hover:bg-brand-600 hover:text-white"
+              className="rounded-xl border border-brand-200 bg-brand-50 px-5 py-3 text-sm font-semibold text-brand-700 transition hover:bg-brand-600 hover:text-white"
             >
               WhatsApp Inquiry
             </a>
           )}
           <button
             onClick={onClose}
-            className="rounded-full border border-gray-200 px-5 py-2.5 text-sm font-semibold text-gray-600 transition hover:text-gray-900"
+            className="rounded-xl border border-line-strong px-5 py-3 text-sm font-semibold text-gray-600 transition hover:text-gray-900"
           >
             Close
           </button>

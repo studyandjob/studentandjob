@@ -55,7 +55,7 @@ export default async function StudyMaterialsPage({ searchParams }) {
             <Link
               href={`/study-zone/materials?type=guess_paper${classId ? `&class=${classId}` : ''}`}
               className={`rounded-full px-4 py-2 text-sm font-semibold transition ${
-                type === 'guess_paper' ? 'bg-brand-600 text-white' : 'bg-surface text-gray-600 ring-1 ring-black/5'
+                type === 'guess_paper' ? 'bg-brand-600 text-white' : 'bg-surface text-gray-600 border border-line'
               }`}
             >
               Guess Papers
@@ -63,7 +63,7 @@ export default async function StudyMaterialsPage({ searchParams }) {
             <Link
               href={`/study-zone/materials?type=old_paper${classId ? `&class=${classId}` : ''}`}
               className={`rounded-full px-4 py-2 text-sm font-semibold transition ${
-                type === 'old_paper' ? 'bg-brand-600 text-white' : 'bg-surface text-gray-600 ring-1 ring-black/5'
+                type === 'old_paper' ? 'bg-brand-600 text-white' : 'bg-surface text-gray-600 border border-line'
               }`}
             >
               Old Papers
@@ -76,7 +76,7 @@ export default async function StudyMaterialsPage({ searchParams }) {
               <Link
                 href={classQuery('')}
                 className={`rounded-full px-3.5 py-1.5 text-xs font-semibold transition ${
-                  !classId ? 'bg-gray-800 text-white' : 'bg-surface text-gray-500 ring-1 ring-black/5'
+                  !classId ? 'bg-brand-600 text-white' : 'bg-surface text-gray-500 border border-line'
                 }`}
               >
                 All Classes
@@ -86,7 +86,7 @@ export default async function StudyMaterialsPage({ searchParams }) {
                   key={c.id}
                   href={classQuery(c.id)}
                   className={`rounded-full px-3.5 py-1.5 text-xs font-semibold transition ${
-                    classId === c.id ? 'bg-gray-800 text-white' : 'bg-surface text-gray-500 ring-1 ring-black/5'
+                    classId === c.id ? 'bg-brand-600 text-white' : 'bg-surface text-gray-500 border border-line'
                   }`}
                 >
                   {c.class_name}
@@ -110,7 +110,7 @@ export default async function StudyMaterialsPage({ searchParams }) {
                       href={m.file_url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex h-full flex-col gap-1.5 rounded-lg border border-line p-4 transition hover:border-brand-200 hover:bg-brand-50"
+                      className="flex h-full flex-col gap-1.5 rounded-2xl border border-line p-4 transition hover:shadow-card-hover"
                     >
                       <span className="inline-block w-fit rounded bg-brand-50 px-2 py-0.5 text-xs font-semibold uppercase text-brand-600">
                         {subjectName(m.subject_id) || 'General'} {m.year ? `· ${m.year}` : ''}

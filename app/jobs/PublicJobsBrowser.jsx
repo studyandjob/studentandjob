@@ -48,13 +48,13 @@ export default function PublicJobsBrowser({ jobs = [] }) {
   }
 
   return (
-    <div className="rounded-2xl bg-white p-4 shadow-sm ring-1 ring-black/5 md:p-6">
+    <div className="rounded-2xl bg-surface p-4 shadow-sm ring-1 ring-black/5 md:p-6">
       {/* --- Filter bar --- */}
-      <div className="mb-5 border-b border-gray-100 pb-5">
+      <div className="mb-5 border-b border-line pb-5">
         {/* Mobile toggle */}
         <button
           onClick={() => setFiltersOpen((v) => !v)}
-          className="mb-3 flex w-full items-center justify-between rounded-lg border border-gray-200 px-4 py-2.5 text-sm font-semibold text-gray-700 md:hidden"
+          className="mb-3 flex w-full items-center justify-between rounded-lg border border-line px-4 py-2.5 text-sm font-semibold text-gray-700 md:hidden"
         >
           <span className="flex items-center gap-2">
             <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -74,7 +74,7 @@ export default function PublicJobsBrowser({ jobs = [] }) {
 
         <div className={`${filtersOpen ? 'flex' : 'hidden'} flex-col gap-3 md:flex`}>
           {/* Job type tabs */}
-          <div className="flex gap-2 rounded-lg border border-gray-200 bg-gray-50 p-1">
+          <div className="flex gap-2 rounded-lg border border-line bg-surface-alt p-1">
             {['all', 'Government', 'Private'].map((t) => (
               <button
                 key={t}
@@ -95,13 +95,13 @@ export default function PublicJobsBrowser({ jobs = [] }) {
               value={filters.search}
               onChange={(e) => update('search', e.target.value)}
               placeholder="Search by title or department…"
-              className="rounded-lg border border-gray-200 bg-gray-50 px-3.5 py-2.5 text-sm text-gray-800 outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-100 lg:col-span-1"
+              className="rounded-lg border border-line bg-surface-alt px-3.5 py-2.5 text-sm text-gray-800 outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-100 lg:col-span-1"
             />
 
             <select
               value={filters.sector}
               onChange={(e) => update('sector', e.target.value)}
-              className="rounded-lg border border-gray-200 bg-gray-50 px-3.5 py-2.5 text-sm text-gray-800 outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-100"
+              className="rounded-lg border border-line bg-surface-alt px-3.5 py-2.5 text-sm text-gray-800 outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-100"
             >
               <option value="all">All Sectors</option>
               {SECTORS.map((s) => (
@@ -114,7 +114,7 @@ export default function PublicJobsBrowser({ jobs = [] }) {
             <select
               value={filters.category}
               onChange={(e) => update('category', e.target.value)}
-              className="rounded-lg border border-gray-200 bg-gray-50 px-3.5 py-2.5 text-sm text-gray-800 outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-100"
+              className="rounded-lg border border-line bg-surface-alt px-3.5 py-2.5 text-sm text-gray-800 outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-100"
             >
               <option value="all">All Categories</option>
               {JOB_CATEGORIES.map((c) => (
@@ -127,7 +127,7 @@ export default function PublicJobsBrowser({ jobs = [] }) {
             <select
               value={filters.city}
               onChange={(e) => update('city', e.target.value)}
-              className="rounded-lg border border-gray-200 bg-gray-50 px-3.5 py-2.5 text-sm text-gray-800 outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-100"
+              className="rounded-lg border border-line bg-surface-alt px-3.5 py-2.5 text-sm text-gray-800 outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-100"
             >
               <option value="all">All Cities</option>
               {cities.map((c) => (
@@ -164,13 +164,13 @@ export default function PublicJobsBrowser({ jobs = [] }) {
                   <p className="text-sm font-semibold text-gray-800 md:text-base">{job.title}</p>
                   <span
                     className={`rounded-full px-2 py-0.5 text-xs font-bold uppercase tracking-wide ${
-                      job.job_type === 'Government' ? 'bg-brand-50 text-brand-700' : 'bg-gray-50 text-gray-600'
+                      job.job_type === 'Government' ? 'bg-brand-50 text-brand-700' : 'bg-surface-alt text-gray-600'
                     }`}
                   >
                     {job.job_type}
                   </span>
                   {job.sector && (
-                    <span className="rounded-full bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-600">
+                    <span className="rounded-full bg-surface-alt px-2 py-0.5 text-xs font-medium text-gray-600">
                       {job.sector}
                     </span>
                   )}
@@ -188,7 +188,7 @@ export default function PublicJobsBrowser({ jobs = [] }) {
               <div className="flex flex-shrink-0 gap-2">
                 <button
                   onClick={() => setSelectedJob(job)}
-                  className="rounded-md border border-gray-200 px-4 py-2 text-center text-xs font-semibold text-gray-600 transition hover:border-brand-200 hover:text-brand-700"
+                  className="rounded-md border border-line px-4 py-2 text-center text-xs font-semibold text-gray-600 transition hover:border-brand-200 hover:text-brand-700"
                 >
                   View Details
                 </button>

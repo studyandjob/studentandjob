@@ -17,8 +17,8 @@ export default function JobsList({ jobs = [] }) {
   const [selectedJob, setSelectedJob] = useState(null);
 
   return (
-    <section className="rounded-2xl bg-white p-4 shadow-sm ring-1 ring-black/5 md:p-6">
-      <div className="mb-4 flex items-center justify-between border-b border-gray-100 pb-4">
+    <section className="rounded-2xl bg-surface p-4 shadow-sm ring-1 ring-black/5 md:p-6">
+      <div className="mb-4 flex items-center justify-between border-b border-line pb-4">
         <div className="flex items-center gap-2.5">
           <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-brand-50 text-brand-600">
             <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -52,7 +52,7 @@ export default function JobsList({ jobs = [] }) {
               <div className="flex flex-shrink-0 items-center gap-2">
                 <button
                   onClick={() => setSelectedJob(job)}
-                  className="rounded-md border border-gray-200 px-3 py-1.5 text-xs font-semibold text-gray-600 transition hover:border-brand-200 hover:text-brand-700"
+                  className="rounded-md border border-line px-3 py-1.5 text-xs font-semibold text-gray-600 transition hover:border-brand-200 hover:text-brand-700"
                 >
                   View
                 </button>

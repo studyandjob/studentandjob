@@ -166,7 +166,7 @@ export default async function SearchPage({ searchParams }) {
                           href={m.file_url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex h-full flex-col gap-1.5 rounded-lg border border-line bg-surface p-4 shadow-sm transition hover:border-brand-200 hover:bg-brand-50"
+                          className="flex h-full flex-col gap-1.5 rounded-2xl border border-line bg-surface p-4 shadow-sm transition hover:border-brand-200 hover:bg-brand-50"
                         >
                           <span className="inline-block w-fit rounded bg-brand-50 px-2 py-0.5 text-xs font-semibold uppercase text-brand-600">
                             {m.material_type === 'old_paper' ? 'Past Paper' : 'Guess Paper'}
@@ -195,7 +195,7 @@ export default async function SearchPage({ searchParams }) {
                           href={note.file_url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex h-full flex-col gap-1.5 rounded-lg border border-line bg-surface p-4 shadow-sm transition hover:border-brand-200 hover:bg-brand-50"
+                          className="flex h-full flex-col gap-1.5 rounded-2xl border border-line bg-surface p-4 shadow-sm transition hover:border-brand-200 hover:bg-brand-50"
                         >
                           <span className="inline-block w-fit rounded bg-brand-50 px-2 py-0.5 text-xs font-semibold uppercase text-brand-600">
                             {note.category || 'General'}
