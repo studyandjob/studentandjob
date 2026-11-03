@@ -19,7 +19,7 @@
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { supabase } from '@/lib/supabaseClient';
-import { DEFAULT_THEME_ID, THEMES, buildAccentScale, buildShadeScale, getThemeById, hexToRgbTriplet } from '@/lib/themes';
+import { DEFAULT_THEME_ID, THEMES, buildAccentScale, buildShadeScale, buildSurfaceVars, getThemeById, hexToRgbTriplet } from '@/lib/themes';
 
 // v2: older browser-saved choices (the previous green/blue defaults) are ignored.
 const STORAGE_KEY = 'psj-active-theme-v2';
@@ -42,6 +42,7 @@ function applyThemeVars(theme) {
 
   Object.entries(brandScale).forEach(([step, hex]) => root.style.setProperty(`--brand-${step}`, hexToRgbTriplet(hex)));
   Object.entries(accentScale).forEach(([step, hex]) => root.style.setProperty(`--accent-${step}`, hexToRgbTriplet(hex)));
+  Object.entries(buildSurfaceVars(theme)).forEach(([k, v]) => root.style.setProperty(`--${k}`, v));
   root.style.setProperty('--color-bg', theme.background);
   root.style.setProperty('--color-text', theme.text);
   root.dataset.theme = theme.id;

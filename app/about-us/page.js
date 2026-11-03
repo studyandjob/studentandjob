@@ -64,7 +64,7 @@ export default async function AboutUsPage() {
       <NewsTicker text={settings.scrolling_news} />
       <Header siteName={settings.site_name} logoUrl={settings.logo_url} />
 
-      <main className="flex-1 bg-white">
+      <main className="flex-1 bg-surface">
         <PageBanner
           title="About Us"
           subtitle={`Why ${siteName} exists, and what you'll find here.`}
@@ -75,7 +75,7 @@ export default async function AboutUsPage() {
             written one, otherwise a sensible default so the page is never
             empty. */}
         <div className="mx-auto max-w-3xl px-4 pt-10 md:px-6 md:pt-14">
-          <div className="rounded-2xl bg-white p-6 border border-gray-200 shadow-card md:p-10">
+          <div className="rounded-2xl bg-surface p-6 border border-line shadow-card md:p-10">
             <h2 className="mb-3 text-lg font-bold text-gray-900 md:text-xl">Our Story</h2>
             <RichContent text={story} />
           </div>
@@ -91,7 +91,7 @@ export default async function AboutUsPage() {
             {OFFERINGS.map(({ title, body, Icon }) => (
               <div
                 key={title}
-                className="flex flex-col gap-3 rounded-2xl border border-gray-100 bg-white p-5 border border-gray-200 shadow-card transition hover:shadow-card-hover"
+                className="flex flex-col gap-3 rounded-2xl border border-line bg-surface p-5 border border-line shadow-card transition hover:shadow-card-hover"
               >
                 <span className="flex h-11 w-11 items-center justify-center">
                   <Icon className="h-full w-full" />

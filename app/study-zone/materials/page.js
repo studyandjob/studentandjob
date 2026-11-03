@@ -46,7 +46,7 @@ export default async function StudyMaterialsPage({ searchParams }) {
       <NewsTicker text={settings.scrolling_news} />
       <Header siteName={settings.site_name} logoUrl={settings.logo_url} />
 
-      <main className="flex-1 bg-white">
+      <main className="flex-1 bg-surface">
         <PageBanner title={meta.title} subtitle="Class-wise and subject-wise, ready to view or download." icon={<Icon className="h-9 w-9" />} />
 
         <div className="mx-auto max-w-5xl px-4 py-10 md:px-6 md:py-14">
@@ -55,7 +55,7 @@ export default async function StudyMaterialsPage({ searchParams }) {
             <Link
               href={`/study-zone/materials?type=guess_paper${classId ? `&class=${classId}` : ''}`}
               className={`rounded-full px-4 py-2 text-sm font-semibold transition ${
-                type === 'guess_paper' ? 'bg-brand-600 text-white' : 'bg-white text-gray-600 ring-1 ring-black/5'
+                type === 'guess_paper' ? 'bg-brand-600 text-white' : 'bg-surface text-gray-600 ring-1 ring-black/5'
               }`}
             >
               Guess Papers
@@ -63,7 +63,7 @@ export default async function StudyMaterialsPage({ searchParams }) {
             <Link
               href={`/study-zone/materials?type=old_paper${classId ? `&class=${classId}` : ''}`}
               className={`rounded-full px-4 py-2 text-sm font-semibold transition ${
-                type === 'old_paper' ? 'bg-brand-600 text-white' : 'bg-white text-gray-600 ring-1 ring-black/5'
+                type === 'old_paper' ? 'bg-brand-600 text-white' : 'bg-surface text-gray-600 ring-1 ring-black/5'
               }`}
             >
               Old Papers
@@ -76,7 +76,7 @@ export default async function StudyMaterialsPage({ searchParams }) {
               <Link
                 href={classQuery('')}
                 className={`rounded-full px-3.5 py-1.5 text-xs font-semibold transition ${
-                  !classId ? 'bg-gray-800 text-white' : 'bg-white text-gray-500 ring-1 ring-black/5'
+                  !classId ? 'bg-gray-800 text-white' : 'bg-surface text-gray-500 ring-1 ring-black/5'
                 }`}
               >
                 All Classes
@@ -86,7 +86,7 @@ export default async function StudyMaterialsPage({ searchParams }) {
                   key={c.id}
                   href={classQuery(c.id)}
                   className={`rounded-full px-3.5 py-1.5 text-xs font-semibold transition ${
-                    classId === c.id ? 'bg-gray-800 text-white' : 'bg-white text-gray-500 ring-1 ring-black/5'
+                    classId === c.id ? 'bg-gray-800 text-white' : 'bg-surface text-gray-500 ring-1 ring-black/5'
                   }`}
                 >
                   {c.class_name}
@@ -95,8 +95,8 @@ export default async function StudyMaterialsPage({ searchParams }) {
             </div>
           )}
 
-          <div className="rounded-2xl bg-white p-4 border border-gray-200 shadow-card md:p-6">
-            <p className="mb-4 border-b border-gray-100 pb-4 text-sm text-gray-500">
+          <div className="rounded-2xl bg-surface p-4 border border-line shadow-card md:p-6">
+            <p className="mb-4 border-b border-line pb-4 text-sm text-gray-500">
               {materials.length} item{materials.length === 1 ? '' : 's'} available
             </p>
 
@@ -110,7 +110,7 @@ export default async function StudyMaterialsPage({ searchParams }) {
                       href={m.file_url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex h-full flex-col gap-1.5 rounded-lg border border-gray-100 p-4 transition hover:border-brand-200 hover:bg-brand-50"
+                      className="flex h-full flex-col gap-1.5 rounded-lg border border-line p-4 transition hover:border-brand-200 hover:bg-brand-50"
                     >
                       <span className="inline-block w-fit rounded bg-brand-50 px-2 py-0.5 text-xs font-semibold uppercase text-brand-600">
                         {subjectName(m.subject_id) || 'General'} {m.year ? `· ${m.year}` : ''}

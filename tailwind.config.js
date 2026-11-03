@@ -63,6 +63,10 @@ module.exports = {
         // "atl" for headings/links (like their "Mass Balance BCP..." page
         // titles) and a green "atl2" for primary actions/logo accents
         // (like their green "View Report" button).
+        // Theme-driven surfaces (set per theme in lib/themes.js): page/card
+        // background, soft fill, and border colours.
+        surface: { DEFAULT: 'rgb(var(--surface, 255 255 255) / <alpha-value>)', alt: 'rgb(var(--surface-alt, 247 247 247) / <alpha-value>)' },
+        line: { DEFAULT: 'rgb(var(--line, 221 221 221) / <alpha-value>)', strong: 'rgb(var(--line-strong, 176 176 176) / <alpha-value>)' },
         atl: '#2E5AAC',
         atl2: '#1E8449',
         agold: '#8A5A17',

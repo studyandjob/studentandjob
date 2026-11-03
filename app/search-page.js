@@ -57,7 +57,7 @@ export default async function SearchPage({ searchParams }) {
       <NewsTicker text={settings.scrolling_news} />
       <Header siteName={settings.site_name} logoUrl={settings.logo_url} />
 
-      <main className="flex-1 bg-white">
+      <main className="flex-1 bg-surface">
         <PageBanner
           title="Search"
           subtitle={q ? `Results for "${q}"` : 'Search jobs, notes, results & scholarships'}
@@ -74,7 +74,7 @@ export default async function SearchPage({ searchParams }) {
               Type something above to search jobs, notes, results and scholarships.
             </p>
           ) : totalCount === 0 ? (
-            <div className="rounded-2xl bg-white py-16 text-center border border-gray-200 shadow-card">
+            <div className="rounded-2xl bg-surface py-16 text-center border border-line shadow-card">
               <p className="text-sm text-gray-500">No matches found for &ldquo;{q}&rdquo;. Try a different keyword.</p>
             </div>
           ) : (
@@ -100,7 +100,7 @@ export default async function SearchPage({ searchParams }) {
                           href={note.file_url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex h-full flex-col gap-1.5 rounded-lg border border-gray-100 bg-white p-4 shadow-sm transition hover:border-brand-200 hover:bg-brand-50"
+                          className="flex h-full flex-col gap-1.5 rounded-lg border border-line bg-surface p-4 shadow-sm transition hover:border-brand-200 hover:bg-brand-50"
                         >
                           <span className="inline-block w-fit rounded bg-brand-50 px-2 py-0.5 text-xs font-semibold uppercase text-brand-600">
                             {note.category || 'General'}
@@ -117,8 +117,8 @@ export default async function SearchPage({ searchParams }) {
               {results.length > 0 && (
                 <section>
                   <h2 className="mb-4 text-lg font-bold text-gray-900">Results ({results.length})</h2>
-                  <div className="rounded-2xl bg-white p-4 border border-gray-200 shadow-card md:p-6">
-                    <ul className="divide-y divide-gray-100">
+                  <div className="rounded-2xl bg-surface p-4 border border-line shadow-card md:p-6">
+                    <ul className="divide-y divide-line">
                       {results.map((r) => (
                         <li key={r.id} className="flex flex-col gap-3 py-4 sm:flex-row sm:items-center sm:justify-between">
                           <div className="min-w-0">
@@ -150,8 +150,8 @@ export default async function SearchPage({ searchParams }) {
               {scholarships.length > 0 && (
                 <section>
                   <h2 className="mb-4 text-lg font-bold text-gray-900">Scholarships ({scholarships.length})</h2>
-                  <div className="rounded-2xl bg-white p-4 border border-gray-200 shadow-card md:p-6">
-                    <ul className="divide-y divide-gray-100">
+                  <div className="rounded-2xl bg-surface p-4 border border-line shadow-card md:p-6">
+                    <ul className="divide-y divide-line">
                       {scholarships.map((s) => (
                         <li key={s.id} className="flex flex-col gap-3 py-4 sm:flex-row sm:items-center sm:justify-between">
                           <div className="min-w-0">

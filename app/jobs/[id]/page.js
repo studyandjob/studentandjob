@@ -134,7 +134,7 @@ export default async function JobDetailsPage({ params }) {
       <NewsTicker text={settings.scrolling_news} />
       <Header siteName={settings.site_name} logoUrl={settings.logo_url} />
 
-      <main className="flex-1 bg-white pb-24 md:pb-10">
+      <main className="flex-1 bg-surface pb-24 md:pb-10">
         {/* Breadcrumb */}
         <div className="mx-auto max-w-3xl px-4 pt-6 md:px-6">
           <nav className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500">
@@ -155,19 +155,19 @@ export default async function JobDetailsPage({ params }) {
         </div>
 
         <div className="mx-auto max-w-3xl px-4 py-5 md:px-6">
-          <div className="overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-card">
+          <div className="overflow-hidden rounded-3xl border border-line bg-surface shadow-card">
             {/* Header */}
-            <div className="flex flex-col gap-3 border-b border-gray-100 px-5 py-5 sm:px-6">
+            <div className="flex flex-col gap-3 border-b border-line px-5 py-5 sm:px-6">
               <div className="flex flex-wrap items-center gap-2">
                 <span
                   className={`rounded-full px-2.5 py-1 text-xs font-bold uppercase tracking-wide ${
-                    job.job_type === 'Government' ? 'bg-brand-50 text-brand-700' : 'bg-gray-100 text-gray-600'
+                    job.job_type === 'Government' ? 'bg-brand-50 text-brand-700' : 'bg-surface-alt text-gray-600'
                   }`}
                 >
                   {job.job_type}
                 </span>
                 {job.sector && (
-                  <span className="rounded-full bg-gray-100 px-2.5 py-1 text-xs font-semibold text-gray-600">
+                  <span className="rounded-full bg-surface-alt px-2.5 py-1 text-xs font-semibold text-gray-600">
                     {job.sector}
                   </span>
                 )}
@@ -177,7 +177,7 @@ export default async function JobDetailsPage({ params }) {
                   </span>
                 )}
               </div>
-              <h1 className="text-2xl font-extrabold leading-snug tracking-tight text-gray-900 sm:text-3xl">{job.title}</h1>
+              <h1 className="text-2xl font-bold leading-snug tracking-tight text-gray-900 sm:text-3xl">{job.title}</h1>
               <p className="text-sm text-gray-500">{job.department || 'Department not specified'}</p>
 
               <div className="flex flex-wrap items-center gap-3 pt-1">
@@ -259,14 +259,14 @@ export default async function JobDetailsPage({ params }) {
               )}
 
               {(job.education_required?.length > 0 || job.skills_required?.length > 0) && (
-                <div className="grid grid-cols-1 gap-4 rounded-2xl bg-gray-50 p-5 sm:grid-cols-2">
+                <div className="grid grid-cols-1 gap-4 rounded-2xl bg-surface-alt p-5 sm:grid-cols-2">
                   <TagGroup label="Education Required" tags={job.education_required} />
                   <TagGroup label="Skills Required" tags={job.skills_required} />
                 </div>
               )}
 
               {showManual && (job.postal_address || job.required_documents || job.fee_details) && (
-                <div className="rounded-2xl border border-gray-200 bg-gray-50 p-5">
+                <div className="rounded-2xl border border-line bg-surface-alt p-5">
                   <p className="mb-3 text-sm font-semibold text-gray-800">Manual / By-Post Details</p>
                   <div className="flex flex-col gap-3 text-sm">
                     {job.postal_address && (
@@ -306,7 +306,7 @@ export default async function JobDetailsPage({ params }) {
                 on the page now instead of sticky-in-modal. Also duplicated
                 as a sticky mobile bar below so Apply Now stays reachable
                 on a long job description without scrolling back up. */}
-            <div className="flex flex-col gap-2 border-t border-gray-100 bg-white px-5 py-4 sm:flex-row sm:flex-wrap sm:items-center sm:px-6">
+            <div className="flex flex-col gap-2 border-t border-line bg-surface px-5 py-4 sm:flex-row sm:flex-wrap sm:items-center sm:px-6">
               {canApply && (
                 <a
                   href={job.apply_link}
@@ -323,7 +323,7 @@ export default async function JobDetailsPage({ params }) {
                     href={job.official_website}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex-1 rounded-xl border border-gray-900 px-5 py-3 text-center text-sm font-semibold text-gray-900 transition active:scale-[0.98] hover:bg-gray-900 hover:text-white sm:flex-none"
+                    className="flex-1 rounded-xl border border-brand-600 px-5 py-3 text-center text-sm font-semibold text-brand-700 transition active:scale-[0.98] hover:bg-brand-600 hover:text-white sm:flex-none"
                   >
                     Official Website
                   </a>
@@ -364,7 +364,7 @@ export default async function JobDetailsPage({ params }) {
           Apply Now button, since this page can now be much longer than the
           modal ever was. */}
       {canApply && (
-        <div className="fixed inset-x-0 bottom-16 z-20 border-t border-gray-100 bg-white/95 px-4 py-3 shadow-[0_-4px_12px_rgba(0,0,0,0.06)] backdrop-blur sm:hidden">
+        <div className="fixed inset-x-0 bottom-16 z-20 border-t border-line bg-white/95 px-4 py-3 shadow-[0_-4px_12px_rgba(0,0,0,0.06)] backdrop-blur sm:hidden">
           <a
             href={job.apply_link}
             target="_blank"

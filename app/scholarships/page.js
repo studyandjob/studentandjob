@@ -27,7 +27,7 @@ export default async function ScholarshipsPage() {
       <NewsTicker text={settings.scrolling_news} />
       <Header siteName={settings.site_name} logoUrl={settings.logo_url} />
 
-      <main className="flex-1 bg-white">
+      <main className="flex-1 bg-surface">
         <PageBanner
           title="Scholarships"
           subtitle="Local and international scholarships for students."
@@ -40,7 +40,7 @@ export default async function ScholarshipsPage() {
           </p>
 
           {scholarships.length === 0 ? (
-            <div className="rounded-2xl bg-white p-10 text-center border border-gray-200 shadow-card">
+            <div className="rounded-2xl bg-surface p-10 text-center border border-line shadow-card">
               <span className="relative mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-brand-100 to-brand-50">
                 <span className="absolute inset-2 rounded-full bg-white/60 blur-md" aria-hidden="true" />
                 <GraduationCapIcon3D className="relative h-9 w-9" />

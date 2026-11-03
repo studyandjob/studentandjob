@@ -26,7 +26,7 @@ export default async function JobAdGatePage({ params }) {
     <>
       <NewsTicker text={settings.scrolling_news} />
       <Header siteName={settings.site_name} logoUrl={settings.logo_url} />
-      <main className="flex-1 bg-white">
+      <main className="flex-1 bg-surface">
         <AdGate
           jobId={job.id}
           title={job.title}

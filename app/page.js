@@ -46,8 +46,8 @@ export default async function HomePage() {
       <NewsTicker text={settings.scrolling_news} />
       <Header siteName={settings.site_name} logoUrl={settings.logo_url} />
 
-      <main className="flex-1 bg-white">
-        <div className="mx-auto max-w-7xl space-y-8 px-4 py-4 md:space-y-10 md:px-6 md:py-6">
+      <main className="flex-1 bg-surface">
+        <div className="mx-auto max-w-[1760px] space-y-8 px-4 py-4 md:space-y-10 md:px-10 md:py-6">
           <HomeLead slides={slides} slideSpeed={settings.hero_slide_speed} />
           <HomeCategories />
           <HomeClosingSoon jobs={allOpenJobs} />

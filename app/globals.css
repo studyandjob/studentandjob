@@ -21,7 +21,7 @@ body {
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-public-sans), var(--font-urdu), ui-sans-serif, system-ui, sans-serif;
   letter-spacing: -0.02em;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 /* Slightly roomier reading rhythm for body copy — the previous default

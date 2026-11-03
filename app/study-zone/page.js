@@ -55,7 +55,7 @@ export default async function StudyZonePage() {
       <NewsTicker text={settings.scrolling_news} />
       <Header siteName={settings.site_name} logoUrl={settings.logo_url} />
 
-      <main className="flex-1 bg-white">
+      <main className="flex-1 bg-surface">
         <PageBanner
           title="Study Zone"
           subtitle="AI-powered practice tests, guess papers and old papers — all in one place."
@@ -70,7 +70,7 @@ export default async function StudyZonePage() {
                 <Link
                   key={card.href}
                   href={card.href}
-                  className="group flex flex-col gap-3 rounded-2xl bg-white p-6 border border-gray-200 shadow-card transition hover:shadow-card-hover"
+                  className="group flex flex-col gap-3 rounded-2xl bg-surface p-6 border border-line shadow-card transition hover:shadow-card-hover"
                 >
                   <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-brand-50 text-brand-600">
                     <Icon className="h-8 w-8" />

@@ -21,7 +21,7 @@ export default async function TestSetupPage() {
       <NewsTicker text={settings.scrolling_news} />
       <Header siteName={settings.site_name} logoUrl={settings.logo_url} />
 
-      <main className="flex-1 bg-white">
+      <main className="flex-1 bg-surface">
         <PageBanner
           title="Start Online Test"
           subtitle="Choose your class and subject to begin a timed, randomized paper."
@@ -30,7 +30,7 @@ export default async function TestSetupPage() {
 
         <div className="mx-auto max-w-xl px-4 py-10 md:px-6 md:py-14">
           {classes.length === 0 ? (
-            <p className="rounded-xl bg-white p-6 text-center text-sm text-gray-500 border border-gray-200 shadow-card">
+            <p className="rounded-xl bg-surface p-6 text-center text-sm text-gray-500 border border-line shadow-card">
               No classes have been set up yet. Please check back soon.
             </p>
           ) : (

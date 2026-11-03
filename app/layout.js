@@ -10,7 +10,7 @@ import FloatingWhatsAppButton from '@/components/FloatingWhatsAppButton';
 import TextThemeStyle from '@/components/TextThemeStyle';
 import { ThemeProvider } from '@/contexts/ThemeContext';
 import { DEFAULT_TEXT_THEME_ID, TEXT_THEMES } from '@/lib/textThemes';
-import { DEFAULT_THEME_ID, THEMES, buildAccentScale, buildShadeScale, hexToRgbTriplet, resolveThemeId } from '@/lib/themes';
+import { DEFAULT_THEME_ID, THEMES, buildAccentScale, buildShadeScale, buildSurfaceVars, hexToRgbTriplet, resolveThemeId } from '@/lib/themes';
 
 // --- Anti-flash boot script ------------------------------------------
 // Both TextThemeStyle and ThemeContext apply their saved theme inside a
@@ -47,6 +47,7 @@ const BRAND_THEME_VARS = Object.fromEntries(
       ),
       bg: theme.background,
       text: theme.text,
+      surface: buildSurfaceVars(theme),
     },
   ])
 );
@@ -63,6 +64,7 @@ const buildThemeBootScript = (serverThemeId) => `(function(){try{
   var bt=BT[bId]||BT['${DEFAULT_THEME_ID}'];
   for(var k2 in bt.brand){d.style.setProperty('--brand-'+k2,bt.brand[k2]);}
   for(var k3 in bt.accent){d.style.setProperty('--accent-'+k3,bt.accent[k3]);}
+  for(var k4 in bt.surface){d.style.setProperty('--'+k4,bt.surface[k4]);}
   d.style.setProperty('--color-bg',bt.bg);
   d.style.setProperty('--color-text',bt.text);
   d.dataset.theme=bId;
