@@ -107,7 +107,7 @@ export default function SearchBar({ showCategoryLinks = true }) {
       <form
         onSubmit={handleSubmit}
         role="search"
-        className="flex w-full items-center gap-2 rounded-xl bg-surface p-2 shadow-xl ring-1 ring-black/5 focus-within:ring-2 focus-within:ring-brand-400"
+        className="flex w-full items-center gap-2 rounded-xl bg-surface p-2 border border-line shadow-pill focus-within:ring-2 focus-within:ring-brand-400"
       >
         <SearchIcon3D className="ml-1 h-6 w-6 flex-shrink-0" aria-hidden="true" />
         <input
@@ -138,7 +138,7 @@ export default function SearchBar({ showCategoryLinks = true }) {
       {open && query.trim().length >= 2 && (
         <div
           role="listbox"
-          className="absolute left-0 right-0 top-full z-20 mt-2 max-h-80 overflow-y-auto rounded-xl bg-surface p-2 shadow-xl ring-1 ring-black/5"
+          className="absolute left-0 right-0 top-full z-20 mt-2 max-h-80 overflow-y-auto rounded-xl bg-surface p-2 border border-line shadow-pill"
         >
           {loading ? (
             <p className="px-3 py-2 text-xs text-gray-400">Searching…</p>

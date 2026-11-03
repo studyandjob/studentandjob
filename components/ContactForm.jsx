@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { supabase } from '@/lib/supabaseClient';
 
 const inputClass =
-  'w-full rounded-lg border border-line bg-surface-alt px-3.5 py-3 text-sm text-gray-800 outline-none transition focus:border-brand-500 focus:ring-[3px] focus:ring-brand-500/10';
+  'w-full rounded-xl border border-line-strong bg-surface px-4 py-3 text-sm text-gray-800 outline-none transition focus:border-brand-600 focus:ring-[3px] focus:ring-brand-500/10';
 const labelClass = 'mb-1.5 block text-sm font-semibold text-gray-700';
 
 const emptyForm = { name: '', email: '', phone: '', subject: '', message: '' };
