@@ -20,23 +20,23 @@ module.exports = {
         // here, not hex — that's what ThemeContext's hexToRgbTriplet()
         // writes into each variable.
         brand: {
-          50: 'rgb(var(--brand-50, 244 249 246) / <alpha-value>)',
-          100: 'rgb(var(--brand-100, 221 237 228) / <alpha-value>)',
-          200: 'rgb(var(--brand-200, 188 218 200) / <alpha-value>)',
-          300: 'rgb(var(--brand-300, 142 194 164) / <alpha-value>)',
-          400: 'rgb(var(--brand-400, 86 163 118) / <alpha-value>)',
-          500: 'rgb(var(--brand-500, 52 144 91) / <alpha-value>)',
-          600: 'rgb(var(--brand-600, 30 132 73) / <alpha-value>)',
-          700: 'rgb(var(--brand-700, 26 112 62) / <alpha-value>)',
-          800: 'rgb(var(--brand-800, 21 92 51) / <alpha-value>)',
-          900: 'rgb(var(--brand-900, 16 73 40) / <alpha-value>)',
+          50: 'rgb(var(--brand-50, 255 245 247) / <alpha-value>)',
+          100: 'rgb(var(--brand-100, 255 225 231) / <alpha-value>)',
+          200: 'rgb(var(--brand-200, 255 195 206) / <alpha-value>)',
+          300: 'rgb(var(--brand-300, 255 156 174) / <alpha-value>)',
+          400: 'rgb(var(--brand-400, 255 106 133) / <alpha-value>)',
+          500: 'rgb(var(--brand-500, 255 76 108) / <alpha-value>)',
+          600: 'rgb(var(--brand-600, 255 56 92) / <alpha-value>)',
+          700: 'rgb(var(--brand-700, 217 48 78) / <alpha-value>)',
+          800: 'rgb(var(--brand-800, 178 39 64) / <alpha-value>)',
+          900: 'rgb(var(--brand-900, 140 31 51) / <alpha-value>)',
         },
         accent: {
-          50: 'rgb(var(--accent-50, 238 242 248) / <alpha-value>)',
-          100: 'rgb(var(--accent-100, 209 219 237) / <alpha-value>)',
-          500: 'rgb(var(--accent-500, 46 90 172) / <alpha-value>)',
-          600: 'rgb(var(--accent-600, 40 79 151) / <alpha-value>)',
-          700: 'rgb(var(--accent-700, 35 68 131) / <alpha-value>)',
+          50: 'rgb(var(--accent-50, 237 237 237) / <alpha-value>)',
+          100: 'rgb(var(--accent-100, 206 206 206) / <alpha-value>)',
+          500: 'rgb(var(--accent-500, 34 34 34) / <alpha-value>)',
+          600: 'rgb(var(--accent-600, 30 30 30) / <alpha-value>)',
+          700: 'rgb(var(--accent-700, 26 26 26) / <alpha-value>)',
         },
         // Neutral "black" text scale used across the PUBLIC site
         // (text-gray-400..900 — headings, body copy, muted labels).

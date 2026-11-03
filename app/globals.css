@@ -11,10 +11,10 @@ body {
      no color mismatch before ThemeContext/the boot script run. Whichever
      theme an admin actually has saved still overrides this instantly via
      --color-bg/--color-text further down. */
-  background-color: #F2F4F7;
-  color: #141E2B;
-  background-color: var(--color-bg, #F2F4F7);
-  color: var(--color-text, #141E2B);
+  background-color: #FFFFFF;
+  color: #222222;
+  background-color: var(--color-bg, #FFFFFF);
+  color: var(--color-text, #222222);
 }
 
 /* Airbnb-style headings: clean sans, bold, tight tracking. */
