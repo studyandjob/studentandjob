@@ -134,23 +134,23 @@ export default function ExamRunner({ sessionId }) {
 
         <div className="mb-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
           <div className="rounded-xl bg-brand-50 p-4 text-center">
-            <p className="text-2xl font-extrabold text-brand-700">{pct}%</p>
+            <p className="text-2xl font-bold text-brand-700">{pct}%</p>
             <p className="text-xs text-gray-500">Score</p>
           </div>
           <div className="rounded-xl bg-surface-alt p-4 text-center">
-            <p className="text-2xl font-extrabold text-gray-800">
+            <p className="text-2xl font-bold text-gray-800">
               {result.score}/{result.total_marks}
             </p>
             <p className="text-xs text-gray-500">Marks</p>
           </div>
           <div className="rounded-xl bg-brand-50 p-4 text-center">
-            <p className="text-2xl font-extrabold text-brand-700">
+            <p className="text-2xl font-bold text-brand-700">
               {result.objective_correct}/{result.objective_total}
             </p>
             <p className="text-xs text-gray-500">Objective Correct</p>
           </div>
           <div className="rounded-xl bg-surface-alt p-4 text-center">
-            <p className="text-2xl font-extrabold text-gray-700">{result.pending_review}</p>
+            <p className="text-2xl font-bold text-gray-700">{result.pending_review}</p>
             <p className="text-xs text-gray-500">Awaiting Manual Review</p>
           </div>
         </div>
@@ -177,7 +177,7 @@ export default function ExamRunner({ sessionId }) {
 
         <Link
           href="/study-zone/test"
-          className="mt-6 inline-flex items-center gap-1 rounded-full bg-brand-600 px-5 py-2.5 text-sm font-bold text-white hover:bg-brand-700"
+          className="mt-6 inline-flex items-center gap-1 rounded-xl bg-brand-600 px-5 py-2.5 text-sm font-bold text-white hover:bg-brand-700"
         >
           Take Another Test →
         </Link>
@@ -192,7 +192,7 @@ export default function ExamRunner({ sessionId }) {
   return (
     <div className="rounded-2xl bg-surface border border-line shadow-card">
       {/* Timer + progress header */}
-      <div className="sticky top-0 z-10 flex items-center justify-between gap-3 rounded-t-2xl border-b border-line bg-white/95 px-5 py-3.5 backdrop-blur">
+      <div className="sticky top-0 z-10 flex items-center justify-between gap-3 rounded-t-2xl border-b border-line bg-surface/95 px-5 py-3.5 backdrop-blur">
         <div>
           <p className="text-xs font-semibold uppercase text-gray-400">
             Question {index + 1} of {totalQuestions}
@@ -276,14 +276,14 @@ export default function ExamRunner({ sessionId }) {
           <button
             onClick={handleSubmit}
             disabled={submitting}
-            className="rounded-full bg-brand-600 px-6 py-2.5 text-sm font-bold text-white transition hover:bg-brand-700 disabled:opacity-60"
+            className="rounded-xl bg-brand-600 px-6 py-2.5 text-sm font-bold text-white transition hover:bg-brand-700 disabled:opacity-60"
           >
             {submitting ? 'Submitting...' : 'Submit Test'}
           </button>
         ) : (
           <button
             onClick={() => setIndex((i) => Math.min(totalQuestions - 1, i + 1))}
-            className="rounded-full bg-brand-600 px-6 py-2.5 text-sm font-bold text-white transition hover:bg-brand-700"
+            className="rounded-xl bg-brand-600 px-6 py-2.5 text-sm font-bold text-white transition hover:bg-brand-700"
           >
             Next Question →
           </button>

@@ -6,7 +6,7 @@ import TagSelect from '../shared/TagSelect';
 import { SECTORS, EDUCATION_LEVELS, SKILLS_LIST } from '@/lib/matching';
 
 const inputClass =
-  'w-full rounded-lg border border-line bg-surface-alt px-3.5 py-2.5 text-sm text-gray-900 outline-none transition focus:border-brand-500 focus:ring-2 focus:ring-brand-100';
+  'w-full rounded-xl border border-line-strong bg-surface px-4 py-2.5 text-sm text-gray-900 outline-none transition focus:border-brand-600 focus:ring-2 focus:ring-brand-100';
 const labelClass = 'mb-1.5 block text-sm font-semibold text-gray-800';
 
 function emptyEducationRow() {
@@ -305,7 +305,7 @@ export default function ProfileBuilder({ profile, onSaved }) {
       <button
         type="submit"
         disabled={saving}
-        className="self-start rounded-full bg-brand-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-brand-700 disabled:opacity-60"
+        className="self-start rounded-xl bg-brand-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-brand-700 disabled:opacity-60"
       >
         {saving ? 'Saving…' : 'Save Profile'}
       </button>

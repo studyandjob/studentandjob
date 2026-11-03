@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabaseClient';
 
 const inputClass =
-  'w-full rounded-lg border border-line bg-surface px-3.5 py-2.5 text-sm text-gray-800 outline-none transition focus:border-brand-400 focus:ring-[3px] focus:ring-brand-100';
+  'w-full rounded-xl border border-line-strong bg-surface px-4 py-3 text-sm text-gray-800 outline-none transition focus:border-brand-600 focus:ring-[3px] focus:ring-brand-100';
 const labelClass = 'mb-1.5 block text-sm font-semibold text-gray-700';
 
 const TYPE_OPTIONS = [
@@ -154,7 +154,7 @@ export default function TestSetupForm({ classes }) {
       <button
         type="submit"
         disabled={starting}
-        className="mt-6 w-full rounded-full bg-brand-600 px-6 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-brand-700 disabled:opacity-60"
+        className="mt-6 w-full rounded-xl bg-brand-600 px-6 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-brand-700 disabled:opacity-60"
       >
         {starting ? 'Preparing your paper...' : 'Start Test →'}
       </button>

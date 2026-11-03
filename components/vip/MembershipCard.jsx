@@ -86,7 +86,7 @@ export default function MembershipCard({ userId, profileId, currentRequest, onRe
   }
 
   return (
-    <div className="rounded-2xl bg-surface p-6 shadow-sm ring-1 ring-black/5">
+    <div className="rounded-2xl bg-surface p-6 border border-line shadow-card">
       {currentRequest?.status === 'expired' && (
         <p className="mb-4 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-600">
           Your previous membership expired on {formatDate(currentRequest.end_date)}. Renew below.
@@ -115,7 +115,7 @@ export default function MembershipCard({ userId, profileId, currentRequest, onRe
 
         <label className="flex flex-col gap-1.5">
           <span className="text-sm font-semibold text-gray-800">Payment Method</span>
-          <select value={paymentMethod} onChange={(e) => setPaymentMethod(e.target.value)} className="rounded-lg border border-line bg-surface-alt px-3.5 py-2.5 text-sm">
+          <select value={paymentMethod} onChange={(e) => setPaymentMethod(e.target.value)} className="rounded-xl border border-line-strong bg-surface px-4 py-2.5 text-sm">
             <option>Easypaisa</option>
             <option>JazzCash</option>
             <option>Bank Transfer</option>
@@ -128,7 +128,7 @@ export default function MembershipCard({ userId, profileId, currentRequest, onRe
             required
             value={whatsapp}
             onChange={(e) => setWhatsapp(e.target.value)}
-            className="rounded-lg border border-line bg-surface-alt px-3.5 py-2.5 text-sm"
+            className="rounded-xl border border-line-strong bg-surface px-4 py-2.5 text-sm"
           />
         </label>
 
@@ -141,7 +141,7 @@ export default function MembershipCard({ userId, profileId, currentRequest, onRe
         <button
           type="submit"
           disabled={saving || uploading}
-          className="rounded-full bg-brand-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-brand-700 disabled:opacity-60"
+          className="rounded-xl bg-brand-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-brand-700 disabled:opacity-60"
         >
           {saving ? 'Submitting…' : 'Submit Membership Request'}
         </button>

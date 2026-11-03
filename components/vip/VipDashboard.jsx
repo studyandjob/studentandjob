@@ -63,7 +63,7 @@ export default function VipDashboard({ session, initialProfile, jobs, initialReq
         {tab === 'jobs' && <JobMatches jobs={jobs} profile={profile} />}
 
         {tab === 'profile' && (
-          <div className="mx-auto max-w-3xl rounded-2xl bg-surface p-6 shadow-sm ring-1 ring-black/5 sm:p-8">
+          <div className="mx-auto max-w-3xl rounded-2xl bg-surface p-6 border border-line shadow-card sm:p-8">
             <ProfileBuilder profile={profile} onSaved={setProfile} />
           </div>
         )}

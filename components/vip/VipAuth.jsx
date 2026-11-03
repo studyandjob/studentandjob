@@ -52,7 +52,7 @@ export default function VipAuth({ onAuthed, siteName }) {
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-surface-alt px-4 py-10">
-      <div className="w-full max-w-[420px] rounded-2xl bg-surface p-8 shadow-sm ring-1 ring-black/5 sm:p-10">
+      <div className="w-full max-w-[420px] rounded-2xl bg-surface p-8 border border-line shadow-card sm:p-10">
         <div className="mb-6 text-center">
           <h1 className="text-xl font-bold text-gray-900">
             {siteName || 'Job Portal'} <span className="text-brand-600">VIP</span>
@@ -96,7 +96,7 @@ export default function VipAuth({ onAuthed, siteName }) {
                 required
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
-                className="rounded-lg border border-line bg-surface-alt px-3.5 py-3 text-sm outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-100"
+                className="rounded-xl border border-line-strong bg-surface px-4 py-3 text-sm outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-100"
               />
             </label>
           )}
@@ -107,7 +107,7 @@ export default function VipAuth({ onAuthed, siteName }) {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="rounded-lg border border-line bg-surface-alt px-3.5 py-3 text-sm outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-100"
+              className="rounded-xl border border-line-strong bg-surface px-4 py-3 text-sm outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-100"
             />
           </label>
           <label className="flex flex-col gap-1.5">
@@ -118,14 +118,14 @@ export default function VipAuth({ onAuthed, siteName }) {
               minLength={6}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="rounded-lg border border-line bg-surface-alt px-3.5 py-3 text-sm outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-100"
+              className="rounded-xl border border-line-strong bg-surface px-4 py-3 text-sm outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-100"
             />
           </label>
 
           <button
             type="submit"
             disabled={loading}
-            className="mt-2 rounded-full bg-brand-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-brand-700 disabled:opacity-60"
+            className="mt-2 rounded-xl bg-brand-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-brand-700 disabled:opacity-60"
           >
             {loading ? 'Please wait…' : mode === 'login' ? 'Log In' : 'Create Account'}
           </button>

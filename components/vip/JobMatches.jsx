@@ -51,7 +51,7 @@ export default function JobMatches({ jobs = [], profile }) {
           <select
             value={sector}
             onChange={(e) => setSector(e.target.value)}
-            className="rounded-lg border border-line bg-surface px-3 py-2 text-sm text-gray-700 outline-none focus:border-brand-500"
+            className="rounded-lg border border-line bg-surface px-3 py-2 text-sm text-gray-700 outline-none focus:border-brand-600"
           >
             <option value="all">All Sectors</option>
             {SECTORS.map((s) => (
