@@ -73,7 +73,7 @@ export default function HomeSlider({ slides = [], speed = '1x' }) {
       aria-roledescription="carousel"
       aria-label="Featured jobs"
     >
-      <div className="relative aspect-[16/9] w-full sm:aspect-[21/9] lg:aspect-auto lg:h-[300px] xl:h-[320px]">
+      <div className="relative aspect-[3/1] w-full">
         {items.map((s, i) => {
           const active = i === index;
           return (
@@ -96,8 +96,14 @@ export default function HomeSlider({ slides = [], speed = '1x' }) {
                   <div className="absolute -bottom-20 left-16 h-72 w-72 rounded-full bg-white/5" />
                 </div>
               )}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
-              <div className="absolute inset-x-0 bottom-0 p-4 pb-9 sm:p-6 sm:pb-11 lg:p-8 lg:pb-12">
+              {/* Phones: the banner is too short for text, so the whole image is the link */}
+              {s.href && (
+                <SlideLink href={s.href} className="absolute inset-0 sm:hidden">
+                  <span className="sr-only">{s.title}</span>
+                </SlideLink>
+              )}
+              <div className="absolute inset-0 hidden bg-gradient-to-t from-black/70 via-black/10 to-transparent sm:block" />
+              <div className="absolute inset-x-0 bottom-0 hidden p-6 pb-11 sm:block lg:p-8 lg:pb-12">
                 <p className="max-w-xl text-lg font-bold leading-tight text-white sm:text-2xl lg:text-3xl">{s.title}</p>
                 {s.sub && <p className="mt-1 max-w-lg text-xs text-white/85 sm:text-sm">{s.sub}</p>}
                 {s.href && (
@@ -132,7 +138,7 @@ export default function HomeSlider({ slides = [], speed = '1x' }) {
           >
             <HomeIcon name="chevronRight" className="h-5 w-5" />
           </button>
-          <div className="absolute inset-x-0 bottom-4 flex justify-center gap-1.5 sm:bottom-5">
+          <div className="absolute inset-x-0 bottom-2 flex justify-center gap-1.5 sm:bottom-4">
             {items.map((s, i) => (
               <button
                 key={s.id}
