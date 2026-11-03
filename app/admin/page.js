@@ -10,6 +10,7 @@ import StatCard from '@/components/admin/StatCard';
 import SettingsForm from '@/components/admin/SettingsForm';
 import PagesAdsManager from '@/components/admin/PagesAdsManager';
 import TextThemeManager from '@/components/admin/TextThemeManager';
+import ThemeSettingsManager from '@/components/admin/ThemeSettingsManager';
 import SocialMediaForm from '@/components/admin/SocialMediaForm';
 import ListManager from '@/components/admin/ListManager';
 import MessagesManager from '@/components/admin/MessagesManager';
@@ -40,6 +41,7 @@ const TAB_TITLES = {
   dashboard: 'Dashboard',
   settings: 'Site Settings',
   pages_ads: 'Pages & Ads',
+  themesettings: 'Theme Settings',
   texttheme: 'Text Theme',
   social: 'Social Media',
   slides: 'Hero Slides',
@@ -232,6 +234,8 @@ export default function AdminDashboard() {
               {activeTab === 'settings' && <SettingsForm settings={settings} />}
 
               {activeTab === 'pages_ads' && <PagesAdsManager settings={settings} />}
+
+              {activeTab === 'themesettings' && <ThemeSettingsManager />}
 
               {activeTab === 'texttheme' && <TextThemeManager settings={settings} />}
 
