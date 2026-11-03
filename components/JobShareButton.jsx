@@ -32,7 +32,7 @@ export default function JobShareButton({ title, url }) {
   return (
     <button
       onClick={handleShare}
-      className="flex items-center gap-1.5 rounded-full border border-gray-200 px-3.5 py-2 text-xs font-semibold text-gray-600 transition active:scale-95 hover:border-brand-300 hover:text-brand-700"
+      className="flex items-center gap-1.5 rounded-full border border-line px-3.5 py-2 text-xs font-semibold text-gray-600 transition active:scale-95 hover:border-brand-300 hover:text-brand-700"
     >
       <svg viewBox="0 0 24 24" fill="none" className="h-4 w-4" stroke="currentColor" strokeWidth="2">
         <circle cx="18" cy="5" r="3" />

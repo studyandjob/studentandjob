@@ -86,7 +86,7 @@ export default function HeroSlider({ jobs = [], mainHeading, subHeading, slideSp
     const isUrgent = remaining !== null && remaining >= 0 && remaining <= 3;
 
     return (
-      <div className="rounded-2xl border border-brand-100 bg-white p-4 text-left text-gray-900 shadow-xl shadow-brand-900/10 ring-1 ring-black/5 sm:p-5">
+      <div className="rounded-2xl border border-brand-100 bg-surface p-4 text-left text-gray-900 shadow-xl shadow-brand-900/10 ring-1 ring-black/5 sm:p-5">
         {/* Header row: type icon + pill tags */}
         <div className="mb-3 flex items-center gap-2.5">
           <span
@@ -105,7 +105,7 @@ export default function HeroSlider({ jobs = [], mainHeading, subHeading, slideSp
               {job.job_type}
             </span>
             {job.sector && (
-              <span className="rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-semibold text-gray-600">
+              <span className="rounded-full bg-surface-alt px-2.5 py-0.5 text-xs font-semibold text-gray-600">
                 {job.sector}
               </span>
             )}
@@ -138,7 +138,7 @@ export default function HeroSlider({ jobs = [], mainHeading, subHeading, slideSp
           {job.last_date && (
             <div
               className={`inline-flex items-center gap-1.5 self-start rounded-lg px-2.5 py-1 text-xs font-semibold ${
-                isUrgent ? 'bg-red-50 text-red-700' : 'bg-gray-50 text-gray-700'
+                isUrgent ? 'bg-red-50 text-red-700' : 'bg-surface-alt text-gray-700'
               }`}
             >
               <CalendarClockIcon className="h-3.5 w-3.5" />
@@ -148,7 +148,7 @@ export default function HeroSlider({ jobs = [], mainHeading, subHeading, slideSp
           <div className="flex gap-2">
             <Link
               href="/jobs"
-              className="rounded-lg border-2 border-gray-200 px-3 py-1.5 text-center text-xs font-semibold text-gray-700 transition hover:border-brand-300 hover:bg-brand-50 hover:text-brand-700"
+              className="rounded-lg border-2 border-line px-3 py-1.5 text-center text-xs font-semibold text-gray-700 transition hover:border-brand-300 hover:bg-brand-50 hover:text-brand-700"
             >
               View Details
             </Link>
@@ -170,7 +170,7 @@ export default function HeroSlider({ jobs = [], mainHeading, subHeading, slideSp
   }
 
   return (
-    <section className="relative overflow-hidden border-b border-brand-100 bg-white">
+    <section className="relative overflow-hidden border-b border-brand-100 bg-surface">
       {/* Very soft decorative dot pattern — subtle on white instead of the
           old white-dots-on-green look */}
       <div
@@ -214,7 +214,7 @@ export default function HeroSlider({ jobs = [], mainHeading, subHeading, slideSp
           </Link>
           <Link
             href="/study-zone"
-            className="rounded-full border border-brand-200 bg-white px-6 py-3 text-sm font-bold text-brand-700 transition hover:bg-brand-50 active:scale-[0.98]"
+            className="rounded-full border border-brand-200 bg-surface px-6 py-3 text-sm font-bold text-brand-700 transition hover:bg-brand-50 active:scale-[0.98]"
           >
             Study Zone
           </Link>

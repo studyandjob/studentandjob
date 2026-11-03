@@ -13,13 +13,13 @@ const BADGES = [
 
 export default function TrustBadgesStrip() {
   return (
-    <div className="border-b border-gray-100 bg-white">
+    <div className="border-b border-line bg-surface">
       <div className="mx-auto max-w-7xl px-4 py-10 md:px-6 md:py-14">
         <div className="grid grid-cols-2 gap-4 sm:gap-5 md:grid-cols-4">
           {BADGES.map(({ label, Icon, ring }) => (
             <div
               key={label}
-              className="flex flex-col items-center gap-3 rounded-2xl border border-gray-100 bg-white px-4 py-6 text-center border border-gray-200 shadow-card transition hover:shadow-card-hover"
+              className="flex flex-col items-center gap-3 rounded-2xl border border-line bg-surface px-4 py-6 text-center border border-line shadow-card transition hover:shadow-card-hover"
             >
               <span className={`flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-full ${ring}`}>
                 <Icon className="h-8 w-8" />

@@ -44,7 +44,7 @@ export default function PublicJobCard({ job }) {
   return (
     <div className="group relative flex flex-col">
       <div
-        className={`relative flex aspect-[16/10] items-center justify-center overflow-hidden rounded-2xl ${
+        className={`relative flex aspect-[20/19] items-center justify-center overflow-hidden rounded-2xl ${
           isGovernment
             ? 'bg-gradient-to-br from-brand-100 to-brand-50 text-brand-700'
             : 'bg-gradient-to-br from-accent-100 to-accent-50 text-accent-700'
@@ -52,10 +52,10 @@ export default function PublicJobCard({ job }) {
       >
         <HomeIcon
           name={isGovernment ? 'building' : 'briefcase'}
-          className="h-14 w-14 opacity-80 transition duration-300 group-hover:scale-110"
+          className="h-16 w-16 opacity-80 transition duration-300 group-hover:scale-110"
         />
         {job.job_type && (
-          <span className="absolute left-3 top-3 rounded-full bg-white px-3 py-1 text-xs font-bold text-gray-900 shadow-card">
+          <span className="absolute left-3 top-3 rounded-full bg-surface px-3 py-1 text-xs font-bold text-gray-900 shadow-card">
             {job.job_type}
           </span>
         )}
@@ -78,7 +78,7 @@ export default function PublicJobCard({ job }) {
       <div className="mt-3 flex min-w-0 flex-1 flex-col">
         <JobViewLink
           jobId={job.id}
-          className="line-clamp-2 text-base font-semibold leading-snug text-gray-900 after:absolute after:inset-0 after:content-[''] focus-visible:outline-none focus-visible:after:rounded-2xl focus-visible:after:ring-2 focus-visible:after:ring-brand-500"
+          className="line-clamp-2 text-[15px] font-semibold leading-snug text-gray-900 after:absolute after:inset-0 after:content-[''] focus-visible:outline-none focus-visible:after:rounded-2xl focus-visible:after:ring-2 focus-visible:after:ring-brand-500"
         >
           {job.title}
         </JobViewLink>
@@ -94,12 +94,12 @@ export default function PublicJobCard({ job }) {
         {(job.salary || job.vacancies) && (
           <div className="mt-2 flex flex-wrap gap-1.5">
             {job.salary && (
-              <span className="rounded-full bg-gray-100 px-2.5 py-1 text-xs font-semibold text-gray-700">
+              <span className="rounded-full bg-surface-alt px-2.5 py-1 text-xs font-semibold text-gray-700">
                 {job.salary}
               </span>
             )}
             {job.vacancies && (
-              <span className="rounded-full bg-gray-100 px-2.5 py-1 text-xs font-semibold text-gray-700">
+              <span className="rounded-full bg-surface-alt px-2.5 py-1 text-xs font-semibold text-gray-700">
                 {job.vacancies} {String(job.vacancies).match(/^\d+$/) ? 'posts' : ''}
               </span>
             )}
@@ -119,7 +119,7 @@ export default function PublicJobCard({ job }) {
           href={job.apply_link}
           target="_blank"
           rel="noopener noreferrer"
-          className="relative z-10 mt-3 flex min-h-[44px] items-center justify-center rounded-xl border border-gray-900 px-4 text-sm font-semibold text-gray-900 transition hover:bg-gray-900 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
+          className="relative z-10 mt-3 flex min-h-[44px] items-center justify-center rounded-xl border border-brand-600 px-4 text-sm font-semibold text-brand-700 transition hover:bg-brand-600 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
         >
           Apply Now
         </a>

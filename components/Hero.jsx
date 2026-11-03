@@ -109,7 +109,7 @@ export default function Hero({ mainHeading, subHeading, illustrationUrl, slides 
             </Link>
             <Link
               href="/study-zone"
-              className="inline-flex items-center gap-2 rounded-lg border-2 border-brand-600 bg-white px-5 py-3.5 text-sm font-semibold text-brand-700 transition hover:bg-brand-50 hover:shadow-sm active:scale-[0.98]"
+              className="inline-flex items-center gap-2 rounded-lg border-2 border-brand-600 bg-surface px-5 py-3.5 text-sm font-semibold text-brand-700 transition hover:bg-brand-50 hover:shadow-sm active:scale-[0.98]"
             >
               <GraduationCapIcon3D className="h-4 w-4" />
               Explore Study Resources
@@ -297,7 +297,7 @@ function DefaultHeroVisual() {
 
       {/* Center badge — no overlaid category stickers, just the clean
           abstract composition. */}
-      <div className="relative z-10 flex h-28 w-28 items-center justify-center rounded-full bg-white shadow-xl shadow-brand-900/10 ring-1 ring-black/5">
+      <div className="relative z-10 flex h-28 w-28 items-center justify-center rounded-full bg-surface shadow-xl shadow-brand-900/10 ring-1 ring-black/5">
         <ShieldCheckIcon3D className="h-12 w-12" />
       </div>
     </div>

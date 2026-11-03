@@ -12,7 +12,7 @@ export default function ScholarshipCard({ scholarship }) {
   const isUrgent = remaining !== null && remaining >= 0 && remaining <= 5;
 
   return (
-    <div className="group relative flex flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-card transition-all duration-300 hover:shadow-card-hover">
+    <div className="group relative flex flex-col overflow-hidden rounded-2xl border border-line bg-surface shadow-card transition-all duration-300 hover:shadow-card-hover">
       <div className="flex flex-1 flex-col p-5">
         <div className="mb-3 flex items-start justify-between gap-2">
           <span className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-full bg-accent-50 text-accent-700">
@@ -44,7 +44,7 @@ export default function ScholarshipCard({ scholarship }) {
         {scholarship.deadline && (
           <div
             className={`mb-4 flex items-center gap-2 rounded-xl px-3 py-2.5 ${
-              isUrgent ? 'bg-red-50' : 'bg-gray-50'
+              isUrgent ? 'bg-red-50' : 'bg-surface-alt'
             }`}
           >
             <HomeIcon name="calendar" className="h-4 w-4 flex-shrink-0 text-gray-500" />

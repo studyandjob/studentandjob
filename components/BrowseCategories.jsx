@@ -21,14 +21,14 @@ const CATEGORIES = [
 
 export default function BrowseCategories() {
   return (
-    <section className="border-b border-gray-100 bg-white">
+    <section className="border-b border-line bg-surface">
       <div className="mx-auto max-w-7xl px-4 py-10 md:px-6 md:py-14">
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-5 md:gap-4">
           {CATEGORIES.map(({ label, sub, href, Icon }) => (
             <Link
               key={label}
               href={href}
-              className="flex items-center gap-3 rounded-xl border border-gray-100 bg-white px-3.5 py-3.5 transition hover:-translate-y-0.5 hover:border-brand-200 hover:shadow-sm active:scale-[0.98]"
+              className="flex items-center gap-3 rounded-xl border border-line bg-surface px-3.5 py-3.5 transition hover:-translate-y-0.5 hover:border-brand-200 hover:shadow-sm active:scale-[0.98]"
             >
               <span className="relative flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-brand-100 to-brand-50">
                 <span className="absolute inset-1.5 rounded-full bg-white/60 blur-md" aria-hidden="true" />

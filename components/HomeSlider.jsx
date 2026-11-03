@@ -98,12 +98,12 @@ export default function HomeSlider({ slides = [], speed = '1x' }) {
               )}
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
               <div className="absolute inset-x-0 bottom-0 p-5 pb-10 sm:p-8 sm:pb-12 lg:p-10 lg:pb-14">
-                <p className="max-w-2xl text-2xl font-extrabold leading-tight text-white sm:text-3xl lg:text-4xl">{s.title}</p>
+                <p className="max-w-2xl text-2xl font-bold leading-tight text-white sm:text-3xl lg:text-4xl">{s.title}</p>
                 {s.sub && <p className="mt-2 max-w-xl text-sm text-white/85 sm:text-base">{s.sub}</p>}
                 {s.href && (
                   <SlideLink
                     href={s.href}
-                    className="mt-4 inline-flex min-h-[44px] items-center rounded-full bg-white px-6 py-2.5 text-sm font-bold text-gray-900 transition hover:scale-[1.03] hover:shadow-pill"
+                    className="mt-4 inline-flex min-h-[44px] items-center rounded-full bg-surface px-6 py-2.5 text-sm font-bold text-gray-900 transition hover:scale-[1.03] hover:shadow-pill"
                   >
                     Browse jobs
                   </SlideLink>
@@ -120,7 +120,7 @@ export default function HomeSlider({ slides = [], speed = '1x' }) {
             type="button"
             onClick={() => go(index - 1)}
             aria-label="Previous slide"
-            className="absolute left-3 top-1/2 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-gray-900 shadow-pill transition hover:scale-105 hover:bg-white sm:flex"
+            className="absolute left-3 top-1/2 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-gray-900 shadow-pill transition hover:scale-105 hover:bg-surface sm:flex"
           >
             <HomeIcon name="chevronLeft" className="h-5 w-5" />
           </button>
@@ -128,7 +128,7 @@ export default function HomeSlider({ slides = [], speed = '1x' }) {
             type="button"
             onClick={() => go(index + 1)}
             aria-label="Next slide"
-            className="absolute right-3 top-1/2 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-gray-900 shadow-pill transition hover:scale-105 hover:bg-white sm:flex"
+            className="absolute right-3 top-1/2 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-gray-900 shadow-pill transition hover:scale-105 hover:bg-surface sm:flex"
           >
             <HomeIcon name="chevronRight" className="h-5 w-5" />
           </button>
@@ -140,7 +140,7 @@ export default function HomeSlider({ slides = [], speed = '1x' }) {
                 onClick={() => go(i)}
                 aria-label={`Go to slide ${i + 1}`}
                 aria-current={i === index}
-                className={`h-1.5 rounded-full transition-all ${i === index ? 'w-6 bg-white' : 'w-1.5 bg-white/60 hover:bg-white/90'}`}
+                className={`h-1.5 rounded-full transition-all ${i === index ? 'w-6 bg-surface' : 'w-1.5 bg-white/60 hover:bg-white/90'}`}
               />
             ))}
           </div>

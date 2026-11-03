@@ -10,8 +10,8 @@ const STUDY_ZONE_LINKS = [
 
 export default function StudentsZone() {
   return (
-    <section className="rounded-2xl bg-white p-4 border border-gray-200 shadow-card md:p-6">
-      <div className="mb-4 flex items-center justify-between border-b border-gray-100 pb-4">
+    <section className="rounded-2xl bg-surface p-4 border border-line shadow-card md:p-6">
+      <div className="mb-4 flex items-center justify-between border-b border-line pb-4">
         <div className="flex items-center gap-2.5">
           <span className="flex h-9 w-9 items-center justify-center">
             <GraduationCapIcon3D className="h-8 w-8" />
@@ -28,9 +28,9 @@ export default function StudentsZone() {
           <li key={href}>
             <Link
               href={href}
-              className="group flex items-center gap-3 rounded-xl border border-gray-100 bg-gray-50/60 p-3 transition hover:border-brand-200 hover:bg-brand-50"
+              className="group flex items-center gap-3 rounded-xl border border-line bg-gray-50/60 p-3 transition hover:border-brand-200 hover:bg-brand-50"
             >
-              <span className="relative flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-lg bg-white shadow-sm">
+              <span className="relative flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-lg bg-surface shadow-sm">
                 <Icon className="h-8 w-8" />
               </span>
               <div className="min-w-0 flex-1">

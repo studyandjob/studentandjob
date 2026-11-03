@@ -40,7 +40,7 @@ export default function ContactCards({ contacts = [] }) {
       {contacts.map((c) => (
         <div
           key={c.id}
-          className="flex flex-col items-center gap-3 rounded-2xl bg-white p-6 text-center border border-gray-200 shadow-card transition hover:shadow-card-hover"
+          className="flex flex-col items-center gap-3 rounded-2xl bg-surface p-6 text-center border border-line shadow-card transition hover:shadow-card-hover"
         >
           <Avatar name={c.name} imageUrl={c.image_url} />
           <div>

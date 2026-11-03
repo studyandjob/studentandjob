@@ -60,7 +60,7 @@ const ITEMS = [
 
 function Card({ label, sub, Icon, ring }) {
   return (
-    <div className="flex h-full flex-col items-center gap-4 rounded-2xl border border-gray-100 bg-white px-4 py-7 text-center border border-gray-200 shadow-card transition group-hover:-translate-y-1 group-hover:shadow-lg">
+    <div className="flex h-full flex-col items-center gap-4 rounded-2xl border border-line bg-surface px-4 py-7 text-center border border-line shadow-card transition group-hover:-translate-y-1 group-hover:shadow-lg">
       <span className={`relative flex h-20 w-20 flex-shrink-0 items-center justify-center rounded-2xl ${ring}`}>
         {/* soft blurred glow behind the icon so its own gradient/glare pops instead of sitting flat */}
         <span className="absolute inset-2 rounded-full bg-white/60 blur-md" aria-hidden="true" />
@@ -76,9 +76,9 @@ function Card({ label, sub, Icon, ring }) {
 
 export default function TrustStrip({ siteName }) {
   return (
-    <div className="border-b border-gray-100 bg-white">
+    <div className="border-b border-line bg-surface">
       <div className="mx-auto max-w-7xl px-4 py-10 md:px-6 md:py-14">
-        <h2 className="text-center text-xl font-extrabold text-gray-900 md:text-2xl">
+        <h2 className="text-center text-xl font-bold text-gray-900 md:text-2xl">
           {siteName ? `Why Choose ${siteName}?` : 'Why Choose Us?'}
         </h2>
         <p className="mx-auto mt-2 max-w-xl text-center text-sm text-gray-500">

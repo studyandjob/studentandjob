@@ -16,8 +16,8 @@ function formatDate(dateStr) {
 
 export default function JobsList({ jobs = [] }) {
   return (
-    <section className="rounded-2xl bg-white p-4 border border-gray-200 shadow-card md:p-6">
-      <div className="mb-4 flex items-center justify-between border-b border-gray-100 pb-4">
+    <section className="rounded-2xl bg-surface p-4 border border-line shadow-card md:p-6">
+      <div className="mb-4 flex items-center justify-between border-b border-line pb-4">
         <div className="flex items-center gap-3">
           <span className="relative flex h-10 w-10 flex-shrink-0 items-center justify-center">
             <BriefcaseIcon3D className="h-full w-full" />
@@ -55,7 +55,7 @@ export default function JobsList({ jobs = [] }) {
                 <div className="flex flex-shrink-0 items-center gap-2">
                   <JobViewLink
                     jobId={job.id}
-                    className="flex min-h-[40px] items-center justify-center rounded-md border border-gray-200 px-3.5 py-2 text-xs font-semibold text-gray-600 transition active:scale-95 hover:border-brand-200 hover:text-brand-700"
+                    className="flex min-h-[40px] items-center justify-center rounded-md border border-line px-3.5 py-2 text-xs font-semibold text-gray-600 transition active:scale-95 hover:border-brand-200 hover:text-brand-700"
                   >
                     View
                   </JobViewLink>

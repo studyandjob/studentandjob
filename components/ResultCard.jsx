@@ -16,7 +16,7 @@ export default function ResultCard({ result }) {
   const isFresh = age !== null && age >= 0 && age <= 5;
 
   return (
-    <div className="group relative flex flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-card transition-all duration-300 hover:shadow-card-hover">
+    <div className="group relative flex flex-col overflow-hidden rounded-2xl border border-line bg-surface shadow-card transition-all duration-300 hover:shadow-card-hover">
       <div className="flex flex-1 flex-col p-5">
         <div className="mb-3 flex items-start justify-between gap-3">
           <span className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-full bg-brand-50 text-brand-600">
@@ -36,7 +36,7 @@ export default function ResultCard({ result }) {
         )}
 
         {result.result_date && (
-          <div className="mb-4 flex items-center gap-2 rounded-xl bg-gray-50 px-3 py-2.5">
+          <div className="mb-4 flex items-center gap-2 rounded-xl bg-surface-alt px-3 py-2.5">
             <HomeIcon name="calendar" className="h-4 w-4 flex-shrink-0 text-gray-500" />
             <div className="min-w-0 leading-tight">
               <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">Announced</p>

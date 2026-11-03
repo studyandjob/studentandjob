@@ -10,8 +10,8 @@ function formatDate(dateStr) {
 
 export default function ScholarshipsList({ scholarships = [] }) {
   return (
-    <section className="rounded-2xl bg-white p-4 border border-gray-200 shadow-card md:p-6">
-      <div className="mb-4 flex items-center justify-between border-b border-gray-100 pb-4">
+    <section className="rounded-2xl bg-surface p-4 border border-line shadow-card md:p-6">
+      <div className="mb-4 flex items-center justify-between border-b border-line pb-4">
         <div className="flex items-center gap-3">
           <span className="relative flex h-10 w-10 flex-shrink-0 items-center justify-center">
             <GraduationCapIcon3D className="h-full w-full" />
@@ -43,7 +43,7 @@ export default function ScholarshipsList({ scholarships = [] }) {
           </Link>
         </div>
       ) : (
-        <ul className="divide-y divide-gray-100">
+        <ul className="divide-y divide-line">
           {scholarships.slice(0, 5).map((s) => {
             const remaining = daysRemaining(s.deadline);
             const isUrgent = remaining !== null && remaining >= 0 && remaining <= 5;

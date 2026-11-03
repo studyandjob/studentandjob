@@ -36,13 +36,13 @@ export default function HomeFaq() {
   };
 
   return (
-    <section className="border-t border-gray-200">
+    <section className="border-t border-line">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
-      <div className="mx-auto max-w-7xl px-4 py-10 md:px-6 md:py-12">
+      <div className="mx-auto max-w-[1760px] px-4 py-10 md:px-10 md:py-12">
         <HomeSection title="Frequently asked questions">
           <div className="grid items-start gap-3 md:grid-cols-2">
             {FAQS.map((f) => (
-              <details key={f.q} className="group rounded-2xl border border-gray-200 bg-white transition hover:shadow-card">
+              <details key={f.q} className="group rounded-2xl border border-line bg-surface transition hover:shadow-card">
                 <summary className="flex min-h-[56px] cursor-pointer list-none items-center justify-between gap-3 px-5 py-3.5 text-sm font-semibold text-gray-900 md:text-base [&::-webkit-details-marker]:hidden">
                   {f.q}
                   <HomeIcon name="chevron" className="h-5 w-5 flex-shrink-0 text-gray-700 transition group-open:rotate-180" />

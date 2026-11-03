@@ -43,17 +43,17 @@ export default function PublicJobDetailsModal({ job, settings, onClose }) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4" onClick={onClose}>
       <div
-        className="max-h-[88vh] w-full max-w-2xl overflow-y-auto rounded-2xl bg-white shadow-2xl"
+        className="max-h-[88vh] w-full max-w-2xl overflow-y-auto rounded-2xl bg-surface shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="sticky top-0 flex items-start justify-between gap-3 border-b border-gray-100 bg-white px-5 py-4 sm:px-6 sm:py-5">
+        <div className="sticky top-0 flex items-start justify-between gap-3 border-b border-line bg-surface px-5 py-4 sm:px-6 sm:py-5">
           <div className="min-w-0">
             <div className="mb-1 flex flex-wrap items-center gap-2">
               <h2 className="text-lg font-bold text-gray-900">{job.title}</h2>
               <span
                 className={`rounded-full px-2 py-0.5 text-xs font-bold uppercase tracking-wide ${
-                  job.job_type === 'Government' ? 'bg-brand-50 text-brand-700' : 'bg-gray-50 text-gray-600'
+                  job.job_type === 'Government' ? 'bg-brand-50 text-brand-700' : 'bg-surface-alt text-gray-600'
                 }`}
               >
                 {job.job_type}
@@ -63,7 +63,7 @@ export default function PublicJobDetailsModal({ job, settings, onClose }) {
           </div>
           <button
             onClick={onClose}
-            className="flex-shrink-0 rounded-full p-1.5 text-gray-400 transition hover:bg-gray-100 hover:text-gray-700"
+            className="flex-shrink-0 rounded-full p-1.5 text-gray-400 transition hover:bg-surface-alt hover:text-gray-700"
             aria-label="Close"
           >
             <CloseIcon3D className="h-6 w-6" />
@@ -132,14 +132,14 @@ export default function PublicJobDetailsModal({ job, settings, onClose }) {
           </dl>
 
           {(job.education_required?.length > 0 || job.skills_required?.length > 0) && (
-            <div className="grid grid-cols-1 gap-4 rounded-xl bg-gray-50 p-4 sm:grid-cols-2">
+            <div className="grid grid-cols-1 gap-4 rounded-xl bg-surface-alt p-4 sm:grid-cols-2">
               <TagGroup label="Education Required" tags={job.education_required} />
               <TagGroup label="Skills Required" tags={job.skills_required} />
             </div>
           )}
 
           {showManual && (job.postal_address || job.required_documents || job.fee_details) && (
-            <div className="rounded-xl border border-gray-200 bg-gray-50 p-4">
+            <div className="rounded-xl border border-line bg-surface-alt p-4">
               <p className="mb-3 text-sm font-semibold text-gray-800">Manual / By-Post Details</p>
               <div className="flex flex-col gap-3 text-sm">
                 {job.postal_address && (
@@ -177,7 +177,7 @@ export default function PublicJobDetailsModal({ job, settings, onClose }) {
             (it's why the candidate opened this modal); Official Website,
             WhatsApp and Close sit together as a smaller secondary row
             underneath, then sit inline next to Apply Now on desktop. */}
-        <div className="sticky bottom-0 flex flex-col gap-2 border-t border-gray-100 bg-white px-5 py-4 sm:flex-row sm:flex-wrap sm:items-center sm:px-6">
+        <div className="sticky bottom-0 flex flex-col gap-2 border-t border-line bg-surface px-5 py-4 sm:flex-row sm:flex-wrap sm:items-center sm:px-6">
           {canApply && (
             <a
               href={job.apply_link}
@@ -194,7 +194,7 @@ export default function PublicJobDetailsModal({ job, settings, onClose }) {
                 href={job.official_website}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex-1 rounded-full border border-gray-200 px-4 py-2.5 text-center text-sm font-semibold text-gray-700 transition active:scale-[0.98] hover:border-brand-300 hover:text-brand-700 sm:flex-none"
+                className="flex-1 rounded-full border border-line px-4 py-2.5 text-center text-sm font-semibold text-gray-700 transition active:scale-[0.98] hover:border-brand-300 hover:text-brand-700 sm:flex-none"
               >
                 Official Website
               </a>
@@ -213,7 +213,7 @@ export default function PublicJobDetailsModal({ job, settings, onClose }) {
             )}
             <button
               onClick={onClose}
-              className="flex-1 rounded-full border border-gray-200 px-4 py-2.5 text-center text-sm font-semibold text-gray-600 transition hover:text-gray-900 sm:flex-none"
+              className="flex-1 rounded-full border border-line px-4 py-2.5 text-center text-sm font-semibold text-gray-600 transition hover:text-gray-900 sm:flex-none"
             >
               Close
             </button>

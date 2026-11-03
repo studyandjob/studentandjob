@@ -62,7 +62,7 @@ export default function MobileBottomNav() {
   return (
     <>
       <nav
-        className="fixed inset-x-0 bottom-0 z-40 flex items-stretch justify-between border-t border-gray-200 bg-white px-1 pb-[env(safe-area-inset-bottom)] md:hidden"
+        className="fixed inset-x-0 bottom-0 z-40 flex items-stretch justify-between border-t border-line bg-surface px-1 pb-[env(safe-area-inset-bottom)] md:hidden"
         aria-label="Primary"
       >
         {tabs.map(({ href, label, Icon }) => {
@@ -99,7 +99,7 @@ export default function MobileBottomNav() {
         >
           <div className="absolute inset-0 bg-black/40" onClick={() => setMoreOpen(false)} />
           <div
-            className={`absolute inset-x-0 bottom-0 rounded-t-3xl bg-white p-5 pb-8 shadow-2xl transition-transform duration-200 ${
+            className={`absolute inset-x-0 bottom-0 rounded-t-3xl bg-surface p-5 pb-8 shadow-2xl transition-transform duration-200 ${
               moreOpen ? 'translate-y-0' : 'translate-y-full'
             }`}
           >
@@ -107,13 +107,13 @@ export default function MobileBottomNav() {
               <span className="text-sm font-bold text-gray-900">More</span>
               <button
                 onClick={() => setMoreOpen(false)}
-                className="rounded-full p-2 text-gray-600 hover:bg-gray-100"
+                className="rounded-full p-2 text-gray-600 hover:bg-surface-alt"
                 aria-label="Close menu"
               >
                 <CloseIcon3D className="h-5 w-5" />
               </button>
             </div>
-            <ul className="flex flex-col divide-y divide-gray-100">
+            <ul className="flex flex-col divide-y divide-line">
               {more.map((link) => (
                 <li key={link.href}>
                   <Link

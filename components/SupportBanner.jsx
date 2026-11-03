@@ -22,12 +22,12 @@ export default function SupportBanner({ settings }) {
     : null;
 
   return (
-    <section className="border-b border-gray-100 bg-white">
+    <section className="border-b border-line bg-surface">
       <div className="mx-auto grid max-w-7xl grid-cols-1 gap-4 px-4 py-10 md:grid-cols-2 md:gap-6 md:px-6 md:py-14">
         <div className="flex flex-col gap-3 rounded-2xl border border-brand-100 bg-brand-50/60 p-5">
           <div className="flex items-start justify-between gap-3">
             <div className="flex items-center gap-3">
-              <span className="relative flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-xl bg-white shadow-sm">
+              <span className="relative flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-xl bg-surface shadow-sm">
                 <SupportIcon3D className="h-9 w-9" />
               </span>
               <div>
@@ -35,7 +35,7 @@ export default function SupportBanner({ settings }) {
                 <p className="text-xs text-gray-500">Need help completing a job application? Our team can assist you step-by-step.</p>
               </div>
             </div>
-            <span className="flex-shrink-0 whitespace-nowrap rounded-lg bg-white px-3 py-2 text-center text-xs font-bold text-brand-700 shadow-sm">
+            <span className="flex-shrink-0 whitespace-nowrap rounded-lg bg-surface px-3 py-2 text-center text-xs font-bold text-brand-700 shadow-sm">
               {price}
               {!priceAlreadySaysPerApplication && (
                 <span className="block text-[10px] font-medium text-gray-400">Per Application</span>
@@ -61,7 +61,7 @@ export default function SupportBanner({ settings }) {
 
         <div className="flex items-center justify-between gap-4 rounded-2xl border border-emerald-100 bg-emerald-50/60 p-5">
           <div className="flex items-center gap-3">
-            <span className="relative flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-xl bg-white shadow-sm">
+            <span className="relative flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-xl bg-surface shadow-sm">
               <WhatsappIcon3D className="h-9 w-9" />
             </span>
             <div>

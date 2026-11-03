@@ -111,10 +111,10 @@ export default function PublicJobsBrowser({ jobs = [], siteName, settings }) {
   }
 
   return (
-    <div className="bg-white">
+    <div className="bg-surface">
       {/* --- Header + search --- */}
-      <div className="mx-auto max-w-7xl px-4 pb-2 pt-6 md:px-6 md:pt-10">
-        <h1 className="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl md:text-4xl">
+      <div className="mx-auto max-w-[1760px] px-4 pb-2 pt-6 md:px-10 md:pt-10">
+        <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl md:text-4xl">
           Find your next job
         </h1>
         <p className="mt-1 font-urdu text-base leading-loose text-gray-500" dir="rtl" lang="ur">
@@ -122,7 +122,7 @@ export default function PublicJobsBrowser({ jobs = [], siteName, settings }) {
         </p>
 
         {/* Search bar */}
-        <div className="mt-4 flex max-w-2xl items-center gap-3 rounded-full border border-gray-200 bg-white py-2 pl-5 pr-2 shadow-pill transition focus-within:shadow-card-hover">
+        <div className="mt-4 flex max-w-2xl items-center gap-3 rounded-full border border-line bg-surface py-2 pl-5 pr-2 shadow-pill transition focus-within:shadow-card-hover">
           <SearchIcon name="search" className="h-5 w-5 flex-shrink-0 text-gray-400" />
           <input
             type="text"
@@ -138,7 +138,7 @@ export default function PublicJobsBrowser({ jobs = [], siteName, settings }) {
           <select
             value={filters.sector}
             onChange={(e) => update('sector', e.target.value)}
-            className="h-11 rounded-full border border-gray-300 bg-white px-4 text-sm font-semibold text-gray-800 outline-none transition hover:border-gray-900 focus:border-gray-900 focus:ring-2 focus:ring-gray-200"
+            className="h-11 rounded-full border border-line-strong bg-surface px-4 text-sm font-semibold text-gray-800 outline-none transition hover:border-brand-600 focus:border-brand-600 focus:ring-2 focus:ring-brand-100"
           >
             <option value="all">All Provinces</option>
             {SECTORS.map((s) => (
@@ -151,7 +151,7 @@ export default function PublicJobsBrowser({ jobs = [], siteName, settings }) {
           <select
             value={filters.jobType}
             onChange={(e) => update('jobType', e.target.value)}
-            className="h-11 rounded-full border border-gray-300 bg-white px-4 text-sm font-semibold text-gray-800 outline-none transition hover:border-gray-900 focus:border-gray-900 focus:ring-2 focus:ring-gray-200"
+            className="h-11 rounded-full border border-line-strong bg-surface px-4 text-sm font-semibold text-gray-800 outline-none transition hover:border-brand-600 focus:border-brand-600 focus:ring-2 focus:ring-brand-100"
           >
             <option value="all">All Job Types</option>
             {JOB_TYPES.map((t) => (
@@ -165,7 +165,7 @@ export default function PublicJobsBrowser({ jobs = [], siteName, settings }) {
             <select
               value={filters.city}
               onChange={(e) => update('city', e.target.value)}
-              className="h-11 rounded-full border border-gray-300 bg-white px-4 text-sm font-semibold text-gray-800 outline-none transition hover:border-gray-900 focus:border-gray-900 focus:ring-2 focus:ring-gray-200"
+              className="h-11 rounded-full border border-line-strong bg-surface px-4 text-sm font-semibold text-gray-800 outline-none transition hover:border-brand-600 focus:border-brand-600 focus:ring-2 focus:ring-brand-100"
             >
               <option value="all">All Cities</option>
               {cities.map((c) => (
@@ -180,7 +180,7 @@ export default function PublicJobsBrowser({ jobs = [], siteName, settings }) {
             value={sort}
             onChange={(e) => setSort(e.target.value)}
             aria-label="Sort"
-            className="h-11 rounded-full border border-gray-300 bg-white px-4 text-sm font-semibold text-gray-800 outline-none transition hover:border-gray-900 focus:border-gray-900 focus:ring-2 focus:ring-gray-200"
+            className="h-11 rounded-full border border-line-strong bg-surface px-4 text-sm font-semibold text-gray-800 outline-none transition hover:border-brand-600 focus:border-brand-600 focus:ring-2 focus:ring-brand-100"
           >
             {SORT_OPTIONS.map((o) => (
               <option key={o.value} value={o.value}>
@@ -190,7 +190,7 @@ export default function PublicJobsBrowser({ jobs = [], siteName, settings }) {
           </select>
         </div>
 
-        <div className="mt-3 flex items-center justify-between border-b border-gray-200 pb-4">
+        <div className="mt-3 flex items-center justify-between border-b border-line pb-4">
           <p className="text-sm text-gray-600">
             <span className="font-bold text-gray-900">{filtered.length}</span> job{filtered.length === 1 ? '' : 's'} found
           </p>
@@ -203,11 +203,11 @@ export default function PublicJobsBrowser({ jobs = [], siteName, settings }) {
       </div>
 
       {/* --- Content --- */}
-      <div className="mx-auto max-w-7xl px-4 py-6 md:px-6 md:py-8">
+      <div className="mx-auto max-w-[1760px] px-4 py-6 md:px-10 md:py-8">
         {/* Job card grid */}
         {filtered.length === 0 ? (
-          <div className="flex flex-col items-center gap-3 rounded-2xl border border-gray-200 bg-white py-16 text-center">
-            <span className="flex h-14 w-14 items-center justify-center rounded-full bg-gray-50 text-2xl">
+          <div className="flex flex-col items-center gap-3 rounded-2xl border border-line bg-surface py-16 text-center">
+            <span className="flex h-14 w-14 items-center justify-center rounded-full bg-surface-alt text-2xl">
               🔍
             </span>
             <p className="text-sm text-gray-500">No jobs match your search. Try clearing some filters.</p>
@@ -232,7 +232,7 @@ export default function PublicJobsBrowser({ jobs = [], siteName, settings }) {
               <div className="mt-8 flex justify-center">
                 <button
                   onClick={() => setVisibleCount((c) => c + PAGE_SIZE)}
-                  className="rounded-xl bg-gray-900 px-7 py-3.5 text-sm font-semibold text-white transition active:scale-[0.98] hover:bg-black"
+                  className="rounded-xl bg-brand-600 px-7 py-3.5 text-sm font-semibold text-white transition active:scale-[0.98] hover:bg-brand-700"
                 >
                   Load More Jobs
                 </button>

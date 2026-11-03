@@ -9,11 +9,11 @@ const STEPS = [
 export default function HomeInfo() {
   return (
     <section>
-      <div className="mx-auto max-w-7xl px-4 py-10 md:px-6 md:py-12">
+      <div className="mx-auto max-w-[1760px] px-4 py-10 md:px-10 md:py-12">
         <HomeSection title="How to apply, in three steps">
           <ol className="grid gap-4 md:grid-cols-3 md:gap-6">
             {STEPS.map((s, i) => (
-              <li key={s.title} className="rounded-2xl border border-gray-200 bg-white p-6 shadow-card">
+              <li key={s.title} className="rounded-2xl border border-line bg-surface p-6 shadow-card">
                 <span className="flex h-11 w-11 items-center justify-center rounded-full bg-brand-600 text-lg font-bold text-white">
                   {i + 1}
                 </span>
@@ -22,7 +22,7 @@ export default function HomeInfo() {
               </li>
             ))}
           </ol>
-          <p className="mt-6 rounded-2xl bg-gray-50 px-5 py-4 text-sm text-gray-700">
+          <p className="mt-6 rounded-2xl bg-surface-alt px-5 py-4 text-sm text-gray-700">
             This website is free to use. We do not sell jobs and we never ask candidates for money. Always confirm the
             details on the employer&apos;s own advertisement.
           </p>

@@ -29,13 +29,13 @@ export default function AdGate({ jobId, title, department, lastDate, seconds = 5
 
   return (
     <div className="mx-auto w-full max-w-xl px-4 py-8">
-      <div className="rounded-2xl bg-white p-5 border border-gray-200 shadow-card sm:p-6">
+      <div className="rounded-2xl bg-surface p-5 border border-line shadow-card sm:p-6">
         <p className="text-xs font-semibold text-brand-700">Your job is ready</p>
         <h1 className="mt-1 text-lg font-bold leading-snug text-gray-900 sm:text-xl">{title}</h1>
         {department && <p className="mt-0.5 text-sm text-gray-500">{department}</p>}
         {lastDate && <p className="mt-2 text-sm font-semibold text-red-600">Last date: {lastDate}</p>}
 
-        <div className="mt-5 border-t border-gray-100 pt-4">
+        <div className="mt-5 border-t border-line pt-4">
           <p className="mb-1 text-center text-[11px] text-gray-400">Advertisement</p>
           <AdCode html={html} className="flex min-h-[250px] justify-center overflow-hidden" />
         </div>

@@ -6,7 +6,7 @@ export default function ScholarshipsTeaser({ scholarships = [] }) {
   if (scholarships.length === 0) return null;
 
   return (
-    <section className="border-b border-gray-100 bg-gray-50/60">
+    <section className="border-b border-line bg-gray-50/60">
       <div className="mx-auto max-w-7xl px-4 py-10 md:px-6 md:py-14">
         <div className="mb-6 flex items-end justify-between md:mb-8">
           <div className="flex items-center gap-2.5">
@@ -14,7 +14,7 @@ export default function ScholarshipsTeaser({ scholarships = [] }) {
               <GraduationCapIcon3D className="h-8 w-8" />
             </span>
             <div>
-              <h2 className="text-xl font-extrabold text-gray-900 md:text-2xl">Scholarships</h2>
+              <h2 className="text-xl font-bold text-gray-900 md:text-2xl">Scholarships</h2>
               <p className="mt-1 text-sm text-gray-500">Latest scholarships and their deadlines.</p>
             </div>
           </div>

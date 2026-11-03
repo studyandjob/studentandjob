@@ -9,7 +9,7 @@ import { BriefcaseIcon3D, GraduationCapIcon3D } from './Icons3D';
  */
 export default function FinalCta() {
   return (
-    <section className="border-t border-gray-100 bg-brand-50/50">
+    <section className="border-t border-line bg-brand-50/50">
       <div className="mx-auto max-w-4xl px-4 py-12 text-center md:px-6 md:py-16">
         <h2 className="text-2xl font-bold tracking-tight text-gray-900 md:text-3xl">
           Ready to Find Your Next Opportunity?
@@ -27,7 +27,7 @@ export default function FinalCta() {
           </Link>
           <Link
             href="/study-zone"
-            className="inline-flex items-center gap-2 rounded-lg border border-brand-200 bg-white px-6 py-3.5 text-sm font-semibold text-brand-700 transition hover:bg-brand-50 active:scale-[0.98]"
+            className="inline-flex items-center gap-2 rounded-lg border border-brand-200 bg-surface px-6 py-3.5 text-sm font-semibold text-brand-700 transition hover:bg-brand-50 active:scale-[0.98]"
           >
             <GraduationCapIcon3D className="h-4 w-4" />
             Explore Study Zone

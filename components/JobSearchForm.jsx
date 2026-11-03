@@ -19,7 +19,7 @@ export default function JobSearchForm() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="mx-auto flex w-full max-w-2xl items-center gap-2 rounded-full border border-gray-200 bg-white p-2 pl-5 shadow-pill transition focus-within:shadow-card-hover"
+      className="mx-auto flex w-full max-w-2xl items-center gap-2 rounded-full border border-line bg-surface p-2 pl-5 shadow-pill transition focus-within:shadow-card-hover"
       role="search"
     >
       <HomeIcon name="search" className="h-5 w-5 flex-shrink-0 text-gray-400" />

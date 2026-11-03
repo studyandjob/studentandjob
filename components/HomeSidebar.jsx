@@ -16,7 +16,7 @@ export default function HomeSidebar({ settings = {} }) {
   return (
     <aside className="grid items-start gap-6 md:grid-cols-2" aria-label="Helpful information">
       <HomeSection title="Before you apply">
-        <ul className="space-y-3 rounded-2xl border border-gray-200 bg-white p-5 text-sm text-gray-700 shadow-card">
+        <ul className="space-y-3 rounded-2xl border border-line bg-surface p-5 text-sm text-gray-700 shadow-card">
           {CHECKLIST.map((t) => (
             <li key={t} className="flex gap-3">
               <HomeIcon name="check" className="mt-0.5 h-5 w-5 flex-shrink-0 text-brand-600" />

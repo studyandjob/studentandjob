@@ -6,11 +6,11 @@ export default function HomeSection({ title, href, linkLabel = 'Show all', child
   return (
     <section className={className}>
       <div className="mb-4 flex items-end justify-between gap-3 md:mb-5">
-        <h2 className="text-xl font-bold leading-tight text-gray-900 md:text-2xl">{title}</h2>
+        <h2 className="text-xl font-semibold leading-tight text-gray-900 md:text-[22px]">{title}</h2>
         {href && (
           <Link
             href={href}
-            className="inline-flex items-center gap-1 whitespace-nowrap rounded-full px-3 py-1.5 text-sm font-semibold text-gray-900 underline-offset-4 transition hover:bg-gray-100 hover:underline"
+            className="inline-flex items-center gap-1 whitespace-nowrap rounded-full px-3 py-1.5 text-sm font-semibold text-gray-900 underline-offset-4 transition hover:bg-surface-alt hover:underline"
           >
             {linkLabel}
             <HomeIcon name="chevronRight" className="h-4 w-4" />

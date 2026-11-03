@@ -29,7 +29,7 @@ export default function Testimonials({ testimonials = [] }) {
   if (testimonials.length === 0) return null;
 
   return (
-    <div className="border-t border-gray-100 bg-gray-50/60">
+    <div className="border-t border-line bg-gray-50/60">
       <div className="mx-auto max-w-7xl px-4 py-10 md:px-6 md:py-14">
         <div className="mb-6 text-center md:mb-8">
           <h2 className="text-xl font-bold text-gray-900 md:text-2xl">Success Stories</h2>
@@ -40,7 +40,7 @@ export default function Testimonials({ testimonials = [] }) {
           {testimonials.slice(0, 6).map((t) => (
             <figure
               key={t.id}
-              className="flex flex-col gap-3 rounded-2xl border border-gray-100 bg-white p-5 border border-gray-200 shadow-card"
+              className="flex flex-col gap-3 rounded-2xl border border-line bg-surface p-5 border border-line shadow-card"
             >
               {t.rating > 0 && (
                 <div className="flex gap-0.5">
@@ -50,7 +50,7 @@ export default function Testimonials({ testimonials = [] }) {
                 </div>
               )}
               <blockquote className="flex-1 text-sm leading-relaxed text-gray-700">&ldquo;{t.quote}&rdquo;</blockquote>
-              <figcaption className="flex items-center gap-3 border-t border-gray-100 pt-3">
+              <figcaption className="flex items-center gap-3 border-t border-line pt-3">
                 <Avatar name={t.name} imageUrl={t.avatar_url} />
                 <div className="min-w-0">
                   <p className="truncate text-sm font-bold text-gray-900">{t.name}</p>

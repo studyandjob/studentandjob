@@ -41,7 +41,7 @@ export default function TodayJobsStrip({ jobs = [] }) {
   if (totalCount === 0) return null;
 
   return (
-    <section className="border-b border-gray-100 bg-gray-50/60">
+    <section className="border-b border-line bg-gray-50/60">
       <div className="mx-auto max-w-7xl px-4 py-8 md:px-6 md:py-10">
         <div className="mb-4 flex items-center gap-2.5">
           <span className="flex h-9 w-9 flex-shrink-0 items-center justify-center">
@@ -55,7 +55,7 @@ export default function TodayJobsStrip({ jobs = [] }) {
             if (groupJobs.length === 0) return null;
 
             return (
-              <div key={key} className={`rounded-2xl border bg-white p-4 border border-gray-200 shadow-card`}>
+              <div key={key} className={`rounded-2xl border bg-surface p-4 border border-line shadow-card`}>
                 <p className={`mb-3 inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-bold ${chipClass}`}>
                   <span>{emoji}</span>
                   {label} ({groupJobs.length})
