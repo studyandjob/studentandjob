@@ -26,6 +26,7 @@ const NAV_ITEMS = [
   { id: 'jobs', label: 'Jobs', icon: BriefcaseIcon },
   { id: 'pages_ads', label: 'Pages & Ads', icon: AwardIcon },
   { id: 'settings', label: 'Site Settings', icon: SettingsIcon },
+  { id: 'themesettings', label: 'Theme Settings', icon: PaletteIcon },
   { id: 'texttheme', label: 'Text Theme', icon: PaletteIcon },
   { id: 'social', label: 'Social Media', icon: Share2Icon },
   { id: 'slides', label: 'Hero Slides', icon: ImageIcon },
