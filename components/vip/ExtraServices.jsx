@@ -11,7 +11,7 @@ export default function ExtraServices({ whatsappNumber = '923001234567' }) {
   return (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
       {SERVICES.map((s) => (
-        <div key={s.title} className="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-black/5">
+        <div key={s.title} className="rounded-2xl bg-surface p-5 shadow-sm ring-1 ring-black/5">
           <div className="mb-2 flex items-center justify-between">
             <h4 className="font-bold text-gray-900">{s.title}</h4>
             <span className="rounded-full bg-brand-50 px-2.5 py-1 text-xs font-bold text-brand-600">{s.price}</span>

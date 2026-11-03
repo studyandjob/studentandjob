@@ -28,8 +28,8 @@ export default function VipDashboard({ session, initialProfile, jobs, initialReq
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <header className="sticky top-0 z-30 border-b border-gray-200 bg-white">
+    <div className="min-h-screen bg-surface-alt">
+      <header className="sticky top-0 z-30 border-b border-line bg-surface">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6">
           <div>
             <p className="text-sm font-bold text-gray-900">{siteName || 'Job Portal'} VIP</p>
@@ -50,7 +50,7 @@ export default function VipDashboard({ session, initialProfile, jobs, initialReq
               key={t.id}
               onClick={() => setTab(t.id)}
               className={`flex-shrink-0 rounded-full px-4 py-2 text-sm font-semibold transition ${
-                tab === t.id ? 'bg-brand-600 text-white' : 'text-gray-500 hover:bg-gray-100'
+                tab === t.id ? 'bg-brand-600 text-white' : 'text-gray-500 hover:bg-surface-alt'
               }`}
             >
               {t.label}
@@ -63,7 +63,7 @@ export default function VipDashboard({ session, initialProfile, jobs, initialReq
         {tab === 'jobs' && <JobMatches jobs={jobs} profile={profile} />}
 
         {tab === 'profile' && (
-          <div className="mx-auto max-w-3xl rounded-2xl bg-white p-6 shadow-sm ring-1 ring-black/5 sm:p-8">
+          <div className="mx-auto max-w-3xl rounded-2xl bg-surface p-6 shadow-sm ring-1 ring-black/5 sm:p-8">
             <ProfileBuilder profile={profile} onSaved={setProfile} />
           </div>
         )}

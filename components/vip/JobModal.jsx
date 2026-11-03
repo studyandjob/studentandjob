@@ -11,7 +11,7 @@ export default function JobModal({ job, match, onClose }) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4" onClick={onClose}>
       <div
-        className="max-h-[85vh] w-full max-w-lg overflow-y-auto rounded-2xl bg-white p-6 shadow-2xl"
+        className="max-h-[85vh] w-full max-w-lg overflow-y-auto rounded-2xl bg-surface p-6 shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="mb-4 flex items-start justify-between gap-3">
@@ -55,7 +55,7 @@ export default function JobModal({ job, match, onClose }) {
             <p className="mb-1 text-xs font-semibold text-gray-500">Education Required</p>
             <div className="flex flex-wrap gap-1.5">
               {job.education_required.map((e) => (
-                <span key={e} className="rounded-full bg-gray-100 px-2.5 py-1 text-xs text-gray-700">
+                <span key={e} className="rounded-full bg-surface-alt px-2.5 py-1 text-xs text-gray-700">
                   {e}
                 </span>
               ))}
@@ -68,7 +68,7 @@ export default function JobModal({ job, match, onClose }) {
             <p className="mb-1 text-xs font-semibold text-gray-500">Skills Required</p>
             <div className="flex flex-wrap gap-1.5">
               {job.skills_required.map((s) => (
-                <span key={s} className="rounded-full bg-gray-100 px-2.5 py-1 text-xs text-gray-700">
+                <span key={s} className="rounded-full bg-surface-alt px-2.5 py-1 text-xs text-gray-700">
                   {s}
                 </span>
               ))}
@@ -83,7 +83,7 @@ export default function JobModal({ job, match, onClose }) {
         )}
 
         {(job.postal_address || job.required_documents || job.fee_details) && (
-          <div className="mb-4 rounded-lg border border-gray-200 bg-gray-50 p-3 text-xs text-gray-900">
+          <div className="mb-4 rounded-lg border border-line bg-surface-alt p-3 text-xs text-gray-900">
             {job.postal_address && (
               <p className="mb-1">
                 <strong>Postal Address:</strong> {job.postal_address}
@@ -125,7 +125,7 @@ export default function JobModal({ job, match, onClose }) {
               WhatsApp Inquiry
             </a>
           )}
-          <button onClick={onClose} className="rounded-full border border-gray-200 px-5 py-2.5 text-sm font-semibold text-gray-600 hover:text-gray-900">
+          <button onClick={onClose} className="rounded-full border border-line px-5 py-2.5 text-sm font-semibold text-gray-600 hover:text-gray-900">
             Close
           </button>
         </div>

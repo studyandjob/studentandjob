@@ -6,7 +6,7 @@ import TagSelect from '../shared/TagSelect';
 import { SECTORS, EDUCATION_LEVELS, SKILLS_LIST } from '@/lib/matching';
 
 const inputClass =
-  'w-full rounded-lg border border-gray-200 bg-gray-50 px-3.5 py-2.5 text-sm text-gray-900 outline-none transition focus:border-brand-500 focus:ring-2 focus:ring-brand-100';
+  'w-full rounded-lg border border-line bg-surface-alt px-3.5 py-2.5 text-sm text-gray-900 outline-none transition focus:border-brand-500 focus:ring-2 focus:ring-brand-100';
 const labelClass = 'mb-1.5 block text-sm font-semibold text-gray-800';
 
 function emptyEducationRow() {
@@ -205,7 +205,7 @@ export default function ProfileBuilder({ profile, onSaved }) {
         </div>
         <div className="flex flex-col gap-4">
           {form.education.map((row, i) => (
-            <div key={i} className="grid grid-cols-1 gap-3 rounded-lg border border-gray-200 p-3 sm:grid-cols-2">
+            <div key={i} className="grid grid-cols-1 gap-3 rounded-lg border border-line p-3 sm:grid-cols-2">
               <label>
                 <span className={labelClass}>Level</span>
                 <select value={row.level} onChange={(e) => updateEducationRow(i, 'level', e.target.value)} className={inputClass}>
@@ -266,7 +266,7 @@ export default function ProfileBuilder({ profile, onSaved }) {
         </div>
         <div className="flex flex-col gap-4">
           {form.experience.map((row, i) => (
-            <div key={i} className="grid grid-cols-1 gap-3 rounded-lg border border-gray-200 p-3 sm:grid-cols-2">
+            <div key={i} className="grid grid-cols-1 gap-3 rounded-lg border border-line p-3 sm:grid-cols-2">
               <label>
                 <span className={labelClass}>Job Title</span>
                 <input value={row.title} onChange={(e) => updateExperienceRow(i, 'title', e.target.value)} className={inputClass} />

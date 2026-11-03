@@ -115,7 +115,7 @@ export default function ExamRunner({ sessionId }) {
   }
   if (error) {
     return (
-      <div className="rounded-xl bg-white p-6 text-center border border-gray-200 shadow-card">
+      <div className="rounded-xl bg-surface p-6 text-center border border-line shadow-card">
         <p className="mb-3 text-sm text-red-600">{error}</p>
         <Link href="/study-zone/test" className="text-sm font-semibold text-brand-600 hover:underline">
           ← Start a new test
@@ -128,7 +128,7 @@ export default function ExamRunner({ sessionId }) {
   if (result) {
     const pct = result.total_marks > 0 ? Math.round((result.score / result.total_marks) * 100) : 0;
     return (
-      <div className="rounded-2xl bg-white p-6 border border-gray-200 shadow-card md:p-8">
+      <div className="rounded-2xl bg-surface p-6 border border-line shadow-card md:p-8">
         <h2 className="mb-1 text-xl font-bold text-gray-900">Test Completed</h2>
         <p className="mb-6 text-sm text-gray-500">Here's your instant result for the objective portion of this paper.</p>
 
@@ -137,7 +137,7 @@ export default function ExamRunner({ sessionId }) {
             <p className="text-2xl font-extrabold text-brand-700">{pct}%</p>
             <p className="text-xs text-gray-500">Score</p>
           </div>
-          <div className="rounded-xl bg-gray-50 p-4 text-center">
+          <div className="rounded-xl bg-surface-alt p-4 text-center">
             <p className="text-2xl font-extrabold text-gray-800">
               {result.score}/{result.total_marks}
             </p>
@@ -149,7 +149,7 @@ export default function ExamRunner({ sessionId }) {
             </p>
             <p className="text-xs text-gray-500">Objective Correct</p>
           </div>
-          <div className="rounded-xl bg-gray-50 p-4 text-center">
+          <div className="rounded-xl bg-surface-alt p-4 text-center">
             <p className="text-2xl font-extrabold text-gray-700">{result.pending_review}</p>
             <p className="text-xs text-gray-500">Awaiting Manual Review</p>
           </div>
@@ -159,7 +159,7 @@ export default function ExamRunner({ sessionId }) {
           {result.breakdown?.map((b, i) => {
             const q = questions.find((qq) => qq.id === b.question_id);
             return (
-              <li key={b.question_id} className="rounded-lg border border-gray-100 p-3 text-sm">
+              <li key={b.question_id} className="rounded-lg border border-line p-3 text-sm">
                 <p className="mb-1 font-medium text-gray-800">
                   Q{i + 1}. {q?.text}
                 </p>
@@ -190,9 +190,9 @@ export default function ExamRunner({ sessionId }) {
   }
 
   return (
-    <div className="rounded-2xl bg-white border border-gray-200 shadow-card">
+    <div className="rounded-2xl bg-surface border border-line shadow-card">
       {/* Timer + progress header */}
-      <div className="sticky top-0 z-10 flex items-center justify-between gap-3 rounded-t-2xl border-b border-gray-100 bg-white/95 px-5 py-3.5 backdrop-blur">
+      <div className="sticky top-0 z-10 flex items-center justify-between gap-3 rounded-t-2xl border-b border-line bg-white/95 px-5 py-3.5 backdrop-blur">
         <div>
           <p className="text-xs font-semibold uppercase text-gray-400">
             Question {index + 1} of {totalQuestions}
@@ -209,7 +209,7 @@ export default function ExamRunner({ sessionId }) {
       </div>
 
       {/* Progress bar */}
-      <div className="h-1.5 w-full bg-gray-100">
+      <div className="h-1.5 w-full bg-surface-alt">
         <div
           className="h-1.5 bg-brand-500 transition-all"
           style={{ width: `${((index + 1) / totalQuestions) * 100}%` }}
@@ -229,7 +229,7 @@ export default function ExamRunner({ sessionId }) {
               <label
                 key={i}
                 className={`flex cursor-pointer items-center gap-3 rounded-xl border px-4 py-3 text-sm transition ${
-                  answers[current.id] === opt ? 'border-brand-500 bg-brand-50 text-brand-800' : 'border-gray-200 hover:border-brand-200'
+                  answers[current.id] === opt ? 'border-brand-500 bg-brand-50 text-brand-800' : 'border-line hover:border-brand-200'
                 }`}
               >
                 <input
@@ -245,7 +245,7 @@ export default function ExamRunner({ sessionId }) {
           </div>
         ) : current.type === 'long_answer' ? (
           <textarea
-            className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-brand-400 focus:ring-[3px] focus:ring-brand-100"
+            className="w-full rounded-xl border border-line px-4 py-3 text-sm outline-none focus:border-brand-400 focus:ring-[3px] focus:ring-brand-100"
             rows={6}
             placeholder="Write your answer here..."
             value={answers[current.id] || ''}
@@ -253,7 +253,7 @@ export default function ExamRunner({ sessionId }) {
           />
         ) : (
           <textarea
-            className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-brand-400 focus:ring-[3px] focus:ring-brand-100"
+            className="w-full rounded-xl border border-line px-4 py-3 text-sm outline-none focus:border-brand-400 focus:ring-[3px] focus:ring-brand-100"
             rows={current.type === 'translation' ? 4 : 2}
             placeholder="Type your answer here..."
             value={answers[current.id] || ''}
@@ -263,11 +263,11 @@ export default function ExamRunner({ sessionId }) {
       </div>
 
       {/* Navigation */}
-      <div className="flex items-center justify-between gap-3 border-t border-gray-100 px-5 py-4 md:px-8">
+      <div className="flex items-center justify-between gap-3 border-t border-line px-5 py-4 md:px-8">
         <button
           onClick={() => setIndex((i) => Math.max(0, i - 1))}
           disabled={index === 0}
-          className="rounded-full border border-gray-200 px-5 py-2.5 text-sm font-semibold text-gray-600 transition hover:bg-gray-50 disabled:opacity-40"
+          className="rounded-full border border-line px-5 py-2.5 text-sm font-semibold text-gray-600 transition hover:bg-surface-alt disabled:opacity-40"
         >
           ← Previous
         </button>

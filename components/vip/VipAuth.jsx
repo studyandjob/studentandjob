@@ -51,8 +51,8 @@ export default function VipAuth({ onAuthed, siteName }) {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4 py-10">
-      <div className="w-full max-w-[420px] rounded-2xl bg-white p-8 shadow-sm ring-1 ring-black/5 sm:p-10">
+    <div className="flex min-h-screen items-center justify-center bg-surface-alt px-4 py-10">
+      <div className="w-full max-w-[420px] rounded-2xl bg-surface p-8 shadow-sm ring-1 ring-black/5 sm:p-10">
         <div className="mb-6 text-center">
           <h1 className="text-xl font-bold text-gray-900">
             {siteName || 'Job Portal'} <span className="text-brand-600">VIP</span>
@@ -60,7 +60,7 @@ export default function VipAuth({ onAuthed, siteName }) {
           <p className="mt-1 text-xs text-gray-500">AI-powered CV builder &amp; smart job matching</p>
         </div>
 
-        <div className="mb-6 flex gap-2 rounded-lg border border-gray-200 bg-gray-50 p-1">
+        <div className="mb-6 flex gap-2 rounded-lg border border-line bg-surface-alt p-1">
           {['login', 'signup'].map((m) => (
             <button
               key={m}
@@ -70,7 +70,7 @@ export default function VipAuth({ onAuthed, siteName }) {
                 setNotice('');
               }}
               className={`flex-1 rounded-md px-3 py-2 text-sm font-semibold transition ${
-                mode === m ? 'bg-white text-brand-600 shadow-sm' : 'text-gray-500 hover:text-gray-800'
+                mode === m ? 'bg-surface text-brand-600 shadow-sm' : 'text-gray-500 hover:text-gray-800'
               }`}
             >
               {m === 'login' ? 'Log In' : 'Sign Up'}
@@ -96,7 +96,7 @@ export default function VipAuth({ onAuthed, siteName }) {
                 required
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
-                className="rounded-lg border border-gray-200 bg-gray-50 px-3.5 py-3 text-sm outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-100"
+                className="rounded-lg border border-line bg-surface-alt px-3.5 py-3 text-sm outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-100"
               />
             </label>
           )}
@@ -107,7 +107,7 @@ export default function VipAuth({ onAuthed, siteName }) {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="rounded-lg border border-gray-200 bg-gray-50 px-3.5 py-3 text-sm outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-100"
+              className="rounded-lg border border-line bg-surface-alt px-3.5 py-3 text-sm outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-100"
             />
           </label>
           <label className="flex flex-col gap-1.5">
@@ -118,7 +118,7 @@ export default function VipAuth({ onAuthed, siteName }) {
               minLength={6}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="rounded-lg border border-gray-200 bg-gray-50 px-3.5 py-3 text-sm outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-100"
+              className="rounded-lg border border-line bg-surface-alt px-3.5 py-3 text-sm outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-100"
             />
           </label>
 

@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabaseClient';
 
 const inputClass =
-  'w-full rounded-lg border border-gray-200 bg-white px-3.5 py-2.5 text-sm text-gray-800 outline-none transition focus:border-brand-400 focus:ring-[3px] focus:ring-brand-100';
+  'w-full rounded-lg border border-line bg-surface px-3.5 py-2.5 text-sm text-gray-800 outline-none transition focus:border-brand-400 focus:ring-[3px] focus:ring-brand-100';
 const labelClass = 'mb-1.5 block text-sm font-semibold text-gray-700';
 
 const TYPE_OPTIONS = [
@@ -82,7 +82,7 @@ export default function TestSetupForm({ classes }) {
   }
 
   return (
-    <form onSubmit={handleStart} className="rounded-2xl bg-white p-6 border border-gray-200 shadow-card">
+    <form onSubmit={handleStart} className="rounded-2xl bg-surface p-6 border border-line shadow-card">
       {error && <p className="mb-4 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-600">{error}</p>}
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">

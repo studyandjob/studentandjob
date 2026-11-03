@@ -8,7 +8,7 @@ function formatDate(dateStr) {
 export default function CVPreview({ profile }) {
   if (!profile || !profile.full_name) {
     return (
-      <div className="rounded-2xl bg-white p-10 text-center text-sm text-gray-500 shadow-sm ring-1 ring-black/5">
+      <div className="rounded-2xl bg-surface p-10 text-center text-sm text-gray-500 shadow-sm ring-1 ring-black/5">
         Complete your Profile first — your CV is generated automatically from it.
       </div>
     );
@@ -26,8 +26,8 @@ export default function CVPreview({ profile }) {
       </div>
 
       {/* Printable CV sheet */}
-      <div id="cv-sheet" className="mx-auto max-w-3xl rounded-2xl bg-white p-8 shadow-sm ring-1 ring-black/5 print:shadow-none print:ring-0 sm:p-10">
-        <header className="mb-6 flex items-center gap-5 border-b border-gray-200 pb-6">
+      <div id="cv-sheet" className="mx-auto max-w-3xl rounded-2xl bg-surface p-8 shadow-sm ring-1 ring-black/5 print:shadow-none print:ring-0 sm:p-10">
+        <header className="mb-6 flex items-center gap-5 border-b border-line pb-6">
           {profile.photo_url ? (
             <img src={profile.photo_url} alt="" className="h-24 w-24 flex-shrink-0 rounded-full object-cover" />
           ) : (

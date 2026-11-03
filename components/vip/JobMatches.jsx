@@ -33,7 +33,7 @@ export default function JobMatches({ jobs = [], profile }) {
   return (
     <div>
       <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <div className="flex gap-2 rounded-lg border border-gray-200 bg-white p-1">
+        <div className="flex gap-2 rounded-lg border border-line bg-surface p-1">
           {['Government', 'Private'].map((t) => (
             <button
               key={t}
@@ -51,7 +51,7 @@ export default function JobMatches({ jobs = [], profile }) {
           <select
             value={sector}
             onChange={(e) => setSector(e.target.value)}
-            className="rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-700 outline-none focus:border-brand-500"
+            className="rounded-lg border border-line bg-surface px-3 py-2 text-sm text-gray-700 outline-none focus:border-brand-500"
           >
             <option value="all">All Sectors</option>
             {SECTORS.map((s) => (
@@ -63,7 +63,7 @@ export default function JobMatches({ jobs = [], profile }) {
 
           {profile && (
             <label className="flex items-center gap-2 text-sm text-gray-600">
-              <input type="checkbox" checked={onlyMatches} onChange={(e) => setOnlyMatches(e.target.checked)} className="h-4 w-4 rounded border-gray-300 text-brand-600" />
+              <input type="checkbox" checked={onlyMatches} onChange={(e) => setOnlyMatches(e.target.checked)} className="h-4 w-4 rounded border-line-strong text-brand-600" />
               Show matches only
             </label>
           )}
@@ -71,7 +71,7 @@ export default function JobMatches({ jobs = [], profile }) {
       </div>
 
       {!profile && (
-        <p className="mb-4 rounded-lg border border-gray-200 bg-gray-50 px-3 py-2 text-sm text-gray-800">
+        <p className="mb-4 rounded-lg border border-line bg-surface-alt px-3 py-2 text-sm text-gray-800">
           Complete your Profile to see an AI match score on every job below.
         </p>
       )}

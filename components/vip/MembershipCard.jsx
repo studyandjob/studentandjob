@@ -76,7 +76,7 @@ export default function MembershipCard({ userId, profileId, currentRequest, onRe
 
   if (currentRequest && currentRequest.status === 'pending') {
     return (
-      <div className="rounded-2xl bg-gray-50 p-6 text-center ring-1 ring-gray-100">
+      <div className="rounded-2xl bg-surface-alt p-6 text-center ring-1 ring-gray-100">
         <p className="text-lg font-bold text-gray-700">Request Submitted</p>
         <p className="mt-1 text-sm text-gray-700">
           Your {currentRequest.plan} membership request is awaiting admin approval.
@@ -86,7 +86,7 @@ export default function MembershipCard({ userId, profileId, currentRequest, onRe
   }
 
   return (
-    <div className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-black/5">
+    <div className="rounded-2xl bg-surface p-6 shadow-sm ring-1 ring-black/5">
       {currentRequest?.status === 'expired' && (
         <p className="mb-4 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-600">
           Your previous membership expired on {formatDate(currentRequest.end_date)}. Renew below.
@@ -104,7 +104,7 @@ export default function MembershipCard({ userId, profileId, currentRequest, onRe
               key={p.label}
               onClick={() => setPlan(p.label)}
               className={`rounded-lg border px-3 py-3 text-center text-sm font-semibold transition ${
-                plan === p.label ? 'border-brand-600 bg-brand-50 text-brand-600' : 'border-gray-200 text-gray-500'
+                plan === p.label ? 'border-brand-600 bg-brand-50 text-brand-600' : 'border-line text-gray-500'
               }`}
             >
               {p.label}
@@ -115,7 +115,7 @@ export default function MembershipCard({ userId, profileId, currentRequest, onRe
 
         <label className="flex flex-col gap-1.5">
           <span className="text-sm font-semibold text-gray-800">Payment Method</span>
-          <select value={paymentMethod} onChange={(e) => setPaymentMethod(e.target.value)} className="rounded-lg border border-gray-200 bg-gray-50 px-3.5 py-2.5 text-sm">
+          <select value={paymentMethod} onChange={(e) => setPaymentMethod(e.target.value)} className="rounded-lg border border-line bg-surface-alt px-3.5 py-2.5 text-sm">
             <option>Easypaisa</option>
             <option>JazzCash</option>
             <option>Bank Transfer</option>
@@ -128,7 +128,7 @@ export default function MembershipCard({ userId, profileId, currentRequest, onRe
             required
             value={whatsapp}
             onChange={(e) => setWhatsapp(e.target.value)}
-            className="rounded-lg border border-gray-200 bg-gray-50 px-3.5 py-2.5 text-sm"
+            className="rounded-lg border border-line bg-surface-alt px-3.5 py-2.5 text-sm"
           />
         </label>
 
