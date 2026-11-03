@@ -10,7 +10,7 @@ import FloatingWhatsAppButton from '@/components/FloatingWhatsAppButton';
 import TextThemeStyle from '@/components/TextThemeStyle';
 import { ThemeProvider } from '@/contexts/ThemeContext';
 import { DEFAULT_TEXT_THEME_ID, TEXT_THEMES } from '@/lib/textThemes';
-import { DEFAULT_THEME_ID, THEMES, buildAccentScale, buildShadeScale, hexToRgbTriplet } from '@/lib/themes';
+import { DEFAULT_THEME_ID, THEMES, buildAccentScale, buildShadeScale, hexToRgbTriplet, resolveThemeId } from '@/lib/themes';
 
 // --- Anti-flash boot script ------------------------------------------
 // Both TextThemeStyle and ThemeContext apply their saved theme inside a
@@ -51,7 +51,7 @@ const BRAND_THEME_VARS = Object.fromEntries(
   ])
 );
 
-const THEME_BOOT_SCRIPT = `(function(){try{
+const buildThemeBootScript = (serverThemeId) => `(function(){try{
   var d=document.documentElement;
   var TT=${JSON.stringify(TEXT_THEME_VARS)};
   var BT=${JSON.stringify(BRAND_THEME_VARS)};
@@ -59,7 +59,7 @@ const THEME_BOOT_SCRIPT = `(function(){try{
   var tt=TT[tId]||TT['${DEFAULT_TEXT_THEME_ID}'];
   for(var k in tt){d.style.setProperty('--text-'+k,tt[k]);}
   d.dataset.textTheme=tId;
-  var bId=localStorage.getItem('psj-active-theme')||'${DEFAULT_THEME_ID}';
+  var bId=localStorage.getItem('psj-active-theme-v2')||'${serverThemeId}';
   var bt=BT[bId]||BT['${DEFAULT_THEME_ID}'];
   for(var k2 in bt.brand){d.style.setProperty('--brand-'+k2,bt.brand[k2]);}
   for(var k3 in bt.accent){d.style.setProperty('--accent-'+k3,bt.accent[k3]);}
@@ -209,7 +209,7 @@ export default async function RootLayout({ children }) {
         {/* Runs before first paint on every page (Home included) so the
             saved text/brand theme is correct from frame one — see the
             comment above THEME_BOOT_SCRIPT. */}
-        <script dangerouslySetInnerHTML={{ __html: THEME_BOOT_SCRIPT }} />
+        <script dangerouslySetInnerHTML={{ __html: buildThemeBootScript(BRAND_THEME_VARS[resolveThemeId(settings?.active_theme)] ? resolveThemeId(settings?.active_theme) : DEFAULT_THEME_ID) }} />
         {/* Site-wide ad script (AdSense library etc.) rendered on the
             server so it is in the HTML source Google's crawler reads. */}
         <AdHeadElements html={settings?.ad_head_code} />

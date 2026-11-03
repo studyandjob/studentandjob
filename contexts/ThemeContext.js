@@ -21,7 +21,8 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState } 
 import { supabase } from '@/lib/supabaseClient';
 import { DEFAULT_THEME_ID, THEMES, buildAccentScale, buildShadeScale, getThemeById, hexToRgbTriplet } from '@/lib/themes';
 
-const STORAGE_KEY = 'psj-active-theme';
+// v2: older browser-saved choices (the previous green/blue defaults) are ignored.
+const STORAGE_KEY = 'psj-active-theme-v2';
 
 const ThemeContext = createContext({
   activeThemeId: DEFAULT_THEME_ID,
