@@ -11,6 +11,9 @@ const inputClass =
 const labelClass = 'mb-1.5 block text-[0.85rem] font-semibold text-aink';
 
 export default function SettingsForm({ settings }) {
+  // The show/hide switch needs the `show_news_ticker` column (sql/add_news_ticker_toggle.sql).
+  // Until that column exists we leave the field out of saves so nothing breaks.
+  const hasTickerColumn = !!settings && 'show_news_ticker' in settings;
   const [form, setForm] = useState({
     id: settings?.id,
     site_name: settings?.site_name || '',
@@ -20,6 +23,7 @@ export default function SettingsForm({ settings }) {
     sub_heading: settings?.sub_heading || '',
     hero_slide_speed: settings?.hero_slide_speed || '1x',
     scrolling_news: settings?.scrolling_news || '',
+    show_news_ticker: settings?.show_news_ticker ?? true,
     stats_jobs_boost: settings?.stats_jobs_boost ?? 0,
     stats_notes_boost: settings?.stats_notes_boost ?? 0,
     stats_scholarships_boost: settings?.stats_scholarships_boost ?? 0,
@@ -48,6 +52,7 @@ export default function SettingsForm({ settings }) {
     setMessage('');
 
     const payload = { ...form, updated_at: new Date().toISOString() };
+    if (!hasTickerColumn) delete payload.show_news_ticker;
 
     // Re-check for an existing row right before saving, instead of trusting
     // whatever id this form happened to load with. This is what actually
@@ -173,6 +178,33 @@ export default function SettingsForm({ settings }) {
             <option value="4x">4x (Fastest)</option>
           </select>
         </label>
+
+        <div className="flex items-center justify-between gap-4 rounded-[10px] border border-aline bg-[#FCFAF6] px-4 py-3 sm:col-span-2">
+          <div>
+            <p className="text-[0.9rem] font-semibold text-aink">Show news ticker on website</p>
+            <p className="mt-0.5 text-xs text-amuted">
+              {hasTickerColumn
+                ? 'Turn on only when you have an alert message. When off, the bar disappears from every page and takes no space.'
+                : 'Run sql/add_news_ticker_toggle.sql in Supabase once to enable this switch.'}
+            </p>
+          </div>
+          <button
+            type="button"
+            role="switch"
+            aria-checked={!!form.show_news_ticker}
+            disabled={!hasTickerColumn}
+            onClick={() => update('show_news_ticker', !form.show_news_ticker)}
+            className={`relative h-7 w-12 flex-shrink-0 rounded-full transition disabled:cursor-not-allowed disabled:opacity-50 ${
+              form.show_news_ticker ? 'bg-brand-600' : 'bg-gray-300'
+            }`}
+          >
+            <span
+              className={`absolute top-0.5 h-6 w-6 rounded-full bg-white shadow transition-all ${
+                form.show_news_ticker ? 'left-[22px]' : 'left-0.5'
+              }`}
+            />
+          </button>
+        </div>
 
         <label className="block sm:col-span-2">
           <span className={labelClass}>Scrolling News</span>
