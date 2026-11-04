@@ -18,7 +18,7 @@ export default async function ResultsPage() {
 
   return (
     <>
-      <NewsTicker text={settings.scrolling_news} />
+      <NewsTicker text={settings.show_news_ticker === false ? '' : settings.scrolling_news} />
       <Header siteName={settings.site_name} logoUrl={settings.logo_url} />
 
       <main className="flex-1 bg-surface">
