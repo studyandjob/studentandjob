@@ -117,7 +117,7 @@ export default function PublicJobsBrowser({ jobs = [], siteName, settings }) {
         <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl md:text-4xl">
           Find your next job
         </h1>
-        <p className="mt-1 font-urdu text-base leading-loose text-gray-500" dir="rtl" lang="ur">
+        <p className="mt-1 text-left font-urdu text-base leading-loose text-gray-500" dir="rtl" lang="ur">
           ہزاروں تازہ ترین گورنمنٹ اور پرائیویٹ جابز تلاش کریں
         </p>
 

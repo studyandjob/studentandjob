@@ -16,7 +16,7 @@ export default function HomeLatestJobs({ jobs = [] }) {
   return (
     <HomeRow title="Latest jobs" subtitle="Newly posted government and private jobs" href="/jobs">
       {jobs.map((job) => (
-        <li key={job.id} className="w-[250px] flex-shrink-0 snap-start sm:w-[270px] lg:w-[300px]">
+        <li key={job.id} className="flex w-[250px] flex-shrink-0 snap-start sm:w-[270px] lg:w-[300px]">
           <PublicJobCard job={job} />
         </li>
       ))}

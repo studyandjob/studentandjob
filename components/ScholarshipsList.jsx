@@ -71,7 +71,7 @@ export default function ScholarshipsList({ scholarships = [] }) {
                   href={s.apply_link || '#'}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex min-h-[40px] flex-shrink-0 items-center justify-center rounded-md bg-accent-600 px-3.5 py-2 text-xs font-semibold text-white transition active:scale-95 hover:bg-accent-700"
+                  className="flex min-h-[40px] flex-shrink-0 items-center justify-center rounded-md bg-brand-600 px-3.5 py-2 text-xs font-semibold text-white transition active:scale-95 hover:bg-brand-700"
                 >
                   Apply Now
                 </a>

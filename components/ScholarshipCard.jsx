@@ -15,7 +15,7 @@ export default function ScholarshipCard({ scholarship }) {
     <div className="group relative flex flex-col overflow-hidden rounded-2xl border border-line bg-surface shadow-card transition-all duration-300 hover:shadow-card-hover">
       <div className="flex flex-1 flex-col p-5">
         <div className="mb-3 flex items-start justify-between gap-2">
-          <span className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-full bg-accent-50 text-accent-700">
+          <span className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-full bg-brand-50 text-brand-600">
             <HomeIcon name="grad" className="h-6 w-6" />
           </span>
           {/* Status badge — Active vs Expiring Soon. Expired scholarships
@@ -67,7 +67,7 @@ export default function ScholarshipCard({ scholarship }) {
           href={scholarship.apply_link || '#'}
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-auto flex items-center justify-center rounded-xl bg-accent-600 px-4 py-3.5 text-center text-sm font-semibold text-white transition-all duration-200 active:scale-[0.98] hover:bg-accent-700 sm:py-2.5"
+          className="mt-auto flex items-center justify-center rounded-xl bg-brand-600 px-4 py-3.5 text-center text-sm font-semibold text-white transition-all duration-200 active:scale-[0.98] hover:bg-brand-700 sm:py-2.5"
         >
           Apply Now
         </a>

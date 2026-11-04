@@ -10,12 +10,13 @@ export default function HomeClosingSoon({ jobs = [] }) {
     .sort((a, b) => toDateKey(a.last_date).localeCompare(toDateKey(b.last_date)));
   const closing = dated.length > 0 ? dated.slice(0, 10) : jobs.slice(0, 10);
   const title = dated.length > 0 ? 'Closing soon' : 'Latest openings';
-  if (closing.length === 0) return null;
+  // With only a handful of jobs, "Closing soon" would just repeat "Latest jobs" below it.
+  if (closing.length === 0 || jobs.length <= 4) return null;
 
   return (
     <HomeRow title={title} subtitle="Apply before the last date" href="/jobs">
       {closing.map((job) => (
-        <li key={job.id} className="w-[250px] flex-shrink-0 snap-start sm:w-[270px] lg:w-[300px]">
+        <li key={job.id} className="flex w-[250px] flex-shrink-0 snap-start sm:w-[270px] lg:w-[300px]">
           <PublicJobCard job={job} />
         </li>
       ))}

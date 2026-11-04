@@ -42,12 +42,12 @@ export default function PublicJobCard({ job }) {
   const posted = formatPosted(job.created_at);
 
   return (
-    <div className="group relative flex flex-col">
+    <div className="group relative flex h-full w-full flex-col">
       <div
-        className={`relative flex aspect-[20/19] items-center justify-center overflow-hidden rounded-2xl ${
+        className={`relative flex aspect-[4/3] items-center justify-center overflow-hidden rounded-2xl ${
           isGovernment
-            ? 'bg-gradient-to-br from-brand-100 to-brand-50 text-brand-700'
-            : 'bg-gradient-to-br from-accent-100 to-accent-50 text-accent-700'
+            ? 'bg-gradient-to-br from-brand-100 to-brand-50 text-brand-600'
+            : 'bg-gradient-to-br from-brand-50 to-surface-alt text-brand-500'
         }`}
       >
         <HomeIcon
