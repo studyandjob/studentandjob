@@ -104,7 +104,7 @@ export default function Header({ siteName, logoUrl }) {
 
   return (
     <>
-      <header className="sticky top-0 z-50 border-b border-line bg-surface">
+      <header className={`sticky top-0 z-50 bg-surface ${compact ? 'border-b border-line' : ''}`}>
         {/* Row 1: logo · (tabs | compact search pill) · member link + menu */}
         <div className="mx-auto flex max-w-[1760px] items-center justify-between gap-3 px-4 py-2.5 md:grid md:grid-cols-[1fr_auto_1fr] md:px-10 md:py-3">
           <Link href="/" className="flex min-w-0 items-center gap-2.5">
@@ -197,10 +197,13 @@ export default function Header({ siteName, logoUrl }) {
         </div>
 
         {/* Row 2 (desktop): Airbnb-style segmented search pill — folds away on scroll */}
+        {/* Absolutely positioned so toggling it never changes the page height
+            (a height change while scrolling made the header flicker). */}
         <div
-          className={`hidden overflow-hidden transition-all duration-300 md:block ${
-            compact ? 'max-h-0 opacity-0' : 'max-h-32 opacity-100'
+          className={`absolute inset-x-0 top-full hidden border-b border-line bg-surface transition duration-200 md:block ${
+            compact ? 'pointer-events-none -translate-y-2 opacity-0' : 'translate-y-0 opacity-100'
           }`}
+          aria-hidden={compact}
         >
           <form
             action="/jobs"
@@ -251,6 +254,8 @@ export default function Header({ siteName, logoUrl }) {
           </form>
         </div>
       </header>
+      {/* Reserves the room the expanded search row overlays, so content never jumps. */}
+      <div className="hidden h-[92px] md:block" aria-hidden="true" />
 
       {/* Mobile search sheet (Airbnb-style stacked cards) */}
       {searchOpen && (
