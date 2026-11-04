@@ -75,12 +75,21 @@ export default function AdminDashboard() {
   const [staff, setStaff] = useState([]);
   const [staffPermissions, setStaffPermissions] = useState([]);
   const [loadingData, setLoadingData] = useState(true);
+  const userId = session?.user?.id || null;
   const [activeTab, setActiveTab] = useState('dashboard');
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data }) => setSession(data.session));
-    const { data: listener } = supabase.auth.onAuthStateChange((_event, sess) => setSession(sess));
+    supabase.auth.getSession().then(({ data }) =>
+      setSession((prev) => (prev && data.session && prev.user?.id === data.session.user?.id ? prev : data.session))
+    );
+    // Supabase re-emits auth events (TOKEN_REFRESHED / SIGNED_IN) whenever the
+    // browser tab regains focus. Keep the same session object when it is the
+    // same user, otherwise the whole dashboard reloads and any half-filled
+    // form (e.g. a new job) is wiped.
+    const { data: listener } = supabase.auth.onAuthStateChange((_event, sess) =>
+      setSession((prev) => (prev && sess && prev.user?.id === sess.user?.id ? prev : sess))
+    );
     return () => listener.subscription.unsubscribe();
   }, []);
 
@@ -90,7 +99,7 @@ export default function AdminDashboard() {
   // Skipped once logged in, since the full settings fetch below already
   // covers it (and stays fresher via the same query).
   useEffect(() => {
-    if (session) return;
+    if (userId) return;
     supabase
       .from('site_settings')
       .select('site_name, logo_url')
@@ -100,10 +109,10 @@ export default function AdminDashboard() {
       .then(({ data }) => {
         if (data) setSettings((prev) => prev || data);
       });
-  }, [session]);
+  }, [userId]);
 
   useEffect(() => {
-    if (!session) return;
+    if (!userId) return;
     (async () => {
       setLoadingData(true);
       const [{ data: s }, { data: sl }, { data: j }, { data: n }, { data: r }, { data: sc }, { data: m }, { data: c }, { data: p }, { data: mr }, { data: sCls }, { data: sSub }, { data: sMat }, { data: stf }, { data: sp }] =
@@ -141,7 +150,7 @@ export default function AdminDashboard() {
       setStaffPermissions(sp || []);
       setLoadingData(false);
     })();
-  }, [session]);
+  }, [userId]);
 
   async function handleLogout() {
     await supabase.auth.signOut();
