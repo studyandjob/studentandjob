@@ -1,14 +1,10 @@
 import HomeSlider from './HomeSlider';
-import JobSearchForm from './JobSearchForm';
 
-/** Top of the home page: one big rounded slider with the search pill floating over its bottom edge. */
+/** Top of the home page: one big rounded slider. */
 export default function HomeLead({ slides = [], slideSpeed = '1x' }) {
   return (
     <div className="relative mx-auto max-w-6xl">
       <HomeSlider slides={slides} speed={slideSpeed} />
-      <div className="relative z-10 -mt-6 px-3 sm:px-8">
-        <JobSearchForm />
-      </div>
     </div>
   );
 }

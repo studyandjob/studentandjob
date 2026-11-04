@@ -2,6 +2,7 @@
 
 import JobViewLink from './JobViewLink';
 import HomeIcon from './HomeIcons';
+import Art3D from './Art3D';
 import { daysRemaining } from '@/lib/jobStatus';
 
 function formatDate(dateStr) {
@@ -50,10 +51,7 @@ export default function PublicJobCard({ job }) {
             : 'bg-gradient-to-br from-brand-50 to-surface-alt text-brand-500'
         }`}
       >
-        <HomeIcon
-          name={isGovernment ? 'building' : 'briefcase'}
-          className="h-16 w-16 opacity-80 transition duration-300 group-hover:scale-110"
-        />
+        <Art3D name={isGovernment ? 'building' : 'briefcase'} className="h-24 w-24 transition duration-300 group-hover:scale-110" />
         {job.job_type && (
           <span className="absolute left-3 top-3 rounded-full bg-surface px-3 py-1 text-xs font-bold text-gray-900 shadow-card">
             {job.job_type}
