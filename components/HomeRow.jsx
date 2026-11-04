@@ -46,9 +46,11 @@ export default function HomeRow({ title, subtitle, href, children }) {
         <div className="min-w-0">
           <h2 className="text-xl font-semibold leading-tight text-gray-900 md:text-[22px]">
             {href ? (
-              <Link href={href} className="inline-flex items-center gap-1 hover:underline">
+              <Link href={href} className="inline-flex items-center gap-2 hover:underline">
                 {title}
-                <HomeIcon name="chevronRight" className="h-5 w-5" />
+                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-surface-alt text-gray-900">
+                  <HomeIcon name="chevronRight" className="h-3.5 w-3.5" />
+                </span>
               </Link>
             ) : (
               title
@@ -65,7 +67,7 @@ export default function HomeRow({ title, subtitle, href, children }) {
           </button>
         </div>
       </div>
-      <ul ref={ref} className="no-scrollbar -mx-4 flex snap-x gap-4 overflow-x-auto px-4 pb-2 md:-mx-0 md:gap-5 md:px-0">
+      <ul ref={ref} className="no-scrollbar -mx-4 flex scroll-px-4 snap-x gap-4 overflow-x-auto px-4 pb-2 md:-mx-0 md:gap-5 md:px-0">
         {children}
       </ul>
     </section>
