@@ -106,7 +106,19 @@ const notoNastaliqUrdu = Noto_Nastaliq_Urdu({
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://onlinejobsandstudy.vercel.app';
 
 // Generic, natural (not stuffed) keywords describing what this site
-// actually is — a jobs-only site for Pakistan.
+// actually is. Directory-first by default; the jobs wording is used only
+// when the Business Directory page is switched off in Admin → Pages & Ads.
+const DIRECTORY_KEYWORDS = [
+  'Pakistan business directory',
+  'businesses near me',
+  'hospitals near me',
+  'schools near me',
+  'doctors near me',
+  'hotels Pakistan',
+  'academies and colleges',
+  'verified businesses Pakistan',
+];
+
 const SITE_KEYWORDS = [
   'Pakistan jobs',
   'latest jobs in Pakistan',
@@ -127,9 +139,11 @@ export async function generateMetadata() {
     .limit(1)
     .maybeSingle();
 
-  const siteName = data?.site_name || 'Online Jobs';
-  const description =
-    'Latest government and private job ads in Pakistan — check the last date, requirements and how to apply, all in one place.';
+  const directoryOn = resolveVisibility(data).directory;
+  const siteName = data?.site_name || (directoryOn ? 'Business Directory' : 'Online Jobs');
+  const description = directoryOn
+    ? 'Apne qareeb ke schools, colleges, academies, hospitals, doctors, hotels aur advocates dhoondein — phone, WhatsApp aur directions ke sath, poore Pakistan mein.'
+    : 'Latest government and private job ads in Pakistan — check the last date, requirements and how to apply, all in one place.';
   // logo_url is whatever the admin actually uploaded — used as-is for the
   // OG image so social previews never show a placeholder/fake graphic.
   const ogImage = data?.logo_url || undefined;
@@ -138,7 +152,7 @@ export async function generateMetadata() {
     metadataBase: new URL(SITE_URL),
     title: { default: siteName, template: `%s — ${siteName}` },
     description,
-    keywords: SITE_KEYWORDS,
+    keywords: directoryOn ? DIRECTORY_KEYWORDS : SITE_KEYWORDS,
     alternates: { canonical: '/' },
     robots: { index: true, follow: true },
     openGraph: {
@@ -188,7 +202,7 @@ export default async function RootLayout({ children }) {
   const websiteSchema = {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
-    name: settings?.site_name || 'Online Jobs',
+    name: settings?.site_name || (visibility.directory ? 'Business Directory' : 'Online Jobs'),
     url: SITE_URL,
     ...(settings?.logo_url ? { image: settings.logo_url } : {}),
   };

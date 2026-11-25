@@ -34,13 +34,15 @@ export default function DirectoryExplorer({
   mode = 'hub',
   initialFilters = {},
   initialData = null,
+  initialQuery = '',
+  autoLocate = false,
   siteName,
   children,
 }) {
   const taxonomy = useMemo(() => ({ categories, cities, areas }), [categories, cities, areas]);
   const tree = useMemo(() => buildCategoryTree(categories), [categories]);
 
-  const [q, setQ] = useState('');
+  const [q, setQ] = useState(initialQuery || '');
   const [cityId, setCityId] = useState(initialFilters.cityId || '');
   const [areaId, setAreaId] = useState('');
   const [categoryId, setCategoryId] = useState(initialFilters.categoryId || '');
@@ -63,21 +65,29 @@ export default function DirectoryExplorer({
     if (!hasCenter && radius) setRadius('');
   }, [hasCenter, radius]);
 
-  // Remember only the chosen CITY (not coordinates) on the hub.
+  // Hub only: remember the chosen CITY (never coordinates) and pick the
+  // visitor's location automatically (the browser asks once). An explicit
+  // ?city= from the header search is respected unless ?near=1 was sent.
   useEffect(() => {
     if (mode !== 'hub') return;
-    try {
-      const saved = localStorage.getItem('dir_city');
-      if (saved && cities.some((c) => c.id === saved)) setCityId(saved);
-    } catch {}
-    // If the browser already has location permission, use it right away.
+    const explicitCity = Boolean(initialFilters.cityId);
+    if (!explicitCity) {
+      try {
+        const saved = localStorage.getItem('dir_city');
+        if (saved && cities.some((c) => c.id === saved)) setCityId(saved);
+      } catch {}
+    }
+    if (autoLocate) return locate();
+    if (explicitCity) return;
     if (navigator.permissions?.query) {
       navigator.permissions
         .query({ name: 'geolocation' })
         .then((r) => {
-          if (r.state === 'granted') locate();
+          if (r.state !== 'denied') locate();
         })
-        .catch(() => {});
+        .catch(locate);
+    } else {
+      locate();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

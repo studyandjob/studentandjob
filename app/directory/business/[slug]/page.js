@@ -5,6 +5,8 @@ import NewsTicker from '@/components/NewsTicker';
 import Footer from '@/components/Footer';
 import HomeIcon from '@/components/HomeIcons';
 import ShareButton from '@/components/directory/ShareButton';
+import VerifiedBadge from '@/components/directory/VerifiedBadge';
+import GetVerifiedForm from '@/components/directory/GetVerifiedForm';
 import { getSiteSettings } from '@/lib/data';
 import {
   businessPath,
@@ -12,7 +14,9 @@ import {
   directionsLink,
   enrichBusinesses,
   getBusinessBySlug,
+  getDirectorySettings,
   getTaxonomy,
+  isVerified,
   landingPath,
   telLink,
 } from '@/lib/directory';
@@ -45,14 +49,19 @@ function Row({ icon, children }) {
 }
 
 export default async function BusinessPage({ params }) {
-  const [settings, raw, taxonomy] = await Promise.all([getSiteSettings(), getBusinessBySlug(params.slug), getTaxonomy()]);
+  const [settings, raw, taxonomy, dirSettings] = await Promise.all([
+    getSiteSettings(),
+    getBusinessBySlug(params.slug),
+    getTaxonomy(),
+    getDirectorySettings(),
+  ]);
   if (!raw) notFound();
   const [business] = enrichBusinesses([raw], taxonomy);
 
   const wa = businessWaLink(business, settings.site_name);
   const tel = telLink(business.phone);
   const directions = directionsLink(business);
-  const verified = business.verification_status === 'verified';
+  const verified = isVerified(business);
   const services = String(business.services || '')
     .split('\n')
     .map((s) => s.trim())
@@ -122,12 +131,7 @@ export default async function BusinessPage({ params }) {
                 {category && <span className="rounded-full bg-brand-50 px-3 py-1 text-xs font-semibold text-brand-700">{category}</span>}
                 {place && <span className="rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-600">{place}</span>}
                 {business.is_featured && <span className="rounded-full bg-amber-400 px-3 py-1 text-xs font-bold text-amber-950">★ Featured</span>}
-                {verified && (
-                  <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">
-                    <HomeIcon name="shield" className="h-3.5 w-3.5" />
-                    Verified
-                  </span>
-                )}
+                {verified && <VerifiedBadge />}
               </div>
 
               <h1 className="text-2xl font-bold tracking-tight text-gray-900 md:text-3xl">{business.name}</h1>
@@ -196,6 +200,10 @@ export default async function BusinessPage({ params }) {
               </div>
             </div>
           </article>
+
+          {!verified && (
+            <GetVerifiedForm businessId={business.id} businessName={business.name} settings={dirSettings} />
+          )}
         </div>
       </main>
 

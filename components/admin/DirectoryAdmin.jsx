@@ -4,11 +4,13 @@ import { useState } from 'react';
 import DirectoryManager from './DirectoryManager';
 import DirectoryCategoriesManager from './DirectoryCategoriesManager';
 import DirectoryCitiesManager from './DirectoryCitiesManager';
+import DirectoryVerificationManager from './DirectoryVerificationManager';
 
 const TABS = [
   { id: 'businesses', label: 'Businesses' },
   { id: 'categories', label: 'Categories' },
   { id: 'cities', label: 'Cities & Areas' },
+  { id: 'verified', label: 'Verified Badges' },
 ];
 
 // Admin → Business Directory. Categories / cities / areas live here so the
@@ -40,6 +42,7 @@ export default function DirectoryAdmin({ initialBusinesses = [], initialCategori
         <DirectoryManager initialRows={initialBusinesses} categories={categories} cities={cities} areas={areas} />
       )}
       {tab === 'categories' && <DirectoryCategoriesManager categories={categories} setCategories={setCategories} />}
+      {tab === 'verified' && <DirectoryVerificationManager />}
       {tab === 'cities' && (
         <DirectoryCitiesManager cities={cities} setCities={setCities} areas={areas} setAreas={setAreas} />
       )}

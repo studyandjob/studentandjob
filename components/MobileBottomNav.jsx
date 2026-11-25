@@ -30,12 +30,12 @@ const CloseIcon3D = mk('close');
 // Admin → Pages & Ads are shown.
 const ALL_ITEMS = [
   { key: 'home', href: '/', label: 'Home', Icon: HomeIcon },
+  { key: 'directory', href: '/directory', label: 'Directory', Icon: BuildingIcon3D },
   { key: 'jobs', href: '/jobs', label: 'Jobs', Icon: BriefcaseIcon3D },
   { key: 'contact', href: '/contact', label: 'Contact', Icon: MailIcon3D },
   { key: 'study-zone', href: '/study-zone', label: 'Study Zone', Icon: GraduationCapIcon3D },
   { key: 'results', href: '/results', label: 'Results', Icon: VerifiedBadgeIcon3D },
   { key: 'scholarships', href: '/scholarships', label: 'Scholarships', Icon: VerifiedBadgeIcon3D },
-  { key: 'directory', href: '/directory', label: 'Directory', Icon: BuildingIcon3D },
   { key: 'vip', href: '/vip', label: 'VIP Portal', Icon: StarIcon3D },
 ];
 

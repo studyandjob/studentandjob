@@ -1,8 +1,8 @@
 import Link from 'next/link';
-import HomeIcon from '../HomeIcons';
-import { landingPath } from '@/lib/directory';
+import Art3D from '../Art3D';
+import { artFor, landingPath } from '@/lib/directory';
 
-// Server component: category cards linking to SEO landing pages.
+// Server component: glossy category tiles linking to SEO landing pages.
 // `counts` is { [categoryId]: n } — optional.
 export default function CategoryGrid({ categories = [], counts = {}, citySlug = null }) {
   if (categories.length === 0) return null;
@@ -12,11 +12,9 @@ export default function CategoryGrid({ categories = [], counts = {}, citySlug = 
         <Link
           key={c.id}
           href={landingPath(citySlug, c.slug)}
-          className="group flex flex-col items-center gap-2.5 rounded-2xl border border-line bg-surface p-4 text-center shadow-card transition hover:-translate-y-0.5 hover:shadow-card-hover"
+          className="group relative flex flex-col items-center gap-2 overflow-hidden rounded-3xl border border-line bg-gradient-to-b from-surface to-surface-alt p-4 text-center shadow-[inset_0_1px_0_rgba(255,255,255,0.9),0_8px_22px_-14px_rgba(0,0,0,0.3)] transition hover:-translate-y-1 hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.9),0_16px_30px_-14px_rgba(0,0,0,0.38)]"
         >
-          <span className="flex h-12 w-12 items-center justify-center rounded-full bg-brand-50 text-brand-600 transition group-hover:bg-brand-600 group-hover:text-white">
-            <HomeIcon name={c.icon || 'briefcase'} className="h-6 w-6" />
-          </span>
+          <Art3D name={artFor(c.slug)} className="h-14 w-14 transition duration-300 group-hover:scale-110" />
           <span className="text-sm font-semibold leading-tight text-gray-900">{c.name}</span>
           {counts[c.id] > 0 && <span className="text-xs text-gray-500">{counts[c.id]} listing{counts[c.id] === 1 ? '' : 's'}</span>}
         </Link>

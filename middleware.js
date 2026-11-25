@@ -2,15 +2,16 @@ import { NextResponse } from 'next/server';
 import { PAGE_DEFS, isPageEnabled } from '@/lib/pages';
 
 // Sends visitors (and Google) away from pages the admin has switched off in
-// Admin → Pages & Ads, with a real HTTP 307 redirect to /jobs. Each
+// Admin → Pages & Ads, with a real HTTP 307 redirect to the home page. Each
 // section's layout.js has the same check as a fallback.
 //
-// Only the switchable sections are matched, so Home, Jobs and Contact never
+// Only the switchable sections are matched, so Home and Contact never
 // pay for this lookup. The setting is cached for a few seconds per server
 // instance, so a burst of requests makes one small database read.
 
 export const config = {
   matcher: [
+    '/jobs/:path*',
     '/about-us/:path*',
     '/study-zone/:path*',
     '/students-zone/:path*',
@@ -56,7 +57,7 @@ export async function middleware(request) {
   if (!settings) return NextResponse.next();
 
   if (!isPageEnabled(settings, def.key)) {
-    return NextResponse.redirect(new URL('/jobs', request.url), 307);
+    return NextResponse.redirect(new URL('/', request.url), 307);
   }
   return NextResponse.next();
 }

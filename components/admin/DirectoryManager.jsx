@@ -29,6 +29,7 @@ const EMPTY = {
   longitude: '',
   photo_url: '',
   verification_status: 'unverified',
+  verified_until: '',
   display_order: '',
   is_featured: false,
   is_active: true,
@@ -69,6 +70,7 @@ export default function DirectoryManager({ initialRows = [], categories = [], ci
       ...EMPTY,
       ...Object.fromEntries(Object.keys(EMPTY).map((k) => [k, row[k] ?? EMPTY[k]])),
       display_order: row.display_order ?? '',
+      verified_until: row.verified_until ? String(row.verified_until).slice(0, 10) : '',
     });
     setError('');
     setNote('');
@@ -149,6 +151,7 @@ export default function DirectoryManager({ initialRows = [], categories = [], ci
       longitude: lng,
       photo_url: form.photo_url || null,
       verification_status: form.verification_status,
+      verified_until: form.verification_status === 'verified' && form.verified_until ? new Date(`${form.verified_until}T23:59:59`).toISOString() : null,
       display_order: Number(form.display_order) || 0,
       is_featured: Boolean(form.is_featured),
       is_active: Boolean(form.is_active),
@@ -364,8 +367,16 @@ export default function DirectoryManager({ initialRows = [], categories = [], ci
               </option>
             ))}
           </select>
-          <span className="mt-1 block text-xs text-amuted">&quot;Verified&quot; sirf documents khud check karne ke baad lagayein — badge public page par dikhta hai.</span>
+          <span className="mt-1 block text-xs text-amuted">&quot;Verified&quot; sirf khud check karne ke baad lagayein — badge public page par dikhta hai. Paid requests &quot;Verified Badges&quot; tab se approve karein.</span>
         </label>
+
+        {form.verification_status === 'verified' && (
+          <label className="block">
+            <span className={labelClass}>Badge kab tak (khali = hamesha)</span>
+            <input type="date" value={form.verified_until} onChange={(e) => update('verified_until', e.target.value)} className={inputClass} />
+            <span className="mt-1 block text-xs text-amuted">Is tareekh ke baad badge khud hat jata hai.</span>
+          </label>
+        )}
 
         <label className="block">
           <span className={labelClass}>Display Order (chhota number pehle)</span>

@@ -9,16 +9,17 @@ import HomeIcon from './HomeIcons';
 import Art3D from './Art3D';
 import { SECTORS, JOB_TYPES } from '@/lib/matching';
 import { useSiteConfig } from './SiteConfigProvider';
+import { DesktopDirectorySearch, MobileDirectorySearch } from './HeaderDirectorySearch';
 
 // VIP Portal is rendered separately (as a distinct button) rather than in
 // this list. Routes are unchanged.
 const NAV_LINKS = [
   { key: 'home', href: '/', label: 'Home' },
+  { key: 'directory', href: '/directory', label: 'Directory' },
   { key: 'jobs', href: '/jobs', label: 'Jobs' },
   { key: 'study-zone', href: '/study-zone', label: 'Study Zone' },
   { key: 'results', href: '/results', label: 'Results' },
   { key: 'scholarships', href: '/scholarships', label: 'Scholarships' },
-  { key: 'directory', href: '/directory', label: 'Directory' },
   { key: 'contact', href: '/contact', label: 'Contact Us' },
 ];
 
@@ -74,6 +75,8 @@ export default function Header({ siteName, logoUrl }) {
   // Only pages switched on in Admin → Pages & Ads appear in the menu.
   const { visibility } = useSiteConfig();
   const navLinks = NAV_LINKS.filter((l) => visibility[l.key] !== false);
+  // Directory on => the search pill searches businesses; off => classic job search.
+  const dirMode = visibility.directory !== false;
   const topLinks = TOP_LINKS.filter((l) => visibility[l.key] !== false);
 
   // "/" is active only on the exact home page; other links are active on
@@ -106,7 +109,7 @@ export default function Header({ siteName, logoUrl }) {
 
   return (
     <>
-      <header className={`sticky top-0 z-50 bg-surface ${compact ? 'border-b border-line' : ''}`}>
+      <header className={`sticky top-0 z-50 bg-surface/90 backdrop-blur-md ${compact ? 'border-b border-line shadow-[0_8px_24px_-18px_rgba(0,0,0,0.5)]' : ''}`}>
         {/* Row 1: logo · (tabs | compact search pill) · member link + menu */}
         <div className="mx-auto flex max-w-[1760px] items-center justify-between gap-3 px-4 py-2.5 md:grid md:grid-cols-[1fr_auto_1fr] md:px-10 md:py-3">
           <Link href="/" className="flex min-w-0 items-center gap-2.5">
@@ -121,12 +124,12 @@ export default function Header({ siteName, logoUrl }) {
             type="button"
             onClick={() => setSearchOpen(true)}
             className="flex min-w-0 flex-1 items-center gap-3 rounded-full border border-line-strong bg-surface py-2.5 pl-4 pr-4 text-left shadow-card md:hidden"
-            aria-label="Search jobs"
+            aria-label={dirMode ? 'Business search' : 'Search jobs'}
           >
             <HomeIcon name="search" className="h-5 w-5 flex-shrink-0 text-gray-900" />
             <span className="min-w-0">
-              <span className="block truncate text-sm font-semibold leading-tight text-gray-900">Search jobs</span>
-              <span className="block truncate text-xs leading-tight text-gray-500">Any type · Anywhere</span>
+              <span className="block truncate text-sm font-semibold leading-tight text-gray-900">{dirMode ? 'Business dhoondein' : 'Search jobs'}</span>
+              <span className="block truncate text-xs leading-tight text-gray-500">{dirMode ? 'Koi bhi service · Mere qareeb' : 'Any type · Anywhere'}</span>
             </span>
           </button>
 
@@ -140,11 +143,11 @@ export default function Header({ siteName, logoUrl }) {
                 aria-label="Open search"
               >
                 <span className="flex items-center gap-2 px-4">
-                  <Art3D name="briefcase" className="h-8 w-8" />
-                  Any job
+                  <Art3D name={dirMode ? 'globe' : 'briefcase'} className="h-8 w-8" />
+                  {dirMode ? 'Koi bhi service' : 'Any job'}
                 </span>
-                <span className="px-4">Any type</span>
-                <span className="px-4 text-gray-500">Anywhere</span>
+                <span className="px-4">{dirMode ? 'Koi bhi shehar' : 'Any type'}</span>
+                <span className="px-4 text-gray-500">{dirMode ? 'Mere qareeb' : 'Anywhere'}</span>
                 <span className="ml-1 flex h-9 w-9 items-center justify-center rounded-full bg-brand-600 text-white">
                   <HomeIcon name="search" className="h-4 w-4" />
                 </span>
@@ -207,6 +210,9 @@ export default function Header({ siteName, logoUrl }) {
           }`}
           aria-hidden={compact}
         >
+          {dirMode ? (
+            <DesktopDirectorySearch />
+          ) : (
           <form
             action="/jobs"
             method="get"
@@ -254,6 +260,7 @@ export default function Header({ siteName, logoUrl }) {
               Search
             </button>
           </form>
+          )}
         </div>
       </header>
       {/* Reserves the room the expanded search row overlays, so content never jumps. */}
@@ -261,7 +268,7 @@ export default function Header({ siteName, logoUrl }) {
 
       {/* Mobile search sheet (Airbnb-style stacked cards) */}
       {searchOpen && (
-        <div className="fixed inset-0 z-[70] flex flex-col bg-surface-alt md:hidden" role="dialog" aria-modal="true" aria-label="Search jobs">
+        <div className="fixed inset-0 z-[70] flex flex-col bg-surface-alt md:hidden" role="dialog" aria-modal="true" aria-label={dirMode ? 'Business search' : 'Search jobs'}>
           <div className="flex items-center justify-between px-4 py-4">
             <button
               type="button"
@@ -271,9 +278,12 @@ export default function Header({ siteName, logoUrl }) {
             >
               <HomeIcon name="close" className="h-4 w-4" />
             </button>
-            <p className="text-base font-semibold text-gray-900">Find a job</p>
+            <p className="text-base font-semibold text-gray-900">{dirMode ? 'Business dhoondein' : 'Find a job'}</p>
             <span className="w-9" />
           </div>
+          {dirMode ? (
+            <MobileDirectorySearch />
+          ) : (
           <form action="/jobs" method="get" className="flex flex-1 flex-col">
             <div className="flex-1 space-y-3 overflow-y-auto px-4 pb-4">
               <label className="block rounded-3xl bg-surface p-5 shadow-pill">
@@ -334,6 +344,7 @@ export default function Header({ siteName, logoUrl }) {
               </button>
             </div>
           </form>
+          )}
         </div>
       )}
 

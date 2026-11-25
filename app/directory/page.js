@@ -11,6 +11,7 @@ import { getSiteSettings } from '@/lib/data';
 import {
   buildCategoryTree,
   enrichBusinesses,
+  slugify,
   getCounts,
   getFeaturedBusinesses,
   getRecentBusinesses,
@@ -45,7 +46,7 @@ function Section({ title, href, linkLabel, children }) {
   );
 }
 
-export default async function DirectoryPage() {
+export default async function DirectoryPage({ searchParams }) {
   const [settings, taxonomy, counts, featuredRaw, recentRaw] = await Promise.all([
     getSiteSettings(),
     getTaxonomy(),
@@ -55,6 +56,15 @@ export default async function DirectoryPage() {
   ]);
 
   const tops = buildCategoryTree(taxonomy.categories);
+
+  // From the header search: /directory?q=...&city=...&near=1
+  const q = typeof searchParams?.q === 'string' ? searchParams.q.slice(0, 80) : '';
+  const cityText = typeof searchParams?.city === 'string' ? searchParams.city.trim().toLowerCase() : '';
+  const cityMatch = cityText
+    ? taxonomy.cities.find((c) => c.slug === slugify(cityText) || c.name.toLowerCase() === cityText) ||
+      taxonomy.cities.find((c) => c.name.toLowerCase().includes(cityText))
+    : null;
+  const autoLocate = searchParams?.near === '1';
   const featured = enrichBusinesses(featuredRaw, taxonomy);
   const featuredIds = new Set(featured.map((b) => b.id));
   const recent = enrichBusinesses(recentRaw, taxonomy).filter((b) => !featuredIds.has(b.id)).slice(0, 8);
@@ -75,6 +85,9 @@ export default async function DirectoryPage() {
       <main className="flex-1 bg-surface">
         <DirectoryExplorer
           mode="hub"
+          initialQuery={q}
+          initialFilters={{ cityId: cityMatch?.id || '' }}
+          autoLocate={autoLocate}
           categories={taxonomy.categories}
           cities={taxonomy.cities}
           areas={taxonomy.areas}

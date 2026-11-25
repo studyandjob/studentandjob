@@ -6,7 +6,8 @@ import { Children, cloneElement, isValidElement, useId } from 'react';
  * crisp at any size and need no image files. Use:
  *   <Art3D name="briefcase" className="h-10 w-10" />
  * Names: globe, briefcase, study, trophy, medal, mail, building, office,
- *        bank, teacher, shield, pin (color prop), star, book, doc, gift, bell, phone
+ *        bank, teacher, shield, pin (color prop), star, book, doc, gift, bell, phone,
+ *        hospital, hotel, doctor, scales, home, factory, park, restaurant, shop, repair
  * -----------------------------------------------------------------------
  */
 
@@ -270,6 +271,179 @@ const ART = {
       <path d="M12 46c0-14 8-24 20-24s20 10 20 24z" fill="url(#ag-bell)" />
       <rect x="29" y="14" width="6" height="8" rx="2" fill="#6E7B90" />
       <ellipse cx="25" cy="34" rx="4" ry="9" transform="rotate(12 25 34)" fill="#fff" opacity="0.45" />
+    </>
+  ),
+  hospital: () => (
+    <>
+      <defs>
+        <G id="ag-hp-wall" from="#FFFFFF" to="#DCE6F2" />
+        <G id="ag-hp-red" from="#FF7A7A" to="#D92D3A" />
+        <G id="ag-hp-win" from="#9ED2FF" to="#4C8FE0" />
+      </defs>
+      <Shadow />
+      <rect x="10" y="18" width="44" height="38" rx="4" fill="url(#ag-hp-wall)" stroke="#C5D3E6" strokeWidth="1" />
+      <rect x="22" y="8" width="20" height="14" rx="3" fill="url(#ag-hp-wall)" stroke="#C5D3E6" strokeWidth="1" />
+      <rect x="29" y="10.500" width="6" height="9" rx="1" fill="url(#ag-hp-red)" />
+      <rect x="26.500" y="13" width="11" height="4" rx="1" fill="url(#ag-hp-red)" />
+      {[15, 40].map((x) => [28, 38].map((y) => <rect key={`${x}${y}`} x={x} y={y} width="9" height="6" rx="1.500" fill="url(#ag-hp-win)" />))}
+      <rect x="27" y="44" width="10" height="12" rx="2" fill="url(#ag-hp-red)" />
+      <rect x="12" y="20" width="40" height="3" rx="1.500" fill="#fff" opacity="0.5" />
+    </>
+  ),
+  hotel: () => (
+    <>
+      <defs>
+        <G id="ag-ht-bed" from="#FFB36B" to="#E5701F" />
+        <G id="ag-ht-sheet" from="#FFFFFF" to="#D8E4F5" />
+        <G id="ag-ht-wood" from="#C9925A" to="#8A5A2B" />
+      </defs>
+      <Shadow />
+      <rect x="9" y="14" width="46" height="30" rx="5" fill="url(#ag-ht-wood)" />
+      <rect x="9" y="30" width="46" height="18" rx="4" fill="url(#ag-ht-bed)" />
+      <rect x="13" y="22" width="16" height="10" rx="4" fill="url(#ag-ht-sheet)" />
+      <rect x="33" y="22" width="16" height="10" rx="4" fill="url(#ag-ht-sheet)" />
+      <rect x="9" y="38" width="46" height="9" rx="3.500" fill="url(#ag-ht-sheet)" />
+      <rect x="11" y="46" width="5" height="9" rx="2" fill="url(#ag-ht-wood)" />
+      <rect x="48" y="46" width="5" height="9" rx="2" fill="url(#ag-ht-wood)" />
+      <ellipse cx="22" cy="24" rx="5" ry="2" fill="#fff" opacity="0.6" />
+    </>
+  ),
+  doctor: () => (
+    <>
+      <defs>
+        <G id="ag-dr-bag" from="#6FD6C5" to="#1F9E8C" />
+        <G id="ag-dr-red" from="#FF7A7A" to="#D92D3A" />
+        <G id="ag-dr-handle" from="#4B5A6B" to="#2A3542" />
+      </defs>
+      <Shadow />
+      <path d="M24 18v-4a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v4" stroke="url(#ag-dr-handle)" strokeWidth="4" fill="none" strokeLinecap="round" />
+      <rect x="8" y="18" width="48" height="36" rx="7" fill="url(#ag-dr-bag)" />
+      <rect x="8" y="30" width="48" height="3" fill="#0E6F62" opacity="0.35" />
+      <circle cx="32" cy="38" r="10" fill="#fff" />
+      <rect x="30" y="31.500" width="4" height="13" rx="1" fill="url(#ag-dr-red)" />
+      <rect x="25.500" y="36" width="13" height="4" rx="1" fill="url(#ag-dr-red)" />
+      <ellipse cx="20" cy="23" rx="8" ry="3" transform="rotate(-8 20 23)" fill="#fff" opacity="0.35" />
+    </>
+  ),
+  scales: () => (
+    <>
+      <defs>
+        <G id="ag-sc-gold" from="#FFE27A" to="#D99A00" />
+        <G id="ag-sc-base" from="#8A6A4A" to="#5B3F26" />
+        <G id="ag-sc-pan" from="#FFD65C" to="#E0A100" />
+      </defs>
+      <Shadow />
+      <rect x="20" y="52" width="24" height="5" rx="2" fill="url(#ag-sc-base)" />
+      <rect x="29.500" y="14" width="5" height="39" rx="2" fill="url(#ag-sc-gold)" />
+      <circle cx="32" cy="12" r="4.500" fill="url(#ag-sc-gold)" />
+      <rect x="10" y="17" width="44" height="4" rx="2" fill="url(#ag-sc-gold)" />
+      <path d="M13 21 6 37h14z" fill="none" stroke="#C48A00" strokeWidth="1.500" />
+      <path d="M51 21 44 37h14z" fill="none" stroke="#C48A00" strokeWidth="1.500" />
+      <path d="M5 37h16a8 6 0 0 1-16 0z" fill="url(#ag-sc-pan)" />
+      <path d="M43 37h16a8 6 0 0 1-16 0z" fill="url(#ag-sc-pan)" />
+      <ellipse cx="29" cy="14" rx="2" ry="1.200" fill="#fff" opacity="0.6" />
+    </>
+  ),
+  home: () => (
+    <>
+      <defs>
+        <G id="ag-hm-wall" from="#FFF3DC" to="#EBCF9E" />
+        <G id="ag-hm-roof" from="#FF8A6B" to="#D9472B" />
+        <G id="ag-hm-door" from="#8A5A2B" to="#5E3A18" />
+        <G id="ag-hm-win" from="#9ED2FF" to="#4C8FE0" />
+      </defs>
+      <Shadow />
+      <rect x="13" y="28" width="38" height="27" rx="3" fill="url(#ag-hm-wall)" />
+      <path d="M6 31 32 9l26 22z" fill="url(#ag-hm-roof)" />
+      <path d="M12 31 32 14" stroke="#fff" strokeWidth="2" opacity="0.35" strokeLinecap="round" />
+      <rect x="40" y="12" width="6" height="12" rx="1.500" fill="url(#ag-hm-roof)" />
+      <rect x="27" y="38" width="10" height="17" rx="2" fill="url(#ag-hm-door)" />
+      <rect x="17" y="36" width="8" height="8" rx="1.500" fill="url(#ag-hm-win)" />
+      <rect x="39" y="36" width="8" height="8" rx="1.500" fill="url(#ag-hm-win)" />
+    </>
+  ),
+  factory: () => (
+    <>
+      <defs>
+        <G id="ag-fc-wall" from="#B9C6D6" to="#7F92AA" />
+        <G id="ag-fc-roof" from="#FF9E5A" to="#D9611F" />
+        <G id="ag-fc-win" from="#FFE9A8" to="#F2B83B" />
+      </defs>
+      <Shadow />
+      <rect x="40" y="10" width="8" height="22" rx="1.500" fill="url(#ag-fc-wall)" />
+      <ellipse cx="44" cy="9" rx="8" ry="3.500" fill="#fff" opacity="0.6" />
+      <path d="M8 56V30l14 8V30l14 8V30l14 8v18z" fill="url(#ag-fc-wall)" />
+      <path d="M8 30l14 8V30l14 8V30l14 8" fill="none" stroke="url(#ag-fc-roof)" strokeWidth="3" strokeLinejoin="round" />
+      {[14, 28, 42].map((x) => (
+        <rect key={x} x={x} y="44" width="6" height="6" rx="1.500" fill="url(#ag-fc-win)" />
+      ))}
+      <rect x="10" y="32" width="38" height="3" fill="#fff" opacity="0.2" />
+    </>
+  ),
+  park: () => (
+    <>
+      <defs>
+        <G id="ag-pk-leaf" from="#9BE86B" to="#3E9C3A" />
+        <G id="ag-pk-leaf2" from="#7FD455" to="#2F8A34" />
+        <G id="ag-pk-trunk" from="#B07A44" to="#7A4A1F" />
+      </defs>
+      <Shadow />
+      <rect x="29" y="38" width="6" height="18" rx="2" fill="url(#ag-pk-trunk)" />
+      <circle cx="32" cy="22" r="16" fill="url(#ag-pk-leaf)" />
+      <circle cx="21" cy="32" r="11" fill="url(#ag-pk-leaf2)" />
+      <circle cx="43" cy="32" r="11" fill="url(#ag-pk-leaf2)" />
+      <ellipse cx="26" cy="16" rx="7" ry="4" transform="rotate(-30 26 16)" fill="#fff" opacity="0.35" />
+    </>
+  ),
+  restaurant: () => (
+    <>
+      <defs>
+        <G id="ag-rs-plate" from="#FFFFFF" to="#D5DFEC" />
+        <G id="ag-rs-rim" from="#FF9E5A" to="#E0601A" />
+        <G id="ag-rs-metal" from="#E8EDF3" to="#9AA8B8" />
+      </defs>
+      <Shadow />
+      <circle cx="32" cy="32" r="22" fill="url(#ag-rs-rim)" />
+      <circle cx="32" cy="32" r="17" fill="url(#ag-rs-plate)" />
+      <rect x="22" y="18" width="3" height="14" rx="1.500" fill="url(#ag-rs-metal)" />
+      <rect x="27" y="18" width="3" height="14" rx="1.500" fill="url(#ag-rs-metal)" />
+      <rect x="23.500" y="30" width="5" height="14" rx="2.500" fill="url(#ag-rs-metal)" />
+      <path d="M40 18c-3 3-3 11 0 14v12" stroke="#8A97A8" strokeWidth="3.500" fill="none" strokeLinecap="round" />
+      <ellipse cx="25" cy="22" rx="8" ry="3" transform="rotate(-25 25 22)" fill="#fff" opacity="0.45" />
+    </>
+  ),
+  shop: () => (
+    <>
+      <defs>
+        <G id="ag-sp-wall" from="#FFF3DC" to="#EBCF9E" />
+        <G id="ag-sp-awn1" from="#FF7A8A" to="#E0304A" />
+        <G id="ag-sp-awn2" from="#FFFFFF" to="#E3E8F0" />
+        <G id="ag-sp-win" from="#9ED2FF" to="#4C8FE0" />
+      </defs>
+      <Shadow />
+      <rect x="10" y="26" width="44" height="30" rx="3" fill="url(#ag-sp-wall)" />
+      <path d="M8 14h48l4 14H4z" fill="url(#ag-sp-awn2)" />
+      {[8, 24, 40].map((x) => (
+        <path key={x} d={`M${x} 14h8l-1 14H${x - 2}z`} fill="url(#ag-sp-awn1)" />
+      ))}
+      <path d="M4 28a6.500 6 0 0 0 13 0 6.500 6 0 0 0 13 0 6.500 6 0 0 0 13 0 6.500 6 0 0 0 13 0z" fill="url(#ag-sp-awn1)" />
+      <rect x="15" y="36" width="20" height="14" rx="2" fill="url(#ag-sp-win)" />
+      <rect x="40" y="36" width="9" height="20" rx="2" fill="#8A5A2B" />
+      <rect x="10" y="14" width="44" height="3" fill="#fff" opacity="0.4" />
+    </>
+  ),
+  repair: () => (
+    <>
+      <defs>
+        <G id="ag-rp-metal" from="#E8EDF3" to="#8E9DB0" />
+        <G id="ag-rp-red" from="#FF7A7A" to="#D92D3A" />
+        <G id="ag-rp-blue" from="#6FB1FF" to="#2F6BD0" />
+      </defs>
+      <Shadow />
+      <path d="M14 50 38 26" stroke="url(#ag-rp-red)" strokeWidth="9" strokeLinecap="round" />
+      <path d="M44 8a12 12 0 0 0-9 16l-3 3 6 6 3-3a12 12 0 0 0 16-9l-8 3-5-5 3-8z" fill="url(#ag-rp-metal)" />
+      <path d="M50 52 26 28" stroke="url(#ag-rp-blue)" strokeWidth="8" strokeLinecap="round" opacity="0.9" />
+      <ellipse cx="42" cy="14" rx="4" ry="2" transform="rotate(-40 42 14)" fill="#fff" opacity="0.6" />
     </>
   ),
   phone: () => (
