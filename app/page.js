@@ -9,6 +9,9 @@ import HomeSidebar from '@/components/HomeSidebar';
 import HomeInfo from '@/components/HomeInfo';
 import HomeFaq from '@/components/HomeFaq';
 import { getHeroSlides } from '@/lib/data';
+import NearbyServices from '@/components/directory/NearbyServices';
+import { getTaxonomy } from '@/lib/directory';
+import { resolveVisibility } from '@/lib/pages';
 import AdSlot from '@/components/AdSlot';
 import Footer from '@/components/Footer';
 import { isJobOpen } from '@/lib/jobStatus';
@@ -20,7 +23,7 @@ export const revalidate = 60;
 async function getHomePageData() {
   // site_settings is ordered by updated_at (most recent first), matching
   // lib/data.js's getSiteSettings(), so a stale seed row is never returned.
-  const [{ data: settings }, { data: jobs }, slides] = await Promise.all([
+  const [{ data: settings }, { data: jobs }, slides, taxonomy] = await Promise.all([
     supabase
       .from('site_settings')
       .select('*')
@@ -29,17 +32,20 @@ async function getHomePageData() {
       .maybeSingle(),
     supabase.from('jobs_table').select('*').order('created_at', { ascending: false }).limit(30),
     getHeroSlides(),
+    getTaxonomy(),
   ]);
 
   const allOpenJobs = (jobs || []).filter(isJobOpen);
 
   const latestJobs = allOpenJobs.slice(0, 12);
 
-  return { settings: settings || {}, latestJobs, allOpenJobs, slides: slides || [] };
+  return { settings: settings || {}, latestJobs, allOpenJobs, slides: slides || [], taxonomy };
 }
 
 export default async function HomePage() {
-  const { settings, latestJobs, allOpenJobs, slides } = await getHomePageData();
+  const { settings, latestJobs, allOpenJobs, slides, taxonomy } = await getHomePageData();
+  // Switched on/off from Admin → Pages & Ads ("Bahawalpur Business Directory").
+  const showNearby = resolveVisibility(settings).directory && taxonomy.categories.length > 0;
 
   return (
     <>
@@ -49,6 +55,14 @@ export default async function HomePage() {
       <main className="flex-1 bg-surface">
         <div className="mx-auto max-w-[1760px] space-y-8 px-4 py-4 md:space-y-10 md:px-10 md:py-6">
           <HomeLead slides={slides} slideSpeed={settings.hero_slide_speed} />
+          {showNearby && (
+            <NearbyServices
+              categories={taxonomy.categories}
+              cities={taxonomy.cities}
+              areas={taxonomy.areas}
+              siteName={settings.site_name}
+            />
+          )}
           <HomeCategories />
           <HomeClosingSoon jobs={allOpenJobs} />
           <HomeLatestJobs jobs={latestJobs} />
