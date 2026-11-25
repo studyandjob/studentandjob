@@ -19,6 +19,7 @@ function mk(name) {
 const HomeIcon = mk('home');
 const BriefcaseIcon3D = mk('briefcase');
 const MailIcon3D = mk('mail');
+const BuildingIcon3D = mk('building');
 const GraduationCapIcon3D = mk('grad');
 const VerifiedBadgeIcon3D = mk('award');
 const StarIcon3D = mk('star');
@@ -34,6 +35,7 @@ const ALL_ITEMS = [
   { key: 'study-zone', href: '/study-zone', label: 'Study Zone', Icon: GraduationCapIcon3D },
   { key: 'results', href: '/results', label: 'Results', Icon: VerifiedBadgeIcon3D },
   { key: 'scholarships', href: '/scholarships', label: 'Scholarships', Icon: VerifiedBadgeIcon3D },
+  { key: 'directory', href: '/directory', label: 'Directory', Icon: BuildingIcon3D },
   { key: 'vip', href: '/vip', label: 'VIP Portal', Icon: StarIcon3D },
 ];
 

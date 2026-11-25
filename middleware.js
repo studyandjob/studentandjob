@@ -16,6 +16,7 @@ export const config = {
     '/students-zone/:path*',
     '/results/:path*',
     '/scholarships/:path*',
+    '/directory/:path*',
     '/vip/:path*',
     '/application-support/:path*',
   ],

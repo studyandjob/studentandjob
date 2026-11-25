@@ -1,4 +1,5 @@
 import { getJobs, getSiteSettings } from '@/lib/data';
+import { getBusinesses } from '@/lib/directory';
 import { resolveVisibility } from '@/lib/pages';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://onlinejobsandstudy.vercel.app';
@@ -8,6 +9,7 @@ const STATIC_PAGES = [
   { key: 'jobs', path: '/jobs', priority: 0.9, changeFrequency: 'hourly' },
   { key: 'scholarships', path: '/scholarships', priority: 0.7, changeFrequency: 'daily' },
   { key: 'results', path: '/results', priority: 0.6, changeFrequency: 'daily' },
+  { key: 'directory', path: '/directory', priority: 0.7, changeFrequency: 'daily' },
   { key: 'students-zone', path: '/students-zone', priority: 0.6, changeFrequency: 'weekly' },
   { key: 'study-zone', path: '/study-zone', priority: 0.6, changeFrequency: 'weekly' },
   { key: 'vip', path: '/vip', priority: 0.5, changeFrequency: 'weekly' },
@@ -27,7 +29,7 @@ const STATIC_PAGES = [
  * scholarships/results so those get picked up too.
  */
 export default async function sitemap() {
-  const [jobs, settings] = await Promise.all([getJobs(), getSiteSettings()]);
+  const [jobs, settings, businesses] = await Promise.all([getJobs(), getSiteSettings(), getBusinesses()]);
   // Pages switched off in Admin → Pages & Ads are left out of the sitemap.
   const visibility = resolveVisibility(settings);
 
@@ -47,5 +49,15 @@ export default async function sitemap() {
   // Scholarships/results are currently shown via modals with no individual
   // URL yet — only their listing pages (in STATIC_PAGES above) are
   // included until those get their own /scholarships/[id] pages too.
-  return [...staticEntries, ...jobEntries];
+  // Each business has its own /directory/[id] page (only when the directory is switched on).
+  const businessEntries = visibility.directory
+    ? businesses.map((b) => ({
+        url: `${SITE_URL}/directory/${b.id}`,
+        lastModified: b.created_at ? new Date(b.created_at) : undefined,
+        changeFrequency: 'weekly',
+        priority: 0.6,
+      }))
+    : [];
+
+  return [...staticEntries, ...jobEntries, ...businessEntries];
 }

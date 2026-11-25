@@ -19,6 +19,7 @@ import PagesManager from '@/components/admin/PagesManager';
 import JobsManager from '@/components/admin/JobsManager';
 import WhatsAppServiceForm from '@/components/admin/WhatsAppServiceForm';
 import MembersManager from '@/components/admin/MembersManager';
+import DirectoryManager from '@/components/admin/DirectoryManager';
 import StudyZoneManager from '@/components/admin/StudyZone/StudyZoneManager';
 import StaffManager from '@/components/admin/Staff/StaffManager';
 import {
@@ -51,6 +52,7 @@ const TAB_TITLES = {
   studyzone: 'Study Zone (Tests, Papers & Notes)',
   results: 'Results',
   scholarships: 'Scholarships',
+  directory: 'Bahawalpur Business Directory',
   messages: 'Contact Messages',
   contacts: 'Contact Us',
   pages: 'Pages (About / Legal)',
@@ -65,6 +67,7 @@ export default function AdminDashboard() {
   const [notes, setNotes] = useState([]);
   const [results, setResults] = useState([]);
   const [scholarships, setScholarships] = useState([]);
+  const [businesses, setBusinesses] = useState([]);
   const [messages, setMessages] = useState([]);
   const [contacts, setContacts] = useState([]);
   const [pages, setPages] = useState([]);
@@ -115,7 +118,7 @@ export default function AdminDashboard() {
     if (!userId) return;
     (async () => {
       setLoadingData(true);
-      const [{ data: s }, { data: sl }, { data: j }, { data: n }, { data: r }, { data: sc }, { data: m }, { data: c }, { data: p }, { data: mr }, { data: sCls }, { data: sSub }, { data: sMat }, { data: stf }, { data: sp }] =
+      const [{ data: s }, { data: sl }, { data: j }, { data: n }, { data: r }, { data: sc }, { data: m }, { data: c }, { data: p }, { data: mr }, { data: sCls }, { data: sSub }, { data: sMat }, { data: stf }, { data: sp }, { data: biz }] =
         await Promise.all([
           supabase.from('site_settings').select('*').order('updated_at', { ascending: false, nullsFirst: false }).limit(1).maybeSingle(),
           supabase.from('hero_slides').select('*').order('display_order', { ascending: true }),
@@ -132,6 +135,7 @@ export default function AdminDashboard() {
           supabase.from('study_materials').select('*').order('created_at', { ascending: false }),
           supabase.from('staff_users').select('*').order('created_at', { ascending: false }),
           supabase.from('staff_permissions').select('*'),
+          supabase.from('businesses_table').select('*').order('created_at', { ascending: false }),
         ]);
       setSettings(s);
       setSlides(sl || []);
@@ -148,6 +152,7 @@ export default function AdminDashboard() {
       setStudyMaterials(sMat || []);
       setStaff(stf || []);
       setStaffPermissions(sp || []);
+      setBusinesses(biz || []);
       setLoadingData(false);
     })();
   }, [userId]);
@@ -215,6 +220,7 @@ export default function AdminDashboard() {
                     />
                     <StatCard icon={ClipboardCheckIcon} value={results.length} label="Results" color="green" onClick={() => setActiveTab('results')} />
                     <StatCard icon={AwardIcon} value={scholarships.length} label="Scholarships" color="purple" onClick={() => setActiveTab('scholarships')} />
+                    <StatCard icon={BriefcaseIcon} value={businesses.length} label="Directory Businesses" color="green" onClick={() => setActiveTab('directory')} />
                     <StatCard
                       icon={MailIcon}
                       value={unreadMessages > 0 ? `${messages.length} (${unreadMessages} new)` : messages.length}
@@ -364,6 +370,8 @@ export default function AdminDashboard() {
                   )}
                 />
               )}
+
+              {activeTab === 'directory' && <DirectoryManager initialRows={businesses} />}
 
               {activeTab === 'messages' && <MessagesManager initialRows={messages} />}
 

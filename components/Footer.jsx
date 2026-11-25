@@ -15,6 +15,7 @@ const QUICK_LINKS = [
   { key: 'jobs', href: '/jobs', label: 'Jobs' },
   { key: 'scholarships', href: '/scholarships', label: 'Scholarships' },
   { key: 'results', href: '/results', label: 'Results' },
+  { key: 'directory', href: '/directory', label: 'Business Directory' },
 ];
 
 // Direct links into Study Zone's sub-sections — previously the footer

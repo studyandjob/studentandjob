@@ -35,6 +35,7 @@ const NAV_ITEMS = [
   { id: 'studyzone', label: 'Study Zone', icon: GraduationCapIcon },
   { id: 'results', label: 'Results', icon: ClipboardCheckIcon },
   { id: 'scholarships', label: 'Scholarships', icon: AwardIcon },
+  { id: 'directory', label: 'Business Directory', icon: BriefcaseIcon },
   { id: 'messages', label: 'Contact Messages', icon: MailIcon, badgeKey: 'unreadMessages' },
   { id: 'contacts', label: 'Contact Us', icon: IdCardIcon },
   { id: 'pages', label: 'Pages (About / Legal)', icon: FileTextIcon },

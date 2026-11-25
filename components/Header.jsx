@@ -18,6 +18,7 @@ const NAV_LINKS = [
   { key: 'study-zone', href: '/study-zone', label: 'Study Zone' },
   { key: 'results', href: '/results', label: 'Results' },
   { key: 'scholarships', href: '/scholarships', label: 'Scholarships' },
+  { key: 'directory', href: '/directory', label: 'Directory' },
   { key: 'contact', href: '/contact', label: 'Contact Us' },
 ];
 
@@ -28,6 +29,7 @@ const NAV_ICONS = {
   'study-zone': 'study',
   results: 'trophy',
   scholarships: 'medal',
+  directory: 'building',
   contact: 'mail',
 };
 
