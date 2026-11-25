@@ -1,32 +1,69 @@
+import Link from 'next/link';
 import Header from '@/components/Header';
 import NewsTicker from '@/components/NewsTicker';
 import Footer from '@/components/Footer';
-import PageBanner from '@/components/PageBanner';
 import HomeIcon from '@/components/HomeIcons';
-import DirectoryBrowser from '@/components/DirectoryBrowser';
+import BusinessCard from '@/components/BusinessCard';
+import DirectoryExplorer from '@/components/directory/DirectoryExplorer';
+import CategoryGrid from '@/components/directory/CategoryGrid';
+import CityGrid from '@/components/directory/CityGrid';
 import { getSiteSettings } from '@/lib/data';
-import { getBusinesses, toWaNumber } from '@/lib/directory';
+import {
+  buildCategoryTree,
+  enrichBusinesses,
+  getCounts,
+  getFeaturedBusinesses,
+  getRecentBusinesses,
+  getTaxonomy,
+  toWaNumber,
+} from '@/lib/directory';
 
 export const dynamic = 'force-dynamic';
 
 export async function generateMetadata() {
   const settings = await getSiteSettings();
   return {
-    title: `Bahawalpur Business Directory — ${settings.site_name || 'Local Directory'}`,
+    title: `Pakistan Business Directory — Discover Businesses Near You | ${settings.site_name || 'Local Directory'}`,
     description:
-      'Bahawalpur, Khairpur aur aas paas ke doctors, academies, restaurants, shops aur repair services ki directory — phone aur WhatsApp order ke sath.',
+      'Pakistan bhar ke hospitals, doctors, schools, academies, hotels, properties aur local businesses apne qareeb dhoondein. Phone, WhatsApp aur directions ke sath.',
   };
 }
 
-export default async function DirectoryPage() {
-  const [settings, businesses] = await Promise.all([getSiteSettings(), getBusinesses()]);
+function Section({ title, href, linkLabel, children }) {
+  return (
+    <section className="mb-12">
+      <div className="mb-4 flex items-center justify-between gap-3">
+        <h2 className="text-lg font-bold text-gray-900 md:text-2xl">{title}</h2>
+        {href && (
+          <Link href={href} className="text-sm font-semibold text-brand-600 hover:underline">
+            {linkLabel || 'Sab dekhein'} →
+          </Link>
+        )}
+      </div>
+      {children}
+    </section>
+  );
+}
 
-  // "Apna business add karwayein" — goes to the same WhatsApp number the
-  // admin already set in Admin → WhatsApp Service (if any).
+export default async function DirectoryPage() {
+  const [settings, taxonomy, counts, featuredRaw, recentRaw] = await Promise.all([
+    getSiteSettings(),
+    getTaxonomy(),
+    getCounts(),
+    getFeaturedBusinesses(8),
+    getRecentBusinesses(8),
+  ]);
+
+  const tops = buildCategoryTree(taxonomy.categories);
+  const featured = enrichBusinesses(featuredRaw, taxonomy);
+  const featuredIds = new Set(featured.map((b) => b.id));
+  const recent = enrichBusinesses(recentRaw, taxonomy).filter((b) => !featuredIds.has(b.id)).slice(0, 8);
+  const popularCities = taxonomy.cities.filter((c) => c.is_popular);
+
   const listNumber = toWaNumber(settings.wa_service_whatsapp_number);
   const listLink = listNumber
     ? `https://wa.me/${listNumber}?text=${encodeURIComponent(
-        'Assalam o Alaikum, main apna business Bahawalpur Business Directory mein add karwana chahta hoon.'
+        'Assalam o Alaikum, main apna business Pakistan Business Directory mein add karwana chahta hoon.'
       )}`
     : '';
 
@@ -36,24 +73,50 @@ export default async function DirectoryPage() {
       <Header siteName={settings.site_name} logoUrl={settings.logo_url} />
 
       <main className="flex-1 bg-surface">
-        <PageBanner
-          title="Bahawalpur Business Directory"
-          subtitle="Local doctors, academies, restaurants, shops aur services — seedha WhatsApp par order karein."
-          icon={<HomeIcon name="building" className="h-9 w-9 text-brand-600" />}
-        />
+        <DirectoryExplorer
+          mode="hub"
+          categories={taxonomy.categories}
+          cities={taxonomy.cities}
+          areas={taxonomy.areas}
+          siteName={settings.site_name}
+        >
+          <Section title="Popular Categories">
+            <CategoryGrid categories={tops} counts={counts.categories} />
+          </Section>
 
-        <div className="mx-auto max-w-7xl px-4 py-8 md:px-6 md:py-12">
-          {businesses.length === 0 ? (
-            <div className="rounded-2xl border border-line bg-surface p-10 text-center shadow-card">
+          {featured.length > 0 && (
+            <Section title="Featured Businesses">
+              <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                {featured.map((b) => (
+                  <BusinessCard key={b.id} business={b} siteName={settings.site_name} />
+                ))}
+              </div>
+            </Section>
+          )}
+
+          {recent.length > 0 && (
+            <Section title="Recently Added">
+              <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                {recent.map((b) => (
+                  <BusinessCard key={b.id} business={b} siteName={settings.site_name} />
+                ))}
+              </div>
+            </Section>
+          )}
+
+          {featured.length === 0 && recent.length === 0 && (
+            <div className="mb-12 rounded-2xl border border-line bg-surface p-10 text-center shadow-card">
               <p className="text-base font-semibold text-gray-700">Directory jald shuru ho rahi hai</p>
               <p className="mt-1.5 text-sm text-gray-500">Local businesses yahan nazar aane lagenge.</p>
             </div>
-          ) : (
-            <DirectoryBrowser businesses={businesses} siteName={settings.site_name} />
           )}
 
+          <Section title="Explore Popular Cities">
+            <CityGrid cities={popularCities} counts={counts.cities} />
+          </Section>
+
           {listLink && (
-            <div className="mt-12 flex flex-col items-center justify-between gap-4 rounded-2xl border border-line bg-surface-alt p-6 text-center md:flex-row md:text-left">
+            <div className="flex flex-col items-center justify-between gap-4 rounded-2xl border border-line bg-surface-alt p-6 text-center md:flex-row md:text-left">
               <div>
                 <p className="text-base font-bold text-gray-900">Apna business list karwana chahte hain?</p>
                 <p className="mt-1 text-sm text-gray-600">Humein WhatsApp par message karein, hum aap ki listing add kar denge.</p>
@@ -65,11 +128,11 @@ export default async function DirectoryPage() {
                 className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-md bg-emerald-500 px-5 py-2.5 text-sm font-semibold text-white transition active:scale-95 hover:bg-emerald-600"
               >
                 <HomeIcon name="whatsapp" className="h-5 w-5" />
-                WhatsApp par rabta karein
+                Add Your Business
               </a>
             </div>
           )}
-        </div>
+        </DirectoryExplorer>
       </main>
 
       <Footer siteName={settings.site_name} settings={settings} />

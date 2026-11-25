@@ -1,5 +1,5 @@
 import { getJobs, getSiteSettings } from '@/lib/data';
-import { getBusinesses } from '@/lib/directory';
+import { getBusinessIndex, getTaxonomy } from '@/lib/directory';
 import { resolveVisibility } from '@/lib/pages';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://onlinejobsandstudy.vercel.app';
@@ -29,7 +29,7 @@ const STATIC_PAGES = [
  * scholarships/results so those get picked up too.
  */
 export default async function sitemap() {
-  const [jobs, settings, businesses] = await Promise.all([getJobs(), getSiteSettings(), getBusinesses()]);
+  const [jobs, settings, businesses, taxonomy] = await Promise.all([getJobs(), getSiteSettings(), getBusinessIndex(), getTaxonomy()]);
   // Pages switched off in Admin → Pages & Ads are left out of the sitemap.
   const visibility = resolveVisibility(settings);
 
@@ -49,15 +49,33 @@ export default async function sitemap() {
   // Scholarships/results are currently shown via modals with no individual
   // URL yet — only their listing pages (in STATIC_PAGES above) are
   // included until those get their own /scholarships/[id] pages too.
-  // Each business has its own /directory/[id] page (only when the directory is switched on).
-  const businessEntries = visibility.directory
-    ? businesses.map((b) => ({
-        url: `${SITE_URL}/directory/${b.id}`,
+  // Directory: business profiles + city and city/category landing pages —
+  // only combinations that actually contain at least one listing.
+  let businessEntries = [];
+  if (visibility.directory) {
+    const citySlug = Object.fromEntries(taxonomy.cities.map((c) => [c.id, c.slug]));
+    const catSlug = Object.fromEntries(taxonomy.categories.map((c) => [c.id, c.slug]));
+    const landing = new Set();
+    for (const b of businesses) {
+      const city = citySlug[b.city_id];
+      if (city) landing.add(`/directory/${city}`);
+      for (const catId of [b.category_id, b.subcategory_id]) {
+        if (catId && catSlug[catId]) {
+          landing.add(`/directory/pakistan/${catSlug[catId]}`);
+          if (city) landing.add(`/directory/${city}/${catSlug[catId]}`);
+        }
+      }
+    }
+    businessEntries = [
+      ...[...landing].map((path) => ({ url: `${SITE_URL}${path}`, changeFrequency: 'daily', priority: 0.6 })),
+      ...businesses.map((b) => ({
+        url: `${SITE_URL}/directory/business/${b.slug || b.id}`,
         lastModified: b.created_at ? new Date(b.created_at) : undefined,
         changeFrequency: 'weekly',
         priority: 0.6,
-      }))
-    : [];
+      })),
+    ];
+  }
 
   return [...staticEntries, ...jobEntries, ...businessEntries];
 }
