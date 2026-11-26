@@ -61,7 +61,7 @@ export default function Footer({ siteName, settings }) {
   const showStudy = visibility['study-zone'];
   const supportLinks = [
     { href: '/contact', label: 'Contact Us' },
-    ...(visibility.vip ? [{ href: '/vip', label: 'VIP Portal' }] : []),
+    { href: '/business/register', label: 'Add Your Business' },
     ...(waEnabled && visibility['application-support']
       ? [{ href: '/application-support', label: 'Application Support' }]
       : []),

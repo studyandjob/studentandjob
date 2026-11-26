@@ -12,7 +12,6 @@ const STATIC_PAGES = [
   { key: 'directory', path: '/directory', priority: 0.7, changeFrequency: 'daily' },
   { key: 'students-zone', path: '/students-zone', priority: 0.6, changeFrequency: 'weekly' },
   { key: 'study-zone', path: '/study-zone', priority: 0.6, changeFrequency: 'weekly' },
-  { key: 'vip', path: '/vip', priority: 0.5, changeFrequency: 'weekly' },
   { key: 'about', path: '/about-us', priority: 0.3, changeFrequency: 'monthly' },
   { key: 'contact', path: '/contact', priority: 0.3, changeFrequency: 'monthly' },
   { key: 'application-support', path: '/application-support', priority: 0.3, changeFrequency: 'monthly' },

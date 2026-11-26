@@ -31,7 +31,6 @@ const NAV_ITEMS = [
   { id: 'social', label: 'Social Media', icon: Share2Icon },
   { id: 'slides', label: 'Hero Slides', icon: ImageIcon },
   { id: 'whatsapp_service', label: 'WhatsApp Service', icon: PhoneIcon },
-  { id: 'members', label: 'Portal Requests', icon: IdCardIcon, badgeKey: 'pendingMembers' },
   { id: 'studyzone', label: 'Study Zone', icon: GraduationCapIcon },
   { id: 'results', label: 'Results', icon: ClipboardCheckIcon },
   { id: 'scholarships', label: 'Scholarships', icon: AwardIcon },
@@ -51,11 +50,10 @@ export default function Sidebar({
   logoUrl,
   onLogout,
   unreadMessages = 0,
-  pendingMembers = 0,
   navItems = NAV_ITEMS,
   dashboardLabel = 'Dashboard',
 }) {
-  const badgeValues = { unreadMessages, pendingMembers };
+  const badgeValues = { unreadMessages };
   function handleSelect(id) {
     onTabChange(id);
     onClose();

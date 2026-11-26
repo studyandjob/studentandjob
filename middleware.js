@@ -18,7 +18,6 @@ export const config = {
     '/results/:path*',
     '/scholarships/:path*',
     '/directory/:path*',
-    '/vip/:path*',
     '/application-support/:path*',
   ],
 };

@@ -27,7 +27,6 @@ import {
   getFeaturedBusinesses,
   getTaxonomy,
   getVerifiedBusinesses,
-  toWaNumber,
 } from '@/lib/directory';
 
 // Cache homepage data for 60s so repeat visits load faster. Admin edits
@@ -62,10 +61,8 @@ async function DirectoryHome({ settings }) {
   const verified = enrichBusinesses(verifiedRaw, taxonomy).filter((b) => !featuredIds.has(b.id));
   const popularCities = taxonomy.cities.filter((c) => c.is_popular);
 
-  const waNumber = toWaNumber(settings.wa_service_whatsapp_number);
-  const addLink = waNumber
-    ? `https://wa.me/${waNumber}?text=${encodeURIComponent('Assalam o Alaikum, main apna business directory mein add karwana chahta hoon.')}`
-    : '/contact';
+  // Owners register with email + password and add their business themselves.
+  const addLink = '/business/register';
 
   return (
     <>
@@ -135,15 +132,13 @@ async function DirectoryHome({ settings }) {
                     : ''}
                 </p>
               </div>
-              <a
+              <Link
                 href={addLink}
-                target={waNumber ? '_blank' : undefined}
-                rel={waNumber ? 'noopener noreferrer' : undefined}
                 className="inline-flex min-h-[48px] items-center gap-2 rounded-xl bg-white px-6 py-3 text-sm font-bold text-gray-900 shadow-[0_10px_24px_-10px_rgba(0,0,0,0.5)] transition active:scale-95 hover:bg-white/90"
               >
-                <HomeIcon name={waNumber ? 'whatsapp' : 'arrow'} className="h-5 w-5" />
+                <HomeIcon name="building" className="h-5 w-5" />
                 Add Your Business
-              </a>
+              </Link>
             </div>
           </section>
         </HomeExplorer>

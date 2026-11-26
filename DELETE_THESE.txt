@@ -1,0 +1,8 @@
+GitHub se in files / folders ko DELETE karein (VIP Portal hata diya gaya hai):
+
+  app/vip                              (poora folder)
+  components/vip                       (poora folder)
+  components/admin/MembersManager.jsx
+  components/directory/NearbyServices.jsx   (agar maujood ho — ab use nahi hoti)
+
+Database ke tables (candidate_profiles, member_requests wagaira) NAHI chhede gaye — data mehfooz hai.

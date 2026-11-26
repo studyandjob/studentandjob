@@ -36,7 +36,6 @@ const ALL_ITEMS = [
   { key: 'study-zone', href: '/study-zone', label: 'Study Zone', Icon: GraduationCapIcon3D },
   { key: 'results', href: '/results', label: 'Results', Icon: VerifiedBadgeIcon3D },
   { key: 'scholarships', href: '/scholarships', label: 'Scholarships', Icon: VerifiedBadgeIcon3D },
-  { key: 'vip', href: '/vip', label: 'VIP Portal', Icon: StarIcon3D },
 ];
 
 const MAX_TABS = 5;

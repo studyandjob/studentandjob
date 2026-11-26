@@ -18,7 +18,6 @@ import ContactsManager from '@/components/admin/ContactsManager';
 import PagesManager from '@/components/admin/PagesManager';
 import JobsManager from '@/components/admin/JobsManager';
 import WhatsAppServiceForm from '@/components/admin/WhatsAppServiceForm';
-import MembersManager from '@/components/admin/MembersManager';
 import DirectoryAdmin from '@/components/admin/DirectoryAdmin';
 import StudyZoneManager from '@/components/admin/StudyZone/StudyZoneManager';
 import StaffManager from '@/components/admin/Staff/StaffManager';
@@ -48,7 +47,6 @@ const TAB_TITLES = {
   slides: 'Hero Slides',
   jobs: 'Jobs',
   whatsapp_service: 'WhatsApp Service',
-  members: 'Admin Portal Requests',
   studyzone: 'Study Zone (Tests, Papers & Notes)',
   results: 'Results',
   scholarships: 'Scholarships',
@@ -74,7 +72,6 @@ export default function AdminDashboard() {
   const [messages, setMessages] = useState([]);
   const [contacts, setContacts] = useState([]);
   const [pages, setPages] = useState([]);
-  const [memberRequests, setMemberRequests] = useState([]);
   const [studyClasses, setStudyClasses] = useState([]);
   const [studySubjects, setStudySubjects] = useState([]);
   const [studyMaterials, setStudyMaterials] = useState([]);
@@ -121,7 +118,7 @@ export default function AdminDashboard() {
     if (!userId) return;
     (async () => {
       setLoadingData(true);
-      const [{ data: s }, { data: sl }, { data: j }, { data: n }, { data: r }, { data: sc }, { data: m }, { data: c }, { data: p }, { data: mr }, { data: sCls }, { data: sSub }, { data: sMat }, { data: stf }, { data: sp }, { data: biz }, { data: dCat }, { data: dCity }, { data: dArea }] =
+      const [{ data: s }, { data: sl }, { data: j }, { data: n }, { data: r }, { data: sc }, { data: m }, { data: c }, { data: p }, { data: sCls }, { data: sSub }, { data: sMat }, { data: stf }, { data: sp }, { data: biz }, { data: dCat }, { data: dCity }, { data: dArea }] =
         await Promise.all([
           supabase.from('site_settings').select('*').order('updated_at', { ascending: false, nullsFirst: false }).limit(1).maybeSingle(),
           supabase.from('hero_slides').select('*').order('display_order', { ascending: true }),
@@ -132,7 +129,6 @@ export default function AdminDashboard() {
           supabase.from('contact_messages').select('*').order('created_at', { ascending: false }),
           supabase.from('site_contacts').select('*').order('display_order', { ascending: true }),
           supabase.from('site_pages').select('*').order('slug', { ascending: true }),
-          supabase.from('member_requests').select('*, candidate_profiles(full_name, phone, whatsapp, email, city, photo_url)').order('created_at', { ascending: false }),
           supabase.from('classes').select('*').order('display_order', { ascending: true }),
           supabase.from('subjects').select('*').order('subject_name', { ascending: true }),
           supabase.from('study_materials').select('*').order('created_at', { ascending: false }),
@@ -152,7 +148,6 @@ export default function AdminDashboard() {
       setMessages(m || []);
       setContacts(c || []);
       setPages(p || []);
-      setMemberRequests(mr || []);
       setStudyClasses(sCls || []);
       setStudySubjects(sSub || []);
       setStudyMaterials(sMat || []);
@@ -182,7 +177,6 @@ export default function AdminDashboard() {
   }
 
   const unreadMessages = messages.filter((m) => !m.is_read).length;
-  const pendingMembers = memberRequests.filter((r) => r.status === 'pending').length;
 
   return (
     <div className="flex min-h-screen bg-[#F0F4F3]">
@@ -195,7 +189,6 @@ export default function AdminDashboard() {
         logoUrl={settings?.logo_url}
         onLogout={handleLogout}
         unreadMessages={unreadMessages}
-        pendingMembers={pendingMembers}
       />
 
       <main className="flex min-h-screen w-full flex-1 flex-col md:ml-[240px] md:w-[calc(100%-240px)]">
@@ -212,13 +205,6 @@ export default function AdminDashboard() {
                   <div className="grid grid-cols-2 gap-3.5 sm:grid-cols-4">
                     <StatCard icon={ImageIcon} value={slides.length} label="Hero Slides" color="gold" onClick={() => setActiveTab('slides')} />
                     <StatCard icon={BriefcaseIcon} value={jobs.length} label="Jobs Posted" color="teal" onClick={() => setActiveTab('jobs')} />
-                    <StatCard
-                      icon={IdCardIcon}
-                      value={pendingMembers > 0 ? `${memberRequests.length} (${pendingMembers} new)` : memberRequests.length}
-                      label="Portal Requests"
-                      color="purple"
-                      onClick={() => setActiveTab('members')}
-                    />
                     <StatCard icon={BookIcon} value={notes.length} label="Study Notes" color="coral" onClick={() => setActiveTab('studyzone')} />
                     <StatCard
                       icon={GraduationCapIcon}
@@ -304,8 +290,6 @@ export default function AdminDashboard() {
               {activeTab === 'jobs' && <JobsManager initialJobs={jobs} settings={settings} />}
 
               {activeTab === 'whatsapp_service' && <WhatsAppServiceForm settings={settings} />}
-
-              {activeTab === 'members' && <MembersManager initialRequests={memberRequests} />}
 
               {activeTab === 'studyzone' && (
                 <div className="flex flex-col gap-6">

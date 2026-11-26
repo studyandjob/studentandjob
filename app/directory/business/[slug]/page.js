@@ -7,6 +7,9 @@ import HomeIcon from '@/components/HomeIcons';
 import ShareButton from '@/components/directory/ShareButton';
 import VerifiedBadge from '@/components/directory/VerifiedBadge';
 import GetVerifiedForm from '@/components/directory/GetVerifiedForm';
+import ReportClaimButtons from '@/components/directory/ReportClaimButtons';
+import DoctorProfileView from '@/components/directory/DoctorProfileView';
+import { buildPhysicianJsonLd, getDoctorBundle } from '@/lib/doctorData';
 import { getSiteSettings } from '@/lib/data';
 import {
   businessPath,
@@ -29,9 +32,15 @@ export async function generateMetadata({ params }) {
   const taxonomy = await getTaxonomy();
   const [b] = enrichBusinesses([raw], taxonomy);
   const category = b.subcategory_label || b.category_label;
+  let seo = null;
+  if (b.profile_type === 'doctor') {
+    const { profile } = await getDoctorBundle(b.id);
+    seo = profile;
+  }
   return {
-    title: `${b.name} — ${[category, b.city_label].filter(Boolean).join(', ')}`,
+    title: seo?.seo_title || `${b.name} — ${[seo?.main_specialization || category, b.city_label].filter(Boolean).join(', ')}`,
     description:
+      seo?.seo_description ||
       b.short_description ||
       b.description?.slice(0, 160) ||
       `${b.name}, ${b.city_label}. Phone, address, timing aur WhatsApp order ke liye is page par rabta karein.`,
@@ -57,6 +66,8 @@ export default async function BusinessPage({ params }) {
   ]);
   if (!raw) notFound();
   const [business] = enrichBusinesses([raw], taxonomy);
+  const isDoctor = business.profile_type === 'doctor';
+  const bundle = isDoctor ? await getDoctorBundle(business.id) : null;
 
   const wa = businessWaLink(business, settings.site_name);
   const tel = telLink(business.phone);
@@ -70,7 +81,10 @@ export default async function BusinessPage({ params }) {
   const place = [business.area_label, business.city_label].filter(Boolean).join(', ');
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://onlinejobsandstudy.vercel.app';
-  const jsonLd = {
+  const path = businessPath(business);
+  const jsonLd = isDoctor
+    ? buildPhysicianJsonLd({ business, bundle, siteUrl, path, cities: taxonomy.cities })
+    : {
     '@context': 'https://schema.org',
     '@type': 'LocalBusiness',
     name: business.name,
@@ -117,6 +131,9 @@ export default async function BusinessPage({ params }) {
             )}
           </nav>
 
+          {isDoctor ? (
+            <DoctorProfileView business={business} bundle={bundle} cities={taxonomy.cities} areas={taxonomy.areas} siteName={settings.site_name} />
+          ) : (
           <article className="overflow-hidden rounded-2xl border border-line bg-surface shadow-card">
             {business.photo_url ? (
               <img src={business.photo_url} alt={business.name} className="h-56 w-full object-cover md:h-80" />
@@ -200,10 +217,13 @@ export default async function BusinessPage({ params }) {
               </div>
             </div>
           </article>
+          )}
 
           {!verified && (
             <GetVerifiedForm businessId={business.id} businessName={business.name} settings={dirSettings} />
           )}
+
+          <ReportClaimButtons businessId={business.id} businessName={business.name} hasOwner={Boolean(business.owner_id)} />
         </div>
       </main>
 

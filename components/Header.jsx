@@ -11,8 +11,8 @@ import { SECTORS, JOB_TYPES } from '@/lib/matching';
 import { useSiteConfig } from './SiteConfigProvider';
 import { DesktopDirectorySearch, MobileDirectorySearch } from './HeaderDirectorySearch';
 
-// VIP Portal is rendered separately (as a distinct button) rather than in
-// this list. Routes are unchanged.
+// "Add your business" is rendered separately (as a distinct button) rather than in
+// this list.
 const NAV_LINKS = [
   { key: 'home', href: '/', label: 'Home' },
   { key: 'directory', href: '/directory', label: 'Directory' },
@@ -179,15 +179,13 @@ export default function Header({ siteName, logoUrl }) {
           </div>
 
           <div className="flex items-center justify-end gap-2">
-            {visibility.vip && (
-              <Link
-                href="/vip"
-                className="hidden items-center gap-2 rounded-full px-4 py-2.5 text-sm font-semibold text-gray-900 transition hover:bg-surface-alt lg:inline-flex"
-              >
-                <Art3D name="star" className="h-6 w-6" />
-                VIP Portal
-              </Link>
-            )}
+            <Link
+              href="/business/register"
+              className="hidden items-center gap-2 rounded-full px-4 py-2.5 text-sm font-semibold text-gray-900 transition hover:bg-surface-alt lg:inline-flex"
+            >
+              <Art3D name="shop" className="h-6 w-6" />
+              Add your business
+            </Link>
             <button
               onClick={() => setOpen(true)}
               className="inline-flex h-11 items-center gap-2 rounded-full border border-line-strong px-3 text-gray-800 transition hover:shadow-pill focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
@@ -384,16 +382,14 @@ export default function Header({ siteName, logoUrl }) {
                 {link.label}
               </Link>
             ))}
-            {visibility.vip && (
-              <Link
-                href="/vip"
-                onClick={() => setOpen(false)}
-                className="mt-3 inline-flex items-center justify-center gap-2 rounded-xl bg-brand-600 px-4 py-3.5 text-base font-semibold text-white transition hover:bg-brand-700"
-              >
-                <HomeIcon name="star" className="h-4 w-4" />
-                VIP Portal
-              </Link>
-            )}
+            <Link
+              href="/business/register"
+              onClick={() => setOpen(false)}
+              className="mt-3 inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-b from-brand-500 to-brand-700 px-4 py-3.5 text-base font-semibold text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.4)] transition hover:brightness-105"
+            >
+              <HomeIcon name="building" className="h-4 w-4" />
+              Add your business
+            </Link>
             <div className="mt-auto flex flex-wrap gap-x-5 gap-y-2 border-t border-line px-4 pt-4 text-sm text-gray-500">
               {topLinks
                 .filter((l) => !navLinks.some((n) => n.href === l.href))

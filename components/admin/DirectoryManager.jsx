@@ -43,7 +43,7 @@ const STATUS_STYLE = {
 };
 
 // Admin → Business Directory → Businesses.
-export default function DirectoryManager({ initialRows = [], categories = [], cities = [], areas = [] }) {
+export default function DirectoryManager({ initialRows = [], categories = [], cities = [], areas = [], onFullEdit }) {
   const [rows, setRows] = useState(initialRows);
   const [form, setForm] = useState(EMPTY);
   const [editingId, setEditingId] = useState(null);
@@ -447,6 +447,8 @@ export default function DirectoryManager({ initialRows = [], categories = [], ci
                     {row.name}
                     {row.is_featured && <span className="ml-2 rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-bold text-amber-800">★ FEATURED</span>}
                     {!row.is_active && <span className="ml-2 rounded-full bg-gray-200 px-2 py-0.5 text-[10px] font-bold text-gray-600">HIDDEN</span>}
+                    {row.listing_status && row.listing_status !== 'published' && <span className="ml-2 rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-bold uppercase text-amber-800">{row.listing_status}</span>}
+                    {row.profile_type === 'doctor' && <span className="ml-2 rounded-full bg-sky-100 px-2 py-0.5 text-[10px] font-bold text-sky-700">DOCTOR</span>}
                     {row.verification_status && row.verification_status !== 'unverified' && (
                       <span className={`ml-2 rounded-full px-2 py-0.5 text-[10px] font-bold uppercase ${STATUS_STYLE[row.verification_status] || ''}`}>{row.verification_status}</span>
                     )}
@@ -471,6 +473,11 @@ export default function DirectoryManager({ initialRows = [], categories = [], ci
                     <EyeIcon className="h-3.5 w-3.5" />
                     View
                   </a>
+                )}
+                {onFullEdit && (
+                  <button onClick={() => onFullEdit(row.id)} className={`${smallBtn} border-atl2/30 bg-atl2/10 text-atl2 hover:bg-atl2 hover:text-white`}>
+                    Poora form
+                  </button>
                 )}
                 <button onClick={() => startEdit(row)} className={`${smallBtn} border-aline bg-white text-aink hover:bg-acream`}>
                   <PencilIcon className="h-3.5 w-3.5" />
