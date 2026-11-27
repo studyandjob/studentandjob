@@ -509,6 +509,18 @@ export default function BusinessWizard({ businessId = null, adminMode = false, o
       </div>
     );
 
+  if (!adminMode && status === 'banned') {
+    return (
+      <div className="mx-auto max-w-xl rounded-3xl border border-line bg-surface p-8 text-center">
+        <Art3D name="bell" className="mx-auto h-14 w-14" />
+        <h2 className="mt-3 text-xl font-bold text-gray-900">Yeh listing band kar di gayi hai</h2>
+        {adm.admin_note && <p className="mt-2 text-sm text-red-600">Wajah: {adm.admin_note}</p>}
+        <p className="mt-2 text-sm text-gray-600">Isay edit nahi kiya ja sakta. Mazeed jaanne ke liye admin se rabta karein.</p>
+        <Link href={exitHref} className="mt-5 inline-block rounded-xl bg-brand-600 px-5 py-2.5 text-sm font-semibold text-white">Meri listings</Link>
+      </div>
+    );
+  }
+
   if (done) {
     return (
       <div className="mx-auto max-w-xl rounded-3xl border border-line bg-gradient-to-b from-surface to-surface-alt p-8 text-center shadow-card">

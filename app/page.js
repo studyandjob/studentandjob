@@ -61,8 +61,8 @@ async function DirectoryHome({ settings }) {
   const verified = enrichBusinesses(verifiedRaw, taxonomy).filter((b) => !featuredIds.has(b.id));
   const popularCities = taxonomy.cities.filter((c) => c.is_popular);
 
-  // Owners register with email + password and add their business themselves.
-  const addLink = '/business/register';
+  // Owners log in with just their email, then set up their business themselves.
+  const addLink = '/business/new';
 
   return (
     <>

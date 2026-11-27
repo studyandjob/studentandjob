@@ -14,6 +14,7 @@ const STATUS = {
   pending: { label: 'Review mein', cls: 'bg-amber-100 text-amber-800', hint: 'Admin jaanch kar raha hai' },
   published: { label: 'Live', cls: 'bg-emerald-100 text-emerald-800', hint: 'Website par nazar aa rahi hai' },
   rejected: { label: 'Reject', cls: 'bg-red-100 text-red-700', hint: 'Tabdeeli karke dobara submit karein' },
+  banned: { label: 'Band (Banned)', cls: 'bg-gray-800 text-white', hint: 'Admin ne yeh listing band kar di hai' },
 };
 
 export default function OwnerDashboard() {
@@ -104,13 +105,15 @@ export default function OwnerDashboard() {
                       {b.profile_type === 'doctor' && <span className="rounded-full bg-brand-50 px-2.5 py-0.5 text-xs font-semibold text-brand-700">Doctor profile</span>}
                     </div>
                     <p className="mt-1 text-xs text-gray-500">{st.hint}</p>
-                    {b.listing_status === 'rejected' && b.admin_note && <p className="mt-1 text-xs font-medium text-red-600">Admin ka note: {b.admin_note}</p>}
+                    {(b.listing_status === 'rejected' || b.listing_status === 'banned') && b.admin_note && <p className="mt-1 text-xs font-medium text-red-600">Admin ka note: {b.admin_note}</p>}
                   </div>
                 </div>
                 <div className="flex flex-wrap gap-2">
-                  <Link href={`/business/edit/${b.id}`} className="rounded-xl border border-line bg-surface px-4 py-2 text-sm font-semibold text-gray-800 hover:bg-surface-alt">
-                    {b.listing_status === 'draft' ? 'Jaari rakhein' : 'Edit'}
-                  </Link>
+                  {b.listing_status !== 'banned' && (
+                    <Link href={`/business/edit/${b.id}`} className="rounded-xl border border-line bg-surface px-4 py-2 text-sm font-semibold text-gray-800 hover:bg-surface-alt">
+                      {b.listing_status === 'draft' ? 'Jaari rakhein' : 'Edit'}
+                    </Link>
+                  )}
                   {b.listing_status === 'published' && (
                     <Link href={`/directory/business/${b.slug || b.id}`} className="rounded-xl border border-line bg-surface px-4 py-2 text-sm font-semibold text-gray-800 hover:bg-surface-alt">
                       Dekhein

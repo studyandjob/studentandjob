@@ -124,10 +124,10 @@ export default async function DirectoryPage({ searchParams }) {
           <div className="flex flex-col items-center justify-between gap-4 rounded-3xl border border-line bg-gradient-to-b from-surface to-surface-alt p-6 text-center shadow-[inset_0_1px_0_rgba(255,255,255,0.9)] md:flex-row md:text-left">
             <div>
               <p className="text-base font-bold text-gray-900">Apna business list karwana chahte hain?</p>
-              <p className="mt-1 text-sm text-gray-600">Email se account banayein, apni profile bharein — admin approve karega to website par live ho jayegi.</p>
+              <p className="mt-1 text-sm text-gray-600">Sirf email se login karein, apni profile bharein — admin approve karega to website par live ho jayegi.</p>
             </div>
             <Link
-              href="/business/register"
+              href="/business/new"
               className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-xl bg-gradient-to-b from-brand-500 to-brand-700 px-5 py-2.5 text-sm font-semibold text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.4)] transition active:scale-95 hover:brightness-105"
             >
               <HomeIcon name="building" className="h-5 w-5" />

@@ -95,10 +95,9 @@ export default function ReportClaimButtons({ businessId, businessName, hasOwner 
             </form>
           ) : !session ? (
             <div className="space-y-3 text-sm text-gray-700">
-              <p>Profile claim karne ke liye pehle apne business account se login karein.</p>
+              <p>Profile claim karne ke liye pehle apni email se login karein (sirf ek minute).</p>
               <div className="flex gap-2">
                 <Link href={`/business/login?next=${encodeURIComponent(pathname || '/directory')}`} className="rounded-xl bg-gray-900 px-4 py-2 font-semibold text-white">Login</Link>
-                <Link href="/business/register" className="rounded-xl border border-line bg-surface px-4 py-2 font-semibold text-gray-800">Account banayein</Link>
               </div>
             </div>
           ) : (

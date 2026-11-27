@@ -10,6 +10,7 @@ import Art3D from './Art3D';
 import { SECTORS, JOB_TYPES } from '@/lib/matching';
 import { useSiteConfig } from './SiteConfigProvider';
 import { DesktopDirectorySearch, MobileDirectorySearch } from './HeaderDirectorySearch';
+import ProfileMenu, { ProfilePanel } from './business/ProfileMenu';
 
 // "Add your business" is rendered separately (as a distinct button) rather than in
 // this list.
@@ -180,22 +181,13 @@ export default function Header({ siteName, logoUrl }) {
 
           <div className="flex items-center justify-end gap-2">
             <Link
-              href="/business/register"
+              href="/business/new"
               className="hidden items-center gap-2 rounded-full px-4 py-2.5 text-sm font-semibold text-gray-900 transition hover:bg-surface-alt lg:inline-flex"
             >
               <Art3D name="shop" className="h-6 w-6" />
               Add your business
             </Link>
-            <button
-              onClick={() => setOpen(true)}
-              className="inline-flex h-11 items-center gap-2 rounded-full border border-line-strong px-3 text-gray-800 transition hover:shadow-pill focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
-              aria-label="Open menu"
-            >
-              <HomeIcon name="menu" className="h-5 w-5" />
-              <span className="hidden h-7 w-7 items-center justify-center rounded-full bg-gray-500 text-white md:flex">
-                <HomeIcon name="users" className="h-4 w-4" />
-              </span>
-            </button>
+            <ProfileMenu onOpenDrawer={() => setOpen(true)} />
           </div>
         </div>
 
@@ -369,6 +361,9 @@ export default function Header({ siteName, logoUrl }) {
             </button>
           </div>
           <nav className="flex flex-1 flex-col overflow-y-auto px-3 py-3">
+            <div className="mb-3 overflow-hidden rounded-2xl border border-line bg-surface-alt/60">
+              <ProfilePanel onNavigate={() => setOpen(false)} />
+            </div>
             {navLinks.map((link) => (
               <Link
                 key={link.href}
@@ -383,7 +378,7 @@ export default function Header({ siteName, logoUrl }) {
               </Link>
             ))}
             <Link
-              href="/business/register"
+              href="/business/new"
               onClick={() => setOpen(false)}
               className="mt-3 inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-b from-brand-500 to-brand-700 px-4 py-3.5 text-base font-semibold text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.4)] transition hover:brightness-105"
             >

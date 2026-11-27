@@ -1,12 +1,7 @@
-import BusinessShell from '@/components/business/BusinessShell';
-import BusinessAuthForm from '@/components/business/BusinessAuthForm';
+import { redirect } from 'next/navigation';
 
-export const metadata = { title: 'Add Your Business' };
-
+// There is no separate registration any more — one email step does both.
+// Old links to /business/register land on the login page.
 export default function Page() {
-  return (
-    <BusinessShell>
-      <BusinessAuthForm mode="register" />
-    </BusinessShell>
-  );
+  redirect('/business/login?next=/business/new');
 }

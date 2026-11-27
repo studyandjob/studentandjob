@@ -6,7 +6,7 @@ import DirectoryManager from './DirectoryManager';
 import DirectoryCategoriesManager from './DirectoryCategoriesManager';
 import DirectoryCitiesManager from './DirectoryCitiesManager';
 import DirectoryVerificationManager from './DirectoryVerificationManager';
-import DirectoryApprovalsManager from './DirectoryApprovalsManager';
+import DirectoryListsManager from './DirectoryListsManager';
 import DirectoryDoctorsManager from './DirectoryDoctorsManager';
 import DirectoryReportsManager from './DirectoryReportsManager';
 import BusinessWizard from '../business/BusinessWizard';
@@ -16,7 +16,7 @@ import BusinessWizard from '../business/BusinessWizard';
 // wizard owners use also opens here (with admin-only controls) to review and
 // edit any profile.
 export default function DirectoryAdmin({ initialBusinesses = [], initialCategories = [], initialCities = [], initialAreas = [] }) {
-  const [tab, setTab] = useState('businesses');
+  const [tab, setTab] = useState('lists');
   const [categories, setCategories] = useState(initialCategories);
   const [cities, setCities] = useState(initialCities);
   const [areas, setAreas] = useState(initialAreas);
@@ -34,8 +34,8 @@ export default function DirectoryAdmin({ initialBusinesses = [], initialCategori
   }, [countPending, version]);
 
   const tabs = [
-    { id: 'businesses', label: 'Businesses' },
-    { id: 'approvals', label: `Approvals${pending ? ` (${pending})` : ''}` },
+    { id: 'lists', label: `Business Lists${pending ? ` (${pending} waiting)` : ''}` },
+    { id: 'businesses', label: 'Add / Edit Business' },
     { id: 'doctors', label: 'Doctors' },
     { id: 'reports', label: 'Reports & Claims' },
     { id: 'categories', label: 'Categories' },
@@ -77,7 +77,7 @@ export default function DirectoryAdmin({ initialBusinesses = [], initialCategori
       </div>
 
       {tab === 'businesses' && <DirectoryManager key={version} initialRows={initialBusinesses} categories={categories} cities={cities} areas={areas} onFullEdit={(id) => setWizard({ id })} />}
-      {tab === 'approvals' && <DirectoryApprovalsManager key={version} onReview={(id) => setWizard({ id })} onChanged={countPending} />}
+      {tab === 'lists' && <DirectoryListsManager key={version} cities={cities} onReview={(id) => setWizard({ id })} onChanged={countPending} />}
       {tab === 'doctors' && <DirectoryDoctorsManager key={version} onEdit={(id) => setWizard({ id })} onNew={() => setWizard({ id: null })} />}
       {tab === 'reports' && <DirectoryReportsManager />}
       {tab === 'categories' && <DirectoryCategoriesManager categories={categories} setCategories={setCategories} />}
