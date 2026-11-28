@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabaseClient';
 import Art3D from '../Art3D';
 import { Banner, inputCls } from './FormUI';
+import GoogleLogin from './GoogleLogin';
 
 // Only ever send people back to a page inside the owner portal / directory.
 export const safeNext = (n) =>
@@ -59,10 +60,12 @@ export default function EmailLogin({ next }) {
     if (err) {
       return setError(
         /rate|seconds|too many/i.test(err.message)
-          ? 'Email bheji ja chuki hai — thori der (1 minute) baad dobara koshish karein.'
+          ? 'Email ki hadd poori ho gayi — thori der baad dobara koshish karein, ya upar Google se login karein.'
           : /signups? not allowed|disabled/i.test(err.message)
             ? 'Naye accounts abhi band hain — admin se rabta karein.'
-            : 'Email nahi bheji ja saki. Thori der baad dobara koshish karein.'
+            : /sending|smtp|deliver/i.test(err.message)
+              ? 'Email bhejne ka server setup adhoora hai, isliye code nahi ja saka. Google se login karein, ya admin ko batayein.'
+              : 'Email nahi bheji ja saki. Google se login karein ya thori der baad dobara koshish karein.'
       );
     }
     setEmail(addr);
@@ -89,11 +92,18 @@ export default function EmailLogin({ next }) {
         <Art3D name="shop" className="mx-auto h-14 w-14" />
         <h1 className="mt-2 text-2xl font-bold text-gray-900">{step === 'email' ? 'Apna business add karein' : 'Email check karein'}</h1>
         <p className="mt-1 text-sm text-gray-500">
-          {step === 'email' ? 'Sirf apni email likhein — koi password ya registration form nahi.' : `Hum ne ${email} par login link aur code bheja hai.`}
+          {step === 'email' ? 'Google ke ek click se, ya sirf email se — koi password ya registration form nahi.' : `Hum ne ${email} par login link aur code bheja hai.`}
         </p>
       </div>
 
       {step === 'email' ? (
+        <div className="space-y-4">
+          <GoogleLogin target={target} onError={setError} />
+          <div className="flex items-center gap-3 text-xs text-gray-400">
+            <span className="h-px flex-1 bg-line" />
+            ya email se
+            <span className="h-px flex-1 bg-line" />
+          </div>
         <form onSubmit={send} className="space-y-4">
           {error && <Banner>{error}</Banner>}
           <label className="block">
@@ -105,6 +115,7 @@ export default function EmailLogin({ next }) {
           </button>
           <p className="text-center text-xs text-gray-500">Pehli dafa? Account khud ba khud ban jata hai.</p>
         </form>
+        </div>
       ) : (
         <div className="space-y-5">
           <Banner kind="success">Email mein diye gaye link par click karein — aap login ho jayenge.</Banner>

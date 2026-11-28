@@ -29,12 +29,12 @@ export function ProfilePanel({ onNavigate }) {
           <Art3D name="shop" className="h-11 w-11 flex-shrink-0" />
           <div>
             <p className="text-sm font-bold text-gray-900">Business owners ke liye</p>
-            <p className="mt-0.5 text-xs text-gray-500">Sirf email se login — na password, na registration form.</p>
+            <p className="mt-0.5 text-xs text-gray-500">Google ya email se — na password, na registration form.</p>
           </div>
         </div>
         <div className="mt-4 grid gap-2">
           <Link href="/business/login" onClick={onNavigate} className="rounded-xl bg-gradient-to-b from-brand-500 to-brand-700 px-4 py-2.5 text-center text-sm font-bold text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.4)] hover:brightness-105">
-            Email se login karein
+            Login karein
           </Link>
           <Link href="/business/new" onClick={onNavigate} className="rounded-xl border border-line bg-surface px-4 py-2.5 text-center text-sm font-semibold text-gray-800 hover:bg-surface-alt">
             Add your business
