@@ -1,6 +1,15 @@
-GitHub se in files / folders ko DELETE karein (ab password / registration nahi hai):
+Is zip ko GitHub par lagane ke baad, GitHub repo mein agar ye files / folders maujood hon to inhein DELETE karein
+(ye purane hain; naye code mein inki jagah nayi files hain, aur rehne par build fail ho sakti hai):
 
+  app/directory/[id]                               (poora folder)  <- yeh sab se zaroori
+  app/vip                                          (poora folder)
+  components/vip                                   (poora folder)
+  app/business/reset-password                      (poora folder)
+  components/DirectoryBrowser.jsx
+  components/directory/NearbyServices.jsx
+  components/admin/MembersManager.jsx
+  components/admin/DirectoryApprovalsManager.jsx
   components/business/BusinessAuthForm.jsx
   components/business/ResetPasswordForm.jsx
-  app/business/reset-password             (poora folder)
-  components/admin/DirectoryApprovalsManager.jsx   (ab "Business Lists" mein shamil hai)
+
+Database ke tables nahi chhede gaye.
